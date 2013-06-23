@@ -7,16 +7,16 @@
   <link rel="stylesheet" type="text/css" href="styles/style.css">
 </head>
 <body>
-  <div class="container">
+  <div class="container-fluid">
     <div class="navbar">
       <div class="navbar-inner">
         <a href="" class="brand">Lukis</a>
       </div>
     </div>
-    <div class="row">
+    <div class="row-fluid">
       <div class="span1">
         <ul class="left-nav nav nav-tabs nav-stacked">
-          <li><a href="#"><i class="icon-pencil"></i></a></li>
+          <li id="pencil"><a href="#"><i class="icon-pencil"></i></a></li>
           <li><a href="#"><i class="icon-check-empty"></i></a></li>
           <li><a href="#"><i class="icon-circle-blank"></i></a></li>
           <li><a href="#"><i class="icon-picture"></i></a></li>
@@ -30,7 +30,7 @@
     </div>
 
   </div>
-
+  <script src="components/jquery/jquery.min.js"></script>
   <script src="components/requirejs/require.js" data-main="main.js"></script>
 </body>
 </html>

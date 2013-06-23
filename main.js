@@ -1,18 +1,30 @@
 require.config({
   baseUrl: "apps",
-
   paths: {
-    fabric: "../canvas-libs/fabric"
+    fabric: "../libs/fabric",
+    flight: "../libs/flight"
   },
 
   shim:{
     fabric: {
       exports: "fabric"
+    },
+    flight: {
+      exports: "flight"
     }
   }
 });
 
-require(["lukis"],
-function(Lukis){
+require([
+  "lukis",
+  "ui/pencil"
+  ],
+function(Lukis, Pencil){
   var lukis = new Lukis("lukis");
+
+  // attaching modules
+  // TODO a better way to register plugins?
+  Pencil.attachTo("#pencil", {
+    canvas: lukis.canvas
+  });
 });
