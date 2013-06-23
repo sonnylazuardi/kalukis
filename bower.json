@@ -1,0 +1,15 @@
+{
+  "name": "lukis",
+  "version": "0.0.1",
+  "main": "main.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ],
+  "dependencies": {
+    "requirejs": "~2.1.6",
+    "bootstrap": "~2.1.1",
+    "font-awesome": "~3.2.1"
+  }
+}
