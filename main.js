@@ -22,5 +22,7 @@ require([
 function(lukis, pencil){
   // attaching modules
   lukis.attachTo("#lukis");
-  pencil.attachTo("#pencil");
+  pencil.attachTo("#pencil",{
+    canvasEl: "#lukis"
+  });
 });

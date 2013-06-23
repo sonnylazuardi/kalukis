@@ -1,11 +1,11 @@
-define(["flight"],
-function(flight){
-  flight.component(PencilBrush);
-
+define(function(){
   function PencilBrush(){
-    this.defaultAttrs({
-      strokeWidth: "2",
-      strokeColor: "red"
-    });
+
   }
+
+  PencilBrush.prototype.paint = function(e){
+
+  };
+
+  return PencilBrush;
 });

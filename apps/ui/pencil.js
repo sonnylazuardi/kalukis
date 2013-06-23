@@ -9,9 +9,10 @@
  */
 define(["flight"],
 function(flight){
-  return flight.component(pencil);
 
-  function pencil(){
+  return flight.component(Pencil);
+
+  function Pencil(){
     // defining attributes. Anything defined here
     // can be accessed through `attr` properties.
     this.defaultAttrs({
@@ -21,38 +22,12 @@ function(flight){
 
     // set events handler
     this.after("initialize", function(){
-      this.on('click', function(){
-        console.log("click");
-      });
+      this.on("click", this.onClick);
     });
+
+    this.onClick = function(){
+      console.log("click");
+      this.trigger("paintRequested", this);
+    };
   }
-
-  pencil.prototype.onClick = function(e) {
-    console.log("clicked");
-    this.trigger("paintRequested", this);
-    this.trigger({
-      type: "brushRequested",
-      defaultBehaviour: this.setBrush
-    });
-  };
-
-  pencil.prototype.setBrush = function(e){
-
-  };
-
-  pencil.prototype.onMouseOver = function(e){
-
-  };
-
-  pencil.prototype.onMouseDown = function(e){
-
-  };
-
-  pencil.prototype.onMouseMove = function(e){
-
-  };
-
-  pencil.prototype.onMouseUp = function(e){
-    // body...
-  };
 });
