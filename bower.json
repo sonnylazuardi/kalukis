@@ -10,6 +10,7 @@
   "dependencies": {
     "requirejs": "~2.1.6",
     "bootstrap": "~2.1.1",
-    "font-awesome": "~3.2.1"
+    "font-awesome": "~3.2.1",
+    "flight": "~1.0.9"
   }
 }
