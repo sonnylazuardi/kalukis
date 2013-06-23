@@ -19,12 +19,8 @@ require([
   "lukis",
   "ui/pencil"
   ],
-function(Lukis, Pencil){
-  var lukis = new Lukis("lukis");
-
+function(lukis, pencil){
   // attaching modules
-  // TODO a better way to register plugins?
-  Pencil.attachTo("#pencil", {
-    canvas: lukis.canvas
-  });
+  lukis.attachTo("#lukis");
+  pencil.attachTo("#pencil");
 });

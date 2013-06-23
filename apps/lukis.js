@@ -1,12 +1,12 @@
-/**
- * This module is responsible to boots the application. It also manages
- * the interactions between the user and the application.
- */
-define(["fabric"],
-function(fabric){
-  function Lukis(elId){
-    this.canvas = new fabric.Canvas(elId);
-  }
+define(["fabric", "flight"],
+function(fabric, flight){
 
-  return Lukis;
+  return flight.component(lukis);
+
+  function lukis(){
+    this.after("initialize", function(){
+      // activate canvas
+      this.canvas = new fabric.Canvas(this.$node.attr("id"))
+    });
+  }
 });

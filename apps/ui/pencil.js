@@ -9,14 +9,15 @@
  */
 define(["flight"],
 function(flight){
-  return flight.component(Pencil);
+  return flight.component(pencil);
 
-  function Pencil(){
+  function pencil(){
     // defining attributes. Anything defined here
     // can be accessed through `attr` properties.
-    // this.defaultAttrs({
-
-    // });
+    this.defaultAttrs({
+      color: "#E74C3C",
+      width: 1
+    });
 
     // set events handler
     this.after("initialize", function(){
@@ -24,62 +25,34 @@ function(flight){
         console.log("click");
       });
     });
-
-    this.onClick = function(){
-      console.log("pencil");
-      this.trigger("paintRequested", this);
-      this.trigger({
-        type: "brushRequested",
-        defaultBehaviour: this.setBrush
-      });
-    };
-
-    this.setBrush = function(){
-
-    };
-
-    this.onMouseOver = function(){
-
-    };
-
-    this.onMouseDown = function(){
-
-    };
-
-    this.onMouseMove = function(){
-
-    };
-
-    this.onMouseUp = function(){
-
-    };
   }
 
-  // Pencil.prototype.onClick = function(e) {
-  //   this.trigger("paintRequested", this);
-  //   this.trigger({
-  //     type: "brushRequested",
-  //     defaultBehaviour: this.setBrush
-  //   });
-  // };
+  pencil.prototype.onClick = function(e) {
+    console.log("clicked");
+    this.trigger("paintRequested", this);
+    this.trigger({
+      type: "brushRequested",
+      defaultBehaviour: this.setBrush
+    });
+  };
 
-  // Pencil.prototype.setBrush = function(e){
+  pencil.prototype.setBrush = function(e){
 
-  // };
+  };
 
-  // Pencil.prototype.onMouseOver = function(e){
+  pencil.prototype.onMouseOver = function(e){
 
-  // };
+  };
 
-  // Pencil.prototype.onMouseDown = function(e){
+  pencil.prototype.onMouseDown = function(e){
 
-  // };
+  };
 
-  // Pencil.prototype.onMouseMove = function(e){
+  pencil.prototype.onMouseMove = function(e){
 
-  // };
+  };
 
-  // Pencil.prototype.onMouseUp = function(e){
-  //   // body...
-  // };
+  pencil.prototype.onMouseUp = function(e){
+    // body...
+  };
 });
