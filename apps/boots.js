@@ -6,7 +6,9 @@ function(Lukis, Pencil){
   function boots(){
     // attach modules
     Lukis.attachTo("#lukis");
-    Pencil.attachTo("#pencil");
+    Pencil.attachTo("#pencil", {
+      canvasEl: "#lukis"
+    });
   }
 
   return boots;

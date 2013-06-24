@@ -25,9 +25,32 @@ function(defineComponent){
       this.on("click", this.onClick);
     });
 
+    this.paintHandlers = {
+      onCanvasMouseOver: this.onCanvasMouseOver,
+      onMouseDown: this.onMouseDown,
+      onMouseMove: this.onMouseMove,
+      onMouseUp: this.onMouseUp
+    };
+
     this.onClick = function(){
       console.log("click");
-      this.trigger(document, "paintRequested", this);
+      this.trigger(this.attr.canvasEl, "paintRequested", this.paintHandlers);
+    };
+
+    this.onCanvasMouseOver = function(e){
+
+    };
+
+    this.onMouseDown = function(e){
+
+    };
+
+    this.onMouseMove = function(e){
+
+    };
+
+    this.onMouseUp = function(e){
+
     };
   }
 });
