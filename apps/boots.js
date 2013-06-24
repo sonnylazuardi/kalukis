@@ -1,6 +1,6 @@
 define([
-  "lukis",
-  "ui/pencil"
+  "apps/lukis",
+  "apps/ui/pencil"
 ],
 function(lukis, pencil){
   function boots(){

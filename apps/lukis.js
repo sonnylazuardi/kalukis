@@ -1,7 +1,7 @@
-define(["fabric", "flight"],
-function(fabric, flight){
+define(["fabric", "flight/component"],
+function(fabric, defineComponent){
 
-  return flight.component(Lukis);
+  return defineComponent(Lukis);
 
   function Lukis(){
     this.after("initialize", function(){

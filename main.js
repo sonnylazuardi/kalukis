@@ -1,24 +1,27 @@
 require.config({
-  baseUrl: "apps",
+  baseUrl: "./",
   paths: {
-    fabric: "../libs/fabric",
-    flight: "../libs/flight"
+    fabric: "libs/fabric",
+    jquery: "components/jquery/jquery"
   },
 
   shim:{
     fabric: {
       exports: "fabric"
     },
-    flight: {
-      exports: "flight"
+    "components/flight/lib/component": {
+      deps: ["jquery"]
+    }
+  },
+
+  map: {
+    "*": {
+      'flight/component': 'components/flight/lib/component'
     }
   }
 });
 
-require([
-  "boots"
-  ],
-function(boots){
+require(["apps/boots"], function(boots){
   // kickstart the application
   boots();
 });
