@@ -25,32 +25,39 @@ function(defineComponent){
       this.on("click", this.onClick);
     });
 
-    this.paintHandlers = {
-      onCanvasMouseOver: this.onCanvasMouseOver,
-      onMouseDown: this.onMouseDown,
-      onMouseMove: this.onMouseMove,
-      onMouseUp: this.onMouseUp
+    this.init = function(e, eObj){
+      this.canvas = eObj.canvas;
+      this.canvas.isDrawingMode = true;
     };
 
     this.onClick = function(){
-      console.log("click");
-      this.trigger(this.attr.canvasEl, "paintRequested", this.paintHandlers);
+      this.on(this.attr.canvasEl, "paintInit", this.init);
+      this.on(this.attr.canvasEl, "onMouseMove", this.onMouseMove);
+      this.on(this.attr.canvasEl, "onMouseUp", this.onMouseUp);
+
+      this.trigger(this.attr.canvasEl, "paintRequested");
     };
 
-    this.onCanvasMouseOver = function(e){
-
-    };
-
-    this.onMouseDown = function(e){
-
-    };
-
-    this.onMouseMove = function(e){
+    this.onMouseDown = function(e, eObj){
 
     };
 
-    this.onMouseUp = function(e){
+    this.onMouseMove = function(e, eObj){
 
+    };
+
+    /**
+     * Unsubscribe from canvas events
+     */
+    this.onMouseUp = function(e, eObj){
+      this.canvas.isDrawingMode = false;
+      this.canvas = undefined;
+
+      this.off(this.attr.canvasEl, "onMouseMove");
+      this.off(this.attr.canvasEl, "onMouseDown");
+      this.off(this.attr.canvasEl, "onMouseUp");
+
+      this.trigger(this.attr.canvasEl, "releaseHandlers");
     };
   }
 });

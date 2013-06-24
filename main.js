@@ -23,7 +23,7 @@ require.config({
 
 require(["boots","../components/flight/tools/debug/debug"],
 function(boots, debug){
-  debug.enable(true);
+  // debug.enable(true);
   // kickstart the application
   boots();
 });
