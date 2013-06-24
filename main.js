@@ -16,13 +16,9 @@ require.config({
 });
 
 require([
-  "lukis",
-  "ui/pencil"
+  "boots"
   ],
-function(lukis, pencil){
-  // attaching modules
-  lukis.attachTo("#lukis");
-  pencil.attachTo("#pencil",{
-    canvasEl: "#lukis"
-  });
+function(boots){
+  // kickstart the application
+  boots();
 });

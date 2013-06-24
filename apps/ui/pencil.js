@@ -27,7 +27,7 @@ function(flight){
 
     this.onClick = function(){
       console.log("click");
-      this.trigger("paintRequested", this);
+      this.trigger(document, "paintRequested", this);
     };
   }
 });
