@@ -7,10 +7,10 @@
  *
  * This module will use that selected brush to draw on the canvas.
  */
-define(["flight/component"],
-function(defineComponent){
+define(["flight/component", "ui/canvasmixin"],
+function(defineComponent, CanvasMixin){
 
-  return defineComponent(Pencil);
+  return defineComponent(Pencil, CanvasMixin);
 
   function Pencil(){
     // defining attributes. Anything defined here

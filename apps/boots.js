@@ -2,13 +2,11 @@ define([
   "lukis",
   "ui/pencil"
 ],
-function(lukis, pencil){
+function(Lukis, Pencil){
   function boots(){
     // attach modules
-    lukis.attachTo("#lukis");
-    pencil.attachTo("#pencil",{
-      canvasEl: "#lukis"
-    });
+    Lukis.attachTo("#lukis");
+    Pencil.attachTo("#pencil");
   }
 
   return boots;
