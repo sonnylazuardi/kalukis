@@ -7,7 +7,12 @@
  *
  * This module will use that selected brush to draw on the canvas.
  */
-define(["flight/component"],
+define(
+
+[
+  "flight/component"
+],
+
 function(defineComponent){
 
   return defineComponent(Pencil);
@@ -58,7 +63,7 @@ function(defineComponent){
       this.off(this.attr.canvasEl, "onMouseUp");
 
       this.trigger(this.attr.canvasEl, "releaseHandlers");
-      this.trigger(this.attr.canvasEl, "pencilUp");
+      this.trigger(this.attr.canvasEl, "paintUp");
     };
   }
 });
