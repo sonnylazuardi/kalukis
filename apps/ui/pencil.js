@@ -58,6 +58,7 @@ function(defineComponent){
       this.off(this.attr.canvasEl, "onMouseUp");
 
       this.trigger(this.attr.canvasEl, "releaseHandlers");
+      this.trigger(this.attr.canvasEl, "pencilUp");
     };
   }
 });

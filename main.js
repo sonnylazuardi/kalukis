@@ -21,9 +21,8 @@ require.config({
   }
 });
 
-require(["boots","../components/flight/tools/debug/debug"],
-function(boots, debug){
-  // debug.enable(true);
+require(["boots"],
+function(boots){
   // kickstart the application
   boots();
 });

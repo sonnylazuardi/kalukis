@@ -1,5 +1,6 @@
 define(["fabric", "flight/component", "ui/canvasmixin"],
 function(fabric, defineComponent, CanvasMixin){
+
   return defineComponent(Lukis, CanvasMixin);
 
   function Lukis(){

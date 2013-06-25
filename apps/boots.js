@@ -1,8 +1,9 @@
 define([
   "lukis",
-  "ui/pencil"
+  "ui/pencil",
+  "ui/brushescombo"
 ],
-function(Lukis, Pencil){
+function(Lukis, Pencil, BrushesCombo){
   function boots(){
     // attach modules
 
@@ -10,6 +11,10 @@ function(Lukis, Pencil){
     Lukis.attachTo("#lukis");
     Pencil.attachTo("#pencil", {
       canvasEl: "#lukis"
+    });
+    BrushesCombo.attachTo("#brushescombo", {
+      canvasEl: "#lukis",
+      pencilButton: "#pencil"
     });
   }
 
