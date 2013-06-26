@@ -36,6 +36,7 @@ function(defineComponent){
     };
 
     this.onClick = function(){
+      // TODO move this to a seperate component
       this.on(this.attr.canvasEl, "paintInit", this.init);
       this.on(this.attr.canvasEl, "onMouseMove", this.onMouseMove);
       this.on(this.attr.canvasEl, "onMouseUp", this.onMouseUp);

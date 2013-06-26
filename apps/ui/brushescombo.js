@@ -13,9 +13,16 @@ function(defineComponent, tmpl){
     var template = "";
 
     this.after("initialize", function(){
+      var me = this;
       // register events handler
       this.on(this.attr.pencilButton, "click", this.enable);
       this.on(this.attr.canvasEl, "brushesReady", this.updateBrushes);
+
+      this.$node.delegate('li', 'click', function(){
+        me.trigger(me.attr.canvasEl, "brushClicked", {
+          brushId: $(this).attr("id")
+        });
+      });
 
       this.trigger(this.attr.canvasEl, "requestedBrushes");
     });
@@ -32,7 +39,7 @@ function(defineComponent, tmpl){
     this.updateBrushes = function(e, eObj){
       var brushes = eObj.brushes;
 
-      // todo better method should be used
+      // TODO better method should be used
       this.$node.append(tmpl(brushes));
     };
   }
