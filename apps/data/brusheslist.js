@@ -17,8 +17,9 @@ function(defineComponent){
       selected: "pencil",
       selectedId: "brush-pencil",
       brushes: [
-        {value: "pencil", id: "brush-pencil"},
-        {value: "sqribble", id: "brush-sqribble"},
+        {value: "pencil", id: "pencilBrush"},
+        {value: "spray", id: "sprayBrush"},
+        {value: "circle", id: "circleBrush"},
         {value: "a", id: "brush-a"},
         {value: "b", id: "brush-b"}
       ]
@@ -32,6 +33,8 @@ function(defineComponent){
       });
 
       this.on("#"+this.$node.attr("id"), "brushClicked", this.onBrushClicked);
+
+      this.on("#"+this.$node.attr("id"), "selectedBrushRequested", this.publishSelectedBrush);
     });
 
     this.onBrushClicked = function(e, eObj){
@@ -56,6 +59,20 @@ function(defineComponent){
       }
 
       return found;
+    };
+
+    this.publishSelectedBrush = function(){
+      var me = this,
+          brushModule = "brushes/" + this.brushes.selectedId;
+
+      // load the brush module
+      require([brushModule], function(brush){
+        me.trigger("#"+me.$node.attr("id"), "selectedBrushReady", {
+          selected: me.brushes.selected,
+          selectedId: me.brushes.selectedId,
+          brush: brush
+        });
+      });
     };
   }
 });

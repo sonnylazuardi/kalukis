@@ -8,7 +8,7 @@ function(fabric){
 
   return {
     create: function(canvas){
-      return new fabric.PencilBrush(canvas);
+      return new fabric.CircleBrush(canvas);
     }
   };
 });

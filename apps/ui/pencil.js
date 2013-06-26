@@ -8,10 +8,11 @@
 define(
 
 [
-  "flight/component"
+  "flight/component",
+  "fabric"
 ],
 
-function(defineComponent){
+function(defineComponent, fabric){
 
   return defineComponent(Pencil);
 
@@ -31,15 +32,22 @@ function(defineComponent){
     this.init = function(e, eObj){
       this.canvas = eObj.canvas;
       this.canvas.isDrawingMode = true;
+
+      this.trigger(this.attr.canvasEl, "selectedBrushRequested");
     };
 
     this.onClick = function(){
       // TODO move this to a seperate component
+      this.on(this.attr.canvasEl, "selectedBrushReady", this.setBrush);
       this.on(this.attr.canvasEl, "paintInit", this.init);
       this.on(this.attr.canvasEl, "onMouseMove", this.onMouseMove);
       this.on(this.attr.canvasEl, "onMouseUp", this.onMouseUp);
 
       this.trigger(this.attr.canvasEl, "paintRequested");
+    };
+
+    this.setBrush = function(e, eObj){
+      this.canvas.freeDrawingBrush = eObj.brush.create(this.canvas);
     };
 
     this.onMouseDown = function(e, eObj){
