@@ -8,7 +8,8 @@ require.config({
     underscore: "../components/require-handlebars-plugin/hbs/underscore",
     json2: "../components/require-handlebars-plugin/hbs/json2",
     i18nprecompile: "../components/require-handlebars-plugin/hbs/i18nprecompile",
-    bootstrap: "../components/bootstrap/js/bootstrap"
+    bootstrap: "../components/bootstrap/js/bootstrap",
+    spectrum: "../components/spectrum/spectrum"
   },
 
   shim:{
@@ -18,6 +19,7 @@ require.config({
     jquery: {
       exports: "$"
     },
+    "spectrum": ["jquery"],
     "../components/flight/lib/component": {
       deps: ["jquery"]
     },
@@ -37,7 +39,14 @@ require.config({
   }
 });
 
-require(["boots"],
+require(
+
+[
+  "boots",
+  "bootstrap",
+  "spectrum"
+],
+
 function(boots){
   // kickstart the application
   boots();

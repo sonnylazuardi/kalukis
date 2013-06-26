@@ -4,11 +4,11 @@ define(
   "lukis",
   "ui/pencil",
   "ui/brushescombo",
+  "ui/colorpicker",
   "data/brusheslist",
-  "bootstrap"
 ],
 
-function(Lukis, Pencil, BrushesCombo, BrushesList){
+function(Lukis, Pencil, BrushesCombo, ColorPicker, BrushesList){
 
   function boots(){
     // attach modules
@@ -23,6 +23,7 @@ function(Lukis, Pencil, BrushesCombo, BrushesList){
       canvasEl: "#lukis",
       pencilButton: "#pencil"
     });
+    ColorPicker.attachTo("#colorpicker");
   }
 
   return boots;
