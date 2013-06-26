@@ -23,7 +23,9 @@ function(Lukis, Pencil, BrushesCombo, ColorPicker, BrushesList){
       canvasEl: "#lukis",
       pencilButton: "#pencil"
     });
-    ColorPicker.attachTo("#colorpicker");
+    ColorPicker.attachTo("#colorpicker", {
+      canvasEl: "#lukis"
+    });
   }
 
   return boots;

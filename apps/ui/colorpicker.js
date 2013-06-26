@@ -11,8 +11,17 @@ function(defineComponent, tmpl){
     this.after("initialize", function(){
       this.$node.append(tmpl);
 
-      this.$node.children("#color-picker").spectrum({
-        clickoutFiresChange: true
+      var cp = this.$node.children("#color-picker"),
+          me = this;
+
+      cp.spectrum({
+        clickoutFiresChange: true,
+        showButtons: false,
+        change: function(color){
+          me.trigger(me.attr.canvasEl, "colorChanged", {
+            color: color.toHexString()
+          });
+        }
       });
     });
   }

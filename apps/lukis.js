@@ -17,6 +17,8 @@ function(fabric, defineComponent, CanvasMixin){
 
       this.on(this.attr.canvasEl, "paintRequested", this.onPaintRequested);
       this.on(this.attr.canvasEl, "releaseHandlers", this.onReleaseHandlers);
+
+      this.on(this.attr.canvasEl, "colorChanged", this.onColorChanged);
     });
 
     this.onPaintRequested = function(e, eObj){
@@ -55,6 +57,18 @@ function(fabric, defineComponent, CanvasMixin){
       canvas.off("mouse:down", this.paintHandlers.onMouseDown);
       canvas.off("mouse:up", this.paintHandlers.onMouseUp);
       canvas.off("mouse:move", this.paintHandlers.onMouseMove);
+    };
+
+    this.onColorChanged = function(e, eObj){
+      var selected = this.attr.canvas.getActiveObject();
+
+      if (selected){
+        if (selected.type === "path") {
+          selected.set("stroke", eObj.color);
+        }
+
+        this.attr.canvas.renderAll();
+      }
     };
   }
 });
