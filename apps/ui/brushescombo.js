@@ -12,11 +12,16 @@ function(defineComponent, tmpl){
   function BrushesCombo(){
     var template = "";
 
+    this.defaultAttrs({
+      widgetEl: "brush-widget"
+    });
+
     this.after("initialize", function(){
       var me = this;
       // register events handler
       this.on(this.attr.pencilButton, "click", this.enable);
       this.on(this.attr.canvasEl, "brushesReady", this.updateBrushes);
+      this.on(this.attr.canvasEl, "brushSelectionChanged", this.updateBrushes);
 
       this.$node.delegate('li', 'click', function(){
         me.trigger(me.attr.canvasEl, "brushClicked", {
@@ -37,11 +42,17 @@ function(defineComponent, tmpl){
     };
 
     this.updateBrushes = function(e, eObj){
-      var brushes = eObj.brushes;
+      var widget = tmpl(eObj.brushes);
 
-      // TODO better method should be used
-      this.$node.append(tmpl(brushes));
+      // TODO find a better way to update the brushes and the selected
+      // brush. The current implementation I think is horrible, because
+      // we have to remove the existing widget, then add a new one.
+      if (this.$node.children("#"+this.attr.widgetEl).length === 1) {
+        this.$node.children("#"+this.attr.widgetEl).remove();
+      }
+
+      this.$node.append(widget);
+      this.$node.children().first().attr("id", this.attr.widgetEl);
     };
   }
-
 });
