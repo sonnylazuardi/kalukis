@@ -1,3 +1,6 @@
+/**
+ * This component holds the list of brushes available.
+ */
 define(
 
 [

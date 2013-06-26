@@ -1,11 +1,9 @@
 /**
- * This is the defineComponent which manages interactions with
- * user when the user wants to paint with a pencil/brush.
+ * This component is responsible for acting on user interaction
+ * with the **pencil widget**.
  *
- * Which brush do the user want will be determined by the
- * brush selected by the user on a certain element.
- *
- * This module will use that selected brush to draw on the canvas.
+ * It does not draw the brushes on the canvas, as that task is delegated
+ * to the chosen brush.
  */
 define(
 

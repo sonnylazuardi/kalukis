@@ -1,3 +1,6 @@
+/**
+ * I'm alive
+ */
 define(
 
 [

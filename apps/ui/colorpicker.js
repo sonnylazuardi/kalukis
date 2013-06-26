@@ -1,3 +1,8 @@
+/**
+ * This component manages the widget for colorpicker. After
+ * initialization, it will add the colorpicker widget to the
+ * dom that this component is attached to.
+ */
 define(
 [
   "flight/component",

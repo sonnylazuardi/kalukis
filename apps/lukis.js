@@ -1,3 +1,8 @@
+/**
+ * This component is responsible in managing objects **drawn** on
+ * the canvas. The act of drawing is not the responsibility of
+ * this component.
+ */
 define(
 
 [
