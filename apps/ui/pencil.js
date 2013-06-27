@@ -9,12 +9,13 @@ define(
 
 [
   "flight/component",
+  "data/with_canvas",
   "fabric"
 ],
 
-function(defineComponent, fabric){
+function(defineComponent, WithCanvas, fabric){
 
-  return defineComponent(Pencil);
+  return defineComponent(Pencil, WithCanvas);
 
   function Pencil(){
     // defining attributes. Anything defined here
@@ -27,27 +28,41 @@ function(defineComponent, fabric){
     // set events handler
     this.after("initialize", function(){
       this.on("click", this.onClick);
+      this.on(document, "canvasElReady", this.setCanvasEl);
+
+      this.trigger(document, "canvasElRequested");
     });
 
+    // the steps required before painting
     this.init = function(e, eObj){
-      this.canvas = eObj.canvas;
-      this.canvas.isDrawingMode = true;
+      // this.canvas = eObj.canvas;
+      this.attr.canvas.isDrawingMode = true;
 
+      // what brush shall we use for painting?
       this.trigger(this.attr.canvasEl, "selectedBrushRequested");
     };
 
     this.onClick = function(){
       // TODO move this to a seperate component
+
+      // we need to change the brush when a new one is ready to be used
       this.on(this.attr.canvasEl, "selectedBrushReady", this.setBrush);
-      this.on(this.attr.canvasEl, "paintInit", this.init);
+      // we need to initialize our painting action
+      this.on(this.attr.canvasEl, "paintPreparationReady", this.init);
       this.on(this.attr.canvasEl, "onMouseMove", this.onMouseMove);
       this.on(this.attr.canvasEl, "onMouseUp", this.onMouseUp);
 
       this.trigger(this.attr.canvasEl, "paintRequested");
     };
 
+    // set the brush used for painting
     this.setBrush = function(e, eObj){
-      this.canvas.freeDrawingBrush = eObj.brush.create(this.canvas);
+      this.attr.canvas.freeDrawingBrush = eObj.brush.create(this.attr.canvas);
+    };
+
+    // set the brush property
+    this.setBrushProperty = function(e, eObj){
+
     };
 
     this.onMouseDown = function(e, eObj){
@@ -62,8 +77,7 @@ function(defineComponent, fabric){
      * Unsubscribe from canvas events
      */
     this.onMouseUp = function(e, eObj){
-      this.canvas.isDrawingMode = false;
-      this.canvas = undefined;
+      this.attr.canvas.isDrawingMode = false;
 
       this.off(this.attr.canvasEl, "onMouseMove");
       this.off(this.attr.canvasEl, "onMouseDown");

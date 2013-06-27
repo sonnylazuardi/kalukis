@@ -20,26 +20,46 @@ function(fabric, defineComponent, CanvasMixin){
       this.attr.canvas = new fabric.Canvas(this.$node.attr("id"));
       this.attr.canvasEl = "#"+this.$node.attr("id");
 
-      this.on(this.attr.canvasEl, "paintRequested", this.onPaintRequested);
-      this.on(this.attr.canvasEl, "releaseHandlers", this.onReleaseHandlers);
-
-      this.on(this.attr.canvasEl, "colorChanged", this.onColorChanged);
+      // publish the canvas instance
+      this.on(this.attr.canvasEl, "canvasRequested", this.publishCanvas);
+      // publish the canvas element
+      this.on(document, "canvasElRequested", this.publishCanvasEl);
+      // we need to prepare the painting medium when painting is requested
+      this.on(this.attr.canvasEl, "paintRequested", this.preparePainting);
+      // we need to release handlers from canvas' events
+      this.on(this.attr.canvasEl, "releaseHandlers", this.releaseHandlers);
+      // TODO be more specific
+      this.on(this.attr.canvasEl, "colorChanged", this.changeColor);
     });
 
-    this.onPaintRequested = function(e, eObj){
+    // publish the canvas instance
+    this.publishCanvas = function(){
+      this.trigger(this.attr.canvasEl, "canvasReady", {
+        canvas: this.attr.canvas
+      });
+    };
+
+    // publish the canvas element
+    this.publishCanvasEl = function(){
+      this.trigger(document, "canvasElReady", {canvasEl: this.attr.canvasEl});
+    };
+
+    // preparation for painting
+    this.preparePainting = function(e, eObj){
       var me = this,
           canvasEl = this.attr.canvasEl,
           canvas = this.attr.canvas;
 
       this.paintHandlers = {
+        // trigger this when canvas' mouse:down is fired
         onMouseDown: function(e){
           me.trigger(canvasEl, "onMouseDown", e);
         },
-
+        // trigger this when canvas' mouse:up is fired
         onMouseUp: function(e){
           me.trigger(canvasEl, "onMouseUp", e);
         },
-
+        // trigger this when canvas' mouse:move is fired
         onMouseMove: function(e){
           me.trigger(canvasEl, "onMouseMove", e);
         }
@@ -47,16 +67,19 @@ function(fabric, defineComponent, CanvasMixin){
 
       // we trigger init paint event. this is normally used
       // to attach the canvas to the painting handler
-      this.trigger(canvasEl, "paintInit", {canvas: canvas});
+      this.trigger(canvasEl, "paintPreparationReady", {canvas: canvas});
 
       // TODO is there a way that I can delegate these events
       // automatically?
+      //
+      // attaching events on canvas' mouse events
       canvas.on("mouse:down", this.paintHandlers.onMouseDown);
       canvas.on("mouse:up", this.paintHandlers.onMouseUp);
       canvas.on("mouse:move", this.paintHandlers.onMouseMove);
     };
 
-    this.onReleaseHandlers = function(e, eObj){
+    // unsubscribe from canvas' events
+    this.releaseHandlers = function(e, eObj){
       var canvas = this.attr.canvas;
 
       canvas.off("mouse:down", this.paintHandlers.onMouseDown);
@@ -64,7 +87,9 @@ function(fabric, defineComponent, CanvasMixin){
       canvas.off("mouse:move", this.paintHandlers.onMouseMove);
     };
 
-    this.onColorChanged = function(e, eObj){
+    // change the color of selected objects
+    // TODO not working perfectly at the moment
+    this.changeColor = function(e, eObj){
       var selected = this.attr.canvas.getActiveObject();
 
       if (selected){

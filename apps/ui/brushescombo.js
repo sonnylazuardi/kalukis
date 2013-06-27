@@ -23,7 +23,7 @@ function(defineComponent, tmpl){
       this.on(this.attr.canvasEl, "brushesReady", this.updateBrushes);
       this.on(this.attr.canvasEl, "brushSelectionChanged", this.updateBrushes);
 
-      this.$node.delegate('li', 'click', function(){
+      this.$node.delegate("li", "click", function(){
         me.trigger(me.attr.canvasEl, "brushClicked", {
           brushId: $(this).attr("id")
         });

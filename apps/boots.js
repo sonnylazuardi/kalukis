@@ -18,9 +18,7 @@ function(Lukis, Pencil, BrushesCombo, ColorPicker, BrushesList){
 
     // CanvasMixin.attachTo("#lukis");
     Lukis.attachTo("#lukis");
-    Pencil.attachTo("#pencil", {
-      canvasEl: "#lukis"
-    });
+    Pencil.attachTo("#pencil");
     BrushesList.attachTo("#lukis");
     BrushesCombo.attachTo("#brushescombo", {
       canvasEl: "#lukis",
