@@ -28,9 +28,6 @@ function(defineComponent, WithCanvas, fabric){
     // set events handler
     this.after("initialize", function(){
       this.on("click", this.onClick);
-      this.on(document, "canvasElReady", this.setCanvasEl);
-
-      this.trigger(document, "canvasElRequested");
     });
 
     // the steps required before painting
