@@ -27,8 +27,8 @@ function(defineComponent, WithCanvas, fabric){
 
     // set events handler
     this.after("initialize", function(){
-      console.log("pencil init");
       this.on("click", this.onClick);
+      this.on(document, "colorChanged", this.setBrushProperty);
     });
 
     // the steps required before painting
@@ -37,20 +37,20 @@ function(defineComponent, WithCanvas, fabric){
       this.attr.canvas.isDrawingMode = true;
 
       // what brush shall we use for painting?
-      this.trigger(this.attr.canvasEl, "selectedBrushRequested");
+      this.trigger(document, "selectedBrushRequested");
     };
 
     this.onClick = function(){
       // TODO move this to a seperate component
 
       // we need to change the brush when a new one is ready to be used
-      this.on(this.attr.canvasEl, "selectedBrushReady", this.setBrush);
+      this.on(document, "selectedBrushReady", this.setBrush);
       // we need to initialize our painting action
-      this.on(this.attr.canvasEl, "paintPreparationReady", this.init);
-      this.on(this.attr.canvasEl, "onMouseMove", this.onMouseMove);
-      this.on(this.attr.canvasEl, "onMouseUp", this.onMouseUp);
+      this.on(document, "paintPreparationReady", this.init);
+      this.on(document, "canvasMouseMove", this.onMouseMove);
+      this.on(document, "canvasMouseUp", this.onMouseUp);
 
-      this.trigger(this.attr.canvasEl, "paintRequested");
+      this.trigger(document, "paintRequested");
     };
 
     // set the brush used for painting
@@ -60,7 +60,10 @@ function(defineComponent, WithCanvas, fabric){
 
     // set the brush property
     this.setBrushProperty = function(e, eObj){
-
+      console.log("set brush property");
+      var key = eObj.key;
+      this.attr.canvas.freeDrawingBrush[key] = eObj[key];
+      console.log(this.attr.canvas.freeDrawingBrush.color);
     };
 
     this.onMouseDown = function(e, eObj){
@@ -77,12 +80,12 @@ function(defineComponent, WithCanvas, fabric){
     this.onMouseUp = function(e, eObj){
       this.attr.canvas.isDrawingMode = false;
 
-      this.off(this.attr.canvasEl, "onMouseMove");
-      this.off(this.attr.canvasEl, "onMouseDown");
-      this.off(this.attr.canvasEl, "onMouseUp");
+      this.off(document, "canvasMouseMove");
+      this.off(document, "canvasMouseDown");
+      this.off(document, "canvasMouseUp");
 
-      this.trigger(this.attr.canvasEl, "releaseHandlers");
-      this.trigger(this.attr.canvasEl, "paintUp");
+      this.trigger(document, "releaseCanvasHandlers");
+      this.trigger(document, "paintUp");
     };
   }
 });

@@ -16,30 +16,21 @@ function(fabric, defineComponent){
 
   function Lukis(){
     this.after("initialize", function(){
-      console.log("lukis init");
       // activate canvas
       this.attr.canvas = new fabric.Canvas(this.$node.attr("id"));
-      this.attr.canvasEl = "#"+this.$node.attr("id");
 
-      // publish the canvas element
-      this.on(document, "canvasElRequested", this.publishCanvasEl);
       // publish the canvas instance
-      this.on(this.attr.canvasEl, "canvasRequested", this.publishCanvas);
+      this.on(document, "canvasRequested", this.publishCanvas);
       // we need to prepare the painting medium when painting is requested
-      this.on(this.attr.canvasEl, "paintRequested", this.preparePainting);
+      this.on(document, "paintRequested", this.preparePainting);
       // we need to release handlers from canvas' events
-      this.on(this.attr.canvasEl, "releaseHandlers", this.releaseHandlers);
+      this.on(document, "releaseCanvasHandlers", this.releaseHandlers);
       // TODO be more specific
-      this.on(this.attr.canvasEl, "colorChanged", this.changeColor);
+      this.on(document, "colorChanged", this.changeColor);
     });
 
-    // publish the canvas element
-    this.publishCanvasEl = function(){
-      this.trigger(document, "canvasElReady", {canvasEl: this.attr.canvasEl});
-    };
-
     this.publishCanvas = function(){
-      this.trigger(this.attr.canvasEl, "canvasReady", {
+      this.trigger(document, "canvasReady", {
         canvas: this.attr.canvas
       });
     };
@@ -47,27 +38,26 @@ function(fabric, defineComponent){
     // preparation for painting
     this.preparePainting = function(e, eObj){
       var me = this,
-          canvasEl = this.attr.canvasEl,
           canvas = this.attr.canvas;
 
       this.paintHandlers = {
         // trigger this when canvas' mouse:down is fired
         onMouseDown: function(e){
-          me.trigger(canvasEl, "onMouseDown", e);
+          me.trigger(document, "canvasMouseDown", e);
         },
         // trigger this when canvas' mouse:up is fired
         onMouseUp: function(e){
-          me.trigger(canvasEl, "onMouseUp", e);
+          me.trigger(document, "canvasMouseUp", e);
         },
         // trigger this when canvas' mouse:move is fired
         onMouseMove: function(e){
-          me.trigger(canvasEl, "onMouseMove", e);
+          me.trigger(document, "canvasMouseMove", e);
         }
       };
 
       // we trigger init paint event. this is normally used
       // to attach the canvas to the painting handler
-      this.trigger(canvasEl, "paintPreparationReady", {canvas: canvas});
+      this.trigger(document, "paintPreparationReady", {canvas: canvas});
 
       // TODO is there a way that I can delegate these events
       // automatically?

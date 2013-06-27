@@ -15,7 +15,6 @@ function(defineComponent, WithCanvas, tmpl){
 
   function ColorPicker(){
     this.after("initialize", function(){
-      console.log("colorpicker init");
       this.$node.append(tmpl);
 
       var cp = this.$node.children("#color-picker"),
@@ -26,6 +25,7 @@ function(defineComponent, WithCanvas, tmpl){
         showButtons: false,
         change: function(color){
           me.trigger(me.attr.canvasEl, "colorChanged", {
+            key: "color",
             color: color.toHexString()
           });
         }

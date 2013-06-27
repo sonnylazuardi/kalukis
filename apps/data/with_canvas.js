@@ -7,22 +7,14 @@ define(function(){
 
   function withCanvas(){
     this.defaultAttrs({
-      canvas: "",
-      canvasEl: ""
+      canvas: ""
     });
 
     this.after("initialize", function(){
-      this.on(document, "canvasElReady", this.setCanvasEl);
+      this.on(document, "canvasReady", this.setCanvas);
 
-      this.trigger(document, "canvasElRequested");
+      this.trigger(document, "canvasRequested");
     });
-
-    this.setCanvasEl = function(e, eObj){
-      this.attr.canvasEl = eObj.canvasEl;
-      this.on(this.attr.canvasEl, "canvasReady", this.setCanvas);
-
-      this.trigger(this.attr.canvasEl, "canvasRequested");
-    };
 
     this.setCanvas = function(e, eObj){
       this.attr.canvas = eObj.canvas;

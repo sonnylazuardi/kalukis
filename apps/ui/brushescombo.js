@@ -2,13 +2,12 @@ define(
 
 [
   "flight/component",
-  "data/with_canvas",
   "hbs!templates/brushescombo"
 ],
 
-function(defineComponent, WithCanvas, tmpl){
+function(defineComponent, tmpl){
 
-  return defineComponent(BrushesCombo, WithCanvas);
+  return defineComponent(BrushesCombo);
 
   function BrushesCombo(){
     var template = "";
@@ -18,24 +17,24 @@ function(defineComponent, WithCanvas, tmpl){
     });
 
     this.after("initialize", function(){
-      console.log("BrushesCombo init");
       var me = this;
       // register events handler
-      this.on(this.attr.pencilButton, "click", this.enable);
-      this.on(this.attr.canvasEl, "brushesReady", this.updateBrushes);
-      this.on(this.attr.canvasEl, "brushSelectionChanged", this.updateBrushes);
+      // this.on(this.attr.pencilButton, "click", this.enable);
+      this.on(document, "brushesReady", this.updateBrushes);
+      this.on(document, "brushSelectionChanged", this.updateBrushes);
 
+      // publishing which brush has been clicked
       this.$node.delegate("li", "click", function(){
-        me.trigger(me.attr.canvasEl, "brushClicked", {
+        me.trigger(document, "brushClicked", {
           brushId: $(this).attr("id")
         });
       });
 
-      this.trigger(this.attr.canvasEl, "brushesRequested");
+      this.trigger(document, "brushesRequested");
     });
 
     this.enable = function(e, eObj){
-      this.on(this.attr.canvasEl, "paintUp", this.disable);
+      this.on(document, "paintUp", this.disable);
       this.$node.attr("disabled", false);
     };
 
@@ -43,6 +42,7 @@ function(defineComponent, WithCanvas, tmpl){
       this.$node.attr("disabled", true);
     };
 
+    // update our brushes after data changes
     this.updateBrushes = function(e, eObj){
       var widget = tmpl(eObj.brushes);
 

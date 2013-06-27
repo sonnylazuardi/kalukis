@@ -28,15 +28,13 @@ function(defineComponent){
     });
 
     this.after("initialize", function(){
-      this.attr.domId = "#" + this.$node.attr("id");
-
-      this.on(this.attr.domId, "brushesRequested", this.publishBrushes);
-      this.on(this.attr.domId, "brushClicked", this.onBrushClicked);
-      this.on(this.attr.domId, "selectedBrushRequested", this.publishSelectedBrush);
+      this.on(document, "brushesRequested", this.publishBrushes);
+      this.on(document, "brushClicked", this.onBrushClicked);
+      this.on(document, "selectedBrushRequested", this.publishSelectedBrush);
     });
 
     this.publishBrushes = function(e, eObj){
-      this.trigger(this.attr.domId, "brushesReady", {
+      this.trigger(document, "brushesReady", {
         brushes: this.attr.brushes
       });
     };
@@ -45,7 +43,7 @@ function(defineComponent){
       this.attr.brushes.selectedId = eObj.brushId;
       this.attr.brushes.selected = this.findBrush(eObj.brushId);
 
-      this.trigger(this.attr.domId, "brushSelectionChanged",{
+      this.trigger(document, "brushSelectionChanged",{
         brushes: this.attr.brushes
       });
     };
@@ -71,7 +69,7 @@ function(defineComponent){
 
       // load the brush module
       require([brushModule], function(brush){
-        me.trigger(me.attr.domId, "selectedBrushReady", {
+        me.trigger(document, "selectedBrushReady", {
           selected: me.attr.brushes.selected,
           selectedId: me.attr.brushes.selectedId,
           brush: brush
