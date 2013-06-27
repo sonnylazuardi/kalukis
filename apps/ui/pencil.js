@@ -31,6 +31,8 @@ function(defineComponent, WithCanvas, fabric){
     // set events handler
     this.after("initialize", function(){
       this.on("click", this.onClick);
+
+      this.on(document, "selectedBrushReady", this.setBrush);
       this.on(document, "colorChanged", this.setBrushProperty);
     });
 
@@ -46,7 +48,6 @@ function(defineComponent, WithCanvas, fabric){
       // TODO move this to a seperate component
 
       // we need to change the brush when a new one is ready to be used
-      this.on(document, "selectedBrushReady", this.setBrush);
       // we need to initialize our painting action
       this.on(document, "paintPreparationReady", this.init);
       this.on(document, "canvasMouseMove", this.onMouseMove);
@@ -64,6 +65,7 @@ function(defineComponent, WithCanvas, fabric){
     // set the brush property
     this.setBrushProperty = function(e, eObj){
       this.attr.brush[eObj.key] = eObj[eObj.key];
+      this.attr.canvas.freeDrawingBrush[eObj.key] = eObj[eObj.key];
     };
 
     this.onMouseDown = function(e, eObj){
@@ -78,14 +80,7 @@ function(defineComponent, WithCanvas, fabric){
      * Unsubscribe from canvas events
      */
     this.onMouseUp = function(e, eObj){
-      this.attr.canvas.isDrawingMode = false;
 
-      this.off(document, "canvasMouseMove");
-      this.off(document, "canvasMouseDown");
-      this.off(document, "canvasMouseUp");
-
-      this.trigger(document, "releaseCanvasHandlers");
-      this.trigger(document, "paintUp");
     };
   }
 });

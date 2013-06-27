@@ -26,6 +26,7 @@ function(defineComponent){
     });
 
     this.after("initialize", function(){
+      // somebody wants to know what brush is selected
       this.on(document, "brushesRequested", this.publishBrushes);
       this.on(document, "brushClicked", this.onBrushClicked);
       this.on(document, "selectedBrushRequested", this.publishSelectedBrush);
@@ -44,6 +45,8 @@ function(defineComponent){
       this.trigger(document, "brushSelectionChanged",{
         brushes: this.attr.brushes
       });
+
+      this.publishSelectedBrush();
     };
 
     this.findBrush = function(id){
