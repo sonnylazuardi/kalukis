@@ -8,6 +8,18 @@ The above approach is possible by using [flight](http://twitter.github.io/flight
 
 For the canvas library, we use fabric.
 
+## Trying it
+
+If you want to try this locally, please have [node](http://nodejs.org/) installed first. You also need to have bower installed:
+
+> npm install -g bower
+
+To install all of the dependancies, please run:
+
+> bower install
+
+I think that's about it.
+
 ## TODO
 
 This application is still at it's early stage. So, ofcourse there are a lot of things to do.
