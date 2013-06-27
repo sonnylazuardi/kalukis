@@ -7,23 +7,24 @@ define(
 
 [
   "fabric",
-  "flight/component","ui/canvasmixin"
+  "flight/component"
 ],
 
-function(fabric, defineComponent, CanvasMixin){
+function(fabric, defineComponent){
 
-  return defineComponent(Lukis, CanvasMixin);
+  return defineComponent(Lukis);
 
   function Lukis(){
     this.after("initialize", function(){
+      console.log("lukis init");
       // activate canvas
       this.attr.canvas = new fabric.Canvas(this.$node.attr("id"));
       this.attr.canvasEl = "#"+this.$node.attr("id");
 
-      // publish the canvas instance
-      this.on(this.attr.canvasEl, "canvasRequested", this.publishCanvas);
       // publish the canvas element
       this.on(document, "canvasElRequested", this.publishCanvasEl);
+      // publish the canvas instance
+      this.on(this.attr.canvasEl, "canvasRequested", this.publishCanvas);
       // we need to prepare the painting medium when painting is requested
       this.on(this.attr.canvasEl, "paintRequested", this.preparePainting);
       // we need to release handlers from canvas' events
@@ -32,16 +33,15 @@ function(fabric, defineComponent, CanvasMixin){
       this.on(this.attr.canvasEl, "colorChanged", this.changeColor);
     });
 
-    // publish the canvas instance
+    // publish the canvas element
+    this.publishCanvasEl = function(){
+      this.trigger(document, "canvasElReady", {canvasEl: this.attr.canvasEl});
+    };
+
     this.publishCanvas = function(){
       this.trigger(this.attr.canvasEl, "canvasReady", {
         canvas: this.attr.canvas
       });
-    };
-
-    // publish the canvas element
-    this.publishCanvasEl = function(){
-      this.trigger(document, "canvasElReady", {canvasEl: this.attr.canvasEl});
     };
 
     // preparation for painting

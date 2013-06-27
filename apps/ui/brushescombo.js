@@ -2,12 +2,13 @@ define(
 
 [
   "flight/component",
+  "data/with_canvas",
   "hbs!templates/brushescombo"
 ],
 
-function(defineComponent, tmpl){
+function(defineComponent, WithCanvas, tmpl){
 
-  return defineComponent(BrushesCombo);
+  return defineComponent(BrushesCombo, WithCanvas);
 
   function BrushesCombo(){
     var template = "";
@@ -17,6 +18,7 @@ function(defineComponent, tmpl){
     });
 
     this.after("initialize", function(){
+      console.log("BrushesCombo init");
       var me = this;
       // register events handler
       this.on(this.attr.pencilButton, "click", this.enable);
@@ -29,7 +31,7 @@ function(defineComponent, tmpl){
         });
       });
 
-      this.trigger(this.attr.canvasEl, "requestedBrushes");
+      this.trigger(this.attr.canvasEl, "brushesRequested");
     });
 
     this.enable = function(e, eObj){

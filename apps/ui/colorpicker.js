@@ -6,14 +6,16 @@
 define(
 [
   "flight/component",
+  "data/with_canvas",
   "hbs!templates/colorpicker"
 ],
 
-function(defineComponent, tmpl){
-  return defineComponent(ColorPicker);
+function(defineComponent, WithCanvas, tmpl){
+  return defineComponent(ColorPicker, WithCanvas);
 
   function ColorPicker(){
     this.after("initialize", function(){
+      console.log("colorpicker init");
       this.$node.append(tmpl);
 
       var cp = this.$node.children("#color-picker"),

@@ -27,11 +27,13 @@ function(defineComponent, WithCanvas, fabric){
 
     // set events handler
     this.after("initialize", function(){
+      console.log("pencil init");
       this.on("click", this.onClick);
     });
 
     // the steps required before painting
     this.init = function(e, eObj){
+      console.log("paint ready");
       // this.canvas = eObj.canvas;
       this.attr.canvas.isDrawingMode = true;
 
@@ -49,6 +51,7 @@ function(defineComponent, WithCanvas, fabric){
       this.on(this.attr.canvasEl, "onMouseMove", this.onMouseMove);
       this.on(this.attr.canvasEl, "onMouseUp", this.onMouseUp);
 
+      console.log(this.attr.canvasEl);
       this.trigger(this.attr.canvasEl, "paintRequested");
     };
 

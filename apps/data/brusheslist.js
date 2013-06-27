@@ -12,43 +12,45 @@ function(defineComponent){
   return defineComponent(BrushesList);
 
   function BrushesList(){
-    this.brushes = {
-      defaultBrush: "pencil",
-      selected: "pencil",
-      selectedId: "brush-pencil",
-      brushes: [
-        {value: "pencil", id: "pencilBrush"},
-        {value: "spray", id: "sprayBrush"},
-        {value: "circle", id: "circleBrush"},
-        {value: "a", id: "brush-a"},
-        {value: "b", id: "brush-b"}
-      ]
-    };
+    this.defaultAttrs({
+      brushes: {
+        defaultBrush: "pencil",
+        selected: "pencil",
+        selectedId: "pencilBrush",
+        brushes: [
+          {value: "pencil", id: "pencilBrush"},
+          {value: "spray", id: "sprayBrush"},
+          {value: "circle", id: "circleBrush"},
+          {value: "a", id: "brush-a"},
+          {value: "b", id: "brush-b"}
+        ]
+      }
+    });
 
     this.after("initialize", function(){
-      this.on("#"+this.$node.attr("id"), "requestedBrushes", function(){
-        this.trigger("#"+this.$node.attr("id"), "brushesReady", {
-          brushes: this.brushes
-        });
-      });
-
+      this.on("#"+this.$node.attr("id"), "brushesRequested", this.publishBrushes);
       this.on("#"+this.$node.attr("id"), "brushClicked", this.onBrushClicked);
-
       this.on("#"+this.$node.attr("id"), "selectedBrushRequested", this.publishSelectedBrush);
     });
 
+    this.publishBrushes = function(e, eObj){
+      this.trigger("#"+this.$node.attr("id"), "brushesReady", {
+        brushes: this.attr.brushes
+      });
+    };
+
     this.onBrushClicked = function(e, eObj){
-      this.brushes.selectedId = eObj.brushId;
-      this.brushes.selected = this.findBrush(eObj.brushId);
+      this.attr.brushes.selectedId = eObj.brushId;
+      this.attr.brushes.selected = this.findBrush(eObj.brushId);
 
       this.trigger("#"+this.$node.attr("id"), "brushSelectionChanged",{
-        brushes: this.brushes
+        brushes: this.attr.brushes
       });
     };
 
     this.findBrush = function(id){
       var found,
-          brushes = this.brushes.brushes,
+          brushes = this.attr.brushes.brushes,
           length = brushes.length;
 
       while(length--){
@@ -63,13 +65,13 @@ function(defineComponent){
 
     this.publishSelectedBrush = function(){
       var me = this,
-          brushModule = "brushes/" + this.brushes.selectedId;
+          brushModule = "brushes/" + this.attr.brushes.selectedId;
 
       // load the brush module
       require([brushModule], function(brush){
         me.trigger("#"+me.$node.attr("id"), "selectedBrushReady", {
-          selected: me.brushes.selected,
-          selectedId: me.brushes.selectedId,
+          selected: me.attr.brushes.selected,
+          selectedId: me.attr.brushes.selectedId,
           brush: brush
         });
       });
