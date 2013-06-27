@@ -66,6 +66,7 @@ function(fabric, defineComponent){
       canvas.on("mouse:down", this.paintHandlers.onMouseDown);
       canvas.on("mouse:up", this.paintHandlers.onMouseUp);
       canvas.on("mouse:move", this.paintHandlers.onMouseMove);
+      this.on(document, "keydown", this.onKeyDown);
     };
 
     // unsubscribe from canvas' events
@@ -88,6 +89,14 @@ function(fabric, defineComponent){
         }
 
         this.attr.canvas.renderAll();
+      }
+    };
+
+    // TODO move this to another component
+    this.onKeyDown = function(e, eObj){
+      if (e.keyCode === 27) {
+        this.releaseHandlers();
+        this.trigger(document, "releasHandlersRequested");
       }
     };
   }

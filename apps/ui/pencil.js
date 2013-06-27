@@ -39,6 +39,7 @@ function(defineComponent, WithCanvas, fabric){
     // the steps required before painting
     this.init = function(e, eObj){
       this.attr.canvas.isDrawingMode = true;
+      this.on(document, "releasHandlersRequested", this.releaseHandlers);
 
       // what brush shall we use for painting?
       this.trigger(document, "selectedBrushRequested");
@@ -69,18 +70,22 @@ function(defineComponent, WithCanvas, fabric){
     };
 
     this.onMouseDown = function(e, eObj){
-
     };
 
     this.onMouseMove = function(e, eObj){
-
     };
 
     /**
      * Unsubscribe from canvas events
      */
     this.onMouseUp = function(e, eObj){
+    };
 
+    // set painting off
+    this.releaseHandlers = function(){
+      this.off(document, "canvasMouseMove");
+      this.off(document, "canvasMouseUp");
+      this.attr.canvas.isDrawingMode = false;
     };
   }
 });
