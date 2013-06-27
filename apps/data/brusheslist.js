@@ -20,9 +20,7 @@ function(defineComponent){
         brushes: [
           {value: "pencil", id: "pencilBrush"},
           {value: "spray", id: "sprayBrush"},
-          {value: "circle", id: "circleBrush"},
-          {value: "a", id: "brush-a"},
-          {value: "b", id: "brush-b"}
+          {value: "circle", id: "circleBrush"}
         ]
       }
     });
