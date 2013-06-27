@@ -18,9 +18,7 @@ function(Lukis, Pencil, BrushesCombo, ColorPicker, BrushesList){
     Lukis.attachTo("#lukis");
     Pencil.attachTo("#pencil");
     BrushesList.attachTo(document);
-    BrushesCombo.attachTo("#brushescombo", {
-      pencilButton: "#pencil"
-    });
+    BrushesCombo.attachTo("#brushescombo");
     ColorPicker.attachTo("#colorpicker");
   }
 

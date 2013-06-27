@@ -1,3 +1,6 @@
+/**
+ * The brush combobox component. It shows the list of brushes available.
+ */
 define(
 
 [
@@ -19,7 +22,6 @@ function(defineComponent, tmpl){
     this.after("initialize", function(){
       var me = this;
       // register events handler
-      // this.on(this.attr.pencilButton, "click", this.enable);
       this.on(document, "brushesReady", this.updateBrushes);
       this.on(document, "brushSelectionChanged", this.updateBrushes);
 
@@ -32,15 +34,6 @@ function(defineComponent, tmpl){
 
       this.trigger(document, "brushesRequested");
     });
-
-    this.enable = function(e, eObj){
-      this.on(document, "paintUp", this.disable);
-      this.$node.attr("disabled", false);
-    };
-
-    this.disable = function(e, eObj){
-      this.$node.attr("disabled", true);
-    };
 
     // update our brushes after data changes
     this.updateBrushes = function(e, eObj){

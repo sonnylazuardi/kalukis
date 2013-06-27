@@ -22,7 +22,10 @@ function(defineComponent, WithCanvas, fabric){
     // can be accessed through `attr` properties.
     this.defaultAttrs({
       color: "#E74C3C",
-      width: 1
+      width: 1,
+      brush: {
+        color: "#000000"
+      }
     });
 
     // set events handler
@@ -33,7 +36,6 @@ function(defineComponent, WithCanvas, fabric){
 
     // the steps required before painting
     this.init = function(e, eObj){
-      // this.canvas = eObj.canvas;
       this.attr.canvas.isDrawingMode = true;
 
       // what brush shall we use for painting?
@@ -56,14 +58,12 @@ function(defineComponent, WithCanvas, fabric){
     // set the brush used for painting
     this.setBrush = function(e, eObj){
       this.attr.canvas.freeDrawingBrush = eObj.brush.create(this.attr.canvas);
+      this.attr.canvas.freeDrawingBrush.color = this.attr.brush.color;
     };
 
     // set the brush property
     this.setBrushProperty = function(e, eObj){
-      console.log("set brush property");
-      var key = eObj.key;
-      this.attr.canvas.freeDrawingBrush[key] = eObj[key];
-      console.log(this.attr.canvas.freeDrawingBrush.color);
+      this.attr.brush[eObj.key] = eObj[eObj.key];
     };
 
     this.onMouseDown = function(e, eObj){

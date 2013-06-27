@@ -20,11 +20,13 @@ function(defineComponent, WithCanvas, tmpl){
       var cp = this.$node.children("#color-picker"),
           me = this;
 
+      // settings
       cp.spectrum({
         clickoutFiresChange: true,
         showButtons: false,
+        // fire me on color changed
         change: function(color){
-          me.trigger(me.attr.canvasEl, "colorChanged", {
+          me.trigger(document, "colorChanged", {
             key: "color",
             color: color.toHexString()
           });

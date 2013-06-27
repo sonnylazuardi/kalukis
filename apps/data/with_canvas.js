@@ -13,6 +13,7 @@ define(function(){
     this.after("initialize", function(){
       this.on(document, "canvasReady", this.setCanvas);
 
+      // I want to have a reference to the canvas
       this.trigger(document, "canvasRequested");
     });
 
