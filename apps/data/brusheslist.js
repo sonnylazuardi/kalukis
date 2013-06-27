@@ -67,7 +67,9 @@ function(defineComponent){
       var me = this,
           brushModule = "brushes/" + this.attr.brushes.selectedId;
 
-      // load the brush module
+      // load the selected brush module
+      // TODO what should happen when specified brush
+      // cannot be found?
       require([brushModule], function(brush){
         me.trigger(document, "selectedBrushReady", {
           selected: me.attr.brushes.selected,
