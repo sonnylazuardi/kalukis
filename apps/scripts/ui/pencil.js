@@ -8,7 +8,8 @@
 define(function(require){
 
   var defineComponent = require("flight/component"),
-      WithCanvas = require("data/with_canvas");
+      WithCanvas = require("data/with_canvas"),
+      fabric = require("fabric");
 
   return defineComponent(Pencil, WithCanvas);
 

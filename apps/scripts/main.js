@@ -41,7 +41,6 @@ require(
 
 [
   "boots",
-  "fabric",
   "bootstrap",
   "spectrum"
 ],

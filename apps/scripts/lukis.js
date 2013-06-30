@@ -4,7 +4,8 @@
  * this component.
  */
 define(function(require){
-  var defineComponent = require("flight/component");
+  var defineComponent = require("flight/component"),
+      fabric = require("fabric");
 
   return defineComponent(Lukis);
 

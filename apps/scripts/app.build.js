@@ -2,9 +2,10 @@
   appDir: "../",
   baseUrl: "scripts",
   dir: "../../build",
-  modules: [
-    {
-      name: "main"
-    }
-  ]
+  name: "main",
+  mainConfigFile: "main.js",
+  paths: {
+    requireLib: "vendor/requirejs/require"
+  },
+  include: ["requireLib"]
 })
