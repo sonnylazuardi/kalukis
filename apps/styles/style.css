@@ -1,7 +1,7 @@
-@import url("../components/bootstrap/css/bootstrap.min.css");
-@import url("../components/bootstrap/css/bootstrap-responsive.min.css");
-@import url("../components/font-awesome/css/font-awesome.min.css");
-@import url("../components/spectrum/spectrum.css");
+@import url("../scripts/vendor/bootstrap.css/css/bootstrap.min.css");
+@import url("../scripts/vendor/bootstrap.css/css/bootstrap-responsive.min.css");
+@import url("../scripts/vendor/font-awesome/css/font-awesome.min.css");
+@import url("../scripts/vendor/spectrum/spectrum.css");
 
 .left-nav{
   text-align: center;
