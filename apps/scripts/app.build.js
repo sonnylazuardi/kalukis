@@ -7,5 +7,7 @@
   paths: {
     requireLib: "vendor/requirejs/require"
   },
-  include: ["requireLib"]
+  include: ["requireLib"],
+  optimize: "uglify2",
+  skipDirOptimize: true
 })
