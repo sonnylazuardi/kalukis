@@ -8,12 +8,12 @@
 define(function(require){
 
   var defineComponent = require("flight/component"),
-      WithCanvas = require("data/with_canvas"),
+      withCanvas = require("data/with_canvas"),
       fabric = require("fabric");
 
-  return defineComponent(Pencil, WithCanvas);
+  return defineComponent(pencil, withCanvas);
 
-  function Pencil(){
+  function pencil(){
     // defining attributes. Anything defined here
     // can be accessed through `attr` properties.
     this.defaultAttrs({
