@@ -16,6 +16,9 @@ require.config({
     fabric: {
       exports: "fabric"
     },
+    jquery: {
+      exports: "$"
+    },
     "spectrum": ["jquery"],
     "vendor/flight/lib/component": {
       deps: ["jquery"]
@@ -40,12 +43,12 @@ require.config({
 require(
 
 [
-  "boots",
+  "app",
   "bootstrap",
   "spectrum"
 ],
 
-function(boots){
+function(Application){
   // kickstart the application
-  boots();
+  Application.boots();
 });
