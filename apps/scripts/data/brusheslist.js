@@ -1,17 +1,12 @@
 /**
  * This component holds the list of brushes available.
  */
-define(
+define(function(require){
+  var defineComponent = require("flight/component");
 
-[
-  "flight/component"
-],
+  return defineComponent(brushesList);
 
-function(defineComponent){
-
-  return defineComponent(BrushesList);
-
-  function BrushesList(){
+  function brushesList(){
     this.defaultAttrs({
       brushes: {
         defaultBrush: "pencil",

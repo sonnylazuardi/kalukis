@@ -1,18 +1,13 @@
 /**
  * The brush combobox component. It shows the list of brushes available.
  */
-define(
+define(function(require){
+  var defineComponent = require("flight/component"),
+      tmpl = require("hbs!templates/brushescombo");
 
-[
-  "flight/component",
-  "hbs!templates/brushescombo"
-],
+  return defineComponent(brushesCombo);
 
-function(defineComponent, tmpl){
-
-  return defineComponent(BrushesCombo);
-
-  function BrushesCombo(){
+  function brushesCombo(){
     var template = "";
 
     this.defaultAttrs({

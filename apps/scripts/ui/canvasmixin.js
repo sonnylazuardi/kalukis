@@ -1,5 +1,4 @@
-define(["fabric","flight/component"], function(fabric,defineComponent){
-
+define(function(){
   function CanvasMixin(){
     this.defaultAttrs({
       backgroundColor: "#ECF0F1",

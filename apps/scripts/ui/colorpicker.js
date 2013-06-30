@@ -3,17 +3,14 @@
  * initialization, it will add the colorpicker widget to the
  * dom that this component is attached to.
  */
-define(
-[
-  "flight/component",
-  "data/with_canvas",
-  "hbs!templates/colorpicker"
-],
+define(function(require){
+  var defineComponent = require("flight/component"),
+      withCanvas = require("data/with_canvas"),
+      tmpl = require("hbs!templates/colorpicker");
 
-function(defineComponent, WithCanvas, tmpl){
-  return defineComponent(ColorPicker, WithCanvas);
+  return defineComponent(colorPicker, withCanvas);
 
-  function ColorPicker(){
+  function colorPicker(){
     this.after("initialize", function(){
       this.$node.append(tmpl);
 

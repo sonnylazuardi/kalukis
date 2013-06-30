@@ -1,2 +1,3 @@
-components/
+apps/scripts/vendor/
+build/scripts/vendor/
 node_modules/

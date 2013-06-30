@@ -1,0 +1,37 @@
+<html>
+<head>
+  <title>Lukis</title>
+  <link rel="stylesheet" type="text/css" href="styles/main.css">
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="navbar">
+      <div class="navbar-inner">
+        <a href="" class="brand">Lukis</a>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span1">
+        <ul class="left-nav nav nav-tabs nav-stacked">
+          <li id="pencil"><a href="#"><i class="icon-pencil"></i></a></li>
+          <li><a href="#"><i class="icon-check-empty"></i></a></li>
+          <li><a href="#"><i class="icon-circle-blank"></i></a></li>
+          <li><a href="#"><i class="icon-picture"></i></a></li>
+          <li><a href="#"><i class="icon-remove"></i></a></li>
+        </ul>
+      </div>
+      <div class="span8">
+        <canvas id="lukis" width="600" height="600" style="border:1px solid #aaa"></canvas>
+      </div>
+      <div class="span3">
+        <div class="right-side-nav">
+          <div id="brushescombo"></div>
+          <div id="colorpicker"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <script src="scripts/vendor/requirejs/require.js" data-main="scripts/main.js"></script>
+</body>
+</html>

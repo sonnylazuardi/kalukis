@@ -1,10 +1,5 @@
-define(
-
-[
-  "fabric"
-],
-
-function(fabric){
+define(function(require){
+  var fabric = require("fabric");
 
   return {
     create: function(canvas){

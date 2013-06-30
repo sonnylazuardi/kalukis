@@ -5,19 +5,15 @@
  * It does not draw the brushes on the canvas, as that task is delegated
  * to the chosen brush.
  */
-define(
+define(function(require){
 
-[
-  "flight/component",
-  "data/with_canvas",
-  "fabric"
-],
+  var defineComponent = require("flight/component"),
+      withCanvas = require("data/with_canvas"),
+      fabric = require("fabric");
 
-function(defineComponent, WithCanvas, fabric){
+  return defineComponent(pencil, withCanvas);
 
-  return defineComponent(Pencil, WithCanvas);
-
-  function Pencil(){
+  function pencil(){
     // defining attributes. Anything defined here
     // can be accessed through `attr` properties.
     this.defaultAttrs({
