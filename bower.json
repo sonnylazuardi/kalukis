@@ -21,6 +21,7 @@
     "handlebars.js": "~1.0.12"
   },
   "devDependencies": {
-    "flight-jasmine": "~1.0.0"
+    "flight-jasmine": "~1.0.0",
+    "jasmine-jquery": "~1.5.2"
   }
 }
