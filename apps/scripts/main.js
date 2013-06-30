@@ -1,14 +1,14 @@
 require.config({
-  baseUrl: ".",
+  baseUrl: "scripts",
   paths: {
-    fabric: "canvas-libs/fabric",
+    fabric: "canvas-lib/fabric",
     jquery: "vendor/jquery/jquery",
     hbs: "vendor/require-handlebars-plugin/hbs",
     handlebars: "vendor/require-handlebars-plugin/Handlebars",
     underscore: "vendor/require-handlebars-plugin/hbs/underscore",
     json2: "vendor/require-handlebars-plugin/hbs/json2",
     i18nprecompile: "vendor/require-handlebars-plugin/hbs/i18nprecompile",
-    bootstrap: "vendor/bootstrap/js/bootstrap",
+    bootstrap: "vendor/bootstrap.css/js/bootstrap",
     spectrum: "vendor/spectrum/spectrum"
   },
 
