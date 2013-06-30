@@ -5,15 +5,10 @@
  * It does not draw the brushes on the canvas, as that task is delegated
  * to the chosen brush.
  */
-define(
+define(function(require){
 
-[
-  "flight/component",
-  "data/with_canvas",
-  "fabric"
-],
-
-function(defineComponent, WithCanvas, fabric){
+  var defineComponent = require("flight/component"),
+      WithCanvas = require("data/with_canvas");
 
   return defineComponent(Pencil, WithCanvas);
 

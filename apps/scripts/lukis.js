@@ -3,14 +3,8 @@
  * the canvas. The act of drawing is not the responsibility of
  * this component.
  */
-define(
-
-[
-  "fabric",
-  "flight/component"
-],
-
-function(fabric, defineComponent){
+define(function(require){
+  var defineComponent = require("flight/component");
 
   return defineComponent(Lukis);
 

@@ -16,9 +16,6 @@ require.config({
     fabric: {
       exports: "fabric"
     },
-    jquery: {
-      exports: "$"
-    },
     "spectrum": ["jquery"],
     "vendor/flight/lib/component": {
       deps: ["jquery"]
@@ -44,6 +41,7 @@ require(
 
 [
   "boots",
+  "fabric",
   "bootstrap",
   "spectrum"
 ],
