@@ -12,8 +12,7 @@ files = [
   JASMINE_ADAPTER,
   REQUIRE,
   REQUIRE_ADAPTER,
-  'components/jquery/jquery.min.js',
-  {pattern: 'libs/**/*.js', included: false},
+  'tests/test-main.js',
   {pattern: 'apps/**/*.js', included: false},
   {pattern: 'tests/**/*Spec.js', included: false}
 ];
@@ -21,7 +20,7 @@ files = [
 
 // list of files to exclude
 exclude = [
-  
+  "apps/scripts/main.js"
 ];
 
 
