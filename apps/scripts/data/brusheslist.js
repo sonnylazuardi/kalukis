@@ -41,7 +41,7 @@ define(function(require){
       }
 
       this.attr.brushes.selectedId = eObj.brushId;
-      this.attr.brushes.selected = this.findBrush(eObj.brushId);
+      this.attr.brushes.selected = selected;
 
       this.trigger(document, "brushSelectionChanged",{
         brushes: this.attr.brushes
