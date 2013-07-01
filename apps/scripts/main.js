@@ -6,7 +6,9 @@ require.config({
     text: "vendor/requirejs-text/text",
     handlebars: "vendor/handlebars/handlebars",
     bootstrap: "vendor/bootstrap.css/js/bootstrap",
-    spectrum: "vendor/spectrum/spectrum"
+    spectrum: "vendor/spectrum/spectrum",
+    "es5-shim": "vendor/es5-shim/es5-shim",
+    "es5-sham": "vendor/es5-shim/es5-sham"
   },
 
   shim:{
@@ -41,7 +43,9 @@ require(
 [
   "app",
   "bootstrap",
-  "spectrum"
+  "spectrum",
+  "es5-shim",
+  "es5-sham"
 ],
 
 function(Application){
