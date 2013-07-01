@@ -1,11 +1,1 @@
-define(function(require){
-  var Handlebars = require("handlebars");
-
-  return function(){
-    this.renderData = function(data, template){
-      var compiledHtml = Handlebars.compile(template);
-
-      return compiledHtml(data);
-    };
-  };
-});
+define(["require","handlebars"],function(t){var e=t("handlebars");return function(){this.renderData=function(t,i){var n=e.compile(i);return n(t)}}});
