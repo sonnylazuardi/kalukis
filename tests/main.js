@@ -4,8 +4,7 @@ require.config({
   paths: {
     fabric: "canvas-lib/fabric",
     text: "vendor/requirejs-text/text",
-    handlebars: "vendor/handlebars/handlebars",
-    bootstrap: "vendor/bootstrap.css/js/bootstrap"
+    handlebars: "vendor/handlebars/handlebars"
   },
 
   shim:{
