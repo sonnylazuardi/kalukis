@@ -1,9 +1,9 @@
 describeComponent('data/brusheslist', function(){
-  beforeEach(function(){
-    setupComponent();
-  });
-
   describe("Testing brushSelectionChanged event", function(){
+    beforeEach(function(){
+      setupComponent();
+    });
+
     it("Should publish the correct brush that was selected", function(){
       var eventSpy = spyOnEvent(document, "brushSelectionChanged");
 
@@ -24,6 +24,10 @@ describeComponent('data/brusheslist', function(){
   });
 
   describe("Testing selectedBrushReady event", function(){
+    beforeEach(function(){
+      setupComponent();
+    });
+
     it("Should publish the correct brush that was selected", function(){
       var eventSpy = spyOnEvent(document, "selectedBrushReady");
 

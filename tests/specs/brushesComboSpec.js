@@ -14,7 +14,7 @@ describeComponent("ui/brushescombo", function(){
     ]
   };
 
-  describe("Rendering the widget", function(){
+  describe("BrushesCombo widget", function(){
     it("Should be shown", function(){
       $(document).trigger("brushesReady", {brushes: brushes});
 

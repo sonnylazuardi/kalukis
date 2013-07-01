@@ -70,7 +70,7 @@ define(function(require){
           brushModule = "brushes/" + this.attr.brushes.selectedId;
 
       // load the selected brush module
-      // TODO what should happen when specified brush
+      // TODO what should happen when the specified brush
       // cannot be found?
       require([brushModule], function(brush){
         me.trigger(document, "selectedBrushReady", {
