@@ -1,9 +1,1 @@
-define(function(require){
-  var fabric = require("fabric");
-
-  return {
-    create: function(canvas){
-      return new fabric.CircleBrush(canvas);
-    }
-  };
-});
+define(["require","fabric"],function(i){var r=i("fabric");return{create:function(i){return new r.CircleBrush(i)}}});

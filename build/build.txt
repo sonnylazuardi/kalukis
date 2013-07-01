@@ -51,14 +51,6 @@ scripts/vendor/jasmine-jquery/vendor/jasmine/jasmine.css
 ----------------
 scripts/vendor/jasmine-jquery/vendor/jasmine/jasmine.css
 
-scripts/vendor/require-handlebars-plugin/demo/styles/one.css
-----------------
-scripts/vendor/require-handlebars-plugin/demo/styles/one.css
-
-scripts/vendor/require-handlebars-plugin/demo/styles/two.css
-----------------
-scripts/vendor/require-handlebars-plugin/demo/styles/two.css
-
 scripts/vendor/spectrum/docs/bootstrap.css
 ----------------
 scripts/vendor/spectrum/docs/bootstrap.css
@@ -85,7 +77,6 @@ styles/main.css
 
 scripts/main.js
 ----------------
-scripts/vendor/requirejs/require.js
 scripts/vendor/jquery/jquery.js
 scripts/vendor/flight/lib/utils.js
 scripts/vendor/flight/lib/registry.js
