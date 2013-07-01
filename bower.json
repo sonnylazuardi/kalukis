@@ -1,12 +1,14 @@
 {
   "name": "lukis",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "main": "main.js",
   "ignore": [
     "**/.*",
     "node_modules",
     "components",
-    "tests"
+    "tests",
+    "build",
+    "apps/scripts/vendor"
   ],
   "dependencies": {
     "requirejs": "~2.1.6",
