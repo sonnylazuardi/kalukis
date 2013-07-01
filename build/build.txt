@@ -109,6 +109,6 @@ scripts/ui/colorpicker.js
 scripts/app.js
 scripts/vendor/bootstrap.css/js/bootstrap.js
 scripts/vendor/spectrum/spectrum.js
-scripts/main.js
-scripts/vendor/es5-shim/es5-sham.js
 scripts/vendor/es5-shim/es5-shim.js
+scripts/vendor/es5-shim/es5-sham.js
+scripts/main.js
