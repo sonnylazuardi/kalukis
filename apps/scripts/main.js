@@ -1,5 +1,6 @@
 require.config({
   baseUrl: "scripts",
+
   paths: {
     fabric: "canvas-lib/fabric",
     jquery: "vendor/jquery/jquery",

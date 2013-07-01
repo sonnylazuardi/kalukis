@@ -1,5 +1,5 @@
 var tests = Object.keys(window.__karma__.files).filter(function (file) {
-  return (/_spec\.js$/.test(file));
+  return (/Spec\.js$/.test(file));
 });
 
 requirejs.config({
@@ -9,13 +9,11 @@ requirejs.config({
     paths: {
       fabric: "canvas-lib/fabric",
       jquery: "vendor/jquery/jquery",
-      hbs: "vendor/require-handlebars-plugin/hbs",
-      handlebars: "vendor/require-handlebars-plugin/Handlebars",
-      underscore: "vendor/require-handlebars-plugin/hbs/underscore",
-      json2: "vendor/require-handlebars-plugin/hbs/json2",
-      i18nprecompile: "vendor/require-handlebars-plugin/hbs/i18nprecompile",
+      text: "vendor/requirejs-text/text",
+      handlebars: "vendor/handlebars/handlebars",
       bootstrap: "vendor/bootstrap.css/js/bootstrap",
-      spectrum: "vendor/spectrum/spectrum"
+      spectrum: "vendor/spectrum/spectrum",
+      flight: "vendor/flight"
     },
 
     shim:{
@@ -26,19 +24,16 @@ requirejs.config({
         exports: "$"
       },
       "spectrum": ["jquery"],
+      "jasmine-jquery": ["jquery"],
       "vendor/flight/lib/component": {
         deps: ["jquery"]
       },
       bootstrap: {
         deps: ["jquery"]
       },
-      hbs: {
-        deps:["handlebars", "underscore", "i18nprecompile", "json2"]
+      'handlebars': {
+        exports: 'Handlebars'
       }
-    },
-
-    hbs: {
-      disableI18n: true
     },
 
     map: {
@@ -54,4 +49,3 @@ requirejs.config({
     // start test run, once Require.js is done
     callback: window.__karma__.start
 });
-

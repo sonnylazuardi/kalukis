@@ -1,5 +1,5 @@
 // Karma configuration
-// Generated on Mon Jun 24 2013 00:41:02 GMT+0700 (WIT)
+// Generated on Mon Jul 01 2013 11:34:52 GMT+0700 (WIT)
 
 
 // base path, that will be used to resolve files and exclude
@@ -8,20 +8,34 @@ basePath = '';
 
 // list of files / patterns to load in the browser
 files = [
+  // TODO can these dependant libraries be loaded
+  // by setting them in the deps key in requirejs config?
+  'apps/scripts/vendor/es5-shim/es5-shim.js',
+  'apps/scripts/vendor/es5-shim/es5-sham.js',
+  'apps/scripts/vendor/jquery/jquery.js',
+
   JASMINE,
   JASMINE_ADAPTER,
   REQUIRE,
   REQUIRE_ADAPTER,
-  'tests/test-main.js',
+
+  'apps/scripts/vendor/jasmine-jquery/lib/jasmine-jquery.js',
   'apps/scripts/vendor/flight-jasmine/lib/flight-jasmine.js',
-  {pattern: 'apps/scripts/**/*.js', included: false},
-  {pattern: 'tests/**/*Spec.js', included: false}
+
+  {pattern: 'apps/**/*.js', included: false},
+  {pattern: 'tests/**/*Spec.js', included: false},
+
+  'tests/test-main.js',
 ];
 
 
 // list of files to exclude
 exclude = [
-  "apps/scripts/main.js"
+  'apps/scripts/main.js',
+  'apps/scripts/app.js',
+  'apps/scripts/app.build.js',
+  'apps/index.html',
+  'apps/scripts/vendor/**/*Spec.js'
 ];
 
 
