@@ -6,13 +6,14 @@
 define(function(require){
   var defineComponent = require("flight/component"),
       withCanvas = require("data/with_canvas"),
-      tmpl = require("hbs!templates/colorpicker");
+      withHandleBars = require("ui/with_handlebars"),
+      tmpl = require("text!templates/colorpicker.hbs");
 
-  return defineComponent(colorPicker, withCanvas);
+  return defineComponent(colorPicker, withCanvas, withHandleBars);
 
   function colorPicker(){
     this.after("initialize", function(){
-      this.$node.append(tmpl);
+      this.$node.append(this.renderData({}, tmpl));
 
       var cp = this.$node.children("#color-picker"),
           me = this;

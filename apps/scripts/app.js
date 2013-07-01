@@ -6,7 +6,7 @@ define(function(require){
   var lukis = require("lukis"),
       pencil = require("ui/pencil"),
       brushesCombo = require("ui/brushescombo"),
-      brushesList = require("data/brusheslist");
+      brushesList = require("data/brusheslist"),
       colorPicker = require("ui/colorpicker");
 
   function boots(){
