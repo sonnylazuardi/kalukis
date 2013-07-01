@@ -1,6 +1,6 @@
 {
   "name": "lukis",
-  "version": "0.0.1",
+  "version": "0.1.5",
   "main": "main.js",
   "ignore": [
     "**/.*",
@@ -17,8 +17,7 @@
     "flight": "~1.0.9",
     "spectrum": "~1.1.1",
     "requirejs-text": "~2.0.7",
-    "require-handlebars-plugin": "~0.4.0",
-    "handlebars.js": "~1.0.12"
+    "handlebars": "~1.0.0"
   },
   "devDependencies": {
     "flight-jasmine": "~1.0.0",

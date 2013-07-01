@@ -3,13 +3,12 @@ require.config({
   paths: {
     fabric: "canvas-lib/fabric",
     jquery: "vendor/jquery/jquery",
-    hbs: "vendor/require-handlebars-plugin/hbs",
-    handlebars: "vendor/require-handlebars-plugin/Handlebars",
-    underscore: "vendor/require-handlebars-plugin/hbs/underscore",
-    json2: "vendor/require-handlebars-plugin/hbs/json2",
-    i18nprecompile: "vendor/require-handlebars-plugin/hbs/i18nprecompile",
+    text: "vendor/requirejs-text/text",
+    handlebars: "vendor/handlebars/handlebars",
     bootstrap: "vendor/bootstrap.css/js/bootstrap",
-    spectrum: "vendor/spectrum/spectrum"
+    spectrum: "vendor/spectrum/spectrum",
+    "es5-shim": "vendor/es5-shim/es5-shim",
+    "es5-sham": "vendor/es5-shim/es5-sham"
   },
 
   shim:{
@@ -25,11 +24,10 @@ require.config({
     },
     bootstrap: {
       deps: ["jquery"]
+    },
+    'handlebars': {
+      exports: 'Handlebars'
     }
-  },
-
-  hbs: {
-    disableI18n: true
   },
 
   map: {
@@ -45,7 +43,9 @@ require(
 [
   "app",
   "bootstrap",
-  "spectrum"
+  "spectrum",
+  "es5-shim",
+  "es5-sham"
 ],
 
 function(Application){
