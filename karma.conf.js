@@ -10,16 +10,15 @@ basePath = '';
 files = [
   // TODO can these dependant libraries be loaded
   // by setting them in the deps key in requirejs config?
+  'apps/scripts/vendor/jquery/jquery.js',
   'apps/scripts/vendor/es5-shim/es5-shim.js',
   'apps/scripts/vendor/es5-shim/es5-sham.js',
-  'apps/scripts/vendor/jquery/jquery.js',
 
   JASMINE,
   JASMINE_ADAPTER,
   REQUIRE,
   REQUIRE_ADAPTER,
 
-  'tests/flight.js',
   'apps/scripts/vendor/jasmine-jquery/lib/jasmine-jquery.js',
   'apps/scripts/vendor/flight-jasmine/lib/flight-jasmine.js',
 
@@ -74,7 +73,7 @@ autoWatch = true;
 // - Safari (only Mac)
 // - PhantomJS
 // - IE (only Windows)
-browsers = ['firefox', 'chromium'];
+browsers = ['Firefox'];
 
 
 // If browser does not capture in given timeout [ms], kill it
