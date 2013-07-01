@@ -13,7 +13,8 @@ files = [
   REQUIRE,
   REQUIRE_ADAPTER,
   'tests/test-main.js',
-  {pattern: 'apps/**/*.js', included: false},
+  'apps/scripts/vendor/flight-jasmine/lib/flight-jasmine.js',
+  {pattern: 'apps/scripts/**/*.js', included: false},
   {pattern: 'tests/**/*Spec.js', included: false}
 ];
 

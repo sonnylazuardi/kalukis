@@ -3,9 +3,10 @@
  */
 define(function(require){
   var defineComponent = require("flight/component"),
-      tmpl = require("hbs!templates/brushescombo");
+      withHandleBars = require("ui/with_handlebars"),
+      tmpl = require("text!templates/brushescombo.hbs");
 
-  return defineComponent(brushesCombo);
+  return defineComponent(brushesCombo, withHandleBars);
 
   function brushesCombo(){
     var template = "";
@@ -32,7 +33,7 @@ define(function(require){
 
     // update our brushes after data changes
     this.updateBrushes = function(e, eObj){
-      var widget = tmpl(eObj.brushes);
+      var widget = this.renderData(eObj.brushes, tmpl);
 
       // TODO find a better way to update the brushes and the selected
       // brush. The current implementation I think is horrible, because
