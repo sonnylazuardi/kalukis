@@ -43,7 +43,8 @@ require.config({
 require(
 
 [
-  "specs/brushesListSpec"
+  "specs/brushesListSpec",
+  "specs/brushesComboSpec"
 ],
 
 function(require){

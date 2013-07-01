@@ -6,12 +6,11 @@ describeComponent('data/brusheslist', function(){
   describe("Testing brushSelectionChanged event", function(){
     it("Should publish the correct brush that was selected", function(){
       var eventSpy = spyOnEvent(document, "brushSelectionChanged");
-      $(document).trigger("brushClicked", {brushId:"pencilBrush"});
 
+      $(document).trigger("brushClicked", {brushId:"pencilBrush"});
       expect(eventSpy).toHaveBeenTriggeredOn(document);
 
       var publishedBrush = eventSpy.mostRecentCall.data.brushes;
-
       expect(publishedBrush.selected).toEqual("pencil");
       expect(publishedBrush.selectedId).toEqual("pencilBrush");
     });
@@ -20,7 +19,6 @@ describeComponent('data/brusheslist', function(){
       var eventSpy = spyOnEvent(document, "brushSelectionChanged");
 
       $(document).trigger("brushClicked", {brushId:"xxxBrush"});
-
       expect(eventSpy).not.toHaveBeenTriggeredOn(document);
     });
   });
@@ -28,12 +26,11 @@ describeComponent('data/brusheslist', function(){
   describe("Testing selectedBrushReady event", function(){
     it("Should publish the correct brush that was selected", function(){
       var eventSpy = spyOnEvent(document, "selectedBrushReady");
-      $(document).trigger("brushClicked", {brushId:"circleBrush"});
 
+      $(document).trigger("brushClicked", {brushId:"circleBrush"});
       expect(eventSpy).toHaveBeenTriggeredOn(document);
 
       // var publishedBrush = eventSpy.mostRecentCall.data;
-
       // expect(publishedBrush.selected).toEqual("pencil");
       // expect(publishedBrush.selectedId).toEqual("pencilBrush");
     });
@@ -42,7 +39,6 @@ describeComponent('data/brusheslist', function(){
       var eventSpy = spyOnEvent(document, "selectedBrushReady");
 
       $(document).trigger("brushClicked", {brushId:"xxxBrush"});
-
       expect(eventSpy).not.toHaveBeenTriggeredOn(document);
     });
   });
