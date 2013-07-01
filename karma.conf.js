@@ -19,6 +19,7 @@ files = [
   REQUIRE,
   REQUIRE_ADAPTER,
 
+  'tests/flight.js',
   'apps/scripts/vendor/jasmine-jquery/lib/jasmine-jquery.js',
   'apps/scripts/vendor/flight-jasmine/lib/flight-jasmine.js',
 
@@ -73,7 +74,7 @@ autoWatch = true;
 // - Safari (only Mac)
 // - PhantomJS
 // - IE (only Windows)
-browsers = ['PhantomJS'];
+browsers = ['firefox', 'chromium'];
 
 
 // If browser does not capture in given timeout [ms], kill it

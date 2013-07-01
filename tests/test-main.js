@@ -12,8 +12,7 @@ requirejs.config({
       text: "vendor/requirejs-text/text",
       handlebars: "vendor/handlebars/handlebars",
       bootstrap: "vendor/bootstrap.css/js/bootstrap",
-      spectrum: "vendor/spectrum/spectrum",
-      flight: "vendor/flight"
+      spectrum: "vendor/spectrum/spectrum"
     },
 
     shim:{
