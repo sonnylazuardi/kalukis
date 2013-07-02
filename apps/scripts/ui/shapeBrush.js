@@ -84,7 +84,7 @@ define(function(require){
         width: width
       });
 
-      this.attr.canvas.renderAll();
+      this.renderPaintOutline(ox,oy, width, height);
     };
 
     this.onMouseUp = function(e, eObj){
@@ -94,6 +94,19 @@ define(function(require){
       this.attr.canvas.renderAll();
 
       this.createShapeBrush();
+    };
+
+    // a method to just render the paint outline. this should
+    // make painting shapes faster
+    this.renderPaintOutline = function(x, y, width, height){
+      var ctx = this.attr.canvas.contextTop;
+      ctx.save();
+
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = this.attr.brush.color;
+      ctx.strokeRect(x, y, width, height);
+
+      ctx.restore();
     };
 
     this.createShapeBrush = function(e, eObj){
@@ -129,6 +142,7 @@ define(function(require){
       this.releaseInitHandlers();
       this.releasePaintHandlers();
 
+      this.attr.canvas.clearContext(this.attr.canvas.contextTop);
       this.attr.canvas.selection = true;
     };
   }
