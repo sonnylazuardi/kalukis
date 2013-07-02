@@ -13,10 +13,29 @@ define(function(require){
       this.on("click", this.onClick);
     });
 
-    this.onClick = function(e, eObj){
+    this.setInitHandlers = function(){
       this.on(document, "canvasMouseDown", this.onMouseDown);
       this.on(document, "releasHandlersRequested", this.releaseHandlers);
       this.on(document, "selectedBrushReady", this.setBrush);
+    };
+
+    this.setPaintHandlers = function(){
+      this.on(document, "canvasMouseMove", this.onMouseMove);
+      this.on(document, "canvasMouseUp", this.onMouseUp);
+    };
+
+    this.releaseInitHandlers = function(){
+      this.off(document, "canvasMouseDown");
+      this.off(document, "releasHandlersRequested");
+    };
+
+    this.releasePaintHandlers = function(){
+      this.off(document, "canvasMouseMove");
+      this.off(document, "canvasMouseUp");
+    };
+
+    this.onClick = function(e, eObj){
+      this.setInitHandlers();
 
       this.trigger(document, "paintRequested");
       this.trigger(document, "selectedBrushRequested");
@@ -36,8 +55,7 @@ define(function(require){
 
       this.attr.canvas.add(rect).renderAll();
 
-      this.on(document, "canvasMouseMove", this.onMouseMove);
-      this.on(document, "canvasMouseUp", this.onMouseUp);
+      this.setPaintHandlers();
     };
 
     this.onMouseMove = function(e, eObj){
@@ -56,7 +74,7 @@ define(function(require){
         height: height,
         width: width
       });
-      console.log("rendered");
+
       this.attr.canvas.renderTop();
     };
 
@@ -64,20 +82,9 @@ define(function(require){
       this.trigger(document, "paintStopRequested");
       this.releaseHandlers();
 
-      rect.setCoords();
       this.attr.canvas.renderAll();
 
       this.createShapeBrush();
-    };
-
-    // set painting off
-    this.releaseHandlers = function(){
-      this.off(document, "canvasMouseDown");
-      this.off(document, "canvasMouseMove");
-      this.off(document, "canvasMouseUp");
-
-      this.off(document, "releasHandlersRequested");
-      this.off(document, "selectedBrushReady");
     };
 
     this.createShapeBrush = function(e, eObj){
@@ -98,13 +105,10 @@ define(function(require){
       this.attr.brushId = eObj.selectedId;
     };
 
-    this.getFlooredPosition = function(point){
-      var p = this.attr.canvas.getPointer(point);
-
-      return {
-        x: Math.floor(p.x),
-        y: Math.floor(p.y)
-      };
+    // set painting off
+    this.releaseHandlers = function(){
+      this.releaseInitHandlers();
+      this.releasePaintHandlers();
     };
   }
 });

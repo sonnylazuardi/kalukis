@@ -27,21 +27,39 @@ define(function(require){
     // set events handler
     this.after("initialize", function(){
       this.on("click", this.onClick);
+    });
 
+    this.setInitHandlers = function(){
+      this.on(document, "releasHandlersRequested", this.releaseHandlers);
       this.on(document, "selectedBrushReady", this.setBrush);
       this.on(document, "colorChanged", this.setBrushProperty);
-    });
+    };
+
+    this.setPaintHandlers = function(){
+
+    };
+
+    this.releaseInitHandlers = function(){
+      this.off(document, "paintPreparationReady");
+
+      this.off(document, "releasHandlersRequested");
+      this.off(document, "selectedBrushReady");
+      this.off(document, "colorChanged");
+    };
+
+    this.releasePaintHandlers = function(){
+      this.off(document, "canvasMouseDown");
+    };
 
     // the steps required before painting
     this.init = function(e, eObj){
       this.attr.canvas.isDrawingMode = true;
-      this.on(document, "releasHandlersRequested", this.releaseHandlers);
-
       // what brush shall we use for painting?
       this.trigger(document, "selectedBrushRequested");
     };
 
     this.onClick = function(){
+      this.setInitHandlers();
       // we need to change the brush when a new one is ready to be used
       // we need to initialize our painting action
       this.on(document, "paintPreparationReady", this.init);
@@ -63,13 +81,8 @@ define(function(require){
 
     // set painting off
     this.releaseHandlers = function(){
-      this.off(document, "canvasMouseDown");
-
-      this.off(document, "releasHandlersRequested");
-      // this.off(document, "selectedBrushReady", this.setBrush);
-      // this.off(document, "colorChanged", this.setBrushProperty);
-
-      this.off(document, "paintPreparationReady", this.init);
+      this.releaseInitHandlers();
+      this.releasePaintHandlers();
 
       this.attr.canvas.isDrawingMode = false;
     };

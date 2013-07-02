@@ -46,7 +46,6 @@ define(function(require){
         },
         // trigger this when canvas' mouse:move is fired
         onMouseMove: function(e){
-          console.log("here");
           me.trigger(document, "canvasMouseMove", e);
         }
       };
