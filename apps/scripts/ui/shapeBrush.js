@@ -9,6 +9,12 @@ define(function(require){
 
   function shapeBrush(){
 
+    this.defaultAttrs({
+      brush: {
+        color: "#000000"
+      }
+    });
+
     this.after("initialize", function(){
       this.on("click", this.onClick);
     });
@@ -17,6 +23,7 @@ define(function(require){
       this.on(document, "canvasMouseDown", this.onMouseDown);
       this.on(document, "releasHandlersRequested", this.releaseHandlers);
       this.on(document, "selectedBrushReady", this.setBrush);
+      this.on(document, "colorChanged", this.setBrushProperty);
     };
 
     this.setPaintHandlers = function(){
@@ -96,9 +103,15 @@ define(function(require){
           x: rect.get('oCoords').tl.x,
           y: rect.get('oCoords').tl.y,
           width: rect.get('width'),
-          height: rect.get('height')
+          height: rect.get('height'),
+          color: me.attr.brush.color
         });
       });
+    };
+
+    this.setBrushProperty = function(e, eObj){
+      this.attr.brush[eObj.key] = eObj[eObj.key];
+      this.attr.canvas.freeDrawingBrush[eObj.key] = eObj[eObj.key];
     };
 
     this.setBrush = function(e, eObj){

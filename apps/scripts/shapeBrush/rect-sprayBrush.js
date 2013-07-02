@@ -7,6 +7,8 @@ define(function(require){
         outline = getOutline(sb, cfg.x, cfg.y, cfg.width, cfg.height),
         outlineLength = outline.length;
 
+    sb.color = cfg.color || "#000000";
+
     for (var i = 0; i < outlineLength; i++){
       sb.addSprayChunk(outline[i]);
     }

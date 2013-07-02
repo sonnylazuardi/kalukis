@@ -67,7 +67,6 @@ define(function(require){
 
     // unsubscribe from canvas' events
     this.releaseHandlers = function(e, eObj){
-      console.log("stopped");
       var canvas = this.attr.canvas;
 
       canvas.off("mouse:down", this.paintHandlers.onMouseDown);
