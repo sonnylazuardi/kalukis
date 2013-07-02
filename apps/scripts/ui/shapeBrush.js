@@ -58,7 +58,7 @@ define(function(require){
         left: point.x,
         width: 1,
         height: 1,
-        stroke: "#000000",
+        stroke: this.attr.brush.color,
         fill: null
       });
 
