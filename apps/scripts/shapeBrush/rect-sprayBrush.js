@@ -17,24 +17,27 @@ define(function(require){
 
   // TODO is there a better formula to attain this?
   function getOutline(sb, x, y, width, height){
-    var points = [];
+    var points = [],
+        sbWidth = sb.width,
+        wLength = x + width,
+        hLength = y + height;
     // get top
-    for (var i = x; i < x + width; i+= sb.width){
+    for (var i = x; i < wLength; i+= sbWidth){
       points.push({x: i, y: y});
     }
 
     // get left
-    for (i = y; i < y + height; i += sb.width){
+    for (i = y; i < hLength; i += sbWidth){
       points.push({x: x, y: i});
     }
 
     // get bottom
-    for (i = x; i < x + width; i += sb.width){
+    for (i = x; i < wLength; i += sbWidth){
       points.push({x: i, y: y + height});
     }
 
     // get right
-    for (i = y + height; i >= y; i -= sb.width){
+    for (i = hLength; i >= y; i -= sbWidth){
       points.push({x: x + width, y: i});
     }
 
