@@ -3,7 +3,6 @@ define(function(require){
   var defineComponent = require("flight/component"),
       withCanvas = require("data/with_canvas"),
       fabric = require("fabric"),
-      rectSpray = require("shapeBrush/rectSpray"),
       rect;
 
   return defineComponent(shapeBrush, withCanvas);
@@ -12,16 +11,15 @@ define(function(require){
 
     this.after("initialize", function(){
       this.on("click", this.onClick);
-
-      // this.on(document, "selectedBrushReady", this.setBrush);
-      // this.on(document, "colorChanged", this.setBrushProperty);
     });
 
     this.onClick = function(e, eObj){
       this.on(document, "canvasMouseDown", this.onMouseDown);
       this.on(document, "releasHandlersRequested", this.releaseHandlers);
+      this.on(document, "selectedBrushReady", this.setBrush);
 
       this.trigger(document, "paintRequested");
+      this.trigger(document, "selectedBrushRequested");
     };
 
     this.onMouseDown = function(e, eObj){
@@ -37,9 +35,9 @@ define(function(require){
       });
 
       this.attr.canvas.add(rect).renderAll();
+
       this.on(document, "canvasMouseMove", this.onMouseMove);
       this.on(document, "canvasMouseUp", this.onMouseUp);
-      console.log(point.x, point.y, rect.get('oCoords').tl.x, rect.get('oCoords').tl.y);
     };
 
     this.onMouseMove = function(e, eObj){
@@ -76,12 +74,21 @@ define(function(require){
     };
 
     this.createShapeBrush = function(e, eObj){
-      rectSpray.create(this.attr.canvas, {
-        x: rect.get('oCoords').tl.x,
-        y: rect.get('oCoords').tl.y,
-        width: rect.get('width'),
-        height: rect.get('height')
+      var brushModule = "shapeBrush/rect-"+this.attr.brushId,
+          me = this;
+
+      require([brushModule], function(brush){
+        brush.create(me.attr.canvas, {
+          x: rect.get('oCoords').tl.x,
+          y: rect.get('oCoords').tl.y,
+          width: rect.get('width'),
+          height: rect.get('height')
+        });
       });
+    };
+
+    this.setBrush = function(e, eObj){
+      this.attr.brushId = eObj.selectedId;
     };
 
     this.getFlooredPosition = function(point){

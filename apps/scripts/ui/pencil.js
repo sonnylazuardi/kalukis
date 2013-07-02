@@ -42,8 +42,6 @@ define(function(require){
     };
 
     this.onClick = function(){
-      // TODO move this to a seperate component
-
       // we need to change the brush when a new one is ready to be used
       // we need to initialize our painting action
       this.on(document, "paintPreparationReady", this.init);
