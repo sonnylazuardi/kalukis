@@ -106,6 +106,9 @@ define(function(require){
           height: rect.get('height'),
           color: me.attr.brush.color
         });
+
+        me.attr.canvas.remove(rect);
+        rect = null;
       });
     };
 
