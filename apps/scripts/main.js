@@ -6,7 +6,7 @@ require.config({
     jquery: "vendor/jquery/jquery",
     text: "vendor/requirejs-text/text",
     handlebars: "vendor/handlebars/handlebars",
-    bootstrap: "vendor/bootstrap.css/js/bootstrap",
+    "bootstrap-dropdown": "vendor/bootstrap/js/bootstrap-dropdown",
     spectrum: "vendor/spectrum/spectrum",
     "es5-shim": "vendor/es5-shim/es5-shim",
     "es5-sham": "vendor/es5-shim/es5-sham"
@@ -23,7 +23,7 @@ require.config({
     "vendor/flight/lib/component": {
       deps: ["jquery"]
     },
-    bootstrap: {
+    "bootstrap-dropdown": {
       deps: ["jquery"]
     },
     'handlebars': {
@@ -43,7 +43,7 @@ require(
 
 [
   "app",
-  "bootstrap",
+  "bootstrap-dropdown",
   "spectrum",
   "es5-shim",
   "es5-sham"

@@ -12,6 +12,7 @@
   ],
   "dependencies": {
     "requirejs": "~2.1.6",
+    "bootstrap": "~2.1.1",
     "bootstrap.css": "~2.1.1",
     "font-awesome": "~3.2.1",
     "jquery": "~2.0.2",
