@@ -5,20 +5,17 @@ define(function(require){
   function createRectSpray(canvas, cfg){
     var sb = sprayBrush.create(canvas),
         i = cfg.x,
-        j = cfg.y,
-        width = cfg.width,
-        height = cfg.height;
+        j,
+        width = i + cfg.width,
+        height = cfg.y + cfg.height;
 
-    for (; i <= width; i++) {
-      for (; j <= height; j++){
-        sb.addSprayChunk({
-          x: i,
-          y: j
-        });
-        sb.render();
-        sb.onMouseUp();
+    for (; i <= width; i += sb.width) {
+      for (j = cfg.y; j <= height; j += sb.width){
+        sb.addSprayChunk({x: i, y: j});
       }
     }
+    sb.render();
+    sb.onMouseUp();
   }
 
   return {
