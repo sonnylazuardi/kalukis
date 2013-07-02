@@ -46,6 +46,7 @@ define(function(require){
         },
         // trigger this when canvas' mouse:move is fired
         onMouseMove: function(e){
+          console.log("here");
           me.trigger(document, "canvasMouseMove", e);
         }
       };
@@ -62,10 +63,12 @@ define(function(require){
       canvas.on("mouse:up", this.paintHandlers.onMouseUp);
       canvas.on("mouse:move", this.paintHandlers.onMouseMove);
       this.on(document, "keydown", this.onKeyDown);
+      this.on(document, "paintStopRequested", this.releaseHandlers);
     };
 
     // unsubscribe from canvas' events
     this.releaseHandlers = function(e, eObj){
+      console.log("stopped");
       var canvas = this.attr.canvas;
 
       canvas.off("mouse:down", this.paintHandlers.onMouseDown);

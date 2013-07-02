@@ -56,11 +56,14 @@ define(function(require){
         height: height,
         width: width
       });
-
-      this.attr.canvas.renderAll();
+      console.log("rendered");
+      this.attr.canvas.renderTop();
     };
 
     this.onMouseUp = function(e, eObj){
+      this.trigger(document, "paintStopRequested");
+      this.releaseHandlers();
+
       rect.setCoords();
       this.attr.canvas.renderAll();
 
@@ -69,8 +72,12 @@ define(function(require){
 
     // set painting off
     this.releaseHandlers = function(){
+      this.off(document, "canvasMouseDown");
       this.off(document, "canvasMouseMove");
       this.off(document, "canvasMouseUp");
+
+      this.off(document, "releasHandlersRequested");
+      this.off(document, "selectedBrushReady");
     };
 
     this.createShapeBrush = function(e, eObj){

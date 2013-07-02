@@ -45,8 +45,6 @@ define(function(require){
       // we need to change the brush when a new one is ready to be used
       // we need to initialize our painting action
       this.on(document, "paintPreparationReady", this.init);
-      this.on(document, "canvasMouseMove", this.onMouseMove);
-      this.on(document, "canvasMouseUp", this.onMouseUp);
 
       this.trigger(document, "paintRequested");
     };
@@ -63,22 +61,16 @@ define(function(require){
       this.attr.canvas.freeDrawingBrush[eObj.key] = eObj[eObj.key];
     };
 
-    this.onMouseDown = function(e, eObj){
-    };
-
-    this.onMouseMove = function(e, eObj){
-    };
-
-    /**
-     * Unsubscribe from canvas events
-     */
-    this.onMouseUp = function(e, eObj){
-    };
-
     // set painting off
     this.releaseHandlers = function(){
-      this.off(document, "canvasMouseMove");
-      this.off(document, "canvasMouseUp");
+      this.off(document, "canvasMouseDown");
+
+      this.off(document, "releasHandlersRequested");
+      // this.off(document, "selectedBrushReady", this.setBrush);
+      // this.off(document, "colorChanged", this.setBrushProperty);
+
+      this.off(document, "paintPreparationReady", this.init);
+
       this.attr.canvas.isDrawingMode = false;
     };
   }
