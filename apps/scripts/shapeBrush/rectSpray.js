@@ -4,18 +4,41 @@ define(function(require){
 
   function createRectSpray(canvas, cfg){
     var sb = sprayBrush.create(canvas),
-        i = cfg.x,
-        j,
-        width = i + cfg.width,
-        height = cfg.y + cfg.height;
+        outline = getOutline(sb, cfg.x, cfg.y, cfg.width, cfg.height),
+        outlineLength = outline.length;
 
-    for (; i <= width; i += sb.width) {
-      for (j = cfg.y; j <= height; j += sb.width){
-        sb.addSprayChunk({x: i, y: j});
-      }
+    for (var i = 0; i < outlineLength; i++){
+      sb.addSprayChunk(outline[i]);
     }
+
     sb.render();
     sb.onMouseUp();
+  }
+
+  // TODO is there a better formula to attain this?
+  function getOutline(sb, x, y, width, height){
+    var points = [];
+    // get top
+    for (var i = x; i < x + width; i+= sb.width){
+      points.push({x: i, y: y});
+    }
+
+    // get left
+    for (i = y; i < y + height; i += sb.width){
+      points.push({x: x, y: i});
+    }
+
+    // get bottom
+    for (i = x; i < x + width; i += sb.width){
+      points.push({x: i, y: y + height});
+    }
+
+    // get right
+    for (i = y + height; i >= y; i -= sb.width){
+      points.push({x: x + width, y: i});
+    }
+
+    return points;
   }
 
   return {
