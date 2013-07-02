@@ -17,13 +17,13 @@ define(function(require){
 
     this.after("initialize", function(){
       this.on("click", this.onClick);
+      this.on(document, "colorChanged", this.setBrushProperty);
     });
 
     this.setInitHandlers = function(){
       this.on(document, "canvasMouseDown", this.onMouseDown);
       this.on(document, "releasHandlersRequested", this.releaseHandlers);
       this.on(document, "selectedBrushReady", this.setBrush);
-      this.on(document, "colorChanged", this.setBrushProperty);
     };
 
     this.setPaintHandlers = function(){

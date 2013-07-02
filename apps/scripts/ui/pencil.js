@@ -27,12 +27,12 @@ define(function(require){
     // set events handler
     this.after("initialize", function(){
       this.on("click", this.onClick);
+      this.on(document, "colorChanged", this.setBrushProperty);
     });
 
     this.setInitHandlers = function(){
       this.on(document, "releasHandlersRequested", this.releaseHandlers);
       this.on(document, "selectedBrushReady", this.setBrush);
-      this.on(document, "colorChanged", this.setBrushProperty);
     };
 
     this.setPaintHandlers = function(){
@@ -44,7 +44,6 @@ define(function(require){
 
       this.off(document, "releasHandlersRequested");
       this.off(document, "selectedBrushReady");
-      this.off(document, "colorChanged");
     };
 
     this.releasePaintHandlers = function(){
