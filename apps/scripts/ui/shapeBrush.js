@@ -100,6 +100,7 @@ define(function(require){
       var brushModule = "shapeBrush/rect-"+this.attr.brushId,
           me = this;
 
+      // TODO what should happen when the brush cannot be loaded?
       require([brushModule], function(brush){
         brush.create(me.attr.canvas, {
           x: rect.get('oCoords').tl.x,
