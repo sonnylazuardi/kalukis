@@ -44,6 +44,8 @@ define(function(require){
     this.onClick = function(e, eObj){
       this.setInitHandlers();
 
+      this.attr.canvas.selection = false;
+
       this.trigger(document, "paintRequested");
       this.trigger(document, "selectedBrushRequested");
     };
@@ -82,7 +84,7 @@ define(function(require){
         width: width
       });
 
-      this.attr.canvas.renderTop();
+      this.attr.canvas.renderAll();
     };
 
     this.onMouseUp = function(e, eObj){
@@ -125,6 +127,8 @@ define(function(require){
     this.releaseHandlers = function(){
       this.releaseInitHandlers();
       this.releasePaintHandlers();
+
+      this.attr.canvas.selection = true;
     };
   }
 });
