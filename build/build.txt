@@ -113,9 +113,6 @@ scripts/vendor/spectrum/test/qunit.css
 
 styles/main.css
 ----------------
-styles/../scripts/vendor/bootstrap.css/css/bootstrap.min.css
-styles/../scripts/vendor/bootstrap.css/css/bootstrap-responsive.min.css
-styles/../scripts/vendor/font-awesome/css/font-awesome.min.css
 styles/../scripts/vendor/spectrum/spectrum.css
 styles/main.css
 
