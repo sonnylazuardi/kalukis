@@ -34,8 +34,14 @@ define(function(require){
     };
 
     this.onBrushClicked = function(e, eObj){
+      var selected = this.findBrush(eObj.brushId);
+
+      if (!selected){
+        return;
+      }
+
       this.attr.brushes.selectedId = eObj.brushId;
-      this.attr.brushes.selected = this.findBrush(eObj.brushId);
+      this.attr.brushes.selected = selected;
 
       this.trigger(document, "brushSelectionChanged",{
         brushes: this.attr.brushes
@@ -64,7 +70,7 @@ define(function(require){
           brushModule = "brushes/" + this.attr.brushes.selectedId;
 
       // load the selected brush module
-      // TODO what should happen when specified brush
+      // TODO what should happen when the specified brush
       // cannot be found?
       require([brushModule], function(brush){
         me.trigger(document, "selectedBrushReady", {

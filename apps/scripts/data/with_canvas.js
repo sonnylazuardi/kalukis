@@ -7,7 +7,8 @@ define(function(){
 
   function withCanvas(){
     this.defaultAttrs({
-      canvas: ""
+      canvas: "",
+      canvasEl: ""
     });
 
     this.after("initialize", function(){

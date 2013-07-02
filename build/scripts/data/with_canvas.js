@@ -1,1 +1,1 @@
-define([],function(){function t(){this.defaultAttrs({canvas:""}),this.after("initialize",function(){this.on(document,"canvasReady",this.setCanvas),this.trigger(document,"canvasRequested")}),this.setCanvas=function(t,e){this.attr.canvas=e.canvas}}return t});
+define([],function(){function t(){this.defaultAttrs({canvas:"",canvasEl:""}),this.after("initialize",function(){this.on(document,"canvasReady",this.setCanvas),this.trigger(document,"canvasRequested")}),this.setCanvas=function(t,e){this.attr.canvas=e.canvas}}return t});
