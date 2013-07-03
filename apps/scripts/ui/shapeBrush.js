@@ -81,8 +81,8 @@ define(function(require){
       this.createShapeBrush();
     };
 
-    // a method to just render the paint outline. this should
-    // make painting shapes faster
+    // a method to just render the paint outline. This should
+    // make painting faster
     this.renderPaintOutline = function(x, y, width, height){
       var ctx = this.attr.canvas.contextTop;
       ctx.save();

@@ -1,6 +1,5 @@
 define(function(require){
-  var fabric = require("fabric"),
-      rectOutline = require("utils/rectOutline"),
+  var rectOutline = require("utils/rectOutline"),
       circleBrush = require("brushes/circleBrush");
 
   function createCircleSpray(canvas, cfg){

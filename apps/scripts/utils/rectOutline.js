@@ -1,4 +1,6 @@
 define(function(){
+  // TODO is there a better way, in term of performance,
+  // to calculate this?
   return function(brush, x, y, width, height){
     var points = [],
         sbWidth = brush.width,
