@@ -1,10 +1,11 @@
 define(function(require){
   var fabric = require("fabric"),
+      rectOutline = require("utils/rectOutline"),
       sprayBrush = require("brushes/sprayBrush");
 
   function createRectSpray(canvas, cfg){
     var sb = sprayBrush.create(canvas),
-        outline = getOutline(sb, cfg.x, cfg.y, cfg.width, cfg.height),
+        outline = rectOutline(sb, cfg.x, cfg.y, cfg.width, cfg.height),
         outlineLength = outline.length;
 
     sb.color = cfg.color || "#000000";
@@ -15,35 +16,6 @@ define(function(require){
 
     sb.render();
     sb.onMouseUp();
-  }
-
-  // TODO is there a better formula to attain this?
-  function getOutline(sb, x, y, width, height){
-    var points = [],
-        sbWidth = sb.width,
-        wLength = x + width,
-        hLength = y + height;
-    // get top
-    for (var i = x; i < wLength; i+= sbWidth){
-      points.push({x: i, y: y});
-    }
-
-    // get left
-    for (i = y; i < hLength; i += sbWidth){
-      points.push({x: x, y: i});
-    }
-
-    // get bottom
-    for (i = x; i < wLength; i += sbWidth){
-      points.push({x: i, y: y + height});
-    }
-
-    // get right
-    for (i = hLength; i >= y; i -= sbWidth){
-      points.push({x: x + width, y: i});
-    }
-
-    return points;
   }
 
   return {
