@@ -53,38 +53,27 @@ define(function(require){
     this.onMouseDown = function(e, eObj){
       var point = this.attr.canvas.getPointer(eObj.e);
 
-      rect = new fabric.Rect({
-        top: point.y,
-        left: point.x,
+      rect = {
+        ox: point.x,
+        oy: point.y,
         width: 1,
-        height: 1,
-        stroke: this.attr.brush.color,
-        fill: null
-      });
-
-      this.attr.canvas.add(rect).renderAll();
+        height: 1
+      };
 
       this.setPaintHandlers();
     };
 
     this.onMouseMove = function(e, eObj){
       var point = this.attr.canvas.getPointer(eObj.e),
-          oCoords = rect.get('oCoords'),
-          ox = oCoords.tl.x,
-          oy = oCoords.tl.y,
-          height = point.y - oy,
-          width = point.x - ox,
-          top = height / 2 + oy,
-          left = width / 2 + ox;
+          height = point.y - rect.oy,
+          width = point.x - rect.ox;
+          // top = height / 2 + rect.oy,
+          // left = width / 2 + rect.ox;
 
-      rect.set({
-        top: top,
-        left: left,
-        height: height,
-        width: width
-      });
+      rect.height = height;
+      rect.width = width;
 
-      this.renderPaintOutline(ox,oy, width, height);
+      this.renderPaintOutline(rect.ox, rect.oy, width, height);
     };
 
     this.onMouseUp = function(e, eObj){
@@ -116,14 +105,13 @@ define(function(require){
       // TODO what should happen when the brush cannot be loaded?
       require([brushModule], function(brush){
         brush.create(me.attr.canvas, {
-          x: rect.get('oCoords').tl.x,
-          y: rect.get('oCoords').tl.y,
-          width: rect.get('width'),
-          height: rect.get('height'),
+          x: (rect.width > 0) ? rect.ox : rect.ox + rect.width,
+          y: (rect.height > 0) ? rect.oy : rect.oy + rect.height,
+          width: Math.abs(rect.width),
+          height: Math.abs(rect.height),
           color: me.attr.brush.color
         });
 
-        me.attr.canvas.remove(rect);
         rect = null;
       });
     };
