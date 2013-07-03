@@ -64,16 +64,12 @@ define(function(require){
     };
 
     this.onMouseMove = function(e, eObj){
-      var point = this.attr.canvas.getPointer(eObj.e),
-          height = point.y - rect.oy,
-          width = point.x - rect.ox;
-          // top = height / 2 + rect.oy,
-          // left = width / 2 + rect.ox;
+      var point = this.attr.canvas.getPointer(eObj.e);
 
-      rect.height = height;
-      rect.width = width;
+      rect.height = point.y - rect.oy;
+      rect.width = point.x - rect.ox;
 
-      this.renderPaintOutline(rect.ox, rect.oy, width, height);
+      this.renderPaintOutline(rect.ox, rect.oy, rect.width, rect.height);
     };
 
     this.onMouseUp = function(e, eObj){
