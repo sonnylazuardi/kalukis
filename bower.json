@@ -13,8 +13,6 @@
   "dependencies": {
     "requirejs": "~2.1.6",
     "bootstrap": "~2.1.1",
-    "bootstrap.css": "~2.1.1",
-    "font-awesome": "~3.2.1",
     "jquery": "~2.0.2",
     "es5-shim": "~2.1.0",
     "flight": "~1.0.9",
