@@ -27,28 +27,41 @@ define(function(require){
     // set events handler
     this.after("initialize", function(){
       this.on("click", this.onClick);
-
-      this.on(document, "selectedBrushReady", this.setBrush);
       this.on(document, "colorChanged", this.setBrushProperty);
     });
+
+    this.setInitHandlers = function(){
+      this.on(document, "releasHandlersRequested", this.releaseHandlers);
+      this.on(document, "selectedBrushReady", this.setBrush);
+    };
+
+    this.setPaintHandlers = function(){
+
+    };
+
+    this.releaseInitHandlers = function(){
+      this.off(document, "paintPreparationReady");
+
+      this.off(document, "releasHandlersRequested");
+      this.off(document, "selectedBrushReady");
+    };
+
+    this.releasePaintHandlers = function(){
+      this.off(document, "canvasMouseDown");
+    };
 
     // the steps required before painting
     this.init = function(e, eObj){
       this.attr.canvas.isDrawingMode = true;
-      this.on(document, "releasHandlersRequested", this.releaseHandlers);
-
       // what brush shall we use for painting?
       this.trigger(document, "selectedBrushRequested");
     };
 
     this.onClick = function(){
-      // TODO move this to a seperate component
-
+      this.setInitHandlers();
       // we need to change the brush when a new one is ready to be used
       // we need to initialize our painting action
       this.on(document, "paintPreparationReady", this.init);
-      this.on(document, "canvasMouseMove", this.onMouseMove);
-      this.on(document, "canvasMouseUp", this.onMouseUp);
 
       this.trigger(document, "paintRequested");
     };
@@ -65,22 +78,11 @@ define(function(require){
       this.attr.canvas.freeDrawingBrush[eObj.key] = eObj[eObj.key];
     };
 
-    this.onMouseDown = function(e, eObj){
-    };
-
-    this.onMouseMove = function(e, eObj){
-    };
-
-    /**
-     * Unsubscribe from canvas events
-     */
-    this.onMouseUp = function(e, eObj){
-    };
-
     // set painting off
     this.releaseHandlers = function(){
-      this.off(document, "canvasMouseMove");
-      this.off(document, "canvasMouseUp");
+      this.releaseInitHandlers();
+      this.releasePaintHandlers();
+
       this.attr.canvas.isDrawingMode = false;
     };
   }

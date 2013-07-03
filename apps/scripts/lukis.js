@@ -62,6 +62,7 @@ define(function(require){
       canvas.on("mouse:up", this.paintHandlers.onMouseUp);
       canvas.on("mouse:move", this.paintHandlers.onMouseMove);
       this.on(document, "keydown", this.onKeyDown);
+      this.on(document, "paintStopRequested", this.releaseHandlers);
     };
 
     // unsubscribe from canvas' events
