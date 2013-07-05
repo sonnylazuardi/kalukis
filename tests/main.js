@@ -31,10 +31,11 @@ require(
 [
   "specs/brushesListSpec",
   "specs/brushesComboSpec",
-  "specs/colorPickerSpec"
+  "specs/colorPickerSpec",
+  "specs/rectOutlinePainterSpec"
 ],
 
-function(require){
+function(){
   var jasmineEnv = jasmine.getEnv();
 
   var htmlReporter = new jasmine.BootstrapReporter();

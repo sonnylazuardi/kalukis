@@ -30,39 +30,41 @@ define(function(require){
       this.on(document, "colorChanged", this.setBrushProperty);
 
       var me = this;
-      // draw brush
-      // TODO Update this API
+
       outlinePainter.after('finish', function(){
         me.trigger(document, "paintStopRequested");
 
         me.attr.rect = outlinePainter.outline;
+        // draw painting
         me.createShapeBrush();
         me.attr.canvas.renderAll();
       });
     });
 
     this.setInitHandlers = function(){
-      // this.on(document, "canvasMouseDown", this.onMouseDown);
-      // this.on(document, "releasHandlersRequested", this.releaseHandlers);
       this.on(document, "selectedBrushReady", this.setBrush);
     };
 
     this.releaseInitHandlers = function(){
-      // this.off(document, "canvasMouseDown");
       this.off(document, "releasHandlersRequested");
     };
 
     this.onClick = function(e, eObj){
+      // init the outline painter
       outlinePainter.init(this.attr.canvas, {
         color: this.attr.brush.color
       });
 
       this.setInitHandlers();
 
+      // attach our outlinePainter to canvas' events. We need
+      // to draw the outline first and then after the mouse is
+      // released, we draw the painting.
       this.trigger(document, "paintRequested", {
         painter: outlinePainter
       });
 
+      // What's the selected brush?
       this.trigger(document, "selectedBrushRequested");
     };
 
@@ -88,7 +90,6 @@ define(function(require){
 
     this.setBrushProperty = function(e, eObj){
       this.attr.brush[eObj.key] = eObj[eObj.key];
-      this.attr.canvas.freeDrawingBrush[eObj.key] = eObj[eObj.key];
     };
 
     this.setBrush = function(e, eObj){

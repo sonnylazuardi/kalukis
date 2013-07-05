@@ -57,46 +57,47 @@ define(function(require){
        * `finish`           : will be called after `releaseHandler`
        *                      has been called
        */
-      this.attr.painter = painter = eObj.painter;
-
-      // this.paintHandlers = {
-      //   // trigger this when canvas' mouse:down is fired
-      //   onMouseDown: function(e){
-      //     me.trigger(document, "canvasMouseDown", e);
-      //   },
-      //   // trigger this when canvas' mouse:up is fired
-      //   onMouseUp: function(e){
-      //     me.trigger(document, "canvasMouseUp", e);
-      //   },
-      //   // trigger this when canvas' mouse:move is fired
-      //   onMouseMove: function(e){
-      //     me.trigger(document, "canvasMouseMove", e);
-      //   }
-      // };
+      this.attr.painter = eObj.painter;
+      painter = this.attr.painter;
 
       // we trigger init paint event. this is normally used
       // to attach the canvas to the painting handler
       this.trigger(document, "paintPreparationReady", {canvas: canvas});
 
-      // TODO is there a way that I can delegate these events
-      // automatically?
-      //
-      // attaching events on canvas' mouse events
-      canvas.on("mouse:down", painter.onMouseDown.bind(painter));
-      canvas.on("mouse:up", painter.onMouseUp.bind(painter));
-      canvas.on("mouse:move", painter.onMouseMove.bind(painter));
+      // attaching events on canvas' mouse events only if paintHandler
+      // provides the methods
+      if (painter.onMouseDown && typeof painter.onMouseDown === "function"){
+        canvas.on("mouse:down", painter.onMouseDown.bind(painter));
+      }
+
+      if (painter.onMouseUp && typeof painter.onMouseUp === "function"){
+        canvas.on("mouse:up", painter.onMouseUp.bind(painter));
+      }
+
+      if (painter.onMouseMove && typeof painter.onMouseMove === "function"){
+        canvas.on("mouse:move", painter.onMouseMove.bind(painter));
+      }
+
       this.on(document, "keydown", this.onKeyDown);
       this.on(document, "paintStopRequested", this.releaseHandlers);
     };
 
     // unsubscribe from canvas' events
     this.releaseHandlers = function(e, eObj){
-      var canvas = this.attr.canvas;
+      var canvas = this.attr.canvas,
+          painter = this.attr.painter;
 
-      canvas.off("mouse:down", this.attr.painter.onMouseDown);
-      canvas.off("mouse:up", this.attr.painter.onMouseUp);
-      canvas.off("mouse:move", this.attr.painter.onMouseMove);
+      if (painter.onMouseDown && typeof painter.onMouseDown === "function"){
+        canvas.off("mouse:down", painter.onMouseDown);
+      }
 
+      if (painter.onMouseUp && typeof painter.onMouseUp === "function"){
+        canvas.off("mouse:up", painter.onMouseUp);
+      }
+
+      if (painter.onMouseMove && typeof painter.onMouseMove === "function"){
+        canvas.off("mouse:move", painter.onMouseMove);
+      }
       // this.attr.painter.releaseHandlers();
 
       // this.attr.painter.finish();

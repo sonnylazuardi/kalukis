@@ -1,3 +1,0 @@
-defineComponent("outlinePainter/rect", function(){
-
-});
