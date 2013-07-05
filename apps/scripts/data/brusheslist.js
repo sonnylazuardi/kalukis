@@ -22,12 +22,12 @@ define(function(require){
 
     this.after("initialize", function(){
       // somebody wants to know what brush is selected
-      this.on(document, "brushesRequested", this.publishBrushes);
+      this.on(document, "brushesRequested", this.onBrushesRequested);
       this.on(document, "brushClicked", this.onBrushClicked);
-      this.on(document, "selectedBrushRequested", this.publishSelectedBrush);
+      this.on(document, "selectedBrushRequested", this.onSelectedBrushRequested);
     });
 
-    this.publishBrushes = function(e, eObj){
+    this.onBrushesRequested = function(e, eObj){
       this.trigger(document, "brushesReady", {
         brushes: this.attr.brushes
       });
@@ -63,6 +63,10 @@ define(function(require){
       }
 
       return found;
+    };
+
+    this.onSelectedBrushRequested = function(e, eObj){
+      this.publishSelectedBrush();
     };
 
     this.publishSelectedBrush = function(){

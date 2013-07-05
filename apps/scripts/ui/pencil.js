@@ -31,8 +31,8 @@ define(function(require){
     });
 
     this.setInitHandlers = function(){
-      this.on(document, "releasHandlersRequested", this.releaseHandlers);
-      this.on(document, "selectedBrushReady", this.setBrush);
+      this.on(document, "releaseHandlersRequested", this.onReleaseHandlerRequested);
+      this.on(document, "selectedBrushReady", this.onSelectedBrushReady);
     };
 
     this.setPaintHandlers = function(){
@@ -42,7 +42,7 @@ define(function(require){
     this.releaseInitHandlers = function(){
       this.off(document, "paintPreparationReady");
 
-      this.off(document, "releasHandlersRequested");
+      this.off(document, "releaseHandlersRequested");
       this.off(document, "selectedBrushReady");
     };
 
@@ -66,6 +66,10 @@ define(function(require){
       this.trigger(document, "paintRequested");
     };
 
+    this.onSelectedBrushReady = function(e, eObj){
+      this.setBrush(e, eObj);
+    };
+
     // set the brush used for painting
     this.setBrush = function(e, eObj){
       this.attr.canvas.freeDrawingBrush = eObj.brush.create(this.attr.canvas);
@@ -78,8 +82,8 @@ define(function(require){
       this.attr.canvas.freeDrawingBrush[eObj.key] = eObj[eObj.key];
     };
 
-    // set painting off
-    this.releaseHandlers = function(){
+    // set painting oeff
+    this.onReleaseHandlerRequested = function(){
       this.releaseInitHandlers();
       this.releasePaintHandlers();
 

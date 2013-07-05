@@ -43,11 +43,11 @@ define(function(require){
     };
 
     this.setHandlers = function(){
-      this.on(document, "selectedBrushReady", this.setBrush);
+      this.on(document, "selectedBrushReady", this.onSelectedBrushReady);
     };
 
     this.releaseHandlers = function(){
-      this.off(document, "releasHandlersRequested");
+      this.off(document, "releaseHandlersRequested");
     };
 
     this.onClick = function(e, eObj){
@@ -89,6 +89,10 @@ define(function(require){
       });
 
       me.attr.rect = null;
+    };
+
+    this.onSelectedBrushReady = function(e, eObj){
+      this.setBrush(e, eObj);
     };
 
     this.setBrushProperty = function(e, eObj){
