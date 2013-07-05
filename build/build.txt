@@ -31,6 +31,22 @@ scripts/vendor/bootstrap/less/tests/css-tests.css
 ----------------
 scripts/vendor/bootstrap/less/tests/css-tests.css
 
+scripts/vendor/bootstrap.css/css/bootstrap-responsive.css
+----------------
+scripts/vendor/bootstrap.css/css/bootstrap-responsive.css
+
+scripts/vendor/bootstrap.css/css/bootstrap-responsive.min.css
+----------------
+scripts/vendor/bootstrap.css/css/bootstrap-responsive.min.css
+
+scripts/vendor/bootstrap.css/css/bootstrap.css
+----------------
+scripts/vendor/bootstrap.css/css/bootstrap.css
+
+scripts/vendor/bootstrap.css/css/bootstrap.min.css
+----------------
+scripts/vendor/bootstrap.css/css/bootstrap.min.css
+
 scripts/vendor/es5-shim/tests/lib/jasmine.css
 ----------------
 scripts/vendor/es5-shim/tests/lib/jasmine.css
@@ -90,7 +106,10 @@ scripts/canvas-lib/fabric.js
 scripts/lukis.js
 scripts/data/with_canvas.js
 scripts/ui/pencil.js
-scripts/ui/shapeBrush.js
+scripts/outlinePainter/rect.js
+scripts/ui/rectBrush.js
+scripts/outlinePainter/circle.js
+scripts/ui/circleShapedBrush.js
 scripts/vendor/handlebars/handlebars.js
 scripts/ui/with_handlebars.js
 scripts/vendor/requirejs-text/text.js
