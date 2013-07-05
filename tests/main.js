@@ -32,7 +32,8 @@ require(
   "specs/brushesListSpec",
   "specs/brushesComboSpec",
   "specs/colorPickerSpec",
-  "specs/rectOutlinePainterSpec"
+  "specs/rectOutlinePainterSpec",
+  "specs/circleOutlineSpec"
 ],
 
 function(){
