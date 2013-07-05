@@ -65,6 +65,8 @@ define(function(require){
        */
       this.attr.painter = painter = eObj.painter || {};
 
+      console.log(painter);
+
       // we trigger init paint event. this is normally used
       // to attach the canvas to the painting handler
       this.trigger(document, "paintPreparationReady", {canvas: canvas});
