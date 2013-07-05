@@ -7,7 +7,7 @@ define(
 
 function(fabric, outlinePainter){
 
-  describeComponent("ui/shapeBrush", function(){
+  describeComponent("ui/rectBrush", function(){
     beforeEach(function(){
       setupComponent();
     });
