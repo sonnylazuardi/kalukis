@@ -1,1 +1,1 @@
-define(["require","handlebars"],function(t){var e=t("handlebars");return function(){this.renderData=function(t,i){var n=e.compile(i);return n(t)}}});
+define(["require","handlebars"],function(t){var e=t("handlebars");return function(){this.renderData=function(t,i){var r=e.compile(i);return r(t)}}});

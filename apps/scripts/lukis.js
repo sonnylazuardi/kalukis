@@ -10,6 +10,11 @@ define(function(require){
   return defineComponent(Lukis);
 
   function Lukis(){
+
+    this.defaultAttrs({
+      handlerHelper: {}
+    });
+
     this.after("initialize", function(){
       // activate canvas
       this.attr.canvas = new fabric.Canvas(this.$node.attr("id"));
@@ -33,45 +38,83 @@ define(function(require){
     // preparation for painting
     this.preparePainting = function(e, eObj){
       var me = this,
-          canvas = this.attr.canvas;
+          canvas = this.attr.canvas,
+          eObj = eObj || {},
+          painter;
 
-      this.paintHandlers = {
-        // trigger this when canvas' mouse:down is fired
-        onMouseDown: function(e){
-          me.trigger(document, "canvasMouseDown", e);
-        },
-        // trigger this when canvas' mouse:up is fired
-        onMouseUp: function(e){
-          me.trigger(document, "canvasMouseUp", e);
-        },
-        // trigger this when canvas' mouse:move is fired
-        onMouseMove: function(e){
-          me.trigger(document, "canvasMouseMove", e);
-        }
-      };
+      /**
+       * We expect a `painter` has these methods if
+       * it wants to connect to canvas' events:
+       *
+       * `onMouseDown`  : called when the mouse is pressed
+       *                  on the canvas
+       * `onMouseUp`    : called when the mouse is released
+       * `onMouseMove`  : called when the mouse is moving
+       *                  on top of the canvas
+       *
+       * If any of the above method is not provided, then
+       * there will be no connection on the respective canvas' event.
+       *
+       * Paint handler can also provide these extra methods:
+       *
+       * `releaseHandlers`  : will be called when there is a
+       *                      request to release all event handlers
+       *                      for painting
+       * `finish`           : will be called after `releaseHandler`
+       *                      has been called
+       */
+      this.attr.painter = painter = eObj.painter || {};
 
       // we trigger init paint event. this is normally used
       // to attach the canvas to the painting handler
       this.trigger(document, "paintPreparationReady", {canvas: canvas});
 
-      // TODO is there a way that I can delegate these events
-      // automatically?
-      //
-      // attaching events on canvas' mouse events
-      canvas.on("mouse:down", this.paintHandlers.onMouseDown);
-      canvas.on("mouse:up", this.paintHandlers.onMouseUp);
-      canvas.on("mouse:move", this.paintHandlers.onMouseMove);
+      // attaching events on canvas' mouse events only if paintHandler
+      // provides the methods
+      if (painter.onMouseDown && typeof painter.onMouseDown === "function"){
+        this.attr.handlerHelper.onMouseDown = function(e){
+          painter.onMouseDown(e);
+        };
+
+        canvas.on("mouse:down", this.attr.handlerHelper.onMouseDown);
+      }
+
+      if (painter.onMouseUp && typeof painter.onMouseUp === "function"){
+        this.attr.handlerHelper.onMouseUp = function(e){
+          painter.onMouseUp(e);
+        };
+
+        canvas.on("mouse:up", this.attr.handlerHelper.onMouseUp);
+      }
+
+      if (painter.onMouseMove && typeof painter.onMouseMove === "function"){
+        this.attr.handlerHelper.onMouseMove = function(e){
+          painter.onMouseMove(e);
+        };
+
+        canvas.on("mouse:move", this.attr.handlerHelper.onMouseMove);
+      }
+
       this.on(document, "keydown", this.onKeyDown);
       this.on(document, "paintStopRequested", this.releaseHandlers);
     };
 
     // unsubscribe from canvas' events
     this.releaseHandlers = function(e, eObj){
-      var canvas = this.attr.canvas;
+      var canvas = this.attr.canvas,
+          painter = this.attr.painter;
 
-      canvas.off("mouse:down", this.paintHandlers.onMouseDown);
-      canvas.off("mouse:up", this.paintHandlers.onMouseUp);
-      canvas.off("mouse:move", this.paintHandlers.onMouseMove);
+      if (painter.onMouseDown && typeof painter.onMouseDown === "function"){
+        canvas.off("mouse:down", this.attr.handlerHelper.onMouseDown);
+      }
+
+      if (painter.onMouseUp && typeof painter.onMouseUp === "function"){
+        canvas.off("mouse:up", this.attr.handlerHelper.onMouseUp);
+      }
+
+      if (painter.onMouseMove && typeof painter.onMouseMove === "function"){
+        canvas.off("mouse:move", this.attr.handlerHelper.onMouseMove);
+      }
     };
 
     // change the color of selected objects
@@ -92,7 +135,7 @@ define(function(require){
     this.onKeyDown = function(e, eObj){
       if (e.keyCode === 27) {
         this.releaseHandlers();
-        this.trigger(document, "releasHandlersRequested");
+        this.trigger(document, "releaseHandlersRequested");
       }
     };
   }

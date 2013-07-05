@@ -18,8 +18,8 @@ define(function(require){
     this.after("initialize", function(){
       var me = this;
       // register events handler
-      this.on(document, "brushesReady", this.updateBrushes);
-      this.on(document, "brushSelectionChanged", this.updateBrushes);
+      this.on(document, "brushesReady", this.onBrushesReady);
+      this.on(document, "brushSelectionChanged", this.onBrushSelectionChanged);
 
       // publishing which brush has been clicked
       this.$node.delegate("li", "click", function(){
@@ -30,6 +30,14 @@ define(function(require){
 
       this.trigger(document, "brushesRequested");
     });
+
+    this.onBrushesReady = function(e, eObj){
+      this.updateBrushes(e, eObj);
+    };
+
+    this.onBrushSelectionChanged = function(e, eObj){
+      this.updateBrushes(e, eObj);
+    };
 
     // update our brushes after data changes
     this.updateBrushes = function(e, eObj){

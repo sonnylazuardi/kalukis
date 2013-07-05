@@ -1,10 +1,10 @@
 define(function(require){
-  var rectOutline = require("utils/rectOutline"),
+  var circleOutline = require("utils/circleOutline"),
       circleBrush = require("brushes/circleBrush");
 
-  function createRectCircle(canvas, cfg){
+  function createCircularCircle(canvas, cfg){
     var cb = circleBrush.create(canvas),
-        outline = rectOutline(cb, cfg.x, cfg.y, cfg.width, cfg.height),
+        outline = circleOutline(cb, cfg.x, cfg.y, cfg.radius),
         outlineLength = outline.length;
 
     cb.color = cfg.color || "#000000";
@@ -13,17 +13,16 @@ define(function(require){
       cb.addPoint(outline[i]);
     }
 
-    // cb.render();
     cb.onMouseUp();
   }
 
   return {
     create: function(canvas, cfg){
-      if (!cfg.x || !cfg.y || !cfg.width || !cfg.height){
-        throw new Error("Required params not supplied");
+      if (!cfg.x || !cfg.y || !cfg.radius){
+        throw new Error("Required params not provided");
       }
 
-      return createRectCircle(canvas, cfg);
+      return createCircularCircle(canvas, cfg);
     }
   };
 });

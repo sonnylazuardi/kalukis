@@ -34,6 +34,7 @@ require.config({
   map: {
     "*": {
       'flight/component': 'vendor/flight/lib/component',
+      'flight': 'vendor/flight',
       'brushes': 'brushes'
     }
   }

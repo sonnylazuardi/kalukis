@@ -12,13 +12,13 @@ define(function(){
     });
 
     this.after("initialize", function(){
-      this.on(document, "canvasReady", this.setCanvas);
+      this.on(document, "canvasReady", this.onCanvasReady);
 
       // I want to have a reference to the canvas
       this.trigger(document, "canvasRequested");
     });
 
-    this.setCanvas = function(e, eObj){
+    this.onCanvasReady = function(e, eObj){
       this.attr.canvas = eObj.canvas;
     };
   }
