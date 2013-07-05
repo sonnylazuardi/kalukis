@@ -6,6 +6,8 @@ define(function(require){
       fabric = require("fabric"),
       outlinePainter = require("outlinePainter/circle");
 
+  compose.mixin(outlinePainter, [advice.withAdvice]);
+
   return defineComponent(circleShapedBrush, withCanvas);
 
   function circleShapedBrush(){

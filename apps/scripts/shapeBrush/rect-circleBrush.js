@@ -2,7 +2,7 @@ define(function(require){
   var rectOutline = require("utils/rectOutline"),
       circleBrush = require("brushes/circleBrush");
 
-  function createCircleSpray(canvas, cfg){
+  function createRectCircle(canvas, cfg){
     var cb = circleBrush.create(canvas),
         outline = rectOutline(cb, cfg.x, cfg.y, cfg.width, cfg.height),
         outlineLength = outline.length;
@@ -20,10 +20,10 @@ define(function(require){
   return {
     create: function(canvas, cfg){
       if (!cfg.x || !cfg.y || !cfg.width || !cfg.height){
-        throw new Error("Required params not supplide");
+        throw new Error("Required params not supplied");
       }
 
-      return createCircleSpray(canvas, cfg);
+      return createRectCircle(canvas, cfg);
     }
   };
 });
