@@ -20,7 +20,7 @@ define(function(require){
 
     this.after("initialize", function(){
       this.on("click", this.onClick);
-
+      this.on(document, "uiBrushClicked", this.onUiBrushClicked);
       this.on(document, "colorChanged", this.setBrushProperty);
 
       outlinePainter.after("finish", function(){
@@ -28,7 +28,16 @@ define(function(require){
       }.bind(this));
     });
 
+    this.onUiBrushClicked = function(e, eObj){
+      if (eObj.clicked !== "circle") {
+        console.log("circle stopped");
+        this.trigger(document, "paintStopRequested");
+      }
+    };
+
     this.onClick = function(e, eObj){
+      this.trigger(document, "uiBrushClicked", {clicked: "circle"});
+
       outlinePainter.init(this.attr.canvas, {
         color: this.attr.brush.color
       });
