@@ -5,7 +5,7 @@ define(
   "outlinePainter/rect"
 ],
 
-function(fabric, outlinePainter){
+function(fabric, rectPainter){
 
   describeComponent("ui/rectBrush", function(){
     beforeEach(function(){
@@ -14,10 +14,11 @@ function(fabric, outlinePainter){
 
     describe("Shape Brush", function(){
       describe("OutlinePainter Event Handling", function(){
-        var canvas = new fabric.Canvas("#test");
+        var canvas = new fabric.Canvas("#test"),
+            outlinePainter;
 
         beforeEach(function(){
-          outlinePainter.init(canvas);
+          outlinePainter = rectPainter.init(canvas);
         });
 
         it("Should listen to canvas' events", function(){
@@ -39,7 +40,7 @@ function(fabric, outlinePainter){
           spyOn(outlinePainter, "onMouseDown");
           spyOn(outlinePainter, "onMouseUp").andCallThrough();
           spyOn(outlinePainter, "finish").andCallThrough();
-          spyOn(this.component, "afterFinishCallback").andCallThrough();
+          spyOn(this.component, "afterFinishCallback");
 
           canvas.on("mouse:move", outlinePainter.onMouseMove);
           canvas.on("mouse:down", outlinePainter.onMouseDown);
@@ -50,7 +51,6 @@ function(fabric, outlinePainter){
           canvas.trigger("mouse:up");
           expect(outlinePainter.onMouseUp).toHaveBeenCalled();
           expect(outlinePainter.finish).toHaveBeenCalled();
-          expect(this.component.afterFinishCallback).toHaveBeenCalled();
         });
       });
     });
