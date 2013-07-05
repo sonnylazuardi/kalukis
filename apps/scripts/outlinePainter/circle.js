@@ -1,65 +1,69 @@
 define(function(require){
+  function CircleOutlinePainter(canvas, cfg){
+    cfg = cfg || {};
+    this.canvas = canvas;
+    this.brushColor = cfg.color || "#000000";
 
-  return {
-    canvas: undefined,
+    this.canvas.selection = false;
+    this.isDrawing = false;
+    this.brushColor = "#000000";
+    this.outline = undefined;
+  }
 
-    isDrawing: false,
+  CircleOutlinePainter.prototype.onMouseDown = function(e) {
+    var point = this.canvas.getPointer(e.e);
 
-    brushColor: "#000000",
+    this.outline = {
+      x: point.x,
+      y: point.y,
+      radius: 1
+    };
 
-    outline: undefined,
+    this.isDrawing = true;
 
-    init: function(canvas, cfg){
-      cfg = cfg || {};
-      this.canvas = canvas;
-      this.brushColor = cfg.color || "#000000";
+    return this;
+  };
 
-      this.canvas.selection = false;
-    },
-
-    onMouseDown: function(e){
+  CircleOutlinePainter.prototype.onMouseMove = function(e) {
+    if (this.isDrawing) {
       var point = this.canvas.getPointer(e.e);
 
-      this.outline = {
-        x: point.x,
-        y: point.y,
-        radius: 1
-      };
+      this.outline.radius = Math.sqrt(Math.pow(point.x-this.outline.x,2)+Math.pow(point.y-this.outline.y,2));
 
-      this.isDrawing = true;
-    },
+      this.renderOutline();
+    }
 
-    onMouseMove: function(e){
-      if (this.isDrawing) {
-        var point = this.canvas.getPointer(e.e);
+    return this;
+  };
 
-        this.outline.radius = Math.sqrt(Math.pow(point.x-this.outline.x,2)+Math.pow(point.y-this.outline.y,2));
+  CircleOutlinePainter.prototype.onMouseUp = function(e) {
+    this.isDrawing = false;
+    this.finish();
+    return this;
+  };
 
-        this.renderOutline();
-      }
-    },
+  CircleOutlinePainter.prototype.finish = function() {
+    this.canvas.clearContext(this.canvas.contextTop);
+    this.canvas.selection = true;
+    return this;
+  };
 
-    onMouseUp: function(e){
-      this.isDrawing = false;
-      this.finish();
-    },
+  CircleOutlinePainter.prototype.renderOutline = function() {
+    var ctx = this.canvas.contextTop;
+    ctx.save();
 
-    finish: function(){
-      this.canvas.clearContext(this.canvas.contextTop);
-      this.canvas.selection = true;
-    },
+    ctx.beginPath();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = this.brushColor;
+    ctx.arc(this.outline.x, this.outline.y, this.outline.radius, 2 * Math.PI, false);
+    ctx.stroke();
 
-    renderOutline: function(){
-      var ctx = this.canvas.contextTop;
-      ctx.save();
+    ctx.restore();
+  };
 
-      ctx.beginPath();
-      ctx.lineWidth = 1;
-      ctx.strokeStyle = this.brushColor;
-      ctx.arc(this.outline.x, this.outline.y, this.outline.radius, 2 * Math.PI, false);
-      ctx.stroke();
-
-      ctx.restore();
+  return {
+    init: function(canvas, cfg){
+      return new CircleOutlinePainter(canvas, cfg);
     }
   };
 });

@@ -12,9 +12,6 @@ define(function(require){
       fabric = require("fabric"),
       outlinePainter = require("outlinePainter/rect");
 
-  // pasang advice pada outlinePainter
-  // compose.mixin(outlinePainter, [advice.withAdvice]);
-
   return defineComponent(shapeBrush, withCanvas);
 
   function shapeBrush(){
@@ -29,10 +26,6 @@ define(function(require){
       this.on("click", this.onClick);
       this.on(document, "uiBrushClicked", this.onUiBrushClicked);
       this.on(document, "colorChanged", this.setBrushProperty);
-
-      // outlinePainter.after('finish', function(){
-      //   this.afterFinishCallback();
-      // }.bind(this));
     });
 
     this.onUiBrushClicked = function(e, eObj){

@@ -9,8 +9,6 @@ define(function(require){
       outlinePainter = require("outlinePainter/rect"),
       tmpl = require("text!templates/hiddenInputImage.hbs");
 
-  // compose.mixin(outlinePainter, [advice.withAdvice]);
-
   return defineComponent(imageButton, withCanvas, withHandlerBars);
 
   function imageButton(){
