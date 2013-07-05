@@ -14,50 +14,43 @@ function(fabric, outlinePainter){
 
     describe("Shape Brush", function(){
       describe("OutlinePainter Event Handling", function(){
-        var handler = {
-          mouseMove: function(){},
-          mouseDown: function(){},
-          mouseUp: function(){}
-        },
-        canvas = new fabric.Canvas("#test");
+        var canvas = new fabric.Canvas("#test");
 
-        it("Should listen to canvas' events", function(){
-          this.component.trigger(document, "paintRequested", {
-            painter: outlinePainter
-          });
-
-          spyOn(handler, "mouseMove");
-          spyOn(handler, "mouseDown");
-          spyOn(handler, "mouseUp");
-
-          canvas.on("mouse:move", handler.mouseMove);
-          canvas.on("mouse:down", handler.mouseDown);
-
-          canvas.trigger("mouse:move");
-          canvas.trigger("mouse:down");
-
-          expect(handler.mouseMove).toHaveBeenCalled();
-          expect(handler.mouseDown).toHaveBeenCalled();
+        beforeEach(function(){
+          outlinePainter.init(canvas);
         });
 
-        it("Should not listen to canvas' events after finish executed", function(){
-          spyOn(handler, "mouseMove");
-          spyOn(handler, "mouseDown");
-          spyOn(handler, "mouseUp");
+        it("Should listen to canvas' events", function(){
+          spyOn(outlinePainter, "onMouseMove");
+          spyOn(outlinePainter, "onMouseDown");
 
-          canvas.on("mouse:move", handler.mouseMove);
-          canvas.on("mouse:down", handler.mouseDown);
-          canvas.on("mouse:up", handler.mouseUp);
-          // simulate a mouse-up event
-          canvas.trigger("mouse:up");
-
-          expect(handler.mouseUp).toHaveBeenCalled();
+          canvas.on("mouse:move", outlinePainter.onMouseMove);
+          canvas.on("mouse:down", outlinePainter.onMouseDown);
 
           canvas.trigger("mouse:move");
-          canvas.trigger("mouse:down");
+          expect(outlinePainter.onMouseMove).toHaveBeenCalled();
 
-          expect(handler.mousMove).wasNotCalled();
-          expect(handler.mousDown).wasNotCalled();
+          canvas.trigger("mouse:down");
+          expect(outlinePainter.onMouseDown).toHaveBeenCalled();
+        });
+
+        it("Should render Outline after mouse up", function(){
+          spyOn(outlinePainter, "onMouseMove");
+          spyOn(outlinePainter, "onMouseDown");
+          spyOn(outlinePainter, "onMouseUp").andCallThrough();
+          spyOn(outlinePainter, "finish").andCallThrough();
+          spyOn(this.component, "afterFinishCallback").andCallThrough();
+
+          canvas.on("mouse:move", outlinePainter.onMouseMove);
+          canvas.on("mouse:down", outlinePainter.onMouseDown);
+          canvas.on("mouse:up", function(){
+            outlinePainter.onMouseUp();
+          });
+          // simulate a mouse-up event
+          canvas.trigger("mouse:up");
+          expect(outlinePainter.onMouseUp).toHaveBeenCalled();
+          expect(outlinePainter.finish).toHaveBeenCalled();
+          expect(this.component.afterFinishCallback).toHaveBeenCalled();
         });
       });
     });

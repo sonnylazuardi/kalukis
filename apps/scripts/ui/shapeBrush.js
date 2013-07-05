@@ -29,23 +29,24 @@ define(function(require){
       this.on("click", this.onClick);
       this.on(document, "colorChanged", this.setBrushProperty);
 
-      var me = this;
-
       outlinePainter.after('finish', function(){
-        me.trigger(document, "paintStopRequested");
-
-        me.attr.rect = outlinePainter.outline;
-        // draw painting
-        me.createShapeBrush();
-        me.attr.canvas.renderAll();
-      });
+        this.afterFinishCallback();
+      }.bind(this));
     });
 
-    this.setInitHandlers = function(){
+    this.afterFinishCallback = function(){
+      this.trigger(document, "paintStopRequested");
+
+      this.attr.rect = outlinePainter.outline;
+      // draw painting
+      this.createShapeBrush();
+    };
+
+    this.setHandlers = function(){
       this.on(document, "selectedBrushReady", this.setBrush);
     };
 
-    this.releaseInitHandlers = function(){
+    this.releaseHandlers = function(){
       this.off(document, "releasHandlersRequested");
     };
 
@@ -55,7 +56,7 @@ define(function(require){
         color: this.attr.brush.color
       });
 
-      this.setInitHandlers();
+      this.setHandlers();
 
       // attach our outlinePainter to canvas' events. We need
       // to draw the outline first and then after the mouse is
@@ -83,6 +84,8 @@ define(function(require){
           height: Math.abs(rect.height),
           color: me.attr.brush.color
         });
+
+        me.attr.canvas.renderAll();
       });
 
       me.attr.rect = null;
@@ -95,14 +98,5 @@ define(function(require){
     this.setBrush = function(e, eObj){
       this.attr.brushId = eObj.selectedId;
     };
-
-    // set painting off
-    // this.releaseHandlers = function(){
-    //   this.releaseInitHandlers();
-    //   this.releasePaintHandlers();
-
-    //   this.attr.canvas.clearContext(this.attr.canvas.contextTop);
-    //   this.attr.canvas.selection = true;
-    // };
   }
 });

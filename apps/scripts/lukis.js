@@ -10,6 +10,11 @@ define(function(require){
   return defineComponent(Lukis);
 
   function Lukis(){
+
+    this.defaultAttrs({
+      handlerHelper: {}
+    });
+
     this.after("initialize", function(){
       // activate canvas
       this.attr.canvas = new fabric.Canvas(this.$node.attr("id"));
@@ -57,8 +62,7 @@ define(function(require){
        * `finish`           : will be called after `releaseHandler`
        *                      has been called
        */
-      this.attr.painter = eObj.painter;
-      painter = this.attr.painter;
+      this.attr.painter = painter = eObj.painter;
 
       // we trigger init paint event. this is normally used
       // to attach the canvas to the painting handler
@@ -67,15 +71,27 @@ define(function(require){
       // attaching events on canvas' mouse events only if paintHandler
       // provides the methods
       if (painter.onMouseDown && typeof painter.onMouseDown === "function"){
-        canvas.on("mouse:down", painter.onMouseDown.bind(painter));
+        this.attr.handlerHelper.onMouseDown = function(e){
+          painter.onMouseDown(e);
+        };
+
+        canvas.on("mouse:down", this.attr.handlerHelper.onMouseDown);
       }
 
       if (painter.onMouseUp && typeof painter.onMouseUp === "function"){
-        canvas.on("mouse:up", painter.onMouseUp.bind(painter));
+        this.attr.handlerHelper.onMouseUp = function(e){
+          painter.onMouseUp(e);
+        };
+
+        canvas.on("mouse:up", this.attr.handlerHelper.onMouseUp);
       }
 
       if (painter.onMouseMove && typeof painter.onMouseMove === "function"){
-        canvas.on("mouse:move", painter.onMouseMove.bind(painter));
+        this.attr.handlerHelper.onMouseMove = function(e){
+          painter.onMouseMove(e);
+        };
+
+        canvas.on("mouse:move", this.attr.handlerHelper.onMouseMove);
       }
 
       this.on(document, "keydown", this.onKeyDown);
@@ -88,19 +104,16 @@ define(function(require){
           painter = this.attr.painter;
 
       if (painter.onMouseDown && typeof painter.onMouseDown === "function"){
-        canvas.off("mouse:down", painter.onMouseDown);
+        canvas.off("mouse:down", this.attr.handlerHelper.onMouseDown);
       }
 
       if (painter.onMouseUp && typeof painter.onMouseUp === "function"){
-        canvas.off("mouse:up", painter.onMouseUp);
+        canvas.off("mouse:up", this.attr.handlerHelper.onMouseUp);
       }
 
       if (painter.onMouseMove && typeof painter.onMouseMove === "function"){
-        canvas.off("mouse:move", painter.onMouseMove);
+        canvas.off("mouse:move", this.attr.handlerHelper.onMouseMove);
       }
-      // this.attr.painter.releaseHandlers();
-
-      // this.attr.painter.finish();
     };
 
     // change the color of selected objects

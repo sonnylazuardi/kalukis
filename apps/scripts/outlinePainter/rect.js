@@ -10,6 +10,7 @@ define(function(require){
     outline: undefined,
 
     init: function(canvas, cfg){
+      cfg = cfg || {};
       this.canvas = canvas;
       this.brushColor = cfg.color || "#000000";
 
