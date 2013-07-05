@@ -27,8 +27,16 @@ define(function(require){
     // set events handler
     this.after("initialize", function(){
       this.on("click", this.onClick);
+      this.on(document, "uiBrushClicked", this.onUiBrushClicked);
       this.on(document, "colorChanged", this.setBrushProperty);
     });
+
+    this.onUiBrushClicked = function(e, eObj){
+      if (eObj.clicked !== "pencil"){
+        console.log("pencil stopped");
+        this.onReleaseHandlerRequested();
+      }
+    };
 
     this.setInitHandlers = function(){
       this.on(document, "releaseHandlersRequested", this.onReleaseHandlerRequested);
@@ -58,6 +66,8 @@ define(function(require){
     };
 
     this.onClick = function(){
+      this.trigger(document, "uiBrushClicked", {clicked: "pencil"});
+
       this.setInitHandlers();
       // we need to change the brush when a new one is ready to be used
       // we need to initialize our painting action

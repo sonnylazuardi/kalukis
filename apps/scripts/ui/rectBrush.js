@@ -27,12 +27,20 @@ define(function(require){
 
     this.after("initialize", function(){
       this.on("click", this.onClick);
+      this.on(document, "uiBrushClicked", this.onUiBrushClicked);
       this.on(document, "colorChanged", this.setBrushProperty);
 
       outlinePainter.after('finish', function(){
         this.afterFinishCallback();
       }.bind(this));
     });
+
+    this.onUiBrushClicked = function(e, eObj){
+      if (eObj.clicked !== "rect") {
+        console.log("rect stopped");
+        this.trigger(document, "paintStopRequested");
+      }
+    };
 
     this.afterFinishCallback = function(){
       this.trigger(document, "paintStopRequested");
@@ -51,6 +59,7 @@ define(function(require){
     };
 
     this.onClick = function(e, eObj){
+      this.trigger(document, "uiBrushClicked", {clicked: "rect"});
       // init the outline painter
       outlinePainter.init(this.attr.canvas, {
         color: this.attr.brush.color
