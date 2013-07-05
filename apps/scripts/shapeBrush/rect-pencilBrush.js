@@ -4,7 +4,7 @@ define(function(require){
   return {
     create: function(canvas, cfg){
       if (!cfg.x || !cfg.y || !cfg.width || !cfg.height){
-        throw new Error("Required params not supplide");
+        throw new Error("Required params not provided");
       }
 
       var rect = new fabric.Rect({
