@@ -35,20 +35,22 @@ define(function(require){
       var me = this,
           canvas = this.attr.canvas;
 
-      this.paintHandlers = {
-        // trigger this when canvas' mouse:down is fired
-        onMouseDown: function(e){
-          me.trigger(document, "canvasMouseDown", e);
-        },
-        // trigger this when canvas' mouse:up is fired
-        onMouseUp: function(e){
-          me.trigger(document, "canvasMouseUp", e);
-        },
-        // trigger this when canvas' mouse:move is fired
-        onMouseMove: function(e){
-          me.trigger(document, "canvasMouseMove", e);
-        }
-      };
+      this.attr.painter = eObj.painter;
+
+      // this.paintHandlers = {
+      //   // trigger this when canvas' mouse:down is fired
+      //   onMouseDown: function(e){
+      //     me.trigger(document, "canvasMouseDown", e);
+      //   },
+      //   // trigger this when canvas' mouse:up is fired
+      //   onMouseUp: function(e){
+      //     me.trigger(document, "canvasMouseUp", e);
+      //   },
+      //   // trigger this when canvas' mouse:move is fired
+      //   onMouseMove: function(e){
+      //     me.trigger(document, "canvasMouseMove", e);
+      //   }
+      // };
 
       // we trigger init paint event. this is normally used
       // to attach the canvas to the painting handler
@@ -58,9 +60,9 @@ define(function(require){
       // automatically?
       //
       // attaching events on canvas' mouse events
-      canvas.on("mouse:down", this.paintHandlers.onMouseDown);
-      canvas.on("mouse:up", this.paintHandlers.onMouseUp);
-      canvas.on("mouse:move", this.paintHandlers.onMouseMove);
+      canvas.on("mouse:down", this.attr.painter.onMouseDown);
+      canvas.on("mouse:up", this.attr.painter.onMouseUp);
+      canvas.on("mouse:move", this.attr.painter.onMouseMove);
       this.on(document, "keydown", this.onKeyDown);
       this.on(document, "paintStopRequested", this.releaseHandlers);
     };
@@ -69,9 +71,9 @@ define(function(require){
     this.releaseHandlers = function(e, eObj){
       var canvas = this.attr.canvas;
 
-      canvas.off("mouse:down", this.paintHandlers.onMouseDown);
-      canvas.off("mouse:up", this.paintHandlers.onMouseUp);
-      canvas.off("mouse:move", this.paintHandlers.onMouseMove);
+      canvas.off("mouse:down", this.attr.painter.onMouseDown);
+      canvas.off("mouse:up", this.attr.painter.onMouseUp);
+      canvas.off("mouse:move", this.attr.painter.onMouseMove);
     };
 
     // change the color of selected objects

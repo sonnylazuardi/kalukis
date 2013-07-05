@@ -20,6 +20,7 @@ define(function(require){
     },
 
     onMouseMove: function(e){
+      console.log("yoo");
       var point = this.canvas.getPointer(e);
 
       this.rect.height = point.y - rect.y;

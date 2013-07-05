@@ -1,9 +1,20 @@
+/**
+ * TODO this module should not manage canvas events. As it's only concern is
+ * on the events in which painting with shape brush is initiated and any
+ * events which has relation with brush's properties.
+ */
 define(function(require){
 
   var defineComponent = require("flight/component"),
+      advice = require("flight/lib/advice"),
+      compose = require("flight/lib/compose"),
       withCanvas = require("data/with_canvas"),
       fabric = require("fabric"),
-      rect;
+      outlinePainter = require("shapeBrush/outlinePainter");
+      // rect;
+
+  // pasang advice pada outlinePainter
+  compose.mixin(outlinePainter, [advice.withAdvice]);
 
   return defineComponent(shapeBrush, withCanvas);
 
@@ -18,59 +29,77 @@ define(function(require){
     this.after("initialize", function(){
       this.on("click", this.onClick);
       this.on(document, "colorChanged", this.setBrushProperty);
+
+      var me = this;
+      // draw brush
+      outlinePainter.after('finishing', function(){
+        me.trigger(document, "paintStopRequested");
+        me.releaseInitHandlers();
+
+        this.attr.rect = outlinePainter.rect;
+        this.createShapeBrush();
+
+        this.attr.canvas.renderAll();
+      });
     });
 
     this.setInitHandlers = function(){
-      this.on(document, "canvasMouseDown", this.onMouseDown);
-      this.on(document, "releasHandlersRequested", this.releaseHandlers);
+      // this.on(document, "canvasMouseDown", this.onMouseDown);
+      // this.on(document, "releasHandlersRequested", this.releaseHandlers);
       this.on(document, "selectedBrushReady", this.setBrush);
     };
 
-    this.setPaintHandlers = function(){
-      this.on(document, "canvasMouseMove", this.onMouseMove);
-      this.on(document, "canvasMouseUp", this.onMouseUp);
-    };
+    // this.setPaintHandlers = function(){
+    //   this.on(document, "canvasMouseMove", this.onMouseMove);
+    //   this.on(document, "canvasMouseUp", this.onMouseUp);
+    // };
 
     this.releaseInitHandlers = function(){
-      this.off(document, "canvasMouseDown");
+      // this.off(document, "canvasMouseDown");
       this.off(document, "releasHandlersRequested");
     };
 
-    this.releasePaintHandlers = function(){
-      this.off(document, "canvasMouseMove");
-      this.off(document, "canvasMouseUp");
-    };
+    // this.releasePaintHandlers = function(){
+    //   this.off(document, "canvasMouseMove");
+    //   this.off(document, "canvasMouseUp");
+    // };
 
     this.onClick = function(e, eObj){
+      outlinePainter.init(this.attr.canvas, {
+        color: this.attr.brush.color
+      });
+
       this.setInitHandlers();
 
-      this.attr.canvas.selection = false;
+      // this.attr.canvas.selection = false;
 
-      this.trigger(document, "paintRequested");
+      this.trigger(document, "paintRequested", {
+        painter: outlinePainter
+      });
       this.trigger(document, "selectedBrushRequested");
     };
 
-    this.onMouseDown = function(e, eObj){
-      var point = this.attr.canvas.getPointer(eObj.e);
+    // this.onMouseDown = function(e, eObj){
+    //   var point = this.attr.canvas.getPointer(eObj.e);
 
-      rect = {
-        ox: point.x,
-        oy: point.y,
-        width: 1,
-        height: 1
-      };
+    //   rect = {
+    //     ox: point.x,
+    //     oy: point.y,
+    //     width: 1,
+    //     height: 1
+    //   };
 
-      this.setPaintHandlers();
-    };
+    //   this.setPaintHandlers();
+    // };
 
-    this.onMouseMove = function(e, eObj){
-      var point = this.attr.canvas.getPointer(eObj.e);
+    // this.onMouseMove = function(e, eObj){
+    //   var point = this.attr.canvas.getPointer(eObj.e);
 
-      rect.height = point.y - rect.oy;
-      rect.width = point.x - rect.ox;
+    //   rect.height = point.y - rect.oy;
+    //   rect.width = point.x - rect.ox;
 
-      this.renderPaintOutline(rect.ox, rect.oy, rect.width, rect.height);
-    };
+    //   this.renderPaintOutline(rect.ox, rect.oy, rect.width, rect.height);
+    // };
 
     this.onMouseUp = function(e, eObj){
       this.trigger(document, "paintStopRequested");
@@ -83,16 +112,16 @@ define(function(require){
 
     // a method to just render the paint outline. This should
     // make painting faster
-    this.renderPaintOutline = function(x, y, width, height){
-      var ctx = this.attr.canvas.contextTop;
-      ctx.save();
+    // this.renderPaintOutline = function(x, y, width, height){
+    //   var ctx = this.attr.canvas.contextTop;
+    //   ctx.save();
 
-      ctx.lineWidth = 1;
-      ctx.strokeStyle = this.attr.brush.color;
-      ctx.strokeRect(x, y, width, height);
+    //   ctx.lineWidth = 1;
+    //   ctx.strokeStyle = this.attr.brush.color;
+    //   ctx.strokeRect(x, y, width, height);
 
-      ctx.restore();
-    };
+    //   ctx.restore();
+    // };
 
     this.createShapeBrush = function(e, eObj){
       var brushModule = "shapeBrush/rect-"+this.attr.brushId,
@@ -100,6 +129,8 @@ define(function(require){
 
       // TODO what should happen when the brush cannot be loaded?
       require([brushModule], function(brush){
+        var rect = me.attr.rect;
+
         brush.create(me.attr.canvas, {
           x: (rect.width > 0) ? rect.ox : rect.ox + rect.width,
           y: (rect.height > 0) ? rect.oy : rect.oy + rect.height,
@@ -122,12 +153,12 @@ define(function(require){
     };
 
     // set painting off
-    this.releaseHandlers = function(){
-      this.releaseInitHandlers();
-      this.releasePaintHandlers();
+    // this.releaseHandlers = function(){
+    //   this.releaseInitHandlers();
+    //   this.releasePaintHandlers();
 
-      this.attr.canvas.clearContext(this.attr.canvas.contextTop);
-      this.attr.canvas.selection = true;
-    };
+    //   this.attr.canvas.clearContext(this.attr.canvas.contextTop);
+    //   this.attr.canvas.selection = true;
+    // };
   }
 });
