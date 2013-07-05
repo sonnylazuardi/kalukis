@@ -33,9 +33,31 @@ define(function(require){
     // preparation for painting
     this.preparePainting = function(e, eObj){
       var me = this,
-          canvas = this.attr.canvas;
+          canvas = this.attr.canvas,
+          painter;
 
-      this.attr.painter = eObj.painter;
+      /**
+       * We expect a `painter` has these methods if
+       * it wants to connect to canvas' events:
+       *
+       * `onMouseDown`  : called when the mouse is pressed
+       *                  on the canvas
+       * `onMouseUp`    : called when the mouse is released
+       * `onMouseMove`  : called when the mouse is moving
+       *                  on top of the canvas
+       *
+       * If any of the above method is not provided, then
+       * there will be no connection on the respective canvas' event.
+       *
+       * Paint handler can also provide these extra methods:
+       *
+       * `releaseHandler` : will be called when there is a
+       *                    request to release all event handlers
+       *                    for painting
+       * `finishing`      : will be called after `releaseHandler`
+       *                    has been called
+       */
+      this.attr.painter = painter = eObj.painter;
 
       // this.paintHandlers = {
       //   // trigger this when canvas' mouse:down is fired
@@ -60,9 +82,9 @@ define(function(require){
       // automatically?
       //
       // attaching events on canvas' mouse events
-      canvas.on("mouse:down", this.attr.painter.onMouseDown);
-      canvas.on("mouse:up", this.attr.painter.onMouseUp);
-      canvas.on("mouse:move", this.attr.painter.onMouseMove);
+      canvas.on("mouse:down", painter.onMouseDown.bind(painter));
+      canvas.on("mouse:up", painter.onMouseUp.bind(painter));
+      canvas.on("mouse:move", painter.onMouseMove.bind(painter));
       this.on(document, "keydown", this.onKeyDown);
       this.on(document, "paintStopRequested", this.releaseHandlers);
     };

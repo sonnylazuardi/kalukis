@@ -32,14 +32,14 @@ define(function(require){
 
       var me = this;
       // draw brush
+      // TODO Update this API
       outlinePainter.after('finishing', function(){
         me.trigger(document, "paintStopRequested");
-        me.releaseInitHandlers();
 
-        this.attr.rect = outlinePainter.rect;
-        this.createShapeBrush();
+        me.attr.rect = outlinePainter.rect;
+        me.createShapeBrush();
 
-        this.attr.canvas.renderAll();
+        me.attr.canvas.renderAll();
       });
     });
 

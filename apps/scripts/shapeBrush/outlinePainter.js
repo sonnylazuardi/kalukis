@@ -1,6 +1,12 @@
 define(function(require){
 
   return {
+    canvas: undefined,
+
+    isDrawing: false,
+
+    brushColor: "#000000",
+
     init: function(canvas, cfg){
       this.canvas = canvas;
       this.brushColor = cfg.color || "#000000";
@@ -9,7 +15,7 @@ define(function(require){
     },
 
     onMouseDown: function(e){
-      var point = this.canvas.getPointer(e);
+      var point = this.canvas.getPointer(e.e);
 
       this.rect = {
         x: point.x,
@@ -17,19 +23,23 @@ define(function(require){
         width: 1,
         height: 1
       };
+
+      this.isDrawing = true;
     },
 
     onMouseMove: function(e){
-      console.log("yoo");
-      var point = this.canvas.getPointer(e);
+      if (this.isDrawing) {
+        var point = this.canvas.getPointer(e.e);
 
-      this.rect.height = point.y - rect.y;
-      this.rect.width = point.x - rect.x;
+        this.rect.height = point.y - this.rect.y;
+        this.rect.width = point.x - this.rect.x;
 
-      this.renderOutline();
+        this.renderOutline();
+      }
     },
 
     onMouseUp: function(e){
+      this.isDrawing = false;
       this.finishing();
     },
 
