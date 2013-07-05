@@ -3,17 +3,17 @@ define(function(require){
       circleBrush = require("brushes/circleBrush");
 
   function createCircularCircle(canvas, cfg){
-    var cc = circleBrush.create(canvas),
-        outline = circleOutline(cc, cfg.x, cfg.y, cfg.radius),
+    var cb = circleBrush.create(canvas),
+        outline = circleOutline(cb, cfg.x, cfg.y, cfg.radius),
         outlineLength = outline.length;
 
-    cc.color = cfg.color || "#000000";
+    cb.color = cfg.color || "#000000";
 
     for (var i = 0; i < outlineLength; i++){
-      cc.addPoint(outline[i]);
+      cb.addPoint(outline[i]);
     }
 
-    cc.onMouseUp();
+    cb.onMouseUp();
   }
 
   return {
