@@ -39,6 +39,7 @@ define(function(require){
     this.preparePainting = function(e, eObj){
       var me = this,
           canvas = this.attr.canvas,
+          eObj = eObj || {},
           painter;
 
       /**
@@ -62,7 +63,7 @@ define(function(require){
        * `finish`           : will be called after `releaseHandler`
        *                      has been called
        */
-      this.attr.painter = painter = eObj.painter;
+      this.attr.painter = painter = eObj.painter || {};
 
       // we trigger init paint event. this is normally used
       // to attach the canvas to the painting handler
