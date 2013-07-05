@@ -19,6 +19,7 @@ define(function(require){
 
   return {
     create: function(canvas, cfg){
+      console.log(arguments);
       if (!cfg.x || !cfg.y || !cfg.width || !cfg.height){
         throw new Error("Required params not supplide");
       }

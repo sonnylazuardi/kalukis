@@ -7,6 +7,8 @@ define(function(require){
 
     brushColor: "#000000",
 
+    outline: undefined,
+
     init: function(canvas, cfg){
       this.canvas = canvas;
       this.brushColor = cfg.color || "#000000";
@@ -17,7 +19,7 @@ define(function(require){
     onMouseDown: function(e){
       var point = this.canvas.getPointer(e.e);
 
-      this.rect = {
+      this.outline = {
         x: point.x,
         y: point.y,
         width: 1,
@@ -31,8 +33,8 @@ define(function(require){
       if (this.isDrawing) {
         var point = this.canvas.getPointer(e.e);
 
-        this.rect.height = point.y - this.rect.y;
-        this.rect.width = point.x - this.rect.x;
+        this.outline.height = point.y - this.outline.y;
+        this.outline.width = point.x - this.outline.x;
 
         this.renderOutline();
       }
@@ -40,10 +42,10 @@ define(function(require){
 
     onMouseUp: function(e){
       this.isDrawing = false;
-      this.finishing();
+      this.finish();
     },
 
-    finishing: function(){
+    finish: function(){
       this.canvas.clearContext(this.canvas.contextTop);
       this.canvas.selection = true;
     },
@@ -54,7 +56,7 @@ define(function(require){
 
       ctx.lineWidth = 1;
       ctx.strokeStyle = this.brushColor;
-      ctx.strokeRect(this.rect.x, this.rect.y, this.rect.width, this.rect.height);
+      ctx.strokeRect(this.outline.x, this.outline.y, this.outline.width, this.outline.height);
 
       ctx.restore();
     }

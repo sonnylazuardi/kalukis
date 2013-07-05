@@ -10,8 +10,7 @@ define(function(require){
       compose = require("flight/lib/compose"),
       withCanvas = require("data/with_canvas"),
       fabric = require("fabric"),
-      outlinePainter = require("shapeBrush/outlinePainter");
-      // rect;
+      outlinePainter = require("outlinePainter/rect");
 
   // pasang advice pada outlinePainter
   compose.mixin(outlinePainter, [advice.withAdvice]);
@@ -33,12 +32,11 @@ define(function(require){
       var me = this;
       // draw brush
       // TODO Update this API
-      outlinePainter.after('finishing', function(){
+      outlinePainter.after('finish', function(){
         me.trigger(document, "paintStopRequested");
 
-        me.attr.rect = outlinePainter.rect;
+        me.attr.rect = outlinePainter.outline;
         me.createShapeBrush();
-
         me.attr.canvas.renderAll();
       });
     });
@@ -49,20 +47,10 @@ define(function(require){
       this.on(document, "selectedBrushReady", this.setBrush);
     };
 
-    // this.setPaintHandlers = function(){
-    //   this.on(document, "canvasMouseMove", this.onMouseMove);
-    //   this.on(document, "canvasMouseUp", this.onMouseUp);
-    // };
-
     this.releaseInitHandlers = function(){
       // this.off(document, "canvasMouseDown");
       this.off(document, "releasHandlersRequested");
     };
-
-    // this.releasePaintHandlers = function(){
-    //   this.off(document, "canvasMouseMove");
-    //   this.off(document, "canvasMouseUp");
-    // };
 
     this.onClick = function(e, eObj){
       outlinePainter.init(this.attr.canvas, {
@@ -71,76 +59,31 @@ define(function(require){
 
       this.setInitHandlers();
 
-      // this.attr.canvas.selection = false;
-
       this.trigger(document, "paintRequested", {
         painter: outlinePainter
       });
+
       this.trigger(document, "selectedBrushRequested");
     };
 
-    // this.onMouseDown = function(e, eObj){
-    //   var point = this.attr.canvas.getPointer(eObj.e);
-
-    //   rect = {
-    //     ox: point.x,
-    //     oy: point.y,
-    //     width: 1,
-    //     height: 1
-    //   };
-
-    //   this.setPaintHandlers();
-    // };
-
-    // this.onMouseMove = function(e, eObj){
-    //   var point = this.attr.canvas.getPointer(eObj.e);
-
-    //   rect.height = point.y - rect.oy;
-    //   rect.width = point.x - rect.ox;
-
-    //   this.renderPaintOutline(rect.ox, rect.oy, rect.width, rect.height);
-    // };
-
-    this.onMouseUp = function(e, eObj){
-      this.trigger(document, "paintStopRequested");
-      this.releaseHandlers();
-
-      this.attr.canvas.renderAll();
-
-      this.createShapeBrush();
-    };
-
-    // a method to just render the paint outline. This should
-    // make painting faster
-    // this.renderPaintOutline = function(x, y, width, height){
-    //   var ctx = this.attr.canvas.contextTop;
-    //   ctx.save();
-
-    //   ctx.lineWidth = 1;
-    //   ctx.strokeStyle = this.attr.brush.color;
-    //   ctx.strokeRect(x, y, width, height);
-
-    //   ctx.restore();
-    // };
-
-    this.createShapeBrush = function(e, eObj){
+    this.createShapeBrush = function(){
       var brushModule = "shapeBrush/rect-"+this.attr.brushId,
-          me = this;
+          me = this,
+          rect = me.attr.rect;
 
       // TODO what should happen when the brush cannot be loaded?
       require([brushModule], function(brush){
-        var rect = me.attr.rect;
 
         brush.create(me.attr.canvas, {
-          x: (rect.width > 0) ? rect.ox : rect.ox + rect.width,
-          y: (rect.height > 0) ? rect.oy : rect.oy + rect.height,
+          x: (rect.width > 0) ? rect.x : rect.x + rect.width,
+          y: (rect.height > 0) ? rect.y : rect.y + rect.height,
           width: Math.abs(rect.width),
           height: Math.abs(rect.height),
           color: me.attr.brush.color
         });
-
-        rect = null;
       });
+
+      me.attr.rect = null;
     };
 
     this.setBrushProperty = function(e, eObj){

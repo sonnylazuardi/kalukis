@@ -51,11 +51,11 @@ define(function(require){
        *
        * Paint handler can also provide these extra methods:
        *
-       * `releaseHandler` : will be called when there is a
-       *                    request to release all event handlers
-       *                    for painting
-       * `finishing`      : will be called after `releaseHandler`
-       *                    has been called
+       * `releaseHandlers`  : will be called when there is a
+       *                      request to release all event handlers
+       *                      for painting
+       * `finish`           : will be called after `releaseHandler`
+       *                      has been called
        */
       this.attr.painter = painter = eObj.painter;
 
@@ -96,6 +96,10 @@ define(function(require){
       canvas.off("mouse:down", this.attr.painter.onMouseDown);
       canvas.off("mouse:up", this.attr.painter.onMouseUp);
       canvas.off("mouse:move", this.attr.painter.onMouseMove);
+
+      // this.attr.painter.releaseHandlers();
+
+      // this.attr.painter.finish();
     };
 
     // change the color of selected objects
