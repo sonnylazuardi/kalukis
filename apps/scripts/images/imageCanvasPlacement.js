@@ -1,7 +1,8 @@
 define(function(require){
   var fabric = require("fabric");
 
-  function placeImage(canvas, cfg){
+  // TODO failure handling
+  function placeImage(canvas, cfg, callback){
     var reader = new FileReader();
 
     reader.onload = function(e){
@@ -9,7 +10,6 @@ define(function(require){
 
       img.onload = function(){
         var image = new fabric.Image(img);
-        console.log(cfg);
         image.set({
           top: cfg.y + cfg.height / 2,
           left: cfg.x + cfg.width / 2,
@@ -17,9 +17,10 @@ define(function(require){
           height: cfg.height
         });
 
-        console.log(image);
         // add image to canvas and then render the canvas
         canvas.add(image).renderAll();
+
+        callback && callback.call(this);
       };
 
       img.src = e.target.result;

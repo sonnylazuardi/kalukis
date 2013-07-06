@@ -81,6 +81,8 @@ define(function(require){
           rect = this.attr.rect;
 
       require(["images/imageCanvasPlacement"], function(handler){
+        // TODO callback when fails
+        me.trigger(document, "loadingIndicatorRequested");
         handler.create(me.attr.canvas, {
           x: (rect.width > 0) ? rect.x : rect.x + rect.width,
           y: (rect.height > 0) ? rect.y : rect.y + rect.height,
@@ -88,6 +90,8 @@ define(function(require){
           height: Math.abs(rect.height),
           url: me.attr.url,
           file: me.attr.file
+        }, function(){
+          me.trigger(document, "stopLoadingIndicatorRequested");
         });
       });
 
