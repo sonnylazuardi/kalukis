@@ -20,7 +20,9 @@ define(function(require){
         // add image to canvas and then render the canvas
         canvas.add(image).renderAll();
 
-        callback && callback.call(this);
+        if (typeof callback === "function"){
+          callback.call(this);
+        }
       };
 
       img.src = e.target.result;
@@ -30,12 +32,12 @@ define(function(require){
   }
 
   return {
-    create: function(canvas, cfg){
+    create: function(canvas, cfg, callback){
       if (!cfg.x || !cfg.y || !cfg.width || !cfg.height || !cfg.url){
         throw new Error("Required params not provided");
       }
 
-      placeImage(canvas, cfg);
+      placeImage(canvas, cfg, callback);
     }
   };
 });
