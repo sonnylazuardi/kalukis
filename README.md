@@ -18,11 +18,21 @@ To install all of the dependancies, please run:
 
 > bower install
 
-I think that's about it.
+I think that's about it. To try the application, just open `apps/index.html`.
 
 ## Running the tests
 
-Run `tests/index.html` in your browser of choice. I'm currently checking out [phantomjs](http://phantomjs.org) in order to run the tests from console.
+<del>Run `tests/index.html` in your browser of choice. I'm currently checking out [phantomjs](http://phantomjs.org) in order to run the tests from console.</del>
+
+I've decided to use `testem` in order to run my tests. Just install `testem` globally through `npm`:
+
+> npm install -g testem
+
+To run the test, just type the command below on your console:
+
+> testem
+
+**Testem** will run the test with PhantomJS. So, you actually need to have PhantomJS installed. Please see their [site](http://phantomjs.org) to know the steps.
 
 ## TODO
 
@@ -30,7 +40,7 @@ This application is still at it's early stage. So, ofcourse there are a lot of t
 
 - [ ] Improve the architecture
 - [x] Start Unit test
-- [ ] Use PhantomJS to run unit tests
+- [x] Use PhantomJS to run unit tests (with the help of testem)
 - [ ] Widgets on demand (show and hide when needed)
 - [ ] Performance
 - [ ] Shapes
