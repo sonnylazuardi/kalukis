@@ -12,11 +12,11 @@ define(function(require){
     });
 
     this.onLoadingIndicatorRequested = function(){
-      this.$node.css("display", "visible");
+      this.$node.fadeIn();
     };
 
     this.onHideLoadingIndicatorRequested = function(){
-      this.$node.css("display", "none");
+      this.$node.fadeOut();
     };
   }
 });
