@@ -7,6 +7,7 @@ define(function(require){
       pencil = require("ui/pencil"),
       rectBrush = require("ui/rectBrush"),
       circleShapedBrush = require("ui/circleShapedBrush"),
+      imageButton = require("ui/imageButton"),
       brushesCombo = require("ui/brushescombo"),
       brushesList = require("data/brusheslist"),
       colorPicker = require("ui/colorpicker");
@@ -18,6 +19,7 @@ define(function(require){
     pencil.attachTo("#pencil");
     rectBrush.attachTo("#rectBrush");
     circleShapedBrush.attachTo("#circleShapedBrush");
+    imageButton.attachTo("#imageButton");
 
     brushesList.attachTo(document);
     brushesCombo.attachTo("#brushescombo");

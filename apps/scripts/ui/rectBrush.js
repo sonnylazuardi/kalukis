@@ -12,9 +12,6 @@ define(function(require){
       fabric = require("fabric"),
       outlinePainter = require("outlinePainter/rect");
 
-  // pasang advice pada outlinePainter
-  compose.mixin(outlinePainter, [advice.withAdvice]);
-
   return defineComponent(shapeBrush, withCanvas);
 
   function shapeBrush(){
@@ -29,10 +26,6 @@ define(function(require){
       this.on("click", this.onClick);
       this.on(document, "uiBrushClicked", this.onUiBrushClicked);
       this.on(document, "colorChanged", this.setBrushProperty);
-
-      outlinePainter.after('finish', function(){
-        this.afterFinishCallback();
-      }.bind(this));
     });
 
     this.onUiBrushClicked = function(e, eObj){
@@ -45,7 +38,7 @@ define(function(require){
     this.afterFinishCallback = function(){
       this.trigger(document, "paintStopRequested");
 
-      this.attr.rect = outlinePainter.outline;
+      this.attr.rect = this.attr.outlinePainter.outline;
       // draw painting
       this.createShapeBrush();
     };
@@ -61,9 +54,15 @@ define(function(require){
     this.onClick = function(e, eObj){
       this.trigger(document, "uiBrushClicked", {clicked: "rect"});
       // init the outline painter
-      outlinePainter.init(this.attr.canvas, {
+      this.attr.outlinePainter = outlinePainter.init(this.attr.canvas, {
         color: this.attr.brush.color
       });
+
+      compose.mixin(this.attr.outlinePainter, [advice.withAdvice]);
+
+      this.attr.outlinePainter.after('finish', function(){
+        this.afterFinishCallback();
+      }.bind(this));
 
       this.setHandlers();
 
@@ -71,7 +70,7 @@ define(function(require){
       // to draw the outline first and then after the mouse is
       // released, we draw the painting.
       this.trigger(document, "paintRequested", {
-        painter: outlinePainter
+        painter: this.attr.outlinePainter
       });
 
       // What's the selected brush?

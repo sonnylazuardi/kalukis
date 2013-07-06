@@ -1,65 +1,72 @@
 define(function(require){
 
-  return {
-    canvas: undefined,
+  function RectOutlinePainter(canvas, cfg){
+    cfg = cfg || {};
+    this.canvas = canvas;
+    this.brushColor = cfg.color || "#000000";
 
-    isDrawing: false,
+    this.canvas.selection = false;
+    this.isDrawing = false;
+    this.brushColor = "#000000";
+    this.outline = undefined;
+  }
 
-    brushColor: "#000000",
+  RectOutlinePainter.prototype.onMouseDown = function(e) {
+    var point = this.canvas.getPointer(e.e);
 
-    outline: undefined,
+    this.outline = {
+      x: point.x,
+      y: point.y,
+      width: 1,
+      height: 1
+    };
 
-    init: function(canvas, cfg){
-      cfg = cfg || {};
-      this.canvas = canvas;
-      this.brushColor = cfg.color || "#000000";
+    this.isDrawing = true;
 
-      this.canvas.selection = false;
-    },
+    return this;
+  };
 
-    onMouseDown: function(e){
+  RectOutlinePainter.prototype.onMouseMove = function(e) {
+    if (this.isDrawing) {
       var point = this.canvas.getPointer(e.e);
 
-      this.outline = {
-        x: point.x,
-        y: point.y,
-        width: 1,
-        height: 1
-      };
+      this.outline.height = point.y - this.outline.y;
+      this.outline.width = point.x - this.outline.x;
 
-      this.isDrawing = true;
-    },
+      this.renderOutline();
+    }
 
-    onMouseMove: function(e){
-      if (this.isDrawing) {
-        var point = this.canvas.getPointer(e.e);
+    return this;
+  };
 
-        this.outline.height = point.y - this.outline.y;
-        this.outline.width = point.x - this.outline.x;
+  RectOutlinePainter.prototype.onMouseUp = function(e) {
+    this.isDrawing = false;
+    this.finish();
+    return this;
+  };
 
-        this.renderOutline();
-      }
-    },
+  RectOutlinePainter.prototype.finish = function() {
+    this.canvas.clearContext(this.canvas.contextTop);
+    this.canvas.selection = true;
+    return this;
+  };
 
-    onMouseUp: function(e){
-      this.isDrawing = false;
-      this.finish();
-    },
+  RectOutlinePainter.prototype.renderOutline = function() {
+    var ctx = this.canvas.contextTop;
+    ctx.save();
 
-    finish: function(){
-      this.canvas.clearContext(this.canvas.contextTop);
-      this.canvas.selection = true;
-    },
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = this.brushColor;
+    ctx.strokeRect(this.outline.x, this.outline.y, this.outline.width, this.outline.height);
 
-    renderOutline: function(){
-      var ctx = this.canvas.contextTop;
-      ctx.save();
+    ctx.restore();
 
-      ctx.lineWidth = 1;
-      ctx.strokeStyle = this.brushColor;
-      ctx.strokeRect(this.outline.x, this.outline.y, this.outline.width, this.outline.height);
+    return this;
+  };
 
-      ctx.restore();
+  return {
+    init: function(canvas, cfg){
+      return new RectOutlinePainter(canvas, cfg);
     }
   };
 });

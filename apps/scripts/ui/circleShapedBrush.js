@@ -6,8 +6,6 @@ define(function(require){
       fabric = require("fabric"),
       outlinePainter = require("outlinePainter/circle");
 
-  compose.mixin(outlinePainter, [advice.withAdvice]);
-
   return defineComponent(circleShapedBrush, withCanvas);
 
   function circleShapedBrush(){
@@ -23,9 +21,7 @@ define(function(require){
       this.on(document, "uiBrushClicked", this.onUiBrushClicked);
       this.on(document, "colorChanged", this.setBrushProperty);
 
-      outlinePainter.after("finish", function(){
-        this.afterFinishCallback();
-      }.bind(this));
+
     });
 
     this.onUiBrushClicked = function(e, eObj){
@@ -38,14 +34,20 @@ define(function(require){
     this.onClick = function(e, eObj){
       this.trigger(document, "uiBrushClicked", {clicked: "circle"});
 
-      outlinePainter.init(this.attr.canvas, {
+      this.on(document, "selectedBrushReady", this.onSelectedBrushReady);
+
+      this.attr.outlinePainter = outlinePainter.init(this.attr.canvas, {
         color: this.attr.brush.color
       });
 
-      this.on(document, "selectedBrushReady", this.onSelectedBrushReady);
+      compose.mixin(this.attr.outlinePainter, [advice.withAdvice]);
+
+      this.attr.outlinePainter.after("finish", function(){
+        this.afterFinishCallback();
+      }.bind(this));
 
       this.trigger(document, "paintRequested", {
-        painter: outlinePainter
+        painter: this.attr.outlinePainter
       });
 
       this.trigger(document, "selectedBrushRequested");
@@ -62,7 +64,7 @@ define(function(require){
     this.afterFinishCallback = function(e, eObj){
       this.trigger(document, "paintStopRequested");
 
-      this.attr.circle = outlinePainter.outline;
+      this.attr.circle = this.attr.outlinePainter.outline;
 
       this.createShapeBrush();
     };
