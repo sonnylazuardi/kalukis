@@ -91,7 +91,7 @@ define(function(require){
           url: me.attr.url,
           file: me.attr.file
         }, function(){
-          me.trigger(document, "stopLoadingIndicatorRequested");
+          me.trigger(document, "hideLoadingIndicatorRequested");
         });
       });
 
