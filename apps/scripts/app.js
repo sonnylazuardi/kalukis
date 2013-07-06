@@ -21,7 +21,7 @@ define(function(require){
     rectBrush.attachTo("#rectBrush");
     circleShapedBrush.attachTo("#circleShapedBrush");
     imageButton.attachTo("#imageButton");
-    loadingIndicator.attachTo("#loadingIndicator");
+    loadingIndicator.attachTo("#loading-indicator");
 
     brushesList.attachTo(document);
     brushesCombo.attachTo("#brushescombo");

@@ -6,7 +6,7 @@ define(function(require){
   function loadingIndicator(){
 
     this.after("initialize", function(){
-      this.on(document, "loadingIndicatorRequetsted", this.onLoadingIndicatorRequested);
+      this.on(document, "loadingIndicatorRequested", this.onLoadingIndicatorRequested);
 
       this.on(document, "hideLoadingIndicatorRequested", this.onHideLoadingIndicatorRequested);
     });
