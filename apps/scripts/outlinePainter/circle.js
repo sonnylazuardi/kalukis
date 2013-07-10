@@ -8,6 +8,8 @@ define(function(require){
     this.isDrawing = false;
     this.brushColor = "#000000";
     this.outline = undefined;
+
+    this.canvas.defaultCursor = "crosshair";
   }
 
   CircleOutlinePainter.prototype.onMouseDown = function(e) {
@@ -37,6 +39,8 @@ define(function(require){
   };
 
   CircleOutlinePainter.prototype.onMouseUp = function(e) {
+    this.canvas.defaultCursor = "default";
+
     this.isDrawing = false;
     this.finish();
     return this;
