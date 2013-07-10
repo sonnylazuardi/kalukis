@@ -9,6 +9,8 @@ define(function(require){
     this.isDrawing = false;
     this.brushColor = "#000000";
     this.outline = undefined;
+
+    this.canvas.defaultCursor = "crosshair";
   }
 
   RectOutlinePainter.prototype.onMouseDown = function(e) {
@@ -40,6 +42,7 @@ define(function(require){
   };
 
   RectOutlinePainter.prototype.onMouseUp = function(e) {
+    this.canvas.defaultCursor = "default";
     this.isDrawing = false;
     this.finish();
     return this;
