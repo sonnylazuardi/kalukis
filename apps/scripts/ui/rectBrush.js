@@ -36,6 +36,8 @@ define(function(require){
     };
 
     this.afterFinishCallback = function(){
+      this.attr.canvas.defaultCursor = "default";
+
       this.trigger(document, "paintStopRequested");
 
       this.attr.rect = this.attr.outlinePainter.outline;
@@ -52,6 +54,8 @@ define(function(require){
     };
 
     this.onClick = function(e, eObj){
+      this.attr.canvas.defaultCursor = "crosshair";
+
       this.trigger(document, "uiBrushClicked", {clicked: "rect"});
       // init the outline painter
       this.attr.outlinePainter = outlinePainter.init(this.attr.canvas, {

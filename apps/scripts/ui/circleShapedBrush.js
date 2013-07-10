@@ -32,6 +32,8 @@ define(function(require){
     };
 
     this.onClick = function(e, eObj){
+      this.attr.canvas.defaultCursor = "crosshair";
+
       this.trigger(document, "uiBrushClicked", {clicked: "circle"});
 
       this.on(document, "selectedBrushReady", this.onSelectedBrushReady);
@@ -62,6 +64,8 @@ define(function(require){
     };
 
     this.afterFinishCallback = function(e, eObj){
+      this.attr.canvas.defaultCursor = "default";
+
       this.trigger(document, "paintStopRequested");
 
       this.attr.circle = this.attr.outlinePainter.outline;
