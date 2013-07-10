@@ -115,6 +115,7 @@ scripts/ui/with_handlebars.js
 scripts/vendor/requirejs-text/text.js
 text!templates/hiddenInputImage.hbs
 scripts/ui/imageButton.js
+scripts/ui/removeButton.js
 scripts/ui/loadingIndicator.js
 text!templates/brushescombo.hbs
 scripts/ui/brushescombo.js

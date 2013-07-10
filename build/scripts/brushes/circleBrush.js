@@ -1,1 +1,1 @@
-define(["require","fabric"],function(i){var t=i("fabric");return{create:function(i){return new t.CircleBrush(i)}}});
+define(["require","fabric"],function(t){var i=t("fabric");return{create:function(t){return new i.CircleBrush(t)}}});
