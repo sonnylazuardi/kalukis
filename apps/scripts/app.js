@@ -8,6 +8,7 @@ define(function(require){
       rectBrush = require("ui/rectBrush"),
       circleShapedBrush = require("ui/circleShapedBrush"),
       imageButton = require("ui/imageButton"),
+      removeButton = require("ui/removeButton"),
       loadingIndicator = require("ui/loadingIndicator"),
       brushesCombo = require("ui/brushescombo"),
       brushesList = require("data/brusheslist"),
@@ -21,6 +22,8 @@ define(function(require){
     rectBrush.attachTo("#rectBrush");
     circleShapedBrush.attachTo("#circleShapedBrush");
     imageButton.attachTo("#imageButton");
+    removeButton.attachTo("#removeButton");
+
     loadingIndicator.attachTo("#loading-indicator");
 
     brushesList.attachTo(document);

@@ -12,7 +12,8 @@ define(function(require){
   function Lukis(){
 
     this.defaultAttrs({
-      handlerHelper: {}
+      handlerHelper: {},
+      selectedObjects: []
     });
 
     this.after("initialize", function(){
@@ -29,13 +30,18 @@ define(function(require){
       this.on(document, "colorChanged", this.changeColor);
     });
 
+    /**
+     * Publish the canvas to any listener
+     */
     this.publishCanvas = function(){
       this.trigger(document, "canvasReady", {
         canvas: this.attr.canvas
       });
     };
 
-    // preparation for painting
+    /**
+     * Prepare painting process
+     */
     this.preparePainting = function(e, eObj){
       var me = this,
           canvas = this.attr.canvas,
