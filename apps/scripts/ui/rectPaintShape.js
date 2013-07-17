@@ -29,14 +29,6 @@ define(function(require){
       this.createShapeBrush();
     };
 
-    this.setHandlers = function(){
-      this.on(document, "selectedBrushReady", this.onSelectedBrushReady);
-    };
-
-    this.releaseHandlers = function(){
-      this.off(document, "releaseHandlersRequested");
-    };
-
     this.createShapeBrush = function(){
       var brushModule = "shapeBrush/rect-"+this.attr.brushId,
           me = this,
