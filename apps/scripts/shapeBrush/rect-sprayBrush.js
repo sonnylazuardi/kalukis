@@ -1,10 +1,10 @@
 define(function(require){
-  var rectOutline = require("utils/rectOutline"),
+  var rectOutlinePts = require("utils/rectOutlinePoints"),
       sprayBrush = require("brushes/sprayBrush");
 
   function createRectSpray(canvas, cfg){
     var sb = sprayBrush.create(canvas),
-        outline = rectOutline(sb, cfg.x, cfg.y, cfg.width, cfg.height),
+        outline = rectOutlinePts(sb, cfg.x, cfg.y, cfg.width, cfg.height),
         outlineLength = outline.length;
 
     sb.color = cfg.color || "#000000";

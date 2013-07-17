@@ -1,10 +1,10 @@
 define(function(require){
-  var rectOutline = require("utils/rectOutline"),
+  var rectOutlinePts = require("utils/rectOutlinePoints"),
       circleBrush = require("brushes/circleBrush");
 
   function createRectCircle(canvas, cfg){
     var cb = circleBrush.create(canvas),
-        outline = rectOutline(cb, cfg.x, cfg.y, cfg.width, cfg.height),
+        outline = rectOutlinePts(cb, cfg.x, cfg.y, cfg.width, cfg.height),
         outlineLength = outline.length;
 
     cb.color = cfg.color || "#000000";
