@@ -1,7 +1,5 @@
 /**
- *
- * @param  {[type]} require [description]
- * @return {[type]}         [description]
+ * Respond to user event on LinePaintShape button
  */
 define(function(require){
 

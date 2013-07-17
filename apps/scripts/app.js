@@ -5,9 +5,9 @@ define(function(require){
 
   var lukis = require("lukis"),
       pencil = require("ui/pencil"),
-      line = require("ui/linePaintShape"),
+      linePaintShape = require("ui/linePaintShape"),
       rectBrush = require("ui/rectBrush"),
-      circleShapedBrush = require("ui/circleShapedBrush"),
+      circlePaintShape = require("ui/circlePaintShape"),
       imageButton = require("ui/imageButton"),
       removeButton = require("ui/removeButton"),
       loadingIndicator = require("ui/loadingIndicator"),
@@ -20,9 +20,9 @@ define(function(require){
     lukis.attachTo("#lukis");
 
     pencil.attachTo("#pencil");
-    line.attachTo("#line");
+    linePaintShape.attachTo("#linePaintShape");
     rectBrush.attachTo("#rectBrush");
-    circleShapedBrush.attachTo("#circleShapedBrush");
+    circlePaintShape.attachTo("#circlePaintShape");
     imageButton.attachTo("#imageButton");
     removeButton.attachTo("#removeButton");
 
