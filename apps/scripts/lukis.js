@@ -139,7 +139,7 @@ define(function(require){
     this.onKeyDown = function(e, eObj){
       if (e.keyCode === 27) {
         this.releaseHandlers();
-        this.trigger(document, "releaseHandlersRequested");
+        this.trigger(this.attr.canvasEl, "releaseHandlersRequested");
       }
     };
   }

@@ -39,7 +39,7 @@ define(function(require){
     };
 
     this.setInitHandlers = function(){
-      this.on(document, "releaseHandlersRequested", this.onReleaseHandlerRequested);
+      this.on(this.attr.canvasEl, "releaseHandlersRequested", this.onReleaseHandlerRequested);
       this.on(document, "selectedBrushReady", this.onSelectedBrushReady);
     };
 
@@ -50,7 +50,7 @@ define(function(require){
     this.releaseInitHandlers = function(){
       this.off(this.attr.canvasEl, "paintPreparationReady");
 
-      this.off(document, "releaseHandlersRequested");
+      this.off(this.attr.canvasEl, "releaseHandlersRequested");
       this.off(document, "selectedBrushReady");
     };
 
