@@ -6,33 +6,19 @@
 define(function(require){
 
   var defineComponent = require("flight/component"),
-      advice = require("flight/lib/advice"),
-      compose = require("flight/lib/compose"),
       withCanvas = require("data/with_canvas"),
+      withPaintShape = require("ui/with_paint_shape"),
       fabric = require("fabric"),
       outlinePainter = require("outlinePainter/rect");
 
-  return defineComponent(shapeBrush, withCanvas);
+  return defineComponent(shapeBrush, withCanvas, withPaintShape);
 
   function shapeBrush(){
 
-    this.defaultAttrs({
-      brush: {
-        color: "#000000"
-      }
-    });
-
-    this.after("initialize", function(){
-      this.on("click", this.onClick);
-      this.on(document, "uiBrushClicked", this.onUiBrushClicked);
-      this.on(document, "colorChanged", this.setBrushProperty);
-    });
-
-    this.onUiBrushClicked = function(e, eObj){
-      if (eObj.clicked !== "rect") {
-        console.log("rect stopped");
-        this.trigger(document, "paintStopRequested");
-      }
+    this.getOutlinePainter = function(){
+      return outlinePainter.init(this.attr.canvas, {
+        color: this.attr.brush.color
+      });
     };
 
     this.afterFinishCallback = function(){
@@ -49,32 +35,6 @@ define(function(require){
 
     this.releaseHandlers = function(){
       this.off(document, "releaseHandlersRequested");
-    };
-
-    this.onClick = function(e, eObj){
-      this.trigger(document, "uiBrushClicked", {clicked: "rect"});
-      // init the outline painter
-      this.attr.outlinePainter = outlinePainter.init(this.attr.canvas, {
-        color: this.attr.brush.color
-      });
-
-      compose.mixin(this.attr.outlinePainter, [advice.withAdvice]);
-
-      this.attr.outlinePainter.after('finish', function(){
-        this.afterFinishCallback();
-      }.bind(this));
-
-      this.setHandlers();
-
-      // attach our outlinePainter to canvas' events. We need
-      // to draw the outline first and then after the mouse is
-      // released, we draw the painting.
-      this.trigger(document, "paintRequested", {
-        painter: this.attr.outlinePainter
-      });
-
-      // What's the selected brush?
-      this.trigger(document, "selectedBrushRequested");
     };
 
     this.createShapeBrush = function(){
@@ -97,18 +57,6 @@ define(function(require){
       });
 
       me.attr.rect = null;
-    };
-
-    this.onSelectedBrushReady = function(e, eObj){
-      this.setBrush(e, eObj);
-    };
-
-    this.setBrushProperty = function(e, eObj){
-      this.attr.brush[eObj.key] = eObj[eObj.key];
-    };
-
-    this.setBrush = function(e, eObj){
-      this.attr.brushId = eObj.selectedId;
     };
   }
 });
