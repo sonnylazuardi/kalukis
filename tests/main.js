@@ -35,7 +35,8 @@ require(
   "specs/rectOutlinePainterSpec",
   "specs/circleOutlineSpec",
   "specs/brushRectSpec",
-  "specs/circleShapeBrushSpec"
+  "specs/circleShapeBrushSpec",
+  "specs/lineOutlineSpec"
 ],
 
 function(){

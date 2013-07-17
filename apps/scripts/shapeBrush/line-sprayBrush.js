@@ -1,1 +1,3 @@
-apps/scripts/shapeBrush/
+define(function(require){
+
+});
