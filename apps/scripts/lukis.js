@@ -128,13 +128,7 @@ define(function(require){
     this.changeColor = function(e, eObj){
       var selected = this.attr.canvas.getActiveObject();
 
-      if (selected){
-        if (selected.type === "path") {
-          selected.set("stroke", eObj.color);
-        }
-
-        this.attr.canvas.renderAll();
-      }
+      console.log("TODO");
     };
 
     // TODO move this to another component
