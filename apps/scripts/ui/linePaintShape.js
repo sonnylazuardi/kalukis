@@ -1,5 +1,8 @@
-// TODO line, circleShapedBrush, and rectBrush look similar
-// Maybe create a mixin?
+/**
+ *
+ * @param  {[type]} require [description]
+ * @return {[type]}         [description]
+ */
 define(function(require){
 
   var defineComponent = require("flight/component"),

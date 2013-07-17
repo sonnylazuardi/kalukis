@@ -3,8 +3,9 @@
  *
  * To use this mixin, the user has to have these methods:
  *
- * getOutlinePainter()
- * afterFinishCallback()
+ * getOutlinePainter()    Will be called to get the outline painter
+ * afterFinishCallback()  Will be called after outline painter is done
+ *                        painting
  *
  * @return {[type]} [description]
  */

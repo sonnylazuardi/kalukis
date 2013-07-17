@@ -5,7 +5,7 @@ define(function(require){
 
   var lukis = require("lukis"),
       pencil = require("ui/pencil"),
-      line = require("ui/line"),
+      line = require("ui/linePaintShape"),
       rectBrush = require("ui/rectBrush"),
       circleShapedBrush = require("ui/circleShapedBrush"),
       imageButton = require("ui/imageButton"),
