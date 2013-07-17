@@ -1,10 +1,10 @@
 define(function(require){
   var circleBrush = require("brushes/circleBrush"),
-      lineOutliner = require("utils/lineOutline");
+      lineOutlinePts = require("utils/lineOutlinePoints");
 
   function createLineCircleBrush(canvas, cfg){
     var cb = circleBrush.create(canvas),
-        outline = lineOutliner(cb, cfg.x1, cfg.y1, cfg.x2, cfg.y2),
+        outline = lineOutlinePts(cb, cfg.x1, cfg.y1, cfg.x2, cfg.y2),
         outlineLength = outline.length;
 
     cb.color = cfg.color || "#000000";

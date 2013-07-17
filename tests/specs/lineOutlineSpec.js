@@ -1,5 +1,5 @@
 define(function(require){
-  var lineOutline = require("utils/lineOutline"),
+  var lineOutlinePts = require("utils/lineOutlinePoints"),
       fabric = require("fabric"),
       canvas = new fabric.Canvas("#test");
 
@@ -10,7 +10,7 @@ define(function(require){
           y1 = 100,
           x2 = 10,
           y2 = 10,
-          points = lineOutline(brush, x1, y1, x2, y2),
+          points = lineOutlinePts(brush, x1, y1, x2, y2),
           check = 100;
 
       expect(points.length).toEqual(10);
