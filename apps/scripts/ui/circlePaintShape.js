@@ -23,7 +23,7 @@ define(function(require){
     };
 
     this.afterFinishCallback = function(e, eObj){
-      this.trigger(document, "paintStopRequested");
+      this.trigger(this.attr.canvasEl, "paintStopRequested");
 
       this.attr.circle = this.attr.outlinePainter.outline;
 

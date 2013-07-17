@@ -24,7 +24,7 @@ define(function(require){
     };
 
     this.afterFinishCallback = function(){
-      this.trigger(document, "paintStopRequested");
+      this.trigger(this.attr.canvasEl, "paintStopRequested");
 
       this.attr.line = this.attr.outlinePainter.outline;
 

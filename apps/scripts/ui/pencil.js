@@ -48,7 +48,7 @@ define(function(require){
     };
 
     this.releaseInitHandlers = function(){
-      this.off(document, "paintPreparationReady");
+      this.off(this.attr.canvasEl, "paintPreparationReady");
 
       this.off(document, "releaseHandlersRequested");
       this.off(document, "selectedBrushReady");
@@ -71,9 +71,9 @@ define(function(require){
       this.setInitHandlers();
       // we need to change the brush when a new one is ready to be used
       // we need to initialize our painting action
-      this.on(document, "paintPreparationReady", this.init);
+      this.on(this.attr.canvasEl, "paintPreparationReady", this.init);
 
-      this.trigger(document, "paintRequested");
+      this.trigger(this.attr.canvasEl, "paintRequested");
     };
 
     this.onSelectedBrushReady = function(e, eObj){

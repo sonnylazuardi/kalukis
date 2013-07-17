@@ -53,7 +53,6 @@ define(function(require){
         this.afterFinishCallback();
       }.bind(this));
 
-      console.log("canvasEl: " + this.attr.canvasEl);
       this.trigger(this.attr.canvasEl, "paintRequested", {
         painter: this.attr.outlinePainter
       });
@@ -64,7 +63,7 @@ define(function(require){
     this.onUiBrushClicked = function(e, eObj){
       console.log(eObj);
       if (eObj.clicked !== this.attr.type && this.attr.isPainting){
-        this.trigger(document, "paintStopRequested");
+        this.trigger(this.attr.canvasEl, "paintStopRequested");
       }
     };
 

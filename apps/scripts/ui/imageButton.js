@@ -44,7 +44,7 @@ define(function(require){
           me.afterFinishCallback();
         }.bind(me));
 
-        me.trigger(document, "paintRequested", {
+        me.trigger(me.attr.canvasEl, "paintRequested", {
           painter: me.attr.outlinePainter
         });
       });
@@ -52,7 +52,7 @@ define(function(require){
 
     this.onUiBrushClicked = function(e, eObj){
       if (eObj.clicked !== "image") {
-        this.trigger(document, "paintStopRequested");
+        this.trigger(this.attr.canvasEl, "paintStopRequested");
       }
     };
 
@@ -68,7 +68,7 @@ define(function(require){
     };
 
     this.afterFinishCallback = function(){
-      this.trigger(document, "paintStopRequested");
+      this.trigger(this.attr.canvasEl, "paintStopRequested");
 
       this.attr.rect = this.attr.outlinePainter.outline;
 

@@ -28,7 +28,7 @@ define(function(require){
       // we need to prepare the painting medium when painting is requested
       this.on(this.attr.canvasEl, "paintRequested", this.preparePainting);
       // we need to release handlers from canvas' events
-      this.on(document, "releaseCanvasHandlers", this.releaseHandlers);
+      this.on(this.attr.canvasEl, "releaseCanvasHandlers", this.releaseHandlers);
       // TODO be more specific
       this.on(document, "colorChanged", this.changeColor);
     });
@@ -47,7 +47,6 @@ define(function(require){
      * Prepare painting process
      */
     this.preparePainting = function(e, eObj){
-      console.log("called");
       var me = this,
           canvas = this.attr.canvas,
           eObj = eObj || {},
@@ -78,7 +77,7 @@ define(function(require){
 
       // we trigger init paint event. this is normally used
       // to attach the canvas to the painting handler
-      this.trigger(document, "paintPreparationReady", {canvas: canvas});
+      this.trigger(this.attr.canvasEl, "paintPreparationReady", {canvas: canvas});
 
       // attaching events on canvas' mouse events only if paintHandler
       // provides the methods
@@ -107,7 +106,7 @@ define(function(require){
       }
 
       this.on(document, "keydown", this.onKeyDown);
-      this.on(document, "paintStopRequested", this.releaseHandlers);
+      this.on(this.attr.canvasEl, "paintStopRequested", this.releaseHandlers);
     };
 
     // unsubscribe from canvas' events
