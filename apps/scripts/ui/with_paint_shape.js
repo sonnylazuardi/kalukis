@@ -23,6 +23,13 @@ define(function(require){
         color: "#000000"
       },
       outlinePainter: undefined
+
+      /**
+       * `type`
+       * The type of paint shape
+       * @type {String}
+       */
+
     });
 
     this.after("initialize", function(){
@@ -46,7 +53,8 @@ define(function(require){
         this.afterFinishCallback();
       }.bind(this));
 
-      this.trigger(document, "paintRequested", {
+      console.log("canvasEl: " + this.attr.canvasEl);
+      this.trigger(this.attr.canvasEl, "paintRequested", {
         painter: this.attr.outlinePainter
       });
 

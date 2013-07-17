@@ -26,7 +26,7 @@ define(function(require){
       // publish the canvas instance
       this.on(document, "canvasRequested", this.onCanvasRequested);
       // we need to prepare the painting medium when painting is requested
-      this.on(document, "paintRequested", this.preparePainting);
+      this.on(this.attr.canvasEl, "paintRequested", this.preparePainting);
       // we need to release handlers from canvas' events
       this.on(document, "releaseCanvasHandlers", this.releaseHandlers);
       // TODO be more specific
@@ -47,6 +47,7 @@ define(function(require){
      * Prepare painting process
      */
     this.preparePainting = function(e, eObj){
+      console.log("called");
       var me = this,
           canvas = this.attr.canvas,
           eObj = eObj || {},

@@ -20,6 +20,7 @@ define(function(){
 
     this.onCanvasReady = function(e, eObj){
       this.attr.canvas = eObj.canvas;
+      this.attr.canvasEl = eObj.canvasEl;
     };
   }
 });
