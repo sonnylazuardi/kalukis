@@ -38,6 +38,7 @@ To run the test, just type the command below on your console:
 
 This application is still at it's early stage. So, ofcourse there are a lot of things to do.
 
+- [ ] Better Module Naming
 - [ ] Improve the architecture
 - [x] Start Unit test
 - [x] Use PhantomJS to run unit tests (with the help of testem)

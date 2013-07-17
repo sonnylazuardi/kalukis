@@ -5,6 +5,7 @@ define(function(require){
 
   var lukis = require("lukis"),
       pencil = require("ui/pencil"),
+      line = require("ui/line"),
       rectBrush = require("ui/rectBrush"),
       circleShapedBrush = require("ui/circleShapedBrush"),
       imageButton = require("ui/imageButton"),
@@ -19,6 +20,7 @@ define(function(require){
     lukis.attachTo("#lukis");
 
     pencil.attachTo("#pencil");
+    line.attachTo("#line");
     rectBrush.attachTo("#rectBrush");
     circleShapedBrush.attachTo("#circleShapedBrush");
     imageButton.attachTo("#imageButton");
