@@ -1,5 +1,5 @@
 define(function(require){
-  var circleOutline = require("utils/circleOutline"),
+  var circleOutlinePts = require("utils/circleOutlinePoints"),
       fabric = require("fabric"),
       canvas = new fabric.Canvas("#test");
 
@@ -10,7 +10,7 @@ define(function(require){
           x = 50,
           y = 50,
           radius = 10,
-          points = circleOutline(brush, x, y, radius),
+          points = circleOutlinePts(brush, x, y, radius),
           length = points.length,
           r;
 
@@ -23,7 +23,7 @@ define(function(require){
       x = 120;
       y = 125;
       radius = 7;
-      points = circleOutline(brush, x, y, radius);
+      points = circleOutlinePts(brush, x, y, radius);
       length = points.length;
 
       for (i = 0; i < length; i += brush.width) {
