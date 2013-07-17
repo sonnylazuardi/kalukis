@@ -15,6 +15,10 @@ define(function(require){
 
   function shapeBrush(){
 
+    this.defaultAttrs({
+      type: "rect"
+    });
+
     this.getOutlinePainter = function(){
       return outlinePainter.init(this.attr.canvas, {
         color: this.attr.brush.color

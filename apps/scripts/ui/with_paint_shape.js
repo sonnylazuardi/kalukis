@@ -18,7 +18,6 @@ define(function(require){
 
   function withPaintShape(){
     this.defaultAttrs({
-      type: "",
       isPainting: false,
       brush: {
         color: "#000000"
@@ -35,7 +34,7 @@ define(function(require){
     this.onClick = function(e, eObj){
       this.attr.isPainting = true;
 
-      this.trigger(document, "uiBrushClicked", {clicked: "line"});
+      this.trigger(document, "uiBrushClicked", {clicked: this.attr.type});
 
       this.on(document, "selectedBrushReady", this.onSelectedBrushReady);
 
@@ -55,6 +54,7 @@ define(function(require){
     };
 
     this.onUiBrushClicked = function(e, eObj){
+      console.log(eObj);
       if (eObj.clicked !== this.attr.type && this.attr.isPainting){
         this.trigger(document, "paintStopRequested");
       }

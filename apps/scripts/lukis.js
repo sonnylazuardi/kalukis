@@ -13,15 +13,18 @@ define(function(require){
 
     this.defaultAttrs({
       handlerHelper: {},
-      selectedObjects: []
+      selectedObjects: [],
+      canvas: undefined,
+      canvasEl: undefined
     });
 
     this.after("initialize", function(){
       // activate canvas
       this.attr.canvas = new fabric.Canvas(this.$node.attr("id"));
+      this.attr.canvasEl = "#" + this.$node.attr("id");
 
       // publish the canvas instance
-      this.on(document, "canvasRequested", this.publishCanvas);
+      this.on(document, "canvasRequested", this.onCanvasRequested);
       // we need to prepare the painting medium when painting is requested
       this.on(document, "paintRequested", this.preparePainting);
       // we need to release handlers from canvas' events
@@ -33,9 +36,10 @@ define(function(require){
     /**
      * Publish the canvas to any listener
      */
-    this.publishCanvas = function(){
+    this.onCanvasRequested = function(){
       this.trigger(document, "canvasReady", {
-        canvas: this.attr.canvas
+        canvas: this.attr.canvas,
+        canvasEl: this.attr.canvasEl
       });
     };
 

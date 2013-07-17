@@ -12,6 +12,10 @@ define(function(require){
 
   function circleShapedBrush(){
 
+    this.defaultAttrs({
+      type: "circle"
+    });
+
     this.getOutlinePainter = function(){
       return outlinePainter.init(this.attr.canvas, {
         color: this.attr.brush.color

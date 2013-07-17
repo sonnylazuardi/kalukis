@@ -13,6 +13,10 @@ define(function(require){
 
   function line(){
 
+    this.defaultAttrs({
+      type: "line"
+    });
+
     this.getOutlinePainter = function(){
       return outlinePainter.init(this.attr.canvas, {
         color: this.attr.brush.color
