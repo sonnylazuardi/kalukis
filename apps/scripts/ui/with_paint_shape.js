@@ -61,7 +61,6 @@ define(function(require){
     };
 
     this.onUiBrushClicked = function(e, eObj){
-      console.log(eObj);
       if (eObj.clicked !== this.attr.type && this.attr.isPainting){
         this.trigger(this.attr.canvasEl, "paintStopRequested");
       }
