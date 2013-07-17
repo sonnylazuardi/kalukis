@@ -13,17 +13,22 @@ define(function(require){
   var compose = require("flight/lib/compose"),
       advice = require("flight/lib/advice");
 
+  return withPaintShape;
+
   function withPaintShape(){
     this.defaultAttrs({
       type: "",
       isPainting: false,
       brush: {
         color: "#000000"
-      }
+      },
+      outlinePainter: undefined
     });
 
     this.after("initialize", function(){
+      this.on("click", this.onClick);
       this.on(document, "uiBrushClicked", this.onUiBrushClicked);
+      this.on(document, "colorChanged", this.setBrushProperty);
     });
 
     this.onClick = function(e, eObj){
@@ -40,6 +45,10 @@ define(function(require){
       this.attr.outlinePainter.after("finish", function(){
         this.afterFinishCallback();
       }.bind(this));
+
+      this.trigger(document, "paintRequested", {
+        painter: this.attr.outlinePainter
+      });
 
       this.trigger(document, "selectedBrushRequested");
     };
