@@ -13,7 +13,6 @@ define(function(require){
           points = lineOutline(brush, x1, y1, x2, y2);
 
       expect(points.length).toEqual(10);
-      console.log(points);
     });
   });
 });
