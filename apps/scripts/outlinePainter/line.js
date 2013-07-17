@@ -7,7 +7,6 @@ define(function(require){
 
     this.canvas.selection = false;
     this.isDrawing = false;
-    this.brushColor = "#000000";
     this.outline = undefined;
 
     this.canvas.defaultCursor = "crosshair";
