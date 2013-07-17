@@ -81,9 +81,10 @@ define(function(require){
       require([brushModule], function(brush){
 
         brush.create(me.attr.canvas, {
-          x: line.x,
-          y: line.y,
-          radius: line.radius,
+          x1: line.x1,
+          y1: line.y1,
+          x2: line.x2,
+          y2: line.y2,
           color: me.attr.brush.color
         });
 
