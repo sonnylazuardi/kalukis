@@ -29,26 +29,28 @@ define(function(require){
 
       // listen to image dialog events
       // TODO should use flight object if there's one provided
-      $(this.attr.imageInput).change(function(e){
-        me.attr.url = $(this).val().replace(/C:\\fakepath\\/i, '');
-        me.attr.file = e.target.files[0];
-        me.attr.canvas.cursor = "crosshair";
-
-        me.attr.outlinePainter = me.getOutlinePainter();
-        compose.mixin(me.attr.outlinePainter, [advice.withAdvice]);
-        me.attr.outlinePainter.after('finish', function(){
-          me.afterFinishCallback();
-        }.bind(me));
-
-        me.trigger(me.attr.canvasEl, "paintRequested", {
-          painter: me.attr.outlinePainter
-        });
-      });
+      $(this.attr.imageInput).change(this.onImageInputChange.bind(this));
     });
 
     this.getOutlinePainter = function(){
       return outlinePainter.init(this.attr.canvas, {
         color: this.attr.color
+      });
+    };
+
+    this.onImageInputChange = function(e){
+      this.attr.url = $(this).val().replace(/C:\\fakepath\\/i, '');
+      this.attr.file = e.target.files[0];
+      this.attr.canvas.cursor = "crosshair";
+
+      this.attr.outlinePainter = this.getOutlinePainter();
+      compose.mixin(this.attr.outlinePainter, [advice.withAdvice]);
+      this.attr.outlinePainter.after('finish', function(){
+        this.afterFinishCallback();
+      }.bind(this));
+
+      this.trigger(this.attr.canvasEl, "paintRequested", {
+        painter: this.attr.outlinePainter
       });
     };
 
