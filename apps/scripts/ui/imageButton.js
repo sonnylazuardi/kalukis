@@ -14,6 +14,7 @@ define(function(require){
   function imageButton(){
 
     this.defaultAttrs({
+      isPainting: false,
       color: "#585858",
       imageInput: "#hidden-image-input"
     });
@@ -55,12 +56,13 @@ define(function(require){
     };
 
     this.onUiPaintButtonsClicked = function(e, eObj){
-      if (eObj.clicked !== "image") {
+      if (eObj.clicked !== "image" && this.isPainting) {
         this.trigger(this.attr.canvasEl, "paintStopRequested");
       }
     };
 
     this.onClick = function(e, eObj){
+      this.attr.isPainting = true;
       this.trigger(document, "uiPaintButtonsClicked", {clicked: "image"});
 
       this.loadImageSelectionDialog();
@@ -99,6 +101,7 @@ define(function(require){
       });
 
       this.attr.rect = null;
+      this.attr.isPainting = false;
     };
   }
 });
