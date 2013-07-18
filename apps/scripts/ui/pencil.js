@@ -81,6 +81,7 @@ define(function(require){
       this.off(document, "selectedBrushReady");
 
       this.attr.canvas.isDrawingMode = false;
+      this.attr.isPainting = false;
     };
   }
 });

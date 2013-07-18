@@ -36,6 +36,8 @@ define(function(require){
       this.on("click", this.onClick);
       this.on(document, "uiPaintButtonsClicked", this.onUiPaintButtonsClicked);
       this.on(document, "colorChanged", this.setBrushProperty);
+
+      this.after("afterFinishCallback", this.afterAfterFinishCallback);
     });
 
     this.onClick = function(e, eObj){
@@ -46,9 +48,8 @@ define(function(require){
       this.on(document, "selectedBrushReady", this.onSelectedBrushReady);
 
       this.attr.outlinePainter = this.getOutlinePainter();
-
+      // add mixin api to this outlinePainter
       compose.mixin(this.attr.outlinePainter, [advice.withAdvice]);
-
       this.attr.outlinePainter.after("finish", function(){
         this.afterFinishCallback();
       }.bind(this));
@@ -58,6 +59,10 @@ define(function(require){
       });
 
       this.trigger(document, "selectedBrushRequested");
+    };
+
+    this.afterAfterFinishCallback = function(){
+      this.attr.isPainting = false;
     };
 
     this.onUiPaintButtonsClicked = function(e, eObj){
