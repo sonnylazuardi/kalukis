@@ -11,7 +11,7 @@ define(function(require){
       imageButton = require("ui/imageButton"),
       removeButton = require("ui/removeButton"),
       loadingIndicator = require("ui/loadingIndicator"),
-      brushesCombo = require("ui/brushescombo"),
+      brushesCombo = require("ui/brushesCombo"),
       brushesList = require("data/brusheslist"),
       colorPicker = require("ui/colorpicker");
 
