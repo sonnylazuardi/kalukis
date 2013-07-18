@@ -18,6 +18,7 @@ define(function(require){
     // can be accessed through `attr` properties.
     this.defaultAttrs({
       color: "#E74C3C",
+      isPainting: false,
       width: 1,
       brush: {
         color: "#000000"
@@ -32,48 +33,29 @@ define(function(require){
     });
 
     this.onUiBrushClicked = function(e, eObj){
-      if (eObj.clicked !== "pencil"){
-        console.log("pencil stopped");
+      if (eObj.clicked !== "pencil" && this.attr.isPainting){
         this.onReleaseHandlerRequested();
       }
     };
 
-    this.setInitHandlers = function(){
+    this.onClick = function(){
+      this.attr.isPainting = true;
+      this.trigger(document, "uiBrushClicked", {clicked: "pencil"});
+
       this.on(this.attr.canvasEl, "releaseHandlersRequested", this.onReleaseHandlerRequested);
       this.on(document, "selectedBrushReady", this.onSelectedBrushReady);
-    };
+      // we need to change the brush when a new one is ready to be used
+      // we need to initialize our painting action
+      this.on(this.attr.canvasEl, "paintPreparationReady", this.onPaintPreparationReady);
 
-    this.setPaintHandlers = function(){
-
-    };
-
-    this.releaseInitHandlers = function(){
-      this.off(this.attr.canvasEl, "paintPreparationReady");
-
-      this.off(this.attr.canvasEl, "releaseHandlersRequested");
-      this.off(document, "selectedBrushReady");
-    };
-
-    this.releasePaintHandlers = function(){
-      this.off(document, "canvasMouseDown");
+      this.trigger(this.attr.canvasEl, "paintRequested");
     };
 
     // the steps required before painting
-    this.init = function(e, eObj){
+    this.onPaintPreparationReady = function(e, eObj){
       this.attr.canvas.isDrawingMode = true;
       // what brush shall we use for painting?
       this.trigger(document, "selectedBrushRequested");
-    };
-
-    this.onClick = function(){
-      this.trigger(document, "uiBrushClicked", {clicked: "pencil"});
-
-      this.setInitHandlers();
-      // we need to change the brush when a new one is ready to be used
-      // we need to initialize our painting action
-      this.on(this.attr.canvasEl, "paintPreparationReady", this.init);
-
-      this.trigger(this.attr.canvasEl, "paintRequested");
     };
 
     this.onSelectedBrushReady = function(e, eObj){
@@ -94,8 +76,9 @@ define(function(require){
 
     // set painting oeff
     this.onReleaseHandlerRequested = function(){
-      this.releaseInitHandlers();
-      this.releasePaintHandlers();
+      this.off(this.attr.canvasEl, "paintPreparationReady");
+      this.off(this.attr.canvasEl, "releaseHandlersRequested");
+      this.off(document, "selectedBrushReady");
 
       this.attr.canvas.isDrawingMode = false;
     };
