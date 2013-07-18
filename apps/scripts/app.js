@@ -13,7 +13,7 @@ define(function(require){
       loadingIndicator = require("ui/loadingIndicator"),
       brushesCombo = require("ui/brushesCombo"),
       brushesList = require("data/brusheslist"),
-      colorPicker = require("ui/colorpicker");
+      colorPicker = require("ui/colorPicker");
 
   function boots(){
     // attach modules

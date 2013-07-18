@@ -1,4 +1,4 @@
-describeComponent("ui/colorpicker", function(){
+describeComponent("ui/colorPicker", function(){
   beforeEach(function(){
     setupComponent();
   });

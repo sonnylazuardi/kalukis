@@ -21,7 +21,7 @@ define(function(require){
       // settings
       cp.spectrum({
         clickoutFiresChange: true,
-        showButtons: false,
+        showButtons: true,
         // fire me on color changed
         change: function(color){
           me.trigger(document, "colorChanged", {
