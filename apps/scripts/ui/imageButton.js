@@ -34,12 +34,8 @@ define(function(require){
         me.attr.file = e.target.files[0];
         me.attr.canvas.cursor = "crosshair";
 
-        me.attr.outlinePainter = outlinePainter.init(me.attr.canvas, {
-          color: me.attr.color
-        });
-
+        me.attr.outlinePainter = me.getOutlinePainter();
         compose.mixin(me.attr.outlinePainter, [advice.withAdvice]);
-
         me.attr.outlinePainter.after('finish', function(){
           me.afterFinishCallback();
         }.bind(me));
@@ -49,6 +45,12 @@ define(function(require){
         });
       });
     });
+
+    this.getOutlinePainter = function(){
+      return outlinePainter.init(this.attr.canvas, {
+        color: this.attr.color
+      });
+    };
 
     this.onUiPaintButtonsClicked = function(e, eObj){
       if (eObj.clicked !== "image") {
