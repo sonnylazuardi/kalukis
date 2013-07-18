@@ -25,7 +25,7 @@ define(function(require){
       this.$node.parent().append(this.renderData({}, tmpl));
 
       this.on("click", this.onClick);
-      this.on(document, "uiBrushClicked", this.onUiBrushClicked);
+      this.on(document, "uiPaintButtonsClicked", this.onUiPaintButtonsClicked);
 
       // listen to image dialog events
       // TODO should use flight object if there's one provided
@@ -50,15 +50,14 @@ define(function(require){
       });
     });
 
-    this.onUiBrushClicked = function(e, eObj){
+    this.onUiPaintButtonsClicked = function(e, eObj){
       if (eObj.clicked !== "image") {
         this.trigger(this.attr.canvasEl, "paintStopRequested");
       }
     };
 
     this.onClick = function(e, eObj){
-      // TODO aaargh.. this is a bad event's name
-      this.trigger(document, "uiBrushClicked", {clicked: "image"});
+      this.trigger(document, "uiPaintButtonsClicked", {clicked: "image"});
 
       this.loadImageSelectionDialog();
     };

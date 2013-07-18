@@ -34,14 +34,14 @@ define(function(require){
 
     this.after("initialize", function(){
       this.on("click", this.onClick);
-      this.on(document, "uiBrushClicked", this.onUiBrushClicked);
+      this.on(document, "uiPaintButtonsClicked", this.onUiPaintButtonsClicked);
       this.on(document, "colorChanged", this.setBrushProperty);
     });
 
     this.onClick = function(e, eObj){
       this.attr.isPainting = true;
 
-      this.trigger(document, "uiBrushClicked", {clicked: this.attr.type});
+      this.trigger(document, "uiPaintButtonsClicked", {clicked: this.attr.type});
 
       this.on(document, "selectedBrushReady", this.onSelectedBrushReady);
 
@@ -60,7 +60,7 @@ define(function(require){
       this.trigger(document, "selectedBrushRequested");
     };
 
-    this.onUiBrushClicked = function(e, eObj){
+    this.onUiPaintButtonsClicked = function(e, eObj){
       if (eObj.clicked !== this.attr.type && this.attr.isPainting){
         this.trigger(this.attr.canvasEl, "paintStopRequested");
       }

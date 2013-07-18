@@ -28,11 +28,11 @@ define(function(require){
     // set events handler
     this.after("initialize", function(){
       this.on("click", this.onClick);
-      this.on(document, "uiBrushClicked", this.onUiBrushClicked);
+      this.on(document, "uiPaintButtonsClicked", this.onUiPaintButtonsClicked);
       this.on(document, "colorChanged", this.setBrushProperty);
     });
 
-    this.onUiBrushClicked = function(e, eObj){
+    this.onUiPaintButtonsClicked = function(e, eObj){
       if (eObj.clicked !== "pencil" && this.attr.isPainting){
         this.onReleaseHandlerRequested();
       }
@@ -40,7 +40,7 @@ define(function(require){
 
     this.onClick = function(){
       this.attr.isPainting = true;
-      this.trigger(document, "uiBrushClicked", {clicked: "pencil"});
+      this.trigger(document, "uiPaintButtonsClicked", {clicked: "pencil"});
 
       this.on(this.attr.canvasEl, "releaseHandlersRequested", this.onReleaseHandlerRequested);
       this.on(document, "selectedBrushReady", this.onSelectedBrushReady);
