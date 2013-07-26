@@ -13,7 +13,9 @@ define(function(require){
           points = circleOutlinePts(brush, x, y, radius),
           length = points.length,
           r;
-
+      // we asume that the coordinates are correct
+      // if the distance between the points and the coordinates
+      // x and y given above is equal radius
       for (var i = 0; i < length; i += brush.width) {
         r = Math.sqrt((Math.pow(x-points[i].x, 2))+(Math.pow(y-points[i].y, 2)));
 

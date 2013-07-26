@@ -1,3 +1,4 @@
+// TODO data binding between views and model
 define(function(require){
   var Handlebars = require("handlebars");
 
