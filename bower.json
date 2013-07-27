@@ -1,6 +1,6 @@
 {
   "name": "lukis",
-  "version": "0.6.1",
+  "version": "0.7.3",
   "main": "main.js",
   "ignore": [
     "**/.*",
