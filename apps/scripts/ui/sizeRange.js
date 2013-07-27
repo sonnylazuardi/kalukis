@@ -23,12 +23,14 @@ define(function(require){
       this.on(document, "paintSizeSetRequested", this.setPaintSize);
     });
 
+    // publish the new paint size
     this.onChange = function(e){
       this.trigger(document, "paintSizeChanged", {
         size: (this.attr.size = e.target.value)
       });
     };
 
+    // change paint size
     this.setPaintSize = function(e, eObj){
       $(this.attr.widgetEl).val((this.attr.size = eObj.size));
     };
