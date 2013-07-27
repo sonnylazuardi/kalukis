@@ -43,6 +43,7 @@ define(function(require){
 
   RectOutlinePainter.prototype.onMouseUp = function(e) {
     this.canvas.defaultCursor = "default";
+    
     this.isDrawing = false;
     this.canvas.selection = true;
     this.finish();

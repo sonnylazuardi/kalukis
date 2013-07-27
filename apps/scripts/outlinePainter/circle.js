@@ -12,6 +12,7 @@ define(function(require){
   }
 
   CircleOutlinePainter.prototype.onMouseDown = function(e) {
+    this.canvas.selection = false;
     var point = this.canvas.getPointer(e.e);
 
     this.outline = {
@@ -40,6 +41,7 @@ define(function(require){
   CircleOutlinePainter.prototype.onMouseUp = function(e) {
     this.canvas.defaultCursor = "default";
 
+    this.canvas.selection = true;
     this.isDrawing = false;
     this.finish();
     return this;
