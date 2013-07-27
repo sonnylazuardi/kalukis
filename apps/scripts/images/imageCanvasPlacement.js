@@ -33,7 +33,7 @@ define(function(require){
 
   return {
     create: function(canvas, cfg, callback){
-      if (!cfg.x || !cfg.y || !cfg.width || !cfg.height || !cfg.url){
+      if (!cfg.x || !cfg.y || !cfg.width || !cfg.height || !cfg.file){
         throw new Error("Required params not provided");
       }
 

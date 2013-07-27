@@ -39,7 +39,8 @@ define(function(require){
     };
 
     this.onImageInputChange = function(e){
-      this.attr.url = $(this).val().replace(/C:\\fakepath\\/i, '');
+      // console.log($(this));
+      // this.attr.url = $(this).val().replace(/C:\\fakepath\\/i, '');
       this.attr.file = e.target.files[0];
       this.attr.canvas.cursor = "crosshair";
 
@@ -85,6 +86,7 @@ define(function(require){
           rect = this.attr.rect;
 
       require(["images/imageCanvasPlacement"], function(handler){
+
         // TODO callback when fails
         me.trigger(document, "loadingIndicatorRequested");
         handler.create(me.attr.canvas, {
@@ -92,7 +94,6 @@ define(function(require){
           y: (rect.height > 0) ? rect.y : rect.y + rect.height,
           width: Math.abs(rect.width),
           height: Math.abs(rect.height),
-          url: me.attr.url,
           file: me.attr.file
         }, function(){
           me.trigger(document, "hideLoadingIndicatorRequested");
