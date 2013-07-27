@@ -21,7 +21,7 @@ define(function(require){
       isPainting: false,
       brush: {
         color: "#000000",
-        width: 1
+        width: 10
       }
     });
 
