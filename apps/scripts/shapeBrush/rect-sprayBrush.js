@@ -1,11 +1,13 @@
 define(function(require){
   var rectOutlinePts = require("utils/rectOutlinePoints"),
-      sprayBrush = require("brushes/sprayBrush");
+      sprayBrush = require("brushes/sprayBrush"),
+      sprayBrushHelper = require("brushes/sprayBrushHelper");
 
   function createRectSpray(canvas, cfg){
     var sb = sprayBrush.create(canvas);
     // for performance reason
     sb.width = (cfg.brushWidth < 10 ? 10 : cfg.brushWidth);
+    sb.density = 5;
     sb.dotWidth = 5;
 
     var outline = rectOutlinePts(sb, cfg.x, cfg.y, cfg.width, cfg.height),
@@ -17,8 +19,10 @@ define(function(require){
       sb.addSprayChunk(outline[i]);
     }
 
-    sb.render();
-    sb.onMouseUp();
+    sprayBrushHelper.drawChunks(canvas, {
+      color: sb.color,
+      chunks: sb.sprayChunks
+    });
   }
 
   return {

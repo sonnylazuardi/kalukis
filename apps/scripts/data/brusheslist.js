@@ -14,6 +14,7 @@ define(function(require){
         selectedId: "pencilBrush",
         brushes: [
           {value: "pencil", id: "pencilBrush"},
+          {value: "spray", id: "sprayBrush"},
           {value: "circle", id: "circleBrush"}
         ]
       }

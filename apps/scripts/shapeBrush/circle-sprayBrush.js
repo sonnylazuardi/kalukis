@@ -1,11 +1,13 @@
 define(function(require){
   var circleOutlinePts = require("utils/circleOutlinePoints"),
-      sprayBrush = require("brushes/sprayBrush");
+      sprayBrush = require("brushes/sprayBrush"),
+      sprayBrushHelper = require("brushes/sprayBrushHelper");
 
   function createCircularSpray(canvas, cfg){
     var sb = sprayBrush.create(canvas);
     // for performance reason
     sb.width = (cfg.brushWidth < 10 ? 10 : cfg.brushWidth);
+    sb.density = 5;
     sb.dotWidth = 5;
     
     var outline = circleOutlinePts(sb, cfg.x, cfg.y, cfg.radius),
@@ -17,7 +19,10 @@ define(function(require){
       sb.addSprayChunk(outline[i]);
     }
 
-    sb.onMouseUp();
+    sprayBrushHelper.drawChunks(canvas, {
+      color: sb.color,
+      chunks: sb.sprayChunks
+    });
   }
 
   return {
