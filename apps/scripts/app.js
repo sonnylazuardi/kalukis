@@ -13,7 +13,8 @@ define(function(require){
       loadingIndicator = require("ui/loadingIndicator"),
       brushesCombo = require("ui/brushesCombo"),
       brushesList = require("data/brusheslist"),
-      colorPicker = require("ui/colorPicker");
+      colorPicker = require("ui/colorPicker"),
+      sizeRange = require("ui/sizeRange");
 
   function boots(){
     // attach modules
@@ -31,6 +32,7 @@ define(function(require){
     brushesList.attachTo(document);
     brushesCombo.attachTo("#brushescombo");
     colorPicker.attachTo("#colorpicker");
+    sizeRange.attachTo("#sizerange");
   }
 
   return {
