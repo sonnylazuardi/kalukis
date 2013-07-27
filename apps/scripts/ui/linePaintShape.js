@@ -43,7 +43,8 @@ define(function(require){
           y1: line.y1,
           x2: line.x2,
           y2: line.y2,
-          color: me.attr.brush.color
+          color: me.attr.brush.color,
+          brushWidth: me.attr.brush.width
         });
 
         me.attr.canvas.renderAll();

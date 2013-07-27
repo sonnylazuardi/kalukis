@@ -46,7 +46,8 @@ define(function(require){
           y: (rect.height > 0) ? rect.y : rect.y + rect.height,
           width: Math.abs(rect.width),
           height: Math.abs(rect.height),
-          color: me.attr.brush.color
+          color: me.attr.brush.color,
+          brushWidth: me.attr.brush.width
         });
 
         me.attr.canvas.renderAll();

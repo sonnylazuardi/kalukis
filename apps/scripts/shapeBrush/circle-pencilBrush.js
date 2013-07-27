@@ -12,7 +12,8 @@ define(function(require){
         top: cfg.y,
         radius: cfg.radius,
         fill: null,
-        stroke: cfg.color
+        stroke: cfg.color,
+        strokeWidth: cfg.brushWidth || 1
       });
 
       canvas.add(circle).renderAll();

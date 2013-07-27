@@ -41,7 +41,8 @@ define(function(require){
           x: circle.x,
           y: circle.y,
           radius: circle.radius,
-          color: me.attr.brush.color
+          color: me.attr.brush.color,
+          brushWidth: me.attr.brush.width
         });
 
         me.attr.canvas.renderAll();

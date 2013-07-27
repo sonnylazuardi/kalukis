@@ -18,7 +18,7 @@ describeComponent("ui/sizeRange", function(){
         expect(eventSpy).toHaveBeenTriggeredOn(document);
         expect(eventSpy.mostRecentCall.data).toEqual({
           key: "width",
-          width: '10'
+          width: 10
         });
 
         // change
@@ -27,7 +27,7 @@ describeComponent("ui/sizeRange", function(){
         expect(eventSpy).toHaveBeenTriggeredOn(document);
         expect(eventSpy.mostRecentCall.data).toEqual({
           key: "width",
-          width: '15'
+          width: 15
         });
       });
 

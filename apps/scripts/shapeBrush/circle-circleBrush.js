@@ -3,8 +3,10 @@ define(function(require){
       circleBrush = require("brushes/circleBrush");
 
   function createCircularCircle(canvas, cfg){
-    var cb = circleBrush.create(canvas),
-        outline = circleOutlinePts(cb, cfg.x, cfg.y, cfg.radius),
+    var cb = circleBrush.create(canvas);
+    cb.width = cfg.brushWidth || 10;
+
+    var outline = circleOutlinePts(cb, cfg.x, cfg.y, cfg.radius),
         outlineLength = outline.length;
 
     cb.color = cfg.color || "#000000";

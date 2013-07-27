@@ -3,8 +3,10 @@ define(function(require){
       sprayBrush = require("brushes/sprayBrush");
 
   function createRectSpray(canvas, cfg){
-    var sb = sprayBrush.create(canvas),
-        outline = rectOutlinePts(sb, cfg.x, cfg.y, cfg.width, cfg.height),
+    var sb = sprayBrush.create(canvas);
+    sb.width = cfg.brushWidth || 10;
+
+    var outline = rectOutlinePts(sb, cfg.x, cfg.y, cfg.width, cfg.height),
         outlineLength = outline.length;
 
     sb.color = cfg.color || "#000000";

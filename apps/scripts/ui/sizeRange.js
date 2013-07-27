@@ -27,7 +27,7 @@ define(function(require){
     this.onChange = function(e){
       this.trigger(document, "brushPropertyChanged", {
         key: "width",
-        width: (this.attr.width = e.target.value)
+        width: (this.attr.width = parseInt(e.target.value))
       });
     };
 

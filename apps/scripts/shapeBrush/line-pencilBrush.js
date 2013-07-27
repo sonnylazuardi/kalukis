@@ -8,7 +8,8 @@ define(function(require){
       }
 
       var line = new fabric.Line([cfg.x1, cfg.y1, cfg.x2, cfg.y2], {
-        stroke: cfg.color
+        stroke: cfg.color,
+        strokeWidth: cfg.brushWidth || 1
       });
 
       canvas.add(line).renderAll();
