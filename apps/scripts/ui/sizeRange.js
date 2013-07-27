@@ -14,13 +14,18 @@ define(function(require){
     });
 
     this.after("initialize", function(){
+      // init widget property
       this.$node.append(tmpl);
       this.attr.widgetEl = "#" + $(tmpl).attr("id");
+      this.attr.size = $(tmpl).val();
+
       this.on("change", this.onChange);
   });
 
     this.onChange = function(e, eObj){
-      this.trigger(document, "paintSizeChanged");
+      this.trigger(document, "paintSizeChanged", {
+        size: this.attr.size
+      });
     };
   }
 });
