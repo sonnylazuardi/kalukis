@@ -4,7 +4,7 @@ define(function(require){
 
   function createRectCircle(canvas, cfg){
     var cb = circleBrush.create(canvas);
-    cb.width = cfg.brushWidth || 10;
+    cb.width = (cfg.brushWidth < 10 ? 10 : cfg.brushWidth);
 
     var outline = rectOutlinePts(cb, cfg.x, cfg.y, cfg.width, cfg.height),
         outlineLength = outline.length;
@@ -24,6 +24,8 @@ define(function(require){
       if (!cfg.x || !cfg.y || !cfg.width || !cfg.height){
         throw new Error("Required params not supplied");
       }
+
+      cfg.brushWidth = cfg.brushWidth || 10;
 
       return createRectCircle(canvas, cfg);
     }
