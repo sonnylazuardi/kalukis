@@ -16,8 +16,8 @@ define(function(require){
     this.after("initialize", function(){
       // init widget property
       this.$node.append(tmpl);
-      this.attr.widgetEl = "#" + $(tmpl).attr("id");
-      this.attr.width = $(tmpl).val();
+      this.attr.widgetEl = "#" + this.$node.children("input").first().attr("id");
+      this.attr.width = this.$node.children("input").first().val();
 
       this.on("change", this.onChange);
       this.on(document, "paintSizeSetRequested", this.setPaintSize);
