@@ -35,7 +35,7 @@ define(function(require){
 
     this.onBrushClicked = function(e, eObj){
       var selected = this.findBrush(eObj.brushId);
-
+      
       if (!selected){
         return;
       }
