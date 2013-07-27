@@ -9,7 +9,7 @@ define(function(require){
 
   function sizeRange(){
     this.defaultAttrs({
-      size: 0,
+      width: 0,
       widgetEl: ""
     });
 
@@ -17,22 +17,23 @@ define(function(require){
       // init widget property
       this.$node.append(tmpl);
       this.attr.widgetEl = "#" + $(tmpl).attr("id");
-      this.attr.size = $(tmpl).val();
+      this.attr.width = $(tmpl).val();
 
       this.on("change", this.onChange);
       this.on(document, "paintSizeSetRequested", this.setPaintSize);
     });
 
-    // publish the new paint size
+    // publish the new paint width
     this.onChange = function(e){
       this.trigger(document, "paintSizeChanged", {
-        size: (this.attr.size = e.target.value)
+        key: "width",
+        width: (this.attr.width = e.target.value)
       });
     };
 
-    // change paint size
+    // change paint width
     this.setPaintSize = function(e, eObj){
-      $(this.attr.widgetEl).val((this.attr.size = eObj.size));
+      $(this.attr.widgetEl).val((this.attr.width = eObj.width));
     };
   }
 });

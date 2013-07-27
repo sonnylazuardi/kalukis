@@ -19,9 +19,9 @@ define(function(require){
     this.defaultAttrs({
       color: "#E74C3C",
       isPainting: false,
-      width: 1,
       brush: {
-        color: "#000000"
+        color: "#000000",
+        width: 1
       }
     });
 
@@ -30,6 +30,7 @@ define(function(require){
       this.on("click", this.onClick);
       this.on(document, "uiPaintButtonsClicked", this.onUiPaintButtonsClicked);
       this.on(document, "colorChanged", this.setBrushProperty);
+      this.on(document, "paintSizeChanged", this.setBrushProperty);
     });
 
     this.onUiPaintButtonsClicked = function(e, eObj){
@@ -66,6 +67,7 @@ define(function(require){
     this.setBrush = function(e, eObj){
       this.attr.canvas.freeDrawingBrush = eObj.brush.create(this.attr.canvas);
       this.attr.canvas.freeDrawingBrush.color = this.attr.brush.color;
+      this.attr.canvas.freeDrawingBrush.width = this.attr.brush.width;
     };
 
     // set the brush property

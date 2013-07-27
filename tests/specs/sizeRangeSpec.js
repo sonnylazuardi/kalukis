@@ -17,7 +17,8 @@ describeComponent("ui/sizeRange", function(){
 
         expect(eventSpy).toHaveBeenTriggeredOn(document);
         expect(eventSpy.mostRecentCall.data).toEqual({
-          size: '10'
+          key: "width",
+          width: '10'
         });
 
         // change
@@ -25,13 +26,14 @@ describeComponent("ui/sizeRange", function(){
         $(this.component.attr.widgetEl).change();
         expect(eventSpy).toHaveBeenTriggeredOn(document);
         expect(eventSpy.mostRecentCall.data).toEqual({
-          size: '15'
+          key: "width",
+          width: '15'
         });
       });
 
-      it("Should change the size when paintSizeSetRequested is caught", function(){
-        $(document).trigger("paintSizeSetRequested", {size: "20"});
-        expect(this.component.attr.size).toEqual("20");
+      it("Should change the width when paintSizeSetRequested is caught", function(){
+        $(document).trigger("paintSizeSetRequested", {width: "20"});
+        expect(this.component.attr.width).toEqual("20");
         expect($(this.component.attr.widgetEl).val()).toEqual("20");
       });
     });
