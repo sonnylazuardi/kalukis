@@ -4,15 +4,12 @@ require.config({
   paths: {
     fabric: "canvas-lib/fabric",
     text: "vendor/requirejs-text/text",
-    handlebars: "vendor/handlebars/handlebars"
+    mustache: "vendor/mustache/mustache"
   },
 
   shim:{
     fabric: {
       exports: "fabric"
-    },
-    'handlebars': {
-      exports: 'Handlebars'
     }
   },
 
