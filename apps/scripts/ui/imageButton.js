@@ -5,11 +5,10 @@ define(function(require){
       advice = require("flight/lib/advice"),
       compose = require("flight/lib/compose"),
       withCanvas = require("data/with_canvas"),
-      withHandlerBars = require("ui/with_handlebars"),
       outlinePainter = require("outlinePainter/rect"),
-      tmpl = require("text!templates/hiddenInputImage.hbs");
+      tmpl = require("text!templates/hiddenInputImage.html");
 
-  return defineComponent(imageButton, withCanvas, withHandlerBars);
+  return defineComponent(imageButton, withCanvas);
 
   function imageButton(){
 
@@ -23,7 +22,7 @@ define(function(require){
       var me = this;
       // TODO I'm not sure if this is a good way of managing
       // this input
-      this.$node.parent().append(this.renderData({}, tmpl));
+      this.$node.parent().append(tmpl);
 
       this.on("click", this.onClick);
       this.on(document, "uiPaintButtonsClicked", this.onUiPaintButtonsClicked);

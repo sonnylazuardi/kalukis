@@ -6,7 +6,6 @@ require.config({
     jquery: "vendor/jquery/jquery",
     text: "vendor/requirejs-text/text",
     mustache: "vendor/mustache/mustache",
-    handlebars: "vendor/handlebars/handlebars",
     "bootstrap-dropdown": "vendor/bootstrap/js/bootstrap-dropdown",
     spectrum: "vendor/spectrum/spectrum",
     "es5-shim": "vendor/es5-shim/es5-shim",
@@ -26,9 +25,6 @@ require.config({
     },
     "bootstrap-dropdown": {
       deps: ["jquery"]
-    },
-    handlebars: {
-      exports: "Handlebars"
     }
   },
 
