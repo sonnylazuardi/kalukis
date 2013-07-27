@@ -17,8 +17,7 @@ define(function(require){
       this.$node.append(tmpl);
       this.attr.widgetEl = "#" + $(tmpl).attr("id");
       this.on("change", this.onChange);
-      console.log(this.attr.widgetEl);
-    });
+  });
 
     this.onChange = function(e, eObj){
       this.trigger(document, "paintSizeChanged");

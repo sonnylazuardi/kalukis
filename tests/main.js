@@ -33,7 +33,8 @@ require(
   "specs/circleOutlineSpec",
   "specs/brushRectSpec",
   "specs/circleShapeBrushSpec",
-  "specs/lineOutlineSpec"
+  "specs/lineOutlineSpec",
+  "specs/sizeRangeSpec"
 ],
 
 function(){
