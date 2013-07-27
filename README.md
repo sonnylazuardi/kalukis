@@ -1,5 +1,7 @@
 # Lukis
 
+![](pics/lukis0.7.3.jpeg)
+
 Lukis is an experimental Painting Apps. Lukis is built on top of [flight](http://twitter.github.io/flight/) and [fabricjs](fabricjs.com).
 
 This application uses event-driven approach. This means that we are trying to decouple each components by making sure that they do not communicate directly. Instead, they should communicate thgroug events.
