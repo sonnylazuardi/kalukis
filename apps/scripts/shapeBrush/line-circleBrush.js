@@ -1,10 +1,11 @@
 define(function(require){
   var circleBrush = require("brushes/circleBrush"),
-      lineOutlinePts = require("utils/lineOutlinePoints");
+      lineOutlinePts = require("utils/lineOutlinePoints"),
+      circleBrushHelper = require("brushes/circleBrushHelper");
 
   function createLineCircleBrush(canvas, cfg){
     var cb = circleBrush.create(canvas);
-    cb.width = (cfg.brushWidth < 10 ? 10 : cfg.brushWidth);
+    cb.width = cfg.brushWidth || 10;
 
     var outline = lineOutlinePts(cb, cfg.x1, cfg.y1, cfg.x2, cfg.y2),
         outlineLength = outline.length;
@@ -15,7 +16,9 @@ define(function(require){
       cb.addPoint(outline[i]);
     }
 
-    cb.onMouseUp();
+    circleBrushHelper.drawCircles(canvas, {
+      points: cb.points
+    });
   }
 
   return {
@@ -23,8 +26,6 @@ define(function(require){
       if (!cfg.x1 || !cfg.x2 || !cfg.y1 || !cfg.y2){
         throw new Error("Required params not provided");
       }
-
-      cfg.brushWidth = cfg.brushWidth || 10;
 
       return createLineCircleBrush(canvas, cfg);
     }
