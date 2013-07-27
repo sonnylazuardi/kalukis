@@ -25,7 +25,7 @@ define(function(require){
 
     // publish the new paint width
     this.onChange = function(e){
-      this.trigger(document, "paintSizeChanged", {
+      this.trigger(document, "brushPropertyChanged", {
         key: "width",
         width: (this.attr.width = e.target.value)
       });

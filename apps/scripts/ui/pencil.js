@@ -30,7 +30,7 @@ define(function(require){
       this.on("click", this.onClick);
       this.on(document, "uiPaintButtonsClicked", this.onUiPaintButtonsClicked);
       this.on(document, "colorChanged", this.setBrushProperty);
-      this.on(document, "paintSizeChanged", this.setBrushProperty);
+      this.on(document, "brushPropertyChanged", this.setBrushProperty);
     });
 
     this.onUiPaintButtonsClicked = function(e, eObj){

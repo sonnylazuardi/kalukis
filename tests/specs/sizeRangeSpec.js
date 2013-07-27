@@ -11,8 +11,8 @@ describeComponent("ui/sizeRange", function(){
     });
 
     describe("Events' Data", function(){
-      it("Should publish the size data on paintSizeChanged event", function(){
-        var eventSpy = spyOnEvent(document, "paintSizeChanged");
+      it("Should publish the size data on brushPropertyChanged event", function(){
+        var eventSpy = spyOnEvent(document, "brushPropertyChanged");
         $(this.component.attr.widgetEl).change();
 
         expect(eventSpy).toHaveBeenTriggeredOn(document);
