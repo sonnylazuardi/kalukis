@@ -12,7 +12,7 @@ define(function(require){
     var template = "";
 
     this.defaultAttrs({
-      widgetEl: "brush-widget"
+      widgetEl: ""
     });
 
     this.after("initialize", function(){
@@ -38,7 +38,7 @@ define(function(require){
       var widget = mustache.render(tmpl, eObj.brushes);
 
       this.$node.append(widget);
-      this.$node.children().first().attr("id", this.attr.widgetEl);
+      this.attr.widgetEl = this.$node.children("select").first().attr("id");
     };
   }
 });
