@@ -28,6 +28,12 @@ describeComponent("ui/sizeRange", function(){
           size: '15'
         });
       });
+
+      it("Should change the size when paintSizeSetRequested is caught", function(){
+        $(document).trigger("paintSizeSetRequested", {size: "20"});
+        expect(this.component.attr.size).toEqual("20");
+        expect($(this.component.attr.widgetEl).val()).toEqual("20");
+      });
     });
   });
 });

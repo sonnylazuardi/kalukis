@@ -20,12 +20,17 @@ define(function(require){
       this.attr.size = $(tmpl).val();
 
       this.on("change", this.onChange);
-  });
+      this.on(document, "paintSizeSetRequested", this.setPaintSize);
+    });
 
     this.onChange = function(e){
       this.trigger(document, "paintSizeChanged", {
         size: (this.attr.size = e.target.value)
       });
+    };
+
+    this.setPaintSize = function(e, eObj){
+      $(this.attr.widgetEl).val((this.attr.size = eObj.size));
     };
   }
 });
