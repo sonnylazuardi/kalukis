@@ -1,0 +1,1 @@
+define([],function(){return function(t,e,i,n){for(var r=[],o=t.width-5,s=0;360>s;s+=o)0===s?r.push({x:e,y:i-n}):90===s?r.push({x:e+n,y:i}):180===s?r.push({x:e,y:i+n}):270===s?r.push({x:e-n,y:i}):r.push({x:Math.sin(s)*n+e,y:Math.cos(s)*n+i});return r}});
