@@ -20,7 +20,8 @@ define(function(require){
     this.defaultAttrs({
       isPainting: false,
       brush: {
-        color: "#000000"
+        color: "#000000",
+        width: 1
       },
       outlinePainter: undefined
 
@@ -35,7 +36,7 @@ define(function(require){
     this.after("initialize", function(){
       this.on("click", this.onClick);
       this.on(document, "uiPaintButtonsClicked", this.onUiPaintButtonsClicked);
-      this.on(document, "colorChanged", this.setBrushProperty);
+      this.on(document, "brushPropertyChanged", this.setBrushProperty);
 
       this.after("afterFinishCallback", this.afterAfterFinishCallback);
     });

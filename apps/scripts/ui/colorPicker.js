@@ -23,7 +23,7 @@ define(function(require){
         showButtons: true,
         // fire me on color changed
         change: function(color){
-          me.trigger(document, "colorChanged", {
+          me.trigger(document, "brushPropertyChanged", {
             key: "color",
             color: color.toHexString()
           });

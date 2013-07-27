@@ -29,8 +29,6 @@ define(function(require){
       this.on(this.attr.canvasEl, "paintRequested", this.preparePainting);
       // we need to release handlers from canvas' events
       this.on(this.attr.canvasEl, "releaseCanvasHandlers", this.releaseHandlers);
-      // TODO be more specific
-      this.on(document, "colorChanged", this.changeColor);
     });
 
     /**
@@ -125,14 +123,6 @@ define(function(require){
       if (painter.onMouseMove && typeof painter.onMouseMove === "function"){
         canvas.off("mouse:move", this.attr.handlerHelper.onMouseMove);
       }
-    };
-
-    // change the color of selected objects
-    // TODO not working perfectly at the moment
-    this.changeColor = function(e, eObj){
-      var selected = this.attr.canvas.getActiveObject();
-
-      console.log("TODO");
     };
 
     // TODO move this to another component

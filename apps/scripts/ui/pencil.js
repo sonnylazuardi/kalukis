@@ -29,7 +29,6 @@ define(function(require){
     this.after("initialize", function(){
       this.on("click", this.onClick);
       this.on(document, "uiPaintButtonsClicked", this.onUiPaintButtonsClicked);
-      this.on(document, "colorChanged", this.setBrushProperty);
       this.on(document, "brushPropertyChanged", this.setBrushProperty);
     });
 
