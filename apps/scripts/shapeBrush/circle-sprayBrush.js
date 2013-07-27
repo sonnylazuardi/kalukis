@@ -4,7 +4,9 @@ define(function(require){
 
   function createCircularSpray(canvas, cfg){
     var sb = sprayBrush.create(canvas);
-    sb.width = cfg.brushWidth || 10;
+    // for performance reason
+    sb.width = (cfg.brushWidth < 10 ? 10 : cfg.brushWidth);
+    sb.dotWidth = 5;
     
     var outline = circleOutlinePts(sb, cfg.x, cfg.y, cfg.radius),
         outlineLength = outline.length;
@@ -23,6 +25,8 @@ define(function(require){
       if (!cfg.x || !cfg.y || !cfg.radius){
         throw new Error("Required params not provided");
       }
+
+      cfg.brushWidth = cfg.brushWidth || 10;
 
       return createCircularSpray(canvas, cfg);
     }

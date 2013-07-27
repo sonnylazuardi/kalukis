@@ -13,6 +13,7 @@ define(function(require){
   }
 
   RectOutlinePainter.prototype.onMouseDown = function(e) {
+    this.canvas.selection = false;
     var point = this.canvas.getPointer(e.e);
 
     this.outline = {
@@ -43,6 +44,7 @@ define(function(require){
   RectOutlinePainter.prototype.onMouseUp = function(e) {
     this.canvas.defaultCursor = "default";
     this.isDrawing = false;
+    this.canvas.selection = true;
     this.finish();
     return this;
   };

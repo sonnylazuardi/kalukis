@@ -4,7 +4,9 @@ define(function(require){
 
   function createRectSpray(canvas, cfg){
     var sb = sprayBrush.create(canvas);
-    sb.width = cfg.brushWidth || 10;
+    // for performance reason
+    sb.width = (cfg.brushWidth < 10 ? 10 : cfg.brushWidth);
+    sb.dotWidth = 5;
 
     var outline = rectOutlinePts(sb, cfg.x, cfg.y, cfg.width, cfg.height),
         outlineLength = outline.length;
@@ -24,6 +26,8 @@ define(function(require){
       if (!cfg.x || !cfg.y || !cfg.width || !cfg.height){
         throw new Error("Required params not supplide");
       }
+
+      cfg.brushWidth = cfg.brushWidth || 10;
 
       return createRectSpray(canvas, cfg);
     }
