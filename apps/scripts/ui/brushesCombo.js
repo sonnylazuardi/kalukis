@@ -3,10 +3,10 @@
  */
 define(function(require){
   var defineComponent = require("flight/component"),
-      withHandleBars = require("ui/with_handlebars"),
-      tmpl = require("text!templates/brushescombo.hbs");
+      mustache = require("mustache"),
+      tmpl = require("text!templates/brushescombo.html");
 
-  return defineComponent(brushesCombo, withHandleBars);
+  return defineComponent(brushesCombo);
 
   function brushesCombo(){
     var template = "";
@@ -19,7 +19,7 @@ define(function(require){
       var me = this;
       // register events handler
       this.on(document, "brushesReady", this.onBrushesReady);
-      this.on(document, "brushSelectionChanged", this.onBrushSelectionChanged);
+      // this.on(document, "brushSelectionChanged", this.onBrushSelectionChanged);
 
       // publishing which brush has been clicked
       this.$node.delegate("li", "click", function(){
@@ -32,11 +32,17 @@ define(function(require){
     });
 
     this.onBrushesReady = function(e, eObj){
-      this.updateBrushes(e, eObj);
+      // this.updateBrushes(e, eObj);
+      this.drawBrushesList(eObj);
     };
 
-    this.onBrushSelectionChanged = function(e, eObj){
-      this.updateBrushes(e, eObj);
+    this.drawBrushesList = function(eObj){
+      var widget = mustache.render(tmpl, eObj.brushes);
+
+      console.log(widget);
+
+      this.$node.append(widget);
+      this.$node.children().first().attr("id", this.attr.widgetEl);
     };
 
     // update our brushes after data changes

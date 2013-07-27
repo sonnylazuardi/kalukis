@@ -5,6 +5,7 @@ require.config({
     fabric: "canvas-lib/fabric",
     jquery: "vendor/jquery/jquery",
     text: "vendor/requirejs-text/text",
+    mustache: "vendor/mustache/mustache",
     handlebars: "vendor/handlebars/handlebars",
     "bootstrap-dropdown": "vendor/bootstrap/js/bootstrap-dropdown",
     spectrum: "vendor/spectrum/spectrum",
@@ -26,8 +27,8 @@ require.config({
     "bootstrap-dropdown": {
       deps: ["jquery"]
     },
-    'handlebars': {
-      exports: 'Handlebars'
+    handlebars: {
+      exports: "Handlebars"
     }
   },
 
