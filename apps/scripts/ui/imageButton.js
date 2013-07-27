@@ -39,8 +39,6 @@ define(function(require){
     };
 
     this.onImageInputChange = function(e){
-      // console.log($(this));
-      // this.attr.url = $(this).val().replace(/C:\\fakepath\\/i, '');
       this.attr.file = e.target.files[0];
       this.attr.canvas.cursor = "crosshair";
 
