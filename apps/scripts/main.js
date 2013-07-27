@@ -6,7 +6,6 @@ require.config({
     jquery: "vendor/jquery/jquery",
     text: "vendor/requirejs-text/text",
     mustache: "vendor/mustache/mustache",
-    "bootstrap-dropdown": "vendor/bootstrap/js/bootstrap-dropdown",
     spectrum: "vendor/spectrum/spectrum",
     "es5-shim": "vendor/es5-shim/es5-shim",
     "es5-sham": "vendor/es5-shim/es5-sham"
@@ -21,9 +20,6 @@ require.config({
     },
     "spectrum": ["jquery"],
     "vendor/flight/lib/component": {
-      deps: ["jquery"]
-    },
-    "bootstrap-dropdown": {
       deps: ["jquery"]
     }
   },
@@ -41,7 +37,6 @@ require(
 
 [
   "app",
-  "bootstrap-dropdown",
   "spectrum",
   "es5-shim",
   "es5-sham"
