@@ -13,11 +13,19 @@ describeComponent("ui/sizeRange", function(){
     describe("Events' Data", function(){
       it("Should publish the size data on paintSizeChanged event", function(){
         var eventSpy = spyOnEvent(document, "paintSizeChanged");
-        $(this.component.attr.widgetEl).trigger("change");
+        $(this.component.attr.widgetEl).change();
 
         expect(eventSpy).toHaveBeenTriggeredOn(document);
         expect(eventSpy.mostRecentCall.data).toEqual({
           size: '10'
+        });
+
+        // change
+        $(this.component.attr.widgetEl).val('15');
+        $(this.component.attr.widgetEl).change();
+        expect(eventSpy).toHaveBeenTriggeredOn(document);
+        expect(eventSpy.mostRecentCall.data).toEqual({
+          size: '15'
         });
       });
     });

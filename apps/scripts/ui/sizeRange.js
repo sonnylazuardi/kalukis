@@ -22,9 +22,9 @@ define(function(require){
       this.on("change", this.onChange);
   });
 
-    this.onChange = function(e, eObj){
+    this.onChange = function(e){
       this.trigger(document, "paintSizeChanged", {
-        size: this.attr.size
+        size: (this.attr.size = e.target.value)
       });
     };
   }
