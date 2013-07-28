@@ -51,8 +51,6 @@ define(function(require){
           color: me.attr.brush.color,
           brushWidth: me.attr.brush.width
         });
-
-        me.attr.canvas.renderAll();
       });
 
       me.attr.rect = null;

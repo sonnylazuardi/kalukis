@@ -4,7 +4,7 @@ define(function(require){
       if (!cfg.x || !cfg.y || !cfg.width || !cfg.height){
         throw new Error("Required params not supplied");
       }
-
+      // load the brush
       require(["brushes/"+cfg.brush], function(brsh){
         brsh.createShapeBrush(canvas, cfg);
 
