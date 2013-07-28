@@ -36,7 +36,7 @@ define(function(require){
           me = this,
           line = this.attr.line;
 
-      require(["shapeBrush/lineShapeBrush"], function(shapeBrush){
+      require(["shapeBrush/lineShapedBrush"], function(shapeBrush){
 
         shapeBrush.create(me.attr.canvas, {
           brush: brushId,
