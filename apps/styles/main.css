@@ -1,11 +1,20 @@
 @import url("../scripts/vendor/spectrum/spectrum.css");
 
+.right-side-nav {
+  display: inline-block;
+}
+
 .left-nav{
   text-align: center;
 }
 
+label {
+  display: inline-block;
+  width: 100px;
+}
+
 #colorpicker{
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 #loading-indicator{
@@ -20,4 +29,8 @@
   background-color: #3498DB;
   color: white;
   padding: 5px 5px;
+}
+
+#paint-size-widget{
+  margin-top: 10px;
 }

@@ -1,4 +1,4 @@
-describeComponent("ui/brushescombo", function(){
+describeComponent("ui/brushesCombo", function(){
   beforeEach(function(){
     setupComponent();
   });

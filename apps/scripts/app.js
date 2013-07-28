@@ -5,27 +5,34 @@ define(function(require){
 
   var lukis = require("lukis"),
       pencil = require("ui/pencil"),
-      rectBrush = require("ui/rectBrush"),
-      circleShapedBrush = require("ui/circleShapedBrush"),
+      linePaintShape = require("ui/linePaintShape"),
+      rectPaintShape = require("ui/rectPaintShape"),
+      circlePaintShape = require("ui/circlePaintShape"),
       imageButton = require("ui/imageButton"),
+      removeButton = require("ui/removeButton"),
       loadingIndicator = require("ui/loadingIndicator"),
-      brushesCombo = require("ui/brushescombo"),
+      brushesCombo = require("ui/brushesCombo"),
       brushesList = require("data/brusheslist"),
-      colorPicker = require("ui/colorpicker");
+      colorPicker = require("ui/colorPicker"),
+      sizeRange = require("ui/sizeRange");
 
   function boots(){
     // attach modules
     lukis.attachTo("#lukis");
 
     pencil.attachTo("#pencil");
-    rectBrush.attachTo("#rectBrush");
-    circleShapedBrush.attachTo("#circleShapedBrush");
+    linePaintShape.attachTo("#linePaintShape");
+    rectPaintShape.attachTo("#rectPaintShape");
+    circlePaintShape.attachTo("#circlePaintShape");
     imageButton.attachTo("#imageButton");
+    removeButton.attachTo("#removeButton");
+
     loadingIndicator.attachTo("#loading-indicator");
 
     brushesList.attachTo(document);
     brushesCombo.attachTo("#brushescombo");
     colorPicker.attachTo("#colorpicker");
+    sizeRange.attachTo("#sizerange");
   }
 
   return {

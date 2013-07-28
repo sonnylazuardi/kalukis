@@ -5,15 +5,15 @@ define(function(require){
       advice = require("flight/lib/advice"),
       compose = require("flight/lib/compose"),
       withCanvas = require("data/with_canvas"),
-      withHandlerBars = require("ui/with_handlebars"),
       outlinePainter = require("outlinePainter/rect"),
-      tmpl = require("text!templates/hiddenInputImage.hbs");
+      tmpl = require("text!templates/hiddenInputImage.html");
 
-  return defineComponent(imageButton, withCanvas, withHandlerBars);
+  return defineComponent(imageButton, withCanvas);
 
   function imageButton(){
 
     this.defaultAttrs({
+      isPainting: false,
       color: "#585858",
       imageInput: "#hidden-image-input"
     });
@@ -22,43 +22,46 @@ define(function(require){
       var me = this;
       // TODO I'm not sure if this is a good way of managing
       // this input
-      this.$node.parent().append(this.renderData({}, tmpl));
+      this.$node.parent().append(tmpl);
 
       this.on("click", this.onClick);
-      this.on(document, "uiBrushClicked", this.onUiBrushClicked);
+      this.on(document, "uiPaintButtonsClicked", this.onUiPaintButtonsClicked);
 
       // listen to image dialog events
       // TODO should use flight object if there's one provided
-      $(this.attr.imageInput).change(function(e){
-        me.attr.url = $(this).val().replace(/C:\\fakepath\\/i, '');
-        me.attr.file = e.target.files[0];
-        me.attr.canvas.cursor = "crosshair";
-
-        me.attr.outlinePainter = outlinePainter.init(me.attr.canvas, {
-          color: me.attr.color
-        });
-
-        compose.mixin(me.attr.outlinePainter, [advice.withAdvice]);
-
-        me.attr.outlinePainter.after('finish', function(){
-          me.afterFinishCallback();
-        }.bind(me));
-
-        me.trigger(document, "paintRequested", {
-          painter: me.attr.outlinePainter
-        });
-      });
+      $(this.attr.imageInput).change(this.onImageInputChange.bind(this));
     });
 
-    this.onUiBrushClicked = function(e, eObj){
-      if (eObj.clicked !== "image") {
-        this.trigger(document, "paintStopRequested");
+    this.getOutlinePainter = function(){
+      return outlinePainter.init(this.attr.canvas, {
+        color: this.attr.color
+      });
+    };
+
+    this.onImageInputChange = function(e){
+      this.attr.file = e.target.files[0];
+      this.attr.canvas.cursor = "crosshair";
+
+      this.attr.outlinePainter = this.getOutlinePainter();
+      compose.mixin(this.attr.outlinePainter, [advice.withAdvice]);
+      this.attr.outlinePainter.after('finish', function(){
+        this.afterFinishCallback();
+      }.bind(this));
+
+      this.trigger(this.attr.canvasEl, "paintRequested", {
+        painter: this.attr.outlinePainter
+      });
+    };
+
+    this.onUiPaintButtonsClicked = function(e, eObj){
+      if (eObj.clicked !== "image" && this.isPainting) {
+        this.trigger(this.attr.canvasEl, "paintStopRequested");
       }
     };
 
     this.onClick = function(e, eObj){
-      // TODO aaargh.. this is a bad event's name
-      this.trigger(document, "uiBrushClicked", {clicked: "image"});
+      this.attr.isPainting = true;
+      this.trigger(document, "uiPaintButtonsClicked", {clicked: "image"});
 
       this.loadImageSelectionDialog();
     };
@@ -68,7 +71,7 @@ define(function(require){
     };
 
     this.afterFinishCallback = function(){
-      this.trigger(document, "paintStopRequested");
+      this.trigger(this.attr.canvasEl, "paintStopRequested");
 
       this.attr.rect = this.attr.outlinePainter.outline;
 
@@ -81,6 +84,7 @@ define(function(require){
           rect = this.attr.rect;
 
       require(["images/imageCanvasPlacement"], function(handler){
+
         // TODO callback when fails
         me.trigger(document, "loadingIndicatorRequested");
         handler.create(me.attr.canvas, {
@@ -88,7 +92,6 @@ define(function(require){
           y: (rect.height > 0) ? rect.y : rect.y + rect.height,
           width: Math.abs(rect.width),
           height: Math.abs(rect.height),
-          url: me.attr.url,
           file: me.attr.file
         }, function(){
           me.trigger(document, "hideLoadingIndicatorRequested");
@@ -96,6 +99,7 @@ define(function(require){
       });
 
       this.attr.rect = null;
+      this.attr.isPainting = false;
     };
   }
 });

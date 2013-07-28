@@ -1,1 +1,1 @@
-define(["require","fabric"],function(i){var r=i("fabric");return{create:function(i){return new r.PencilBrush(i)}}});
+define(["require","fabric"],function(i){var e=i("fabric");return{create:function(i){return new e.PencilBrush(i)}}});

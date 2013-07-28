@@ -13,7 +13,8 @@ define(function(require){
         top: cfg.y + (cfg.height/2),
         left: cfg.x + (cfg.width/2),
         fill: null,
-        stroke: cfg.color
+        stroke: cfg.color,
+        strokeWidth: cfg.brushWidth || 1
       });
 
       canvas.add(rect).renderAll();

@@ -1,10 +1,13 @@
 define(function(require){
-  var circleOutline = require("utils/circleOutline"),
-      circleBrush = require("brushes/circleBrush");
+  var circleOutlinePts = require("utils/circleOutlinePoints"),
+      circleBrush = require("brushes/circleBrush"),
+      circleBrushHelper = require("brushes/circleBrushHelper");
 
   function createCircularCircle(canvas, cfg){
-    var cb = circleBrush.create(canvas),
-        outline = circleOutline(cb, cfg.x, cfg.y, cfg.radius),
+    var cb = circleBrush.create(canvas);
+    cb.width = cfg.brushWidth || 10;
+
+    var outline = circleOutlinePts(cb, cfg.x, cfg.y, cfg.radius),
         outlineLength = outline.length;
 
     cb.color = cfg.color || "#000000";
@@ -13,7 +16,9 @@ define(function(require){
       cb.addPoint(outline[i]);
     }
 
-    cb.onMouseUp();
+    circleBrushHelper.drawCircles(canvas, {
+      points: cb.points
+    });
   }
 
   return {

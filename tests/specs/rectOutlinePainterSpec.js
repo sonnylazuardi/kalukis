@@ -7,7 +7,7 @@ define(
 
 function(fabric, rectPainter){
 
-  describeComponent("ui/rectBrush", function(){
+  describeComponent("ui/rectPaintShape", function(){
     beforeEach(function(){
       setupComponent();
     });

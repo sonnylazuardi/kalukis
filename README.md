@@ -1,5 +1,7 @@
 # Lukis
 
+![](pics/lukis0.7.3.jpeg)
+
 Lukis is an experimental Painting Apps. Lukis is built on top of [flight](http://twitter.github.io/flight/) and [fabricjs](fabricjs.com).
 
 This application uses event-driven approach. This means that we are trying to decouple each components by making sure that they do not communicate directly. Instead, they should communicate thgroug events.
@@ -7,6 +9,10 @@ This application uses event-driven approach. This means that we are trying to de
 The above approach is possible by using [flight](http://twitter.github.io/flight/).
 
 For the canvas library, we use fabric.
+
+## WARNING
+
+We have found out that the painting performance is bad for some brush (eg, the spray brush). We are currently investigating how to increase the painting performance.
 
 ## Trying it
 
@@ -38,6 +44,7 @@ To run the test, just type the command below on your console:
 
 This application is still at it's early stage. So, ofcourse there are a lot of things to do.
 
+- [ ] Better Module Naming
 - [ ] Improve the architecture
 - [x] Start Unit test
 - [x] Use PhantomJS to run unit tests (with the help of testem)

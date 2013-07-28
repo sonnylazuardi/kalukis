@@ -1,0 +1,1 @@
+define(["require","fabric"],function(t){var e=t("fabric");return{create:function(t,i){if(!(i.x1&&i.x2&&i.y1&&i.y2))throw new Error("Required params not provided");var n=new e.Line([i.x1,i.y1,i.x2,i.y2],{stroke:i.color,strokeWidth:i.brushWidth||1});t.add(n).renderAll()}}});

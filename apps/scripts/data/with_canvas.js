@@ -7,8 +7,8 @@ define(function(){
 
   function withCanvas(){
     this.defaultAttrs({
-      canvas: "",
-      canvasEl: ""
+      canvas: "", // canvas instance
+      canvasEl: "" // canvas id
     });
 
     this.after("initialize", function(){
@@ -20,6 +20,7 @@ define(function(){
 
     this.onCanvasReady = function(e, eObj){
       this.attr.canvas = eObj.canvas;
+      this.attr.canvasEl = eObj.canvasEl;
     };
   }
 });

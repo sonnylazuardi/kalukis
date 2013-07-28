@@ -1,10 +1,16 @@
 define(function(require){
-  var circleOutline = require("utils/circleOutline"),
-      sprayBrush = require("brushes/sprayBrush");
+  var circleOutlinePts = require("utils/circleOutlinePoints"),
+      sprayBrush = require("brushes/sprayBrush"),
+      sprayBrushHelper = require("brushes/sprayBrushHelper");
 
   function createCircularSpray(canvas, cfg){
-    var sb = sprayBrush.create(canvas),
-        outline = circleOutline(sb, cfg.x, cfg.y, cfg.radius),
+    var sb = sprayBrush.create(canvas);
+    // for performance reason
+    sb.width = (cfg.brushWidth < 10 ? 10 : cfg.brushWidth);
+    sb.density = 5;
+    sb.dotWidth = 5;
+    
+    var outline = circleOutlinePts(sb, cfg.x, cfg.y, cfg.radius),
         outlineLength = outline.length;
 
     sb.color = cfg.color || "#000000";
@@ -13,7 +19,10 @@ define(function(require){
       sb.addSprayChunk(outline[i]);
     }
 
-    sb.onMouseUp();
+    sprayBrushHelper.drawChunks(canvas, {
+      color: sb.color,
+      chunks: sb.sprayChunks
+    });
   }
 
   return {
@@ -21,6 +30,8 @@ define(function(require){
       if (!cfg.x || !cfg.y || !cfg.radius){
         throw new Error("Required params not provided");
       }
+
+      cfg.brushWidth = cfg.brushWidth || 10;
 
       return createCircularSpray(canvas, cfg);
     }

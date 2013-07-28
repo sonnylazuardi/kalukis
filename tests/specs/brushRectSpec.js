@@ -2,7 +2,7 @@ define(function(require){
   var fabric = require("fabric"),
       canvas = new fabric.Canvas();
 
-  describeComponent("ui/rectBrush", function(){
+  describeComponent("ui/rectPaintShape", function(){
     beforeEach(function(){
       setupComponent();
       this.component.attr.canvas = canvas;

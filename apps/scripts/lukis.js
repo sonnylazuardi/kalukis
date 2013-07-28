@@ -12,30 +12,38 @@ define(function(require){
   function Lukis(){
 
     this.defaultAttrs({
-      handlerHelper: {}
+      handlerHelper: {},
+      selectedObjects: [],
+      canvas: undefined,
+      canvasEl: undefined
     });
 
     this.after("initialize", function(){
       // activate canvas
       this.attr.canvas = new fabric.Canvas(this.$node.attr("id"));
+      this.attr.canvasEl = "#" + this.$node.attr("id");
 
       // publish the canvas instance
-      this.on(document, "canvasRequested", this.publishCanvas);
+      this.on(document, "canvasRequested", this.onCanvasRequested);
       // we need to prepare the painting medium when painting is requested
-      this.on(document, "paintRequested", this.preparePainting);
+      this.on(this.attr.canvasEl, "paintRequested", this.preparePainting);
       // we need to release handlers from canvas' events
-      this.on(document, "releaseCanvasHandlers", this.releaseHandlers);
-      // TODO be more specific
-      this.on(document, "colorChanged", this.changeColor);
+      this.on(this.attr.canvasEl, "releaseCanvasHandlers", this.releaseHandlers);
     });
 
-    this.publishCanvas = function(){
+    /**
+     * Publish the canvas to any listener
+     */
+    this.onCanvasRequested = function(){
       this.trigger(document, "canvasReady", {
-        canvas: this.attr.canvas
+        canvas: this.attr.canvas,
+        canvasEl: this.attr.canvasEl
       });
     };
 
-    // preparation for painting
+    /**
+     * Prepare painting process
+     */
     this.preparePainting = function(e, eObj){
       var me = this,
           canvas = this.attr.canvas,
@@ -67,7 +75,7 @@ define(function(require){
 
       // we trigger init paint event. this is normally used
       // to attach the canvas to the painting handler
-      this.trigger(document, "paintPreparationReady", {canvas: canvas});
+      this.trigger(this.attr.canvasEl, "paintPreparationReady", {canvas: canvas});
 
       // attaching events on canvas' mouse events only if paintHandler
       // provides the methods
@@ -96,7 +104,7 @@ define(function(require){
       }
 
       this.on(document, "keydown", this.onKeyDown);
-      this.on(document, "paintStopRequested", this.releaseHandlers);
+      this.on(this.attr.canvasEl, "paintStopRequested", this.releaseHandlers);
     };
 
     // unsubscribe from canvas' events
@@ -117,25 +125,11 @@ define(function(require){
       }
     };
 
-    // change the color of selected objects
-    // TODO not working perfectly at the moment
-    this.changeColor = function(e, eObj){
-      var selected = this.attr.canvas.getActiveObject();
-
-      if (selected){
-        if (selected.type === "path") {
-          selected.set("stroke", eObj.color);
-        }
-
-        this.attr.canvas.renderAll();
-      }
-    };
-
     // TODO move this to another component
     this.onKeyDown = function(e, eObj){
       if (e.keyCode === 27) {
         this.releaseHandlers();
-        this.trigger(document, "releaseHandlersRequested");
+        this.trigger(this.attr.canvasEl, "releaseHandlersRequested");
       }
     };
   }

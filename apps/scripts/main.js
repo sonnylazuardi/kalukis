@@ -5,8 +5,7 @@ require.config({
     fabric: "canvas-lib/fabric",
     jquery: "vendor/jquery/jquery",
     text: "vendor/requirejs-text/text",
-    handlebars: "vendor/handlebars/handlebars",
-    "bootstrap-dropdown": "vendor/bootstrap/js/bootstrap-dropdown",
+    mustache: "vendor/mustache/mustache",
     spectrum: "vendor/spectrum/spectrum",
     "es5-shim": "vendor/es5-shim/es5-shim",
     "es5-sham": "vendor/es5-shim/es5-sham"
@@ -22,12 +21,6 @@ require.config({
     "spectrum": ["jquery"],
     "vendor/flight/lib/component": {
       deps: ["jquery"]
-    },
-    "bootstrap-dropdown": {
-      deps: ["jquery"]
-    },
-    'handlebars': {
-      exports: 'Handlebars'
     }
   },
 
@@ -44,7 +37,6 @@ require(
 
 [
   "app",
-  "bootstrap-dropdown",
   "spectrum",
   "es5-shim",
   "es5-sham"
