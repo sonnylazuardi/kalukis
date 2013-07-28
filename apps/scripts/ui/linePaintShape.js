@@ -36,9 +36,8 @@ define(function(require){
           me = this,
           line = this.attr.line;
 
-      require(["shapeBrush/lineShapedBrush"], function(shapeBrush){
-
-        shapeBrush.create(me.attr.canvas, {
+      require(["brushes/"+brushId], function(brush){
+        brush.createShapeBrush(me.attr.canvas, {
           brush: brushId,
           shape: "line",
           x1: line.x1,
@@ -48,8 +47,6 @@ define(function(require){
           color: me.attr.brush.color,
           brushWidth: me.attr.brush.width
         });
-
-        me.attr.canvas.renderAll();
       });
 
       me.attr.line = null;
