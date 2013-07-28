@@ -1,5 +1,8 @@
 define(function(require){
-  var fabric = require("fabric");
+  var fabric = require("fabric"),
+      rectOutlinePts = require("utils/rectOutlinePoints"),
+      circleOutlinePts = require("utils/circleOutlinePoints"),
+      lineOutlinePts = require("utils/lineOutlinePoints");
 
   return {
     create: function(canvas){
@@ -25,6 +28,14 @@ define(function(require){
       };
 
       return vLine;
+    },
+    createOutline: function(brush, shape, cfg){
+
+    },
+    createShapeBrush: function(canvas, cfg){
+      var b = this.create(canvas);
+
+      var outline = this.createOutline(b, cfg.shape, cfg);
     }
   };
 });
