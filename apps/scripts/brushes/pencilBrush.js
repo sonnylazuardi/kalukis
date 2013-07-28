@@ -51,7 +51,6 @@ define(function(require){
       canvas.add(line).renderAll();
     },
     createShapeBrush: function(canvas, cfg){
-      console.log("new");
       if (cfg.shape === "line"){
         this.drawLine(canvas, cfg);
       } else if (cfg.shape === "rect") {
