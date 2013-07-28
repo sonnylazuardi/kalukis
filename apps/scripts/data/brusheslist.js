@@ -15,7 +15,8 @@ define(function(require){
         brushes: [
           {value: "pencil", id: "pencilBrush"},
           {value: "spray", id: "sprayBrush"},
-          {value: "circle", id: "circleBrush"}
+          {value: "circle", id: "circleBrush"},
+          {value: "vertical line", id: "verticalLineBrush"}
         ]
       }
     });
