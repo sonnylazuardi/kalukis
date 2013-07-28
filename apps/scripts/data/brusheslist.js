@@ -16,7 +16,8 @@ define(function(require){
           {value: "pencil", id: "pencilBrush"},
           {value: "spray", id: "sprayBrush"},
           {value: "circle", id: "circleBrush"},
-          {value: "vertical line", id: "verticalLineBrush"}
+          {value: "vertical line", id: "verticalLineBrush"},
+          {value: "horizontal line", id: "horizontalLineBrush"}
         ]
       }
     });
