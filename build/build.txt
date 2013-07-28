@@ -120,8 +120,9 @@ scripts/ui/brushesCombo.js
 scripts/data/brusheslist.js
 text!templates/colorpicker.html
 scripts/ui/colorPicker.js
+text!templates/sizerange.html
+scripts/ui/sizeRange.js
 scripts/app.js
-scripts/vendor/bootstrap/js/bootstrap-dropdown.js
 scripts/vendor/spectrum/spectrum.js
 scripts/vendor/es5-shim/es5-shim.js
 scripts/vendor/es5-shim/es5-sham.js
