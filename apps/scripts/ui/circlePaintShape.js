@@ -31,13 +31,15 @@ define(function(require){
     };
 
     this.createShapeBrush = function(){
-      var brushModule = "shapeBrush/circle-" + this.attr.brushId,
+      var brushId = this.attr.brushId,
           me = this,
           circle = this.attr.circle;
 
-      require([brushModule], function(brush){
+      require(["shapeBrush/circleShapedBrush"], function(shapedBrush){
 
-        brush.create(me.attr.canvas, {
+        shapedBrush.create(me.attr.canvas, {
+          brush: brushId,
+          shape: "circle",
           x: circle.x,
           y: circle.y,
           radius: circle.radius,

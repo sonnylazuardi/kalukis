@@ -1,6 +1,7 @@
 define(function(require){
   var fabric = require("fabric"),
       rectOutlinePts = require("utils/rectOutlinePoints"),
+      circleOutlinePts = require("utils/circleOutlinePoints"),
       circleBrushHelper = require("brushes/circleBrushHelper");
 
   return {
@@ -10,8 +11,12 @@ define(function(require){
     },
     // create outline for the specified shape
     createOutline: function(brush, shape, cfg){
+      // TODO can we simplify this?
+      // TODO parameter checking
       if (shape === "rect") {
         return rectOutlinePts(brush, cfg.x, cfg.y, cfg.width, cfg.height);
+      } else if (shape === "circle") {
+        return circleOutlinePts(brush, cfg.x, cfg.y, cfg.radius);
       }
 
       return;
