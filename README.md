@@ -10,10 +10,6 @@ The above approach is possible by using [flight](http://twitter.github.io/flight
 
 For the canvas library, we use fabric.
 
-## WARNING
-
-We have found out that the painting performance is bad for some brush (eg, the spray brush). We are currently investigating how to increase the painting performance.
-
 ## Trying it
 
 If you want to try this locally, please have [node](http://nodejs.org/) installed first. You also need to have bower installed:
