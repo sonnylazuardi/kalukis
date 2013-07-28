@@ -24,6 +24,7 @@ define(function(require){
     },
     createShapeBrush: function(canvas, cfg) {
       var b = this.create(canvas);
+      b.width = cfg.brushWidth || 10;
 
       var outline = this.createOutline(b, cfg.shape, cfg);
 
