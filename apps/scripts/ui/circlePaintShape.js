@@ -35,9 +35,8 @@ define(function(require){
           me = this,
           circle = this.attr.circle;
 
-      require(["shapeBrush/circleShapedBrush"], function(shapedBrush){
-
-        shapedBrush.create(me.attr.canvas, {
+      require(["brushes/"+brushId], function(brush){
+        brush.createShapeBrush(me.attr.canvas, {
           brush: brushId,
           shape: "circle",
           x: circle.x,
@@ -46,8 +45,6 @@ define(function(require){
           color: me.attr.brush.color,
           brushWidth: me.attr.brush.width
         });
-
-        me.attr.canvas.renderAll();
       });
 
       me.attr.circle = null;

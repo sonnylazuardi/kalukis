@@ -1,6 +1,7 @@
 define(function(require){
   return {
     create: function(canvas, cfg, callback){
+      console.log("should not be called");
       if (!cfg.x || !cfg.y || !cfg.radius){
         throw new Error("Required params not supplied");
       }
