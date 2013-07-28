@@ -1,6 +1,5 @@
 define(function(require){
   var circleBrush = require("brushes/circleBrush"),
-      lineOutlinePts = require("utils/lineOutlinePoints"),
       circleBrushHelper = require("brushes/circleBrushHelper");
 
   function createLineCircleBrush(canvas, cfg){

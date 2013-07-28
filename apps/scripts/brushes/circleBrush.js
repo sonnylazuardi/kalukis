@@ -2,6 +2,7 @@ define(function(require){
   var fabric = require("fabric"),
       rectOutlinePts = require("utils/rectOutlinePoints"),
       circleOutlinePts = require("utils/circleOutlinePoints"),
+      lineOutlinePts = require("utils/lineOutlinePoints"),
       circleBrushHelper = require("brushes/circleBrushHelper");
 
   return {
@@ -17,6 +18,8 @@ define(function(require){
         return rectOutlinePts(brush, cfg.x, cfg.y, cfg.width, cfg.height);
       } else if (shape === "circle") {
         return circleOutlinePts(brush, cfg.x, cfg.y, cfg.radius);
+      } else if (shape === "line") {
+        return lineOutlinePts(brush, cfg.x1, cfg.y1, cfg.x2, cfg.y2);
       }
 
       return;
