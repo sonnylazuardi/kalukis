@@ -39,9 +39,8 @@ define(function(require){
           rect = me.attr.rect;
 
       // TODO what should happen when the brush cannot be loaded?
-      require(["shapeBrush/rectShapedBrush"], function(shapedBrush){
-
-        shapedBrush.create(me.attr.canvas, {
+      require(["brushes/"+brushId], function(brush){
+        brush.createShapeBrush(me.attr.canvas, {
           brush: brushId,
           shape: "rect",
           x: (rect.width > 0) ? rect.x : rect.x + rect.width,
