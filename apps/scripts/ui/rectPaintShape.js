@@ -34,14 +34,16 @@ define(function(require){
     };
 
     this.createShapeBrush = function(){
-      var brushModule = "shapeBrush/rect-"+this.attr.brushId,
+      var brushId = this.attr.brushId,
           me = this,
           rect = me.attr.rect;
 
       // TODO what should happen when the brush cannot be loaded?
-      require([brushModule], function(brush){
+      require(["shapeBrush/rectShapedBrush"], function(shapedBrush){
 
-        brush.create(me.attr.canvas, {
+        shapedBrush.create(me.attr.canvas, {
+          brush: brushId,
+          shape: "rect",
           x: (rect.width > 0) ? rect.x : rect.x + rect.width,
           y: (rect.height > 0) ? rect.y : rect.y + rect.height,
           width: Math.abs(rect.width),

@@ -5,7 +5,7 @@ define(function(require){
         throw new Error("Required params not supplied");
       }
 
-      require(["brushes/"+cfg.shape+"Brush"], function(brsh){
+      require(["brushes/"+cfg.brush], function(brsh){
         brsh.createShapeBrush(canvas, cfg);
 
         if (typeof callback === "function") {
