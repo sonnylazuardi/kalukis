@@ -7,8 +7,8 @@ define(function(require){
     var sb = sprayBrush.create(canvas);
     // for performance reason
     sb.width = (cfg.brushWidth < 10 ? 10 : cfg.brushWidth);
-    sb.density = 5;
-    sb.dotWidth = 5;
+    sb.density = 15;
+    sb.dotWidth = 2;
 
     var outline = lineOutlinePts(sb, cfg.x1, cfg.y1, cfg.x2, cfg.y2),
         outlineLength = outline.length;
