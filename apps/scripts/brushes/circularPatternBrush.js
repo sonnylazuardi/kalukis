@@ -2,13 +2,11 @@ define(function(require){
   var fabric = require("fabric"),
       rectOutlinePts = require("utils/rectOutlinePoints"),
       circleOutlinePts = require("utils/circleOutlinePoints"),
-      lineOutlinePts = require("utils/lineOutlinePoints"),
-      circleBrushHelper = require("brushes/circleBrushHelper");
+      lineOutlinePts = require("utils/lineOutlinePoints");
 
   return {
-    // for freedraw
     create: function(canvas){
-      return new fabric.CircleBrush(canvas);
+      return new fabric.PatternBrush(canvas);
     },
     // create outline for the specified shape
     createOutline: function(brush, shape, cfg){
@@ -24,23 +22,18 @@ define(function(require){
 
       return;
     },
-    // for drawing shaped object
-    createShapeBrush: function(canvas, cfg){
-      var cb = this.create(canvas);
-      cb.width = cfg.brushWidth || 10;
+    createShapeBrush: function(canvas, cfg) {
+      var b = this.create(canvas);
+      b.width = cfg.brushWidth || 10;
+      b.color = cfg.color;
 
-      var outline = this.createOutline(cb, cfg.shape, cfg),
-          outlineLength = outline.length;
+      var outline = this.createOutline(b, cfg.shape, cfg);
 
-      cb.color = cfg.color || "#000000";
-
-      for (var i = 0; i < outlineLength; i++){
-        cb.addPoint(outline[i]);
+      for (var i = outline.length - 1; i >= 0; i--) {
+        b._points.push(new fabric.Point(outline[i].x, outline[i].y));
       }
 
-      circleBrushHelper.drawCircles(canvas, {
-        points: cb.points
-      });
+      b._finalizeAndAddPath();
     }
   };
 });

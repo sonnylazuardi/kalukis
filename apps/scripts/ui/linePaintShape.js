@@ -32,13 +32,14 @@ define(function(require){
     };
 
     this.createShapeBrush = function(){
-      var brushModule = "shapeBrush/line-" + this.attr.brushId,
+      var brushId = this.attr.brushId,
           me = this,
           line = this.attr.line;
 
-      require([brushModule], function(brush){
-
-        brush.create(me.attr.canvas, {
+      require(["brushes/"+brushId], function(brush){
+        brush.createShapeBrush(me.attr.canvas, {
+          brush: brushId,
+          shape: "line",
           x1: line.x1,
           y1: line.y1,
           x2: line.x2,
@@ -46,8 +47,6 @@ define(function(require){
           color: me.attr.brush.color,
           brushWidth: me.attr.brush.width
         });
-
-        me.attr.canvas.renderAll();
       });
 
       me.attr.line = null;
