@@ -13,10 +13,7 @@ define(function(require){
     addPoint: function(pointer){
       var pointerPoint = new fabric.Point(pointer.x, pointer.y);
 
-      var circleRadius = fabric.util.getRandomInt(
-                          Math.max(0, this.width - 20), this.width + 20) / 2;
-
-      var width = fabric.util.getRandomInt(0, this.width);
+      var width = fabric.util.getRandomInt(Math.ceil(this.width/2), this.width);
 
       var strokeColor = new fabric.Color(this.color)
                           .setAlpha(fabric.util.getRandomInt(0, 100) / 100)
