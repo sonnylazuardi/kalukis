@@ -6,11 +6,11 @@ define(function(require){
     onMouseMove: function(pointer){
       var point = this.addPoint(pointer);
       var ctx = this.canvas.contextTop;
-
       // change color
       point.strokeColor = point.fill;
       point.fill = null;
 
+      ctx.lineWidth = 1;
       ctx.strokeStyle = point.strokeColor;
       ctx.beginPath();
       ctx.arc(point.x, point.y, point.radius, 0, Math.PI*2, false);
@@ -29,7 +29,8 @@ define(function(require){
           left: point.x,
           top: point.y,
           fill: null,
-          stroke: point.strokeColor
+          stroke: point.strokeColor,
+          strokeWidth: 1
         });
         this.canvas.add(circle);
       }
