@@ -17,6 +17,7 @@ define(function(require){
           {value: "spray", id: "sprayBrush"},
           {value: "circle", id: "circleBrush"},
           {value: "hollow circle", id: "hollowCircleBrush"},
+          {value: "hollow square", id: "hollowSquareBrush"},
           {value: "circular pattern", id: "circularPatternBrush"},
           {value: "vertical line", id: "verticalLineBrush"},
           {value: "horizontal line", id: "horizontalLineBrush"}
