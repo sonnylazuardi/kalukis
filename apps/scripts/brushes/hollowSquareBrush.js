@@ -43,7 +43,7 @@ define(function(require){
       ctx.lineWidth = 1;
       ctx.strokeStyle = point.strokeColor;
       ctx.beginPath();
-      ctx.strokeRect(point.x, point.y, point.width, point.height);
+      ctx.strokeRect(point.x - point.width/2, point.y - point.height/2, point.width, point.height);
       ctx.stroke();
     },
 

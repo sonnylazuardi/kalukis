@@ -10,6 +10,7 @@ define(function(require){
 
       for (var i = points.length - 1; i >= 0; i--) {
         var point = points[i];
+
         canvas.add(new fabric.Rect({
           width: point.width,
           height: point.height,
