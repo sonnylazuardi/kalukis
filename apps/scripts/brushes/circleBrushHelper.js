@@ -15,7 +15,7 @@ define(function(require){
           left: point.x,
           top: point.y,
           fill: point.fill ? point.fill : null,
-          strokeColor: point.strokeColor ? point.strokeColor: null,
+          stroke: point.strokeColor ? point.strokeColor: null,
           hasControls: false,
           hasRotatingPoint: false,
           lockUniScaling: true
