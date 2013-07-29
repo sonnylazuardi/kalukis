@@ -1,3 +1,8 @@
+# 0.7.10
+
+- add hollowsquare pattern
+- add hollowcircle pattern
+
 # 0.7.7
 
 - Simplify drawing process
