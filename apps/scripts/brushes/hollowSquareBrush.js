@@ -5,11 +5,9 @@ define(function(require){
       lineOutlinePts = require("utils/lineOutlinePoints"),
       squareBrushHelper = require("brushes/squareBrushHelper");
 
-  // extend fabric.CircleBrush
   var HollowSquare = fabric.util.createClass(fabric.BaseBrush, {
     width: 10,
-    // we need custom method to add Points, because each points shouldn't
-    // have fill color, but stroke color
+    
     addPoint: function(pointer){
       var pointerPoint = new fabric.Point(pointer.x, pointer.y);
 
