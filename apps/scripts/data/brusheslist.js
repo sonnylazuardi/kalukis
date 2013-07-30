@@ -32,12 +32,20 @@ define(function(require){
       this.on(document, "selectedBrushRequested", this.onSelectedBrushRequested);
     });
 
+    /**
+     * Publish the brushes
+     */
     this.onBrushesRequested = function(e, eObj){
       this.trigger(document, "brushesReady", {
         brushes: this.attr.brushes
       });
     };
 
+    /**
+     * Indicates to our observer that the selected brush
+     * has changed. We also need to publish the selected
+     * brush instance
+     */
     this.onBrushClicked = function(e, eObj){
       var selected = this.findBrush(eObj.brushId);
       
@@ -70,10 +78,17 @@ define(function(require){
       return found;
     };
 
+    /**
+     * Respond to selected brush query by publishing
+     * the selected brush instance
+     */
     this.onSelectedBrushRequested = function(e, eObj){
       this.publishSelectedBrush();
     };
 
+    /**
+     * Publish selected brush instance
+     */
     this.publishSelectedBrush = function(){
       var me = this,
           brushModule = "brushes/" + this.attr.brushes.selectedId;

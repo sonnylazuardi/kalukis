@@ -1,3 +1,6 @@
+/**
+ * Draw image on top of the canvas
+ */
 define(function(require){
   var fabric = require("fabric");
 

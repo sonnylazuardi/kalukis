@@ -1,3 +1,7 @@
+/**
+ * Draw a rectangular outline as the user is drawing on
+ * top of the canvas
+ */
 define(function(require){
 
   function RectOutlinePainter(canvas, cfg){

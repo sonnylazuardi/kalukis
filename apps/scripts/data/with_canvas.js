@@ -1,5 +1,6 @@
 /**
- * Provides a mixin for getting the instance of canvas.
+ * Provides a mixin for getting the instance of canvas and
+ * its element
  */
 define(function(){
 

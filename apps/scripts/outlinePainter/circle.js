@@ -1,3 +1,7 @@
+/**
+ * Draw a circular outline as the user is drawing on
+ * top of the canvas
+ */
 define(function(require){
   function CircleOutlinePainter(canvas, cfg){
     cfg = cfg || {};
