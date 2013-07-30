@@ -14,12 +14,8 @@ label {
   width: 100px;
 }
 
-#colorpicker{
-  margin-top: 10px;
-}
-
-#brushescombo{
-  margin-top: 10px;
+#sizerange, #colorpicker, #brushescombo {
+  margin-bottom: 10px;
 }
 
 #loading-indicator{
