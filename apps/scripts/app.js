@@ -10,6 +10,7 @@ define(function(require){
       circlePaintShape = require("ui/circlePaintShape"),
       imageButton = require("ui/imageButton"),
       removeButton = require("ui/removeButton"),
+      clearButton = require("ui/clearButton"),
       loadingIndicator = require("ui/loadingIndicator"),
       brushesCombo = require("ui/brushesCombo"),
       brushesList = require("data/brusheslist"),
@@ -26,6 +27,7 @@ define(function(require){
     circlePaintShape.attachTo("#circlePaintShape");
     imageButton.attachTo("#imageButton");
     removeButton.attachTo("#removeButton");
+    clearButton.attachTo("#clearButton");
 
     loadingIndicator.attachTo("#loading-indicator");
 
