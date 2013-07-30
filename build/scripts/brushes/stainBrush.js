@@ -1,0 +1,1 @@
+define(["require","fabric","flight/lib/compose","brushes/with_outline_helper"],function(e){var t=(e("fabric"),e("flight/lib/compose")),i=e("brushes/with_outline_helper"),r={};return t.mixin(r,[i]),r});
