@@ -16,12 +16,13 @@
     <div class="row-fluid">
       <div class="span1">
         <ul class="left-nav nav nav-tabs nav-stacked">
-          <li id="pencil"><a href="#"><i class="icon-pencil"></i></a></li>
-          <li id="linePaintShape"><a href="#"><i class="icon-minus"></i></a></li>
-          <li id="rectPaintShape"><a href="#"><i class="icon-check-empty"></i></a></li>
-          <li id="circlePaintShape"><a href="#"><i class="icon-circle-blank"></i></a></li>
-          <li id="imageButton"><a href="#"><i class="icon-picture"></i></a></li>
-          <li id="removeButton"><a href="#"><i class="icon-remove"></i></a></li>
+          <li id="pencil" title="Pencil Brush"><a href="#"><i class="icon-pencil"></i></a></li>
+          <li id="linePaintShape" title="Paints Line"><a href="#"><i class="icon-minus"></i></a></li>
+          <li id="rectPaintShape" title="Paints Rectangle"><a href="#"><i class="icon-check-empty"></i></a></li>
+          <li id="circlePaintShape" title="Paints Circle"><a href="#"><i class="icon-circle-blank"></i></a></li>
+          <li id="imageButton" title="Paints Image"><a href="#"><i class="icon-picture"></i></a></li>
+          <li id="removeButton" title="Remove Object"><a href="#"><i class="icon-remove"></i></a></li>
+          <li id="clearButton" title="Clear Canvas"><a href="#"><i class="icon-trash"></i></a></li>
         </ul>
       </div>
       <div class="span7">
@@ -29,14 +30,14 @@
       </div>
       <div class="span4">
         <div class="right-side-nav">
-          <div id="brushescombo"></div>
-          <div id="colorpicker"></div>
           <div id="sizerange"></div>
+          <div id="colorpicker"></div>
+          <div id="brushescombo"></div>
         </div>
       </div>
     </div>
 
   </div>
-  <script src="scripts/main.js"></script>
+  <script src="../vendor/requirejs/require.js" data-main="scripts/main.js"></script>
 </body>
 </html>

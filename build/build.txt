@@ -46,6 +46,7 @@ scripts/ui/circlePaintShape.js
 text!templates/hiddenInputImage.html
 scripts/ui/imageButton.js
 scripts/ui/removeButton.js
+scripts/ui/clearButton.js
 scripts/ui/loadingIndicator.js
 /media/nada/Biji/opensource/keripix/js/lukis/vendor/mustache/mustache.js
 text!templates/brushescombo.html

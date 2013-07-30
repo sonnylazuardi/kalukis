@@ -24,7 +24,6 @@ define(function(require){
         clickoutFiresChange: true,
         showButtons: false,
         move: function(color){
-          console.log("me");
           me.trigger(document, "brushPropertyChanged", {
             key: "color",
             color: color.toHexString()

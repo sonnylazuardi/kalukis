@@ -1,0 +1,1 @@
+define(["require","flight/component","data/with_canvas"],function(t){function e(){this.after("initialize",function(){this.on("click",this.onClick)}),this.onClick=function(){this.attr.canvas.clear()}}var i=t("flight/component"),n=t("data/with_canvas");return i(e,n)});
