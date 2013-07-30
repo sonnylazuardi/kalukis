@@ -4,9 +4,18 @@ define(function(require){
       compose = require("flight/lib/compose"),
       withOutlineHelper = require("brushes/with_outline_helper");
 
+  // extend fabric.BaseBrush
   var HollowSquare = fabric.util.createClass(fabric.BaseBrush, {
     width: 10,
     
+    /**
+     * Add a point in this location. This point will also
+     * have properties related to this square, such as the
+     * height, width and stroke style.
+     * 
+     * @param  {Object} pointer pointer location
+     * @return {fabric.Point}
+     */
     addPoint: function(pointer){
       var pointerPoint = new fabric.Point(pointer.x, pointer.y);
 
@@ -77,20 +86,20 @@ define(function(require){
     },
 
     createShapeBrush: function(canvas, cfg){
-      var b = this.create(canvas);
-      b.width = cfg.brushWidth || 10;
+      var brush = this.create(canvas);
+      brush.width = cfg.brushWidth || 10;
 
-      var outline = this.createOutline(b, cfg.shape, cfg),
+      var outline = this.createOutline(brush, cfg.shape, cfg),
           outlineLength = outline.length;
 
-      b.color = cfg.color || "#000000";
+      brush.color = cfg.color || "#000000";
 
       for (var i = 0; i < outlineLength; i++){
-        b.addPoint(outline[i]);
+        brush.addPoint(outline[i]);
       }
 
       squareBrushHelper.drawSquares(canvas, {
-        points: b.points
+        points: brush.points
       });
     }
   };

@@ -9,17 +9,17 @@ define(function(require){
     },
     
     createShapeBrush: function(canvas, cfg) {
-      var b = this.create(canvas);
-      b.width = cfg.brushWidth || 10;
-      b.color = cfg.color;
+      var brush = this.create(canvas);
+      brush.width = cfg.brushWidth || 10;
+      brush.color = cfg.color;
 
-      var outline = this.createOutline(b, cfg.shape, cfg);
+      var outline = this.createOutline(brush, cfg.shape, cfg);
 
       for (var i = outline.length - 1; i >= 0; i--) {
-        b._points.push(new fabric.Point(outline[i].x, outline[i].y));
+        brush._points.push(new fabric.Point(outline[i].x, outline[i].y));
       }
-
-      b._finalizeAndAddPath();
+      // use fabric.PatternBrush internal method
+      brush._finalizeAndAddPath();
     }
   };
 

@@ -13,14 +13,14 @@ define(function(require){
         selected: "pencil",
         selectedId: "pencilBrush",
         brushes: [
-          {value: "pencil", id: "pencilBrush"},
-          {value: "spray", id: "sprayBrush"},
-          {value: "circle", id: "circleBrush"},
-          {value: "hollow circle", id: "hollowCircleBrush"},
-          {value: "hollow square", id: "hollowSquareBrush"},
-          {value: "circular pattern", id: "circularPatternBrush"},
-          {value: "vertical line", id: "verticalLineBrush"},
-          {value: "horizontal line", id: "horizontalLineBrush"}
+          {value: "Pencil", id: "pencilBrush"},
+          {value: "Spray", id: "sprayBrush"},
+          {value: "Circle", id: "circleBrush"},
+          {value: "Hollow Circle", id: "hollowCircleBrush"},
+          {value: "Hollow Square", id: "hollowSquareBrush"},
+          {value: "Circular Pattern", id: "circularPatternBrush"},
+          {value: "Vertical Line", id: "verticalLineBrush"},
+          {value: "Horizontal Line", id: "horizontalLineBrush"}
         ]
       }
     });

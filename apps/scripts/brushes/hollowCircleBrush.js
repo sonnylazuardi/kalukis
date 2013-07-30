@@ -6,14 +6,24 @@ define(function(require){
 
   // extend fabric.CircleBrush
   var HollowCircle = fabric.util.createClass(fabric.CircleBrush, {
-    // we need custom method to add Points, because each points shouldn't
-    // have fill color, but stroke color
+    /**
+     * Override fabric.CircleBrush addPoint method. We need to
+     * define our own circle properties. In this case, we dont
+     * need a fill property, because this circle is hollow. What
+     * we need is stroke style.
+     * 
+     * @param  {Object} pointer pointer location
+     * @return {fabric.Point}         Point
+     */
     addPoint: function(pointer){
       var pointerPoint = new fabric.Point(pointer.x, pointer.y);
 
+      // generate random circle's radius
       var circleRadius = fabric.util.getRandomInt(
                           Math.max(0, this.width - 20), this.width + 20) / 2;
 
+      // generate random stroke style. This includes the
+      // alpha property
       var strokeColor = new fabric.Color(this.color)
                           .setAlpha(fabric.util.getRandomInt(0, 100) / 100)
                           .toRgba();
@@ -68,20 +78,20 @@ define(function(require){
     },
 
     createShapeBrush: function(canvas, cfg){
-      var b = this.create(canvas);
-      b.width = cfg.brushWidth || 10;
+      var brush = this.create(canvas);
+      brush.width = cfg.brushWidth || 10;
 
-      var outline = this.createOutline(b, cfg.shape, cfg),
+      var outline = this.createOutline(brush, cfg.shape, cfg),
           outlineLength = outline.length;
 
-      b.color = cfg.color || "#000000";
+      brush.color = cfg.color || "#000000";
 
       for (var i = 0; i < outlineLength; i++){
-        b.addPoint(outline[i]);
+        brush.addPoint(outline[i]);
       }
 
       circleBrushHelper.drawCircles(canvas, {
-        points: b.points
+        points: brush.points
       });
     }
   };

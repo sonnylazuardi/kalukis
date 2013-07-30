@@ -8,22 +8,22 @@ define(function(require){
     create: function(canvas){
       return new fabric.CircleBrush(canvas);
     },
-    // for drawing shaped object
+    
     createShapeBrush: function(canvas, cfg){
-      var cb = this.create(canvas);
-      cb.width = cfg.brushWidth || 10;
+      var brush = this.create(canvas);
+      brush.width = cfg.brushWidth || 10;
 
-      var outline = this.createOutline(cb, cfg.shape, cfg),
+      var outline = this.createOutline(brush, cfg.shape, cfg),
           outlineLength = outline.length;
 
-      cb.color = cfg.color || "#000000";
+      brush.color = cfg.color || "#000000";
 
       for (var i = 0; i < outlineLength; i++){
-        cb.addPoint(outline[i]);
+        brush.addPoint(outline[i]);
       }
 
       circleBrushHelper.drawCircles(canvas, {
-        points: cb.points
+        points: brush.points
       });
     }
   };

@@ -12,25 +12,24 @@ define(function(require){
     
     // for drawing shaped object
     createShapeBrush: function(canvas, cfg){
-      console.log("im called");
-      var sb = this.create(canvas);
+      var brush = this.create(canvas);
       // for performance reason
-      sb.width = (cfg.brushWidth < 10 ? 10 : cfg.brushWidth);
-      sb.density = 15;
-      sb.dotWidth = 2;
+      brush.width = (cfg.brushWidth < 10 ? 10 : cfg.brushWidth);
+      brush.density = 15;
+      brush.dotWidth = 2;
 
-      var outline = this.createOutline(sb, cfg.shape, cfg),
+      var outline = this.createOutline(brush, cfg.shape, cfg),
           outlineLength = outline.length;
 
-      sb.color = cfg.color || "#000000";
+      brush.color = cfg.color || "#000000";
 
       for (var i = 0; i < outlineLength; i++){
-        sb.addSprayChunk(outline[i]);
+        brush.addSprayChunk(outline[i]);
       }
 
       sprayBrushHelper.drawChunks(canvas, {
-        color: sb.color,
-        chunks: sb.sprayChunks
+        color: brush.color,
+        chunks: brush.sprayChunks
       });
     }
   };

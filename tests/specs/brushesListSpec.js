@@ -12,7 +12,7 @@ describeComponent('data/brusheslist', function(){
       expect(eventSpy).toHaveBeenTriggeredOn(document);
 
       var publishedBrush = eventSpy.mostRecentCall.data.brushes;
-      expect(publishedBrush.selected).toEqual("pencil");
+      expect(publishedBrush.selected).toEqual("Pencil");
       expect(publishedBrush.selectedId).toEqual("pencilBrush");
     });
 
@@ -47,7 +47,7 @@ describeComponent('data/brusheslist', function(){
         expect(check).toBeTruthy();
 
         var publishedBrush = eventSpy.mostRecentCall.data;
-        expect(publishedBrush.selected).toEqual("pencil");
+        expect(publishedBrush.selected).toEqual("Pencil");
         expect(publishedBrush.selectedId).toEqual("pencilBrush");
       });
     });
