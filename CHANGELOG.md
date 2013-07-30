@@ -1,3 +1,7 @@
+# 0.7.11
+
+- use with_outline_helper mixin to provide createOutline functionality
+
 # 0.7.10
 
 - add hollowsquare pattern
