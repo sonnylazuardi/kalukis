@@ -34,7 +34,8 @@ require(
   "specs/brushRectSpec",
   "specs/circleShapeBrushSpec",
   "specs/lineOutlineSpec",
-  "specs/sizeRangeSpec"
+  "specs/sizeRangeSpec",
+  "specs/withOutlineHelperSpec"
 ],
 
 function(){
