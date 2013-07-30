@@ -1,3 +1,8 @@
+# 0.7.13
+
+- Some appearance changes
+- Clear Canvas
+
 # 0.7.12
 
 - MOVE VENDOR TO THE TOP DIRECTORY STRUCTURE

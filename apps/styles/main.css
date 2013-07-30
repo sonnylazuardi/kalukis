@@ -18,6 +18,10 @@ label {
   margin-bottom: 10px;
 }
 
+#colorpicker label{
+  vertical-align: top;
+}
+
 #loading-indicator{
   display: none;
   position: fixed;
