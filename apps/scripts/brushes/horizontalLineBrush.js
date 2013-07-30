@@ -1,10 +1,9 @@
 define(function(require){
   var fabric = require("fabric"),
-      rectOutlinePts = require("utils/rectOutlinePoints"),
-      circleOutlinePts = require("utils/circleOutlinePoints"),
-      lineOutlinePts = require("utils/lineOutlinePoints");
+      compose = require("flight/lib/compose"),
+      withOutlineHelper = require("brushes/with_outline_helper");
 
-  return {
+  var horizontalLineBrush = {
     create: function(canvas){
       var vLine = new fabric.PatternBrush(canvas);
 
@@ -57,4 +56,8 @@ define(function(require){
       b._finalizeAndAddPath();
     }
   };
+
+  compose.mixin(horizontalLineBrush, [withOutlineHelper]);
+
+  return horizontalLineBrush;
 });
