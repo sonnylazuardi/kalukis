@@ -1,3 +1,7 @@
+# 0.7.12
+
+- MOVE VENDOR TO THE TOP DIRECTORY STRUCTURE
+
 # 0.7.11
 
 - use with_outline_helper mixin to provide createOutline functionality
