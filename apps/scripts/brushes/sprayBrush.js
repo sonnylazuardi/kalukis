@@ -1,28 +1,15 @@
 define(function(require){
   var fabric = require("fabric"),
-      rectOutlinePts = require("utils/rectOutlinePoints"),
-      circleOutlinePts = require("utils/circleOutlinePoints"),
-      lineOutlinePts = require("utils/lineOutlinePoints"),
-      sprayBrushHelper = require("brushes/sprayBrushHelper");
+      sprayBrushHelper = require("brushes/sprayBrushHelper"),
+      compose = require("flight/lib/compose"),
+      withOutlineHelper = require("brushes/with_outline_helper");
 
-  return {
+  var sprayBrush = {
     // for freedraw
     create: function(canvas){
       return new fabric.SprayBrush(canvas);
     },
-    createOutline: function(brush, shape, cfg){
-      // TODO can we simplify this?
-      // TODO parameter checking
-      if (shape === "rect") {
-        return rectOutlinePts(brush, cfg.x, cfg.y, cfg.width, cfg.height);
-      } else if (shape === "circle") {
-        return circleOutlinePts(brush, cfg.x, cfg.y, cfg.radius);
-      } else if (shape === "line") {
-        return lineOutlinePts(brush, cfg.x1, cfg.y1, cfg.x2, cfg.y2);
-      }
-
-      return;
-    },
+    
     // for drawing shaped object
     createShapeBrush: function(canvas, cfg){
       console.log("im called");
@@ -47,4 +34,8 @@ define(function(require){
       });
     }
   };
+
+  compose.mixin(sprayBrush, [withOutlineHelper]);
+
+  return sprayBrush;
 });
