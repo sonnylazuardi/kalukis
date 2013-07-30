@@ -3,8 +3,8 @@ require.config({
 
   paths: {
     fabric: "canvas-lib/fabric",
-    text: "vendor/requirejs-text/text",
-    mustache: "vendor/mustache/mustache"
+    text: "../../vendor/requirejs-text/text",
+    mustache: "../../vendor/mustache/mustache"
   },
 
   shim:{
@@ -15,8 +15,8 @@ require.config({
 
   map: {
     "*": {
-      'flight/component': 'vendor/flight/lib/component',
-      'flight': 'vendor/flight',
+      'flight/component': '../../vendor/flight/lib/component',
+      'flight': '../../vendor/flight',
       'brushes': 'brushes',
       'specs': '../../tests/specs'
     }
