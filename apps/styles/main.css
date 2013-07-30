@@ -18,6 +18,10 @@ label {
   margin-top: 10px;
 }
 
+#brushescombo{
+  margin-top: 10px;
+}
+
 #loading-indicator{
   display: none;
   position: fixed;

@@ -19,8 +19,17 @@ define(function(require){
 
       // settings
       cp.spectrum({
+        flat: true,
+        showInput: true,
         clickoutFiresChange: true,
-        showButtons: true,
+        showButtons: false,
+        move: function(color){
+          console.log("me");
+          me.trigger(document, "brushPropertyChanged", {
+            key: "color",
+            color: color.toHexString()
+          });
+        },
         // fire me on color changed
         change: function(color){
           me.trigger(document, "brushPropertyChanged", {
