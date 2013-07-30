@@ -5,5 +5,6 @@
   name: "main",
   mainConfigFile: "main.js",
   optimize: "uglify2",
-  optimizeCss: "standard"
+  optimizeCss: "standard",
+  include: ["../../vendor/requirejs/require"]
 })

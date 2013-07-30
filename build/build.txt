@@ -6,6 +6,7 @@ styles/main.css
 
 scripts/main.js
 ----------------
+scripts/../../vendor/requirejs/require.js
 /media/nada/Biji/opensource/keripix/js/lukis/vendor/jquery/jquery.js
 scripts/../../vendor/flight/lib/././utils.js
 scripts/../../vendor/flight/lib/./././utils.js
