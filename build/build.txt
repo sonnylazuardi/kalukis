@@ -1,12 +1,14 @@
 
 styles/main.css
 ----------------
-styles/../../vendor/spectrum/spectrum.css
+styles/./../../vendor/spectrum/spectrum.css
 styles/main.css
 
 scripts/main.js
 ----------------
 scripts/../../vendor/requirejs/require.js
+/media/nada/Biji/opensource/keripix/js/lukis/vendor/es5-shim/es5-shim.js
+/media/nada/Biji/opensource/keripix/js/lukis/vendor/es5-shim/es5-sham.js
 /media/nada/Biji/opensource/keripix/js/lukis/vendor/jquery/jquery.js
 scripts/../../vendor/flight/lib/././utils.js
 scripts/../../vendor/flight/lib/./././utils.js
@@ -58,6 +60,4 @@ text!templates/sizerange.html
 scripts/ui/sizeRange.js
 scripts/app.js
 /media/nada/Biji/opensource/keripix/js/lukis/vendor/spectrum/spectrum.js
-/media/nada/Biji/opensource/keripix/js/lukis/vendor/es5-shim/es5-shim.js
-/media/nada/Biji/opensource/keripix/js/lukis/vendor/es5-shim/es5-sham.js
 scripts/main.js

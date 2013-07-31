@@ -20,7 +20,7 @@ require.config({
     },
     "spectrum": ["jquery"],
     "../../vendor/flight/lib/component": {
-      deps: ["jquery"]
+      deps: ["es5-shim","es5-sham","jquery"]
     }
   },
 
@@ -37,9 +37,7 @@ require(
 
 [
   "app",
-  "spectrum",
-  "es5-shim",
-  "es5-sham"
+  "spectrum"
 ],
 
 function(Application){
