@@ -33,11 +33,11 @@ scripts/../../vendor/flight/lib/../tools/debug/debug.js
 scripts/../../vendor/flight/lib/component.js
 scripts/canvas-lib/fabric.js
 scripts/lukis.js
-scripts/data/with_canvas.js
+scripts/mixins/with_canvas.js
 scripts/ui/pencil.js
 scripts/../../vendor/flight/lib/compose.js
 scripts/../../vendor/flight/lib/advice.js
-scripts/ui/with_paint_shape.js
+scripts/mixins/with_paint_shape.js
 scripts/outlinePainter/line.js
 scripts/ui/linePaintShape.js
 scripts/outlinePainter/rect.js

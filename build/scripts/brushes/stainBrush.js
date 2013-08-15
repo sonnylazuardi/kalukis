@@ -1,1 +1,1 @@
-define(["require","fabric","flight/lib/compose","brushes/with_outline_helper"],function(e){var t=(e("fabric"),e("flight/lib/compose")),i=e("brushes/with_outline_helper"),r={};return t.mixin(r,[i]),r});
+define(["require","fabric","flight/lib/compose","mixins/with_outline_helper"],function(t){var e=(t("fabric"),t("flight/lib/compose")),i=t("mixins/with_outline_helper"),r={};return e.mixin(r,[i]),r});
