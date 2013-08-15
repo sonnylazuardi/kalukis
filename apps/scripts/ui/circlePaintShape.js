@@ -4,7 +4,7 @@
 define(function(require){
   var defineComponent = require("flight/component"),
       withCanvas = require("mixins/with_canvas"),
-      withPaintShape = require("ui/with_paint_shape"),
+      withPaintShape = require("mixins/with_paint_shape"),
       fabric = require("fabric"),
       outlinePainter = require("outlinePainter/circle");
 
