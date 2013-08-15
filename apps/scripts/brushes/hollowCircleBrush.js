@@ -2,7 +2,7 @@ define(function(require){
   var fabric = require("fabric"),
       circleBrushHelper = require("brushes/circleBrushHelper"),
       compose = require("flight/lib/compose"),
-      withOutlineHelper = require("brushes/with_outline_helper");
+      withOutlineHelper = require("mixins/with_outline_helper");
 
   // extend fabric.CircleBrush
   var HollowCircle = fabric.util.createClass(fabric.CircleBrush, {

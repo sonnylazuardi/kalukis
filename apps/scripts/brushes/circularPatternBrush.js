@@ -1,7 +1,7 @@
 define(function(require){
   var fabric = require("fabric"),
       compose = require("flight/lib/compose"),
-      withOutlineHelper = require("brushes/with_outline_helper");
+      withOutlineHelper = require("mixins/with_outline_helper");
 
   var circularPatternBrush = {
     create: function(canvas){

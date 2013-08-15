@@ -2,7 +2,7 @@ define(function(require){
   var fabric = require("fabric"),
       sprayBrushHelper = require("brushes/sprayBrushHelper"),
       compose = require("flight/lib/compose"),
-      withOutlineHelper = require("brushes/with_outline_helper");
+      withOutlineHelper = require("mixins/with_outline_helper");
 
   var sprayBrush = {
     // for freedraw

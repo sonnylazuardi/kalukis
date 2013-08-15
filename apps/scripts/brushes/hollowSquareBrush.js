@@ -2,7 +2,7 @@ define(function(require){
   var fabric = require("fabric"),
       squareBrushHelper = require("brushes/squareBrushHelper"),
       compose = require("flight/lib/compose"),
-      withOutlineHelper = require("brushes/with_outline_helper");
+      withOutlineHelper = require("mixins/with_outline_helper");
 
   // extend fabric.BaseBrush
   var HollowSquare = fabric.util.createClass(fabric.BaseBrush, {
