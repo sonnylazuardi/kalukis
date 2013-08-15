@@ -18,9 +18,7 @@ define(function(require){
           {value: "Circle", id: "circleBrush"},
           {value: "Hollow Circle", id: "hollowCircleBrush"},
           {value: "Hollow Square", id: "hollowSquareBrush"},
-          {value: "Circular Pattern", id: "circularPatternBrush"},
-          {value: "Vertical Line", id: "verticalLineBrush"},
-          {value: "Horizontal Line", id: "horizontalLineBrush"}
+          {value: "Circular Pattern", id: "circularPatternBrush"}
         ]
       }
     });
