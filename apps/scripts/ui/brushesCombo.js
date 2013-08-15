@@ -22,7 +22,7 @@ define(function(require){
 
       // publishing which brush has been clicked
       this.$node.delegate("select", "change", function(){
-        me.trigger(document, "brushClicked", {
+        me.trigger(document, "uiBrushClicked", {
           brushId: $(this).val()
         });
       });

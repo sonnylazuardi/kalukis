@@ -8,7 +8,7 @@ describeComponent('data/brusheslist', function(){
     it("Should publish the correct brush that was selected", function(){
       var eventSpy = spyOnEvent(document, "brushSelectionChanged");
 
-      $(document).trigger("brushClicked", {brushId:"pencilBrush"});
+      $(document).trigger("uiBrushClicked", {brushId:"pencilBrush"});
       expect(eventSpy).toHaveBeenTriggeredOn(document);
 
       var publishedBrush = eventSpy.mostRecentCall.data.brushes;
@@ -19,7 +19,7 @@ describeComponent('data/brusheslist', function(){
     it("Should not publish anything when non-existing brush was selected", function(){
       var eventSpy = spyOnEvent(document, "brushSelectionChanged");
 
-      $(document).trigger("brushClicked", {brushId:"xxxBrush"});
+      $(document).trigger("uiBrushClicked", {brushId:"xxxBrush"});
       expect(eventSpy).not.toHaveBeenTriggeredOn(document);
     });
   });
@@ -37,7 +37,7 @@ describeComponent('data/brusheslist', function(){
         check = true;
       });
 
-      $(document).trigger("brushClicked", {brushId:"pencilBrush"});
+      $(document).trigger("uiBrushClicked", {brushId:"pencilBrush"});
 
       waitsFor(function(){
         return check;
@@ -55,7 +55,7 @@ describeComponent('data/brusheslist', function(){
     it("Should not publish anything when non-existing brush was selected", function(){
       var eventSpy = spyOnEvent(document, "selectedBrushReady");
 
-      $(document).trigger("brushClicked", {brushId:"xxxBrush"});
+      $(document).trigger("uiBrushClicked", {brushId:"xxxBrush"});
       expect(eventSpy).not.toHaveBeenTriggeredOn(document);
     });
   });

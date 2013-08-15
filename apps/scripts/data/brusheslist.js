@@ -26,7 +26,7 @@ define(function(require){
     this.after("initialize", function(){
       // somebody wants to know what brush is selected
       this.on(document, "brushesRequested", this.onBrushesRequested);
-      this.on(document, "brushClicked", this.onBrushClicked);
+      this.on(document, "uiBrushClicked", this.onBrushClicked);
       this.on(document, "selectedBrushRequested", this.onSelectedBrushRequested);
     });
 
