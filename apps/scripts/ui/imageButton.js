@@ -4,7 +4,7 @@ define(function(require){
       fabric = require("fabric"),
       advice = require("flight/lib/advice"),
       compose = require("flight/lib/compose"),
-      withCanvas = require("data/with_canvas"),
+      withCanvas = require("mixins/with_canvas"),
       outlinePainter = require("outlinePainter/rect"),
       tmpl = require("text!templates/hiddenInputImage.html");
 

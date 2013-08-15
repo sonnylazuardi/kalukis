@@ -1,6 +1,6 @@
 define(function(require){
   var defineComponent = require("flight/component"),
-      withCanvas = require("data/with_canvas");
+      withCanvas = require("mixins/with_canvas");
 
   return defineComponent(clearButton, withCanvas);
 
