@@ -1,5 +1,5 @@
 require.config({
-  baseUrl: "../apps/scripts",
+  baseUrl: "../apps/src",
 
   paths: {
     fabric: "canvas-lib/fabric",
@@ -26,16 +26,7 @@ require.config({
 require(
 
 [
-  "specs/brushesListSpec",
-  "specs/brushesComboSpec",
-  "specs/colorPickerSpec",
-  "specs/rectOutlinePainterSpec",
-  "specs/circleOutlineSpec",
-  "specs/brushRectSpec",
-  "specs/circleShapeBrushSpec",
-  "specs/lineOutlineSpec",
-  "specs/sizeRangeSpec",
-  "specs/withOutlineHelperSpec"
+  "specs/brushes/circleSpec"
 ],
 
 function(){
