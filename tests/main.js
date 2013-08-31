@@ -41,7 +41,7 @@ require(
 function(){
   var jasmineEnv = jasmine.getEnv();
 
-  var htmlReporter = new jasmine.BootstrapReporter();
+  var htmlReporter = new jasmine.HtmlReporter();
   jasmineEnv.addReporter(htmlReporter);
 
   jasmineEnv.specFilter = function(spec) {
