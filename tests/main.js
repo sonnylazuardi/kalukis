@@ -26,7 +26,8 @@ require.config({
 require(
 
 [
-  "specs/brushes/circleSpec"
+  "specs/brushes/circleSpec",
+  "specs/painters/lukisSpec"
 ],
 
 function(){
