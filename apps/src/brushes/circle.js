@@ -6,11 +6,13 @@ define(function(require){
 
     cfg = cfg || {};
 
-    this.fillColor = cfg.fillColor || "#000000";
-    this.strokeColor = cfg.strokeColor || "#000000";
+    cfg.fillColor = cfg.fillColor || "#000000";
+    cfg.strokeColor = cfg.strokeColor || "#000000";
 
-    this.width = cfg.width || 10;
-    this.offset = cfg.offset || 0;
+    cfg.width = cfg.width || 10;
+    cfg.offset = cfg.offset || 0;
+
+    this.cfg = cfg;
 
     this.initBrush();
   }
@@ -21,6 +23,14 @@ define(function(require){
 
   CircleBrush.prototype.getBrush = function() {
     return this.brush;
+  };
+
+  CircleBrush.prototype.set = function(key, value) {
+    this.cfg[key] = value;
+  };
+
+  CircleBrush.prototype.get = function(key) {
+    return cfg[key];
   };
 
   CircleBrush.prototype.drawAt = function(point) {
@@ -35,6 +45,12 @@ define(function(require){
     // body...
   };
 
+  CircleBrush.prototype.render = function(ctx) {
+    if (!ctx) {
+      
+    }
+  };
+
   return CircleBrush;
-  
+
 });
