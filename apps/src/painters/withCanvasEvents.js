@@ -35,7 +35,9 @@ define(function(require){
         }
 
         if (listeners.onMouseMove) {
-          canvas.on("mouse:move", listeners.onMouseMove);
+          canvas.on("mouse:move", function(e){
+            listeners.onMouseMove.call(listeners, e);
+          });
         }
       }
     };

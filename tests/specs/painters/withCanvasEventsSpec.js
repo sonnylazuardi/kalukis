@@ -32,6 +32,13 @@ define(function(require){
         expect(listeners.onMouseDown).toHaveBeenCalled();
       });
 
+      it("Should invoke the registered listener for mouse:move", function(){
+        spyOn(listeners, "onMouseMove");
+
+        canvas.trigger("mouse:move");
+        expect(listeners.onMouseMove).toHaveBeenCalled();
+      });      
+
     });
 
   });
