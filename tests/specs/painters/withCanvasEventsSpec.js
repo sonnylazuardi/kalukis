@@ -41,6 +41,20 @@ define(function(require){
 
     });
 
+    describe("Unregistering listeners", function(){
+
+      it("Should unregister any existing listener", function(){
+        spyOn(listeners, "onMouseUp");
+        this.component.unregisterExistingListeners();
+
+        expect(this.component.attr.listeners).toEqual({});
+
+        // canvas.trigger("mouse:up");
+        // expect(listeners.onMouseUp).not.toHaveBeenCalled();
+      });
+
+    });
+
   });
 
 });

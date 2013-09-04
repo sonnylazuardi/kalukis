@@ -13,7 +13,10 @@ define(function(require){
      * TODO what if the user of this mixin wants to listen
      * to more events than the ones provided below?
      * 
-     * Register event listeners that will be executed
+     * Register event listeners that will be executed. If there
+     * is an existing listener, than that listener will be
+     * overriden by this new one.
+     * 
      * @param  {Object} listeners The listeners where the key
      *                            maps to the spesific event, and
      *                            the value is the listener
@@ -42,6 +45,31 @@ define(function(require){
             listeners.onMouseMove.call(listeners, e);
           });
         }
+      }
+    };
+
+    /**
+     * Unregister any existing listener
+     */
+    this.unregisterExistingListeners = function(){
+      var canvas = this.attr.canvas,
+          listeners = this.attr.listeners;
+
+      if (canvas && listeners){
+
+        if (listeners.onMouseDown) {
+          canvas.off("mouse:down", listeners.onMouseDown);
+        }
+
+        if (listeners.onMouseUp) {
+          canvas.off("mouse:up", listeners.onMouseUp);
+        }
+
+        if (listeners.onMouseMove) {
+          canvas.on("mouse:move", listeners.onMouseMove);
+        }
+
+        this.attr.listeners = {};
       }
     };
 
