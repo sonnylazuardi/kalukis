@@ -31,7 +31,7 @@ define(function(require){
 
       it("Should invoke the registered listener for mouse:up", function(){
         spyOn(listeners, "onMouseUp");
-        
+
         canvas.trigger("mouse:up");
         expect(listeners.onMouseUp).toHaveBeenCalled();
       });
@@ -64,12 +64,20 @@ define(function(require){
 
       it("Should unregister any existing listener", function(){
         spyOn(listeners, "onMouseUp");
+        spyOn(listeners, "onMouseMove");
+        spyOn(listeners, "onMouseDown");
         this.component.unregisterExistingListeners();
 
         expect(this.component.attr.listeners).toEqual({});
 
         canvas.trigger("mouse:up");
         expect(listeners.onMouseUp).not.toHaveBeenCalled();
+
+        canvas.trigger("mouse:move");
+        expect(listeners.onMouseMove).not.toHaveBeenCalled();
+
+        canvas.trigger("mouse:down");
+        expect(listeners.onMouseDown).not.toHaveBeenCalled();
       });
 
     });
