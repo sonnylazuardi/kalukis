@@ -4,10 +4,10 @@
  */
 define(function(require){
   
-  return withFabricPaintingEvent;
+  return withCanvasEvents;
 
 
-  function withFabricPaintingEvent(){
+  function withCanvasEvents(){
 
     /**
      * Register event listeners that will be executed
