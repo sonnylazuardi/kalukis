@@ -27,7 +27,8 @@ require(
 
 [
   "specs/brushes/circleSpec",
-  "specs/painters/lukisSpec"
+  "specs/painters/lukisSpec",
+  "specs/painters/withCanvasEventsSpec"
 ],
 
 function(){
