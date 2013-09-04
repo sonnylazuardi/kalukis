@@ -23,7 +23,9 @@ define(function(require){
         this.attr.listeners = listeners;
 
         if (listeners.onMouseDown) {
-          canvas.on("mouse:down", listeners.onMouseDown);
+          canvas.on("mouse:down", function(e){
+            listeners.onMouseDown.call(listeners, e);
+          });
         }
 
         if (listeners.onMouseUp) {
