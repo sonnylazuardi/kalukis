@@ -55,25 +55,7 @@ define(function(require){
      * Unregister any existing listener
      */
     this.unregisterExistingListeners = function(){
-      var canvas = this.attr.canvas,
-          listeners = this.attr.listeners;
-
-      if (canvas && listeners){
-
-        if (listeners.onMouseDown) {
-          canvas.off("mouse:down", listeners.onMouseDown);
-        }
-
-        if (listeners.onMouseUp) {
-          canvas.off("mouse:up", listeners.onMouseUp);
-        }
-
-        if (listeners.onMouseMove) {
-          canvas.off("mouse:move", listeners.onMouseMove);
-        }
-
-        this.attr.listeners = {};
-      }
+      this.attr.listeners = {};
     };
 
   }
