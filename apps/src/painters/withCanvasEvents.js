@@ -6,7 +6,6 @@ define(function(require){
   
   return withCanvasEvents;
 
-
   function withCanvasEvents(){
 
     /**
@@ -23,27 +22,22 @@ define(function(require){
      *                            function
      */
     this.registerEventListeners = function(listeners){
-      var canvas = this.attr.canvas;
+      var canvas = this.attr.canvas,
+          me = this;
 
       if (canvas){
         this.attr.listeners = listeners;
 
         if (listeners.onMouseDown) {
-          canvas.on("mouse:down", function(e){
-            listeners.onMouseDown.call(listeners, e);
-          });
+          canvas.on("mouse:down", listeners.onMouseDown);
         }
 
         if (listeners.onMouseUp) {
-          canvas.on("mouse:up", function(e){
-            listeners.onMouseUp.call(listeners, e);
-          });
+          canvas.on("mouse:up", listeners.onMouseUp);
         }
 
         if (listeners.onMouseMove) {
-          canvas.on("mouse:move", function(e){
-            listeners.onMouseMove.call(listeners, e);
-          });
+          canvas.on("mouse:move", listeners.onMouseMove);
         }
       }
     };
@@ -66,7 +60,7 @@ define(function(require){
         }
 
         if (listeners.onMouseMove) {
-          canvas.on("mouse:move", listeners.onMouseMove);
+          canvas.off("mouse:move", listeners.onMouseMove);
         }
 
         this.attr.listeners = {};
