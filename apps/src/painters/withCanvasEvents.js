@@ -10,6 +10,9 @@ define(function(require){
   function withCanvasEvents(){
 
     /**
+     * TODO what if the user of this mixin wants to listen
+     * to more events than the ones provided below?
+     * 
      * Register event listeners that will be executed
      * @param  {Object} listeners The listeners where the key
      *                            maps to the spesific event, and
