@@ -31,6 +31,7 @@ define(function(require){
 
       it("Should invoke the registered listener for mouse:up", function(){
         spyOn(listeners, "onMouseUp");
+        
         canvas.trigger("mouse:up");
         expect(listeners.onMouseUp).toHaveBeenCalled();
       });
