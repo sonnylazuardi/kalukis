@@ -29,7 +29,8 @@ require(
   "specs/brushes/circleSpec",
   "specs/brushServices/brushManagerSpec.js",
   "specs/painters/lukisSpec",
-  "specs/painters/withCanvasEventsSpec"
+  "specs/painters/withCanvasEventsSpec",
+  "specs/painters/withBrushPainterSpec"
 ],
 
 function(){
