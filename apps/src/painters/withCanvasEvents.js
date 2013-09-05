@@ -29,24 +29,15 @@ define(function(require){
         this.attr.listeners = listeners;
 
         if (listeners.onMouseDown) {
-          canvas.on("mouse:down", function(e){
-            me.attr.listeners.onMouseDown &&
-            me.attr.listeners.onMouseDown.call(me.attr.listeners, e);
-          });
+          canvas.on("mouse:down", this.attr.listeners.onMouseDown);
         }
 
         if (listeners.onMouseUp) {
-          canvas.on("mouse:up", function(e){
-            me.attr.listeners.onMouseUp &&
-            me.attr.listeners.onMouseUp.call(me.attr.listeners, e);
-          });
+          canvas.on("mouse:up", this.attr.listeners.onMouseUp);
         }
 
         if (listeners.onMouseMove) {
-          canvas.on("mouse:move", function(e){
-            me.attr.listeners.onMouseMove &&
-            me.attr.listeners.onMouseMove.call(me.attr.listeners, e);
-          });
+          canvas.on("mouse:move", this.attr.listeners.onMouseMove);
         }
       }
     };

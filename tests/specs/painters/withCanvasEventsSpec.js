@@ -3,17 +3,17 @@ define(function(require){
   var fabric = require("fabric"),
       canvas = new fabric.Canvas(),
       onMouseUpFired = false,
-      onMouseUpDownFired = false,
+      onMouseDownFired = false,
       onMouseMoveFired = false,
       listeners = {
         onMouseUp: function(){
           onMouseUpFired = true;
         },
         onMouseDown: function(){
-          onMouseUpDownFired = true;
+          onMouseDownFired = true;
         },
         onMouseMove: function(){
-          onMouseUpDownFired = true;
+          onMouseMoveFired = true;
         }
       };
 
@@ -28,7 +28,7 @@ define(function(require){
 
       beforeEach(function(){
         onMouseUpFired = false;
-        onMouseUpDownFired = false;
+        onMouseDownFired = false;
         onMouseMoveFired = false;
         this.component.registerEventListeners(listeners);
       });
@@ -42,24 +42,18 @@ define(function(require){
       });
 
       it("Should invoke the registered listener for mouse:up", function(){
-        spyOn(listeners, "onMouseUp");
-
         canvas.trigger("mouse:up");
-        expect(listeners.onMouseUp).toHaveBeenCalled();
+        expect(onMouseUpFired).toBeTruthy();
       });
 
       it("Should invoke the registered listener for mouse:down", function(){
-        spyOn(listeners, "onMouseDown");
-
         canvas.trigger("mouse:down");
-        expect(listeners.onMouseDown).toHaveBeenCalled();
+        expect(onMouseDownFired).toBeTruthy();
       });
 
       it("Should invoke the registered listener for mouse:move", function(){
-        spyOn(listeners, "onMouseMove");
-
         canvas.trigger("mouse:move");
-        expect(listeners.onMouseMove).toHaveBeenCalled();
+        expect(onMouseMoveFired).toBeTruthy();
       });      
 
     });
