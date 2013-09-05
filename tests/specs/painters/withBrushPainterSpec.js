@@ -18,6 +18,14 @@ describeMixin("painters/withBrushPainter", function(){
       expect(this.component.attr.prop.fillColor).toEqual("red");
     });
 
+    it("Should not have changed the brush property if the event data aren't complete", function(){
+      $('.component-root').trigger("brushPropertyUpdated", {
+        key: "strokeColor"
+      });
+
+      expect(this.component.attr.prop.strokeColor).toEqual("#000000");
+    });
+
   });
 
   describe("Brush Painting Flow", function(){
