@@ -73,5 +73,6 @@ define(function(require){
     return this;
   };
 
-  return RectOutline(canvas, cfg);
+  return RectOutline;
+  
 });
