@@ -33,8 +33,17 @@ define(function(require){
     });
 
     this.after("initialize", function(){
-      this.attr.canvas = new fabric.Canvas(this.attr.canvasEl, this.attr.canvasCfg);
+      this.constructCanvas();
     });
+
+    this.constructCanvas = function(){
+      this.attr.canvas = new fabric.Canvas(this.attr.canvasEl, this.attr.canvasCfg);
+
+      this.trigger("canvasConstructed", {
+        canvasEl: this.attr.canvasEl,
+        canvas: this.attr.canvas
+      });
+    };
 
   }
 });

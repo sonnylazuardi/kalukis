@@ -7,10 +7,10 @@ define(function(require){
       brushManager = require("brushManager");
 
   function boots(){
+    brushManager.attachTo(document);
     lukis.attachTo(document, {
       canvasEl: "#lukis"
     });
-    brushManager.attachTo(document);
   }
 
   return {
