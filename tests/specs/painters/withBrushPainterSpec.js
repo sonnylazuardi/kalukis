@@ -79,6 +79,13 @@ define(function(require){
         expect(brush.get("strokeColor")).toEqual("blue");
       });
 
+      it("Should have called finalizePainting after startBrushPainting has been executed", function(){
+        var spiedEvent = spyOnEvent('.component-root', "brushPaintingFinished");
+
+        this.component.startBrushPainting({});
+        expect(spiedEvent).toHaveBeenTriggeredOn('.component-root');
+      });
+
     });
   });
 });

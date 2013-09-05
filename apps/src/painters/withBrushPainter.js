@@ -97,6 +97,9 @@ define(function(require){
       }
     };
 
+    /**
+     * Set the active brush' properties before it is used
+     */
     this.setActiveBrushProperty = function(){
       if (this.attr.activeBrush) {
         var brush = this.attr.activeBrush.brush;
