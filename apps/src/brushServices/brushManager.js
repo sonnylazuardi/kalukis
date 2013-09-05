@@ -110,6 +110,7 @@ define(function(require){
         if (this.attr.brushes.hasOwnProperty(data.activeBrushId)) {
           brush = this.attr.brushes[data.activeBrushId];
         } else {
+          // TODO what if the brush requested cannot be found?
           BrushProto = require("brushes/" + data.activeBrushId);
           brush = new BrushProto(this.attr.canvas, this.attr.prop);
           // remember this brush

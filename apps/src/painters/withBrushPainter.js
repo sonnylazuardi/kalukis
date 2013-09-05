@@ -47,48 +47,14 @@ define(function(require){
       this.on("brushPaintingInitted", this.prepareBrushPainting);
       this.on("brushPropertyUpdated", this.updateBrushProperty);
       this.on("activeBrushUpdated", this.setActiveBrush);
+
+      // add an after-advice
+      this.after("startBrushPainting", this.finalizePainting);
     });
 
     this.setCanvas = function(e, data){
       this.attr.canvas = data.canvas;
       this.attr.canvasEl = data.canvasEl;
-    };
-
-    /**
-     * Preparation step before starting to paint. The `data`
-     * passed is expected to have properties of:
-     * + `data.points`: which holds the points for which      *                  canvas objects should be drawn at
-     * + `data.prop`  : canvas objects properties
-     * @param  {String} e    Event
-     * @param  {Object} data Event Data
-     */
-    this.prepareBrushPainting = function(e, data){
-      // only proceed if `data.points` are available
-      if (data.points && this.attr.activeBrush) {
-        this.setActiveBrushProperty();
-        this.startBrushPainting(data);
-      }
-    };
-
-    this.setActiveBrushProperty = function(){
-      if (this.attr.activeBrush) {
-        var brush = this.attr.activeBrush.brush;
-        // iterate over the propeties and set it to the
-        // active brush
-        Object.keys(this.attr.prop, function(key){
-          brush.set(key, this.attr.prop[key]);
-        }, this);
-      }
-    };
-
-    /**
-     * Paint the object. This method expects that config
-     * has all the configuration needed to paint the
-     * requested object
-     * @param {Object} config The painting configuration
-     */
-    this.startBrushPainting = function(config){
-
     };
 
     /**
@@ -113,6 +79,52 @@ define(function(require){
       if (data.newActiveBrush) {
         this.attr.activeBrush = data.newActiveBrush;
       }
+    };
+
+    /**
+     * Preparation step before starting to paint. The `data`
+     * passed is expected to have properties of:
+     * + `data.points`: which holds the points for which      *                  canvas objects should be drawn at
+     * + `data.prop`  : canvas objects properties
+     * @param  {String} e    Event
+     * @param  {Object} data Event Data
+     */
+    this.prepareBrushPainting = function(e, data){
+      // only proceed if `data.points` are available
+      if (data.points && this.attr.activeBrush) {
+        this.setActiveBrushProperty();
+        this.startBrushPainting(data);
+      }
+    };
+
+    this.setActiveBrushProperty = function(){
+      if (this.attr.activeBrush) {
+        var brush = this.attr.activeBrush.brush;
+        // iterate over the propeties and set it to the
+        // active brush
+        Object.keys(this.attr.prop || {}).forEach(function(key){
+          brush.set(key, this.attr.prop[key]);
+        }, this);
+      }
+    };
+
+    /**
+     * Paint the object. This method expects that config
+     * has all the configuration needed to paint the
+     * requested object
+     * @param {Object} config The painting configuration
+     */
+    this.startBrushPainting = function(config){
+      this.attr.activeBrush.brush.drawAtPoints(config.points);
+    };
+
+    /**
+     * The final steps after object has been drawn
+     */
+    this.finalizePainting = function(){
+      this.trigger("brushPaintingFinished", {
+        brush: this.attr.activeBrush
+      });
     };
 
   }

@@ -30,7 +30,7 @@ define(function(require){
   };
 
   CircleBrush.prototype.get = function(key) {
-    return cfg[key];
+    return this.cfg[key];
   };
 
   CircleBrush.prototype.drawAt = function(point) {
