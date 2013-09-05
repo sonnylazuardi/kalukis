@@ -21,6 +21,11 @@ describeComponent("brushServices/brushManager", function(){
       });
       expect(this.component.attr.prop.fillColor).toEqual("red");
       expect(spiedEvent).toHaveBeenTriggeredOn('.component-root');
+
+      var eventData = spiedEvent.mostRecentCall.data;
+      expect(eventData.key).toEqual("fillColor");
+      expect(eventData.oldValue).toEqual("#000000");
+      expect(eventData.newValue).toEqual("red");
     });
 
   });
