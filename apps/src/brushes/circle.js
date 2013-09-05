@@ -41,7 +41,7 @@ define(function(require){
 
   };
 
-  CircleBrush.prototype.drawAtPoints = function() {
+  CircleBrush.prototype.drawAtPoints = function(points) {
     // body...
   };
 

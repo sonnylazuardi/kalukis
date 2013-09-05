@@ -55,7 +55,19 @@ define(function(require){
     this.prepareBrushPainting = function(e, data){
       // only proceed if `data.points` are available
       if (data.points && this.attr.activeBrush) {
+        this.setActiveBrushProperty();
         this.startBrushPainting(data);
+      }
+    };
+
+    this.setActiveBrushProperty = function(){
+      if (this.attr.activeBrush) {
+        var brush = this.attr.activeBrush.brush;
+        // iterate over the propeties and set it to the
+        // active brush
+        Object.keys(this.attr.prop, function(key){
+          brush.set(key, this.attr.prop[key]);
+        }, this);
       }
     };
 
@@ -81,7 +93,7 @@ define(function(require){
     };
 
     /**
-     * Set active brush
+     * Set active brush.
      * @param {String} e    Event
      * @param {Object} data Event Data
      */

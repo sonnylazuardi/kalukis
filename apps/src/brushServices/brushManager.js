@@ -96,7 +96,8 @@ define(function(require){
     };
 
     /**
-     * Set the current active brush
+     * Set the current active brush. We will construct
+     * the brush if it has not been constructed before.
      * @param {String} e    Event
      * @param {Object} data Event Data
      */
