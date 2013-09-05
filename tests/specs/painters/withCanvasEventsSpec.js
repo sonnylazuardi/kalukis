@@ -72,21 +72,18 @@ define(function(require){
       });
 
       it("Should unregister any existing listener", function(){
-        spyOn(listeners, "onMouseUp");
-        spyOn(listeners, "onMouseMove");
-        spyOn(listeners, "onMouseDown");
         this.component.unregisterExistingListeners();
 
         expect(this.component.attr.listeners).toEqual({});
 
         canvas.trigger("mouse:up");
-        expect(listeners.onMouseUp).not.toHaveBeenCalled();
+        expect(onMouseUpFired).toBeFalsy();
 
         canvas.trigger("mouse:move");
-        expect(listeners.onMouseMove).not.toHaveBeenCalled();
+        expect(onMouseMoveFired).toBeFalsy();
 
         canvas.trigger("mouse:down");
-        expect(listeners.onMouseDown).not.toHaveBeenCalled();
+        expect(onMouseDownFired).toBeFalsy();
       });
 
     });
