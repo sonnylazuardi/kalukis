@@ -60,6 +60,9 @@ define(function(require){
     this.attachEventListeners = function(){
       this.on("brushPropertyChanged", this.updateBrushProperty);
       this.on("brushCreated", this.updateCreatedBrushList);
+      this.on("brushPaintingInitted", this.publishActiveBrush);
+
+      this.on("activeBrushChanged", this.setActiveBrush);
     };
 
     /**
@@ -90,6 +93,22 @@ define(function(require){
     this.updateCreatedBrushList = function(e, data){
       if (data.brush && data.brushId) {
         this.attr.brushes[data.brushId] = data.brush;
+      }
+    };
+
+    this.publishActiveBrush = function(){
+      this.trigger("activeBrushReady", {
+        id: this.attr.activeBrush.id || undefined,
+        brush: this.attr.activeBrush.brush || undefined
+      });
+    };
+
+    this.setActiveBrush = function(e, data){
+      if (data.activeBrush && data.activeBrushId){
+        this.attr.activeBrush = {
+          id: data.activeBrushId,
+          brush: data.activeBrush
+        };
       }
     };
 
