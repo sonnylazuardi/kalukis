@@ -26,11 +26,13 @@ define(function(require){
     });
 
     this.prepareBrushPainting = function(e, data){
-
+      
     };
 
     this.updateBrushProperty = function(e, data){
-
+      if (data.key && data.newValue) {
+        this.attr.prop[data.key] = data.newValue;
+      }
     };
 
   }

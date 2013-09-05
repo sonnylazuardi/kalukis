@@ -6,16 +6,16 @@ describeMixin("painters/withBrushPainter", function(){
 
   describe("Brush Property Events", function(){
 
-    it("Should have executed listeners for brushPropertyUpdated", function(){
-      spyOn(this.component, "updateBrushProperty");
-
+    beforeEach(function(){
       $('.component-root').trigger("brushPropertyUpdated", {
         key: "fillColor",
         oldValue: "green",
         newValue: "red"
       });
-      expect(this.component.updateBrushProperty).toHaveBeenCalled;
+    });
 
+    it("Should have changed brush property", function(){
+      expect(this.component.attr.prop.fillColor).toEqual("red");
     });
 
   });
