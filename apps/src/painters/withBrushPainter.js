@@ -9,13 +9,31 @@ define(function(require){
   function withBrushPainter(){
 
     this.defaultAttrs({
+      /**
+       * The current active brush used to paint
+       * @type {Object}
+       */
       activeBrush: undefined,
 
+      /**
+       * Brush properties
+       * @type {Object}
+       */
       prop: {
+        /**
+         * Color used to fill an object
+         * @type {String}
+         */
         fillColor: "#000000",
-
+        /**
+         * Color used for object outline
+         * @type {String}
+         */
         strokeColor: "#000000",
-
+        /**
+         * The width of the brush
+         * @type {Number}
+         */
         width: 10
       }
     });
@@ -30,6 +48,13 @@ define(function(require){
      * Prepare steps for painting
      */
     this.prepareBrushPainting = function(e, data){
+
+    };
+
+    /**
+     * Paint the object
+     */
+    this.startBrushPainting = function(){
 
     };
 
