@@ -28,6 +28,16 @@ describeComponent("brushServices/brushManager", function(){
       expect(eventData.newValue).toEqual("red");
     });
 
+    it("Should listen to active brush changed event", function(){
+      $('.component-root').trigger("activeBrushChanged", {
+        activeBrushId: "x01",
+        activeBrush: "active"
+      });
+
+      expect(this.component.attr.activeBrush.id).toEqual("x01");
+      expect(this.component.attr.activeBrush.brush).toEqual("active");
+    });
+
   });
 
 });
