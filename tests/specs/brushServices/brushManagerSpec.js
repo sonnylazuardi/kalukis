@@ -46,6 +46,13 @@ describeComponent("brushServices/brushManager", function(){
       });      
 
       expect(spiedEvent).toHaveBeenTriggeredOn('.component-root');
+
+      var eventData = spiedEvent.mostRecentCall.data;
+      expect(eventData.oldActiveBrush).toBeUndefined();
+      expect(eventData.activeBrush).toEqual({
+        id: "x02",
+        brush: "active2"
+      });
     });
 
   });
