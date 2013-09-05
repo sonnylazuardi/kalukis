@@ -59,6 +59,7 @@ define(function(require){
      */
     this.attachEventListeners = function(){
       this.on("brushPropertyChanged", this.updateBrushProperty);
+      this.on("brushCreated", this.updateCreatedBrushList);
     };
 
     /**
@@ -79,6 +80,17 @@ define(function(require){
           newValue: data[key]
         });
       }, this);
+    };
+
+    /**
+     * Update initted brushes
+     * @param  {String} e    Event
+     * @param  {Object} data Event Data
+     */
+    this.updateCreatedBrushList = function(e, data){
+      if (data.brush && data.brushId) {
+        this.attr.brushes[data.brushId] = data.brush;
+      }
     };
 
   }
