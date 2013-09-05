@@ -30,6 +30,15 @@ describeMixin("painters/withBrushPainter", function(){
 
   describe("Brush Painting Flow", function(){
 
+    beforeEach(function(){
+      $('.component-root').trigger("activeBrushUpdated", {
+        newActiveBrush: "newActive"
+      });
+    });
+
+    it("Should have changed the active brush attribrute", function(){
+      expect(this.component.attr.activeBrush).toEqual("newActive");
+    });
   });
 
 });

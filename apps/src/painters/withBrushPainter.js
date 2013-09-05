@@ -50,7 +50,9 @@ define(function(require){
      * @param {Object} data Event Data
      */
     this.setActiveBrush = function(e, data){
-
+      if (data.newActiveBrush) {
+        this.attr.activeBrush = data.newActiveBrush;
+      }
     };
 
   }
