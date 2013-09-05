@@ -102,12 +102,22 @@ define(function(require){
      * @param {Object} data Event Data
      */
     this.setActiveBrush = function(e, data){
-      if (data.activeBrush && data.activeBrushId){
-        var oldActiveBrush = this.attr.activeBrush;
+      if (data.activeBrushId){
+        var oldActiveBrush = this.attr.activeBrush,
+            brush, brushProto;
+        // TODO get the brush
+        if (this.attr.brushes.hasOwnProperty(data.activeBrushId)) {
+          brush = this.attr.brushes[data.activeBrushId];
+        } else {
+          brushProto = require("brushes/" + data.activeBrushId);
+          brush = new brushProto(this.attr.canvas, this.attr.prop);
+          // remember this brush
+          this.attr.brushes[data.activeBrushId] = brush;
+        }
 
         this.attr.activeBrush = {
           id: data.activeBrushId,
-          brush: data.activeBrush
+          brush: brush
         };
 
         this.trigger("activeBrushUpdated", {

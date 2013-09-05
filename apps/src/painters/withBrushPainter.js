@@ -93,7 +93,9 @@ define(function(require){
     };
 
     /**
-     * Set active brush.
+     * Set active brush. This method expects the brush to
+     * have been constructed so that it can be used straight
+     * away.
      * @param {String} e    Event
      * @param {Object} data Event Data
      */
