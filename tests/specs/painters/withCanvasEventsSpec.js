@@ -2,10 +2,19 @@ define(function(require){
 
   var fabric = require("fabric"),
       canvas = new fabric.Canvas(),
+      onMouseUpFired = false,
+      onMouseUpDownFired = false,
+      onMouseMoveFired = false,
       listeners = {
-        onMouseUp: function(){},
-        onMouseDown: function(){},
-        onMouseMove: function(){}
+        onMouseUp: function(){
+          onMouseUpFired = true;
+        },
+        onMouseDown: function(){
+          onMouseUpDownFired = true;
+        },
+        onMouseMove: function(){
+          onMouseUpDownFired = true;
+        }
       };
 
   describeMixin("painters/withCanvasEvents", function(){
@@ -18,6 +27,9 @@ define(function(require){
     describe("Attaching to canvas events", function(){
 
       beforeEach(function(){
+        onMouseUpFired = false;
+        onMouseUpDownFired = false;
+        onMouseMoveFired = false;
         this.component.registerEventListeners(listeners);
       });
 
@@ -55,6 +67,9 @@ define(function(require){
     describe("Unregistering listeners", function(){
 
       beforeEach(function(){
+        onMouseUpFired = false;
+        onMouseUpDownFired = false;
+        onMouseMoveFired = false;
         this.component.registerEventListeners(listeners);
       });
 
