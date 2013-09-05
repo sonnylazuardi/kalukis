@@ -103,9 +103,10 @@ define(function(require){
      */
     this.setActiveBrush = function(e, data){
       if (data.activeBrushId && this.attr.canvas){
+
         var oldActiveBrush = this.attr.activeBrush,
             brush, BrushProto;
-        // TODO get the brush
+        
         if (this.attr.brushes.hasOwnProperty(data.activeBrushId)) {
           brush = this.attr.brushes[data.activeBrushId];
         } else {

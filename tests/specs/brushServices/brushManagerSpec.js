@@ -1,6 +1,7 @@
 define(function(require){
   var fabric = require("fabric"),
-      canvas = new fabric.Canvas();
+  CircleBrush = require("brushes/circle"),
+  canvas = new fabric.Canvas();
 
   describeComponent("brushServices/brushManager", function(){
 
@@ -40,7 +41,7 @@ define(function(require){
         });
 
         expect(this.component.attr.activeBrush.id).toEqual("circle");
-        // expect(this.component.attr.activeBrush.brush).toEqual("active");
+        expect(this.component.attr.activeBrush.brush).toBeInstanceOf(CircleBrush);
       });
 
       it("Should publish active brush updated event when active brush has been changed", function(){
@@ -54,9 +55,10 @@ define(function(require){
         var eventData = spiedEvent.mostRecentCall.data;
         expect(eventData.oldActiveBrush).toBeUndefined();
         expect(eventData.newActiveBrush.id).toEqual("circle");
+        expect(eventData.newActiveBrush.brush).toBeInstanceOf(CircleBrush);
+
       });
 
     });
-
   });
 });
