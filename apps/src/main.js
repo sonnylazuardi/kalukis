@@ -26,8 +26,7 @@ require.config({
 
   map: {
     "*": {
-      'flight': '../../vendor/flight',
-      'brushes': 'brushes'
+      'flight': '../../vendor/flight'
     }
   }
 });
