@@ -61,9 +61,23 @@ define(function(require){
       this.on("brushPropertyChanged", this.updateBrushProperty);
     };
 
+    /**
+     * Update brush properties.
+     * 
+     * @param  {String} e    Event
+     * @param  {Object} data Event Data
+     */
     this.updateBrushProperty = function(e, data){
       Object.keys(data || {}).forEach(function(key){
+        var oldValue = this.attr.prop[key] || undefined;
+
         this.attr.prop[key] = data[key];
+
+        this.trigger("brushPropertyUpdated", {
+          key: key,
+          oldValue: oldValue,
+          newValue: data[key]
+        });
       }, this);
     };
 
