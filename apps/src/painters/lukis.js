@@ -5,9 +5,10 @@
 define(function(require){
   var fabric = require("fabric"),
       defineComponent = require("flight/lib/component"),
-      withCanvasEvents = require("painters/withCanvasEvents");
+      withCanvasEvents = require("painters/withCanvasEvents"),
+      withBrushPainter = require("painters/withBrushPainter");
 
-  return defineComponent(Lukis, withCanvasEvents);
+  return defineComponent(Lukis, withCanvasEvents, withBrushPainter);
 
   function Lukis(){
 
