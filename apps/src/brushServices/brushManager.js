@@ -28,7 +28,7 @@ define(function(require){
        * Global brush properties
        * @type {Object}
        */
-      cfg: {
+      prop: {
         /**
          * The fill color of a brush
          * @type {String}
@@ -50,7 +50,7 @@ define(function(require){
     });
 
     this.after("initialize", function(){
-
+      this.attachEventListeners();
     });
 
     /**
@@ -58,7 +58,13 @@ define(function(require){
      * @return {[type]} [description]
      */
     this.attachEventListeners = function(){
+      this.on("brushPropertyChanged", this.updateBrushProperty);
+    };
 
+    this.updateBrushProperty = function(e, data){
+      Object.keys(data || {}).forEach(function(key){
+        this.attr.prop[key] = data[key];
+      }, this);
     };
 
   }
