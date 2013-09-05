@@ -111,7 +111,7 @@ define(function(require){
 
         this.trigger("activeBrushUpdated", {
           oldActiveBrush: oldActiveBrush,
-          activeBrush: this.attr.activeBrush
+          newActiveBrush: this.attr.activeBrush
         });
       }
     };

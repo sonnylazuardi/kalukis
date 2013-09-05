@@ -49,7 +49,7 @@ describeComponent("brushServices/brushManager", function(){
 
       var eventData = spiedEvent.mostRecentCall.data;
       expect(eventData.oldActiveBrush).toBeUndefined();
-      expect(eventData.activeBrush).toEqual({
+      expect(eventData.newActiveBrush).toEqual({
         id: "x02",
         brush: "active2"
       });
