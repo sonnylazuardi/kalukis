@@ -96,6 +96,9 @@ define(function(require){
       }
     };
 
+    /**
+     * Publish the current active brush.
+     */
     this.publishActiveBrush = function(){
       this.trigger("activeBrushReady", {
         id: this.attr.activeBrush.id || undefined,
@@ -103,6 +106,11 @@ define(function(require){
       });
     };
 
+    /**
+     * Set the current active brush
+     * @param {String} e    Event
+     * @param {Object} data Event Data
+     */
     this.setActiveBrush = function(e, data){
       if (data.activeBrush && data.activeBrushId){
         this.attr.activeBrush = {
