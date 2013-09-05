@@ -12,7 +12,7 @@ define(function(require){
   function Lukis(){
 
     this.defaultAttrs({
-      /**
+    /**
        * Canvas instance
        * @type {String}
        */
@@ -32,7 +32,7 @@ define(function(require){
     });
 
     this.after("initialize", function(){
-      this.attr.canvas = new fabric.Canvas(canvasEl, this.attr.canvasCfg);
+      this.attr.canvas = new fabric.Canvas(this.attr.canvasEl, this.attr.canvasCfg);
     });
 
   }
