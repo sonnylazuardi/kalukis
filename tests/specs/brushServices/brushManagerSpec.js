@@ -38,6 +38,16 @@ describeComponent("brushServices/brushManager", function(){
       expect(this.component.attr.activeBrush.brush).toEqual("active");
     });
 
+    it("Should publish active brush updated event when active brush has been changed", function(){
+      var spiedEvent = spyOnEvent('.component-root', "activeBrushUpdated");
+      $('.component-root').trigger("activeBrushChanged", {
+        activeBrushId: "x02",
+        activeBrush: "active2"
+      });      
+
+      expect(spiedEvent).toHaveBeenTriggeredOn('.component-root');
+    });
+
   });
 
 });
