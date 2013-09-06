@@ -11,6 +11,10 @@ define(function(require){
 
   function outlineManager(){
     
+    this.after("initialize", function(){
+
+    });
+
   }
 
 });
