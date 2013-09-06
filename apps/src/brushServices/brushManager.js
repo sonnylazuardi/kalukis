@@ -12,8 +12,16 @@ define(function(require){
   function brushManager(){
 
     this.defaultAttrs({
+      /**
+       * Canvas instance
+       * @type {Object}
+       */
       canvas: undefined,
 
+      /**
+       * Canvas element
+       * @type {String}
+       */
       canvasEl: "",
       /**
        * Brushes that have been initted

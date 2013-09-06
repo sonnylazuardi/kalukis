@@ -12,11 +12,29 @@ define(function(require){
   function outlineManager(){
     
     this.defaultAttrs({
+      /**
+       * Canvas instance
+       * @type {Object}
+       */
       canvas: undefined,
 
+      /**
+       * Canvas element
+       * @type {String}
+       */
       canvasEl: "",
 
+      /**
+       * The outline shapes that have been constructed
+       * @type {Object}
+       */
       outlineShapes: {},
+
+      /**
+       * The current active outline shape
+       * @type {Object}
+       */
+      activeOutlineShape: undefined,
 
       /**
        * The properties of the outline shape
@@ -42,6 +60,7 @@ define(function(require){
     this.attachEventListener = function(){
       this.on("canvasConstructed", this.setCanvas);
 
+      this.on("paintWidgetClicked", this.setActiveOutlineShape);
       this.on("brushPropertyUpdated", this.updateOutlineProperties);
     };
 
@@ -53,6 +72,15 @@ define(function(require){
     this.setCanvas = function(e, data){
       this.attr.canvas = data.canvas;
       this.attr.canvasEl = data.canvasEl;
+    };
+
+    /**
+     * Set the active outline shape
+     * @param {String} e    Event
+     * @param {Object} data Event Data
+     */
+    this.setActiveOutlineShape = function(e, data){
+
     };
 
     /**
