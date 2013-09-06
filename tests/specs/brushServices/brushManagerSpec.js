@@ -59,6 +59,25 @@ define(function(require){
 
       });
 
+      it("Should have set the properties of the activeBrush before sending it on activeBrushUpdated event", function(){
+        // as if this brush had been created before
+        this.component.attr.brushes["circle"] = new CircleBrush(canvas, {});
+
+        this.component.attr.prop.width = 35;
+        this.component.attr.prop.fillColor = "yellow";
+        this.component.attr.prop.strokeColor = "pink";
+        var spiedEvent = spyOnEvent('.component-root', "activeBrushUpdated");
+        // should have changed now
+        $('.component-root').trigger("activeBrushChanged", {
+          activeBrushId: "circle"
+        });
+
+        var brush = spiedEvent.mostRecentCall.data.newActiveBrush.brush;
+        expect(brush.get('width')).toEqual(35);
+        expect(brush.get("fillColor")).toEqual("yellow");
+        expect(brush.get("strokeColor")).toEqual("pink");
+      });
+
     });
   });
 });

@@ -42,7 +42,7 @@ define(function(require){
   };
 
   CircleBrush.prototype.drawAtPoints = function(points) {
-    // body...
+    
   };
 
   CircleBrush.prototype.render = function(ctx) {

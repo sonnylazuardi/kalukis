@@ -96,6 +96,15 @@ define(function(require){
     };
 
     /**
+     * Set the properties of an active brush
+     */
+    this.setBrushProperties = function(brush){
+      Object.keys(this.attr.prop || {}).forEach(function(key){
+        brush.set(key, this.attr.prop[key]);
+      }, this);
+    };
+
+    /**
      * Set the current active brush. We will construct
      * the brush if it has not been constructed before.
      * @param {String} e    Event
@@ -109,6 +118,8 @@ define(function(require){
         
         if (this.attr.brushes.hasOwnProperty(data.activeBrushId)) {
           brush = this.attr.brushes[data.activeBrushId];
+          // update the brush properties
+          this.setBrushProperties(brush);
         } else {
           // TODO what if the brush requested cannot be found?
           BrushProto = require("brushes/" + data.activeBrushId);
