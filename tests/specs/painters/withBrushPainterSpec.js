@@ -63,22 +63,6 @@ define(function(require){
         };
       });
 
-      it("Should set the brush properties before start painting", function(){
-        spyOn(this.component, "setActiveBrushProperty").andCallThrough();
-        spyOn(this.component, "startBrushPainting");
-
-        $('.component-root').trigger("brushPaintingInitted", {
-          points: [{x:0,y:0},{x:1,y:1}]
-        });
-
-        expect(this.component.setActiveBrushProperty).toHaveBeenCalled();
-
-        var brush = this.component.attr.activeBrush.brush;
-        expect(brush.get('width')).toEqual(25);
-        expect(brush.get("fillColor")).toEqual("red");
-        expect(brush.get("strokeColor")).toEqual("blue");
-      });
-
       it("Should have called finalizePainting after startBrushPainting has been executed", function(){
         var spiedEvent = spyOnEvent('.component-root', "brushPaintingFinished");
 
