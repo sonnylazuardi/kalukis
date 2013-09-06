@@ -1,7 +1,8 @@
 define(function(require){
 
   var fabric = require("fabric"),
-      canvas = new fabric.Canvas();
+      canvas = new fabric.Canvas(),
+      RectOutline = require("outlineShapes/rectOutline");
 
   describeComponent("outlineServices/outlineManager", function(){
 
@@ -32,6 +33,7 @@ define(function(require){
 
         runs(function(){
           expect(eventData.newActiveOutlineShape.id).toEqual("rectOutline");
+          expect(eventData.newActiveOutlineShape.outlineShape).toBeInstanceOf(RectOutline);
         });
       });
 
