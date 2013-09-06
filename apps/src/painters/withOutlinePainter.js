@@ -33,8 +33,15 @@ define(function(require){
 
     };
 
-    this.setActiveOutlineShape = function(){
-
+    /**
+     * Set the new active outline shape
+     * @param {String} e    Event
+     * @param {Object} data Event Data
+     */
+    this.setActiveOutlineShape = function(e, data){
+      if (data.newActiveOutlineShape) {
+        this.attr.activeOutlineShape = data.newActiveOutlineShape;
+      }
     };
 
     this.prepareOutlineShapePainting = function(){
