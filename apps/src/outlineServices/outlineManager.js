@@ -112,7 +112,7 @@ define(function(require){
     this.publishUpdatedOutlineShape = function(oldOutlineShape, newOutlineShape){
       this.attr.activeOutlineShape = newOutlineShape;
       
-      this.trigger(document, "outlineShapeUpdated", {
+      this.trigger(document, "activeOutlineShapeUpdated", {
         oldActiveOutlineShape: oldOutlineShape,
         newActiveOutlineShape: newOutlineShape
       });

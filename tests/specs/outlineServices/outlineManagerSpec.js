@@ -17,7 +17,7 @@ define(function(require){
         var executed = false,
             eventData;
         runs(function(){
-          $(document).on("outlineShapeUpdated", function(e, data){
+          $(document).on("activeOutlineShapeUpdated", function(e, data){
             executed = true;
             eventData = data;
           });
@@ -49,7 +49,7 @@ define(function(require){
             eventData;
 
         runs(function(){
-          $(document).on("outlineShapeUpdated", function(e, data){
+          $(document).on("activeOutlineShapeUpdated", function(e, data){
             executed = true;
             eventData = data;
           });
