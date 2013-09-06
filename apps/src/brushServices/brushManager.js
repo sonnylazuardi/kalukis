@@ -12,6 +12,9 @@ define(function(require){
   function brushManager(){
 
     this.defaultAttrs({
+      canvas: undefined,
+
+      canvasEl: "",
       /**
        * Brushes that have been initted
        * @type {Object}
@@ -58,10 +61,22 @@ define(function(require){
      * @return {[type]} [description]
      */
     this.attachEventListeners = function(){
+      this.on("canvasConstructed", this.setCanvas);
+
       this.on("brushPropertyChanged", this.updateBrushProperty);
       this.on("brushCreated", this.updateCreatedBrushList);
 
       this.on("activeBrushChanged", this.setActiveBrush);
+    };
+
+    /**
+     * Set the canvas instance and its element
+     * @param {String} e    Event
+     * @param {Object} data EVent Data
+     */
+    this.setCanvas = function(e, data){
+      this.attr.canvas = data.canvas;
+      this.attr.canvasEl = data.canvasEl;
     };
 
     /**

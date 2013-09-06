@@ -9,9 +9,6 @@ define(function(require){
   function withBrushPainter(){
 
     this.defaultAttrs({
-      canvasEl: "",
-
-      canvas: undefined,
       /**
        * The current active brush used to paint
        * @type {Object}
@@ -42,8 +39,6 @@ define(function(require){
     });
 
     this.after("initialize", function(){
-      this.on("canvasConstructed", this.setCanvas);
-
       this.on("brushPaintingInitted", this.prepareBrushPainting);
       this.on("brushPropertyUpdated", this.updateBrushProperty);
       this.on("activeBrushUpdated", this.setActiveBrush);
@@ -51,16 +46,6 @@ define(function(require){
       // add an after-advice
       this.after("startBrushPainting", this.finalizePainting);
     });
-
-    /**
-     * Set the canvas instance and its element
-     * @param {String} e    Event
-     * @param {Object} data EVent Data
-     */
-    this.setCanvas = function(e, data){
-      this.attr.canvas = data.canvas;
-      this.attr.canvasEl = data.canvasEl;
-    };
 
     /**
      * Update brush property
