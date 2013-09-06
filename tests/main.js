@@ -31,7 +31,8 @@ require(
   "specs/outlineServices/outlineManagerSpec.js",
   "specs/painters/lukisSpec",
   "specs/painters/withCanvasEventsSpec",
-  "specs/painters/withBrushPainterSpec"
+  "specs/painters/withBrushPainterSpec",
+  "specs/painters/withOutlinePainterSpec"
 ],
 
 function(){
