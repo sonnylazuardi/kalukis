@@ -52,6 +52,11 @@ define(function(require){
       this.after("startBrushPainting", this.finalizePainting);
     });
 
+    /**
+     * Set the canvas instance and its element
+     * @param {String} e    Event
+     * @param {Object} data EVent Data
+     */
     this.setCanvas = function(e, data){
       this.attr.canvas = data.canvas;
       this.attr.canvasEl = data.canvasEl;
