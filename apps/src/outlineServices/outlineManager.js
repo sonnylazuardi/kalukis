@@ -81,7 +81,7 @@ define(function(require){
      */
     this.setActiveOutlineShape = function(e, data){
       if (data.paintWidgetId && this.attr.canvas) {
-        
+        // TODO publish activeOutlineShape through event
       }
     };
 

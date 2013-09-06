@@ -40,5 +40,7 @@ require(
 
 function(Application){
   // kickstart the application
-  Application.boots();
+  var app = new Application();
+
+  app.start();
 });
