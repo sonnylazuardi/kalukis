@@ -80,7 +80,9 @@ define(function(require){
      * @param {Object} data Event Data
      */
     this.setActiveOutlineShape = function(e, data){
-
+      if (data.paintWidgetId && this.attr.canvas) {
+        
+      }
     };
 
     /**
