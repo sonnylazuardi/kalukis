@@ -23,7 +23,8 @@ define(function(require){
 
     /**
      * Update the instance of activeOutlineShape property
-     * @return {[type]} [description]
+     * @param {String} e Event
+     * @param {Object} data Event Data
      */
     this.updateOutlineShapeProperty = function(e, data){
       if (data.key && data.newValue && this.attr.activeOutlineShape) {
