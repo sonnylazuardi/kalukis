@@ -13,6 +13,10 @@ define(function(require){
     describe("Brush Property Events", function(){
 
       beforeEach(function(){
+        this.component.attr.activeBrush = {
+          id: "circle",
+          brush: circleBrush
+        };
         $('.component-root').trigger("brushPropertyUpdated", {
           key: "fillColor",
           oldValue: "green",
@@ -20,8 +24,8 @@ define(function(require){
         });
       });
 
-      it("Should have changed brush property", function(){
-        expect(this.component.attr.prop.fillColor).toEqual("red");
+      it("Should have changed the brush instance's property", function(){
+        expect(this.component.attr.activeBrush.brush.get("fillColor")).toEqual("red");
       });
 
       it("Should not have changed the brush property if the event data aren't complete", function(){
@@ -29,7 +33,7 @@ define(function(require){
           key: "strokeColor"
         });
 
-        expect(this.component.attr.prop.strokeColor).toEqual("#000000");
+        expect(this.component.attr.activeBrush.brush.get("strokeColor")).toEqual("#000000");
       });
 
     });

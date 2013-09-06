@@ -13,29 +13,7 @@ define(function(require){
        * The current active brush used to paint
        * @type {Object}
        */
-      activeBrush: undefined,
-
-      /**
-       * Brush properties
-       * @type {Object}
-       */
-      prop: {
-        /**
-         * Color used to fill an object
-         * @type {String}
-         */
-        fillColor: "#000000",
-        /**
-         * Color used for object outline
-         * @type {String}
-         */
-        strokeColor: "#000000",
-        /**
-         * The width of the brush
-         * @type {Number}
-         */
-        width: 10
-      }
+      activeBrush: undefined
     });
 
     this.after("initialize", function(){
@@ -48,14 +26,13 @@ define(function(require){
     });
 
     /**
-     * TODO this implementation is wrong
-     * Update brush property
+     * Update brush instance's property
      * @param  {String} e    Event
      * @param  {Object} data Event Data
      */
     this.updateBrushProperty = function(e, data){
-      if (data.key && data.newValue) {
-        this.attr.prop[data.key] = data.newValue;
+      if (data.key && data.newValue && this.attr.activeBrush) {
+        this.attr.activeBrush.brush.set(data.key, data.newValue);
       }
     };
 
