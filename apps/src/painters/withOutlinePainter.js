@@ -43,11 +43,20 @@ define(function(require){
       }
     };
 
-    this.prepareOutlineShapePainting = function(){
-
+    /**
+     * Start preparation of drawing outline shape.
+     */
+    this.prepareOutlineShapePainting = function(e, data){
+      
     };
 
-    this.finalizeOutlineShapePainting = function(){
+    /**
+     * Step taken after the drawing of outline shape has
+     * finished
+     * @param {String} e Event
+     * @param {Object} data Event Data
+     */
+    this.finalizeOutlineShapePainting = function(e, data){
 
     };
 
