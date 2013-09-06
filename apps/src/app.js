@@ -4,7 +4,8 @@
 define(function(require){
 
   var lukis = require("painters/lukis"),
-      brushManager = require("brushManager");
+      brushManager = require("brushServices/brushManager"),
+      outlineManager = require("outlineServices/outlineManager");
 
   function boots(){
     /**
@@ -14,6 +15,8 @@ define(function(require){
      * component is instantiated
      */
     brushManager.attachTo(document);
+    outlineManager.attachTo(document);
+
 
     /**
      * The lukis component will publish the canvas instance

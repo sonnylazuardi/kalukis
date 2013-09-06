@@ -12,6 +12,9 @@ define(function(require){
   function outlineManager(){
     
     this.defaultAttrs({
+      canvas: undefined,
+
+      canvasEl: "",
 
       outlineShapes: {},
 
@@ -37,7 +40,19 @@ define(function(require){
      * @return {[type]} [description]
      */
     this.attachEventListener = function(){
+      this.on("canvasConstructed", this.setCanvas);
+
       this.on("brushPropertyUpdated", this.updateOutlineProperties);
+    };
+
+    /**
+     * Set the canvas instance and its element
+     * @param {String} e    Event
+     * @param {Object} data EVent Data
+     */
+    this.setCanvas = function(e, data){
+      this.attr.canvas = data.canvas;
+      this.attr.canvasEl = data.canvasEl;
     };
 
     /**
