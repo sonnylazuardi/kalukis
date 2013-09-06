@@ -48,6 +48,7 @@ define(function(require){
     });
 
     /**
+     * TODO this implementation is wrong
      * Update brush property
      * @param  {String} e    Event
      * @param  {Object} data Event Data

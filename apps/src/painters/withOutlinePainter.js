@@ -9,15 +9,7 @@ define(function(require){
   function withOutlinePainter(){
 
     this.defaultAttrs({
-      activeOutlineShape: undefined,
-
-      prop: {
-        width: 10,
-
-        fillColor: "#000000",
-
-        strokeColor: "#000000"
-      }
+      activeOutlineShape: undefined
     });
 
     this.after("initialize", function(){
@@ -29,8 +21,14 @@ define(function(require){
       this.after("startOutlineShapePainting", this.finalizeOutlineShapePainting);
     });
 
-    this.updateOutlineShapeProperty = function(){
-
+    /**
+     * Update the instance of activeOutlineShape property
+     * @return {[type]} [description]
+     */
+    this.updateOutlineShapeProperty = function(e, data){
+      if (data.key && data.newValue && this.attr.activeOutlineShape) {
+        this.attr.activeOutlineShape.outlineShape.set(data.key, data.newValue);
+      }
     };
 
     /**
