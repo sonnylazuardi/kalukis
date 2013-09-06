@@ -4,6 +4,7 @@
 define(function(require){
 
   var lukis = require("painters/lukis"),
+      paintWidgets = require("ui/paintWidget/paintWidgets"),
       brushManager = require("brushServices/brushManager"),
       outlineManager = require("outlineServices/outlineManager");
 
@@ -14,6 +15,8 @@ define(function(require){
      * placed in this upper block, before the `lukis`
      * component is instantiated
      */
+    paintWidgets.attachTo("#left-navigation");
+
     brushManager.attachTo(document);
     outlineManager.attachTo(document);
 
