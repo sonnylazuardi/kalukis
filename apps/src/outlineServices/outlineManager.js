@@ -13,6 +13,8 @@ define(function(require){
     
     this.defaultAttrs({
 
+      outlineShapes: {},
+
       /**
        * The properties of the outline shape
        * @type {Object}
@@ -35,7 +37,7 @@ define(function(require){
      * @return {[type]} [description]
      */
     this.attachEventListener = function(){
-      this.on("brushPropertyUpdated", this.setOutlineProperties);
+      this.on("brushPropertyUpdated", this.updateOutlineProperties);
     };
 
     /**
@@ -43,8 +45,21 @@ define(function(require){
      * @param {String} e    Event
      * @param {Object} data Event Data
      */
-    this.setOutlineProperties = function(e, data){
+    this.updateOutlineProperties = function(e, data){
+      if (data.hasOwnProperty("key") && data.hasOwnProperty("newValue")) {
+        this.attr.prop[data.key] = data.newValue;
+      }
+    };
 
+    /**
+     * Set the outlineShape properties with the properties
+     * hold by this component
+     * @param {Object} outlineShape The outline shape
+     */
+    this.setOutlineShapeProperties = function(outlineShape){
+      Object.keys(this.attr.prop || {}).forEach(function(key){
+        outlineShape.set(key, this.attr.prop[key]);
+      }, this);
     };
 
   }

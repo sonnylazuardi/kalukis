@@ -12,7 +12,13 @@ define(function(require){
     describe("Event Listener", function(){
 
       it("Should have updated outlineShapes properties on brushPropertyUpdated", function(){
+        $('.component-root').trigger("brushPropertyUpdated", {
+          key: "width",
+          oldValue: 10,
+          newValue: 20
+        });
 
+        expect(this.component.attr.prop.width).toEqual(20);
       });
 
     });
