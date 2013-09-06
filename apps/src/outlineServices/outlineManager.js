@@ -125,7 +125,14 @@ define(function(require){
      */
     this.updateOutlineProperties = function(e, data){
       if (data.hasOwnProperty("key") && data.hasOwnProperty("newValue")) {
+        var oldValue = this.attr.prop[data.key];
         this.attr.prop[data.key] = data.newValue;
+
+        this.trigger("outlineShapePropertyUpdated", {
+          key: data.key,
+          oldValue: oldValue,
+          newValue: data.newValue
+        });
       }
     };
 

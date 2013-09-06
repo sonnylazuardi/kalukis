@@ -80,6 +80,20 @@ define(function(require){
         expect(this.component.attr.prop.width).toEqual(20);
       });
 
+      it("Should have publish outlineShapePropertyUpdated when the property has been updated", function(){
+        this.component.attr.prop.width = 5;
+        var spiedEvent = spyOnEvent('.component-root', "outlineShapePropertyUpdated");
+        $('.component-root').trigger("brushPropertyUpdated", {
+          key: "width",
+          newValue: 40
+        });
+
+        var data = spiedEvent.mostRecentCall.data;
+        expect(data.key).toEqual("width");
+        expect(data.oldValue).toEqual(5);
+        expect(data.newValue).toEqual(40);
+      });
+
     });
 
   });
