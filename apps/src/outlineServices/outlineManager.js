@@ -60,7 +60,7 @@ define(function(require){
     this.attachEventListener = function(){
       this.on("canvasConstructed", this.setCanvas);
 
-      this.on("paintWidgetClicked", this.setActiveOutlineShape);
+      this.on(document, "paintWidgetClicked", this.setActiveOutlineShape);
       this.on("brushPropertyUpdated", this.updateOutlineProperties);
     };
 
@@ -81,8 +81,41 @@ define(function(require){
      */
     this.setActiveOutlineShape = function(e, data){
       if (data.paintWidgetId && this.attr.canvas) {
-        // TODO publish activeOutlineShape through event
+        var oldActiveOutlineShape = this.attr.activeOutlineShape,
+            outlineShape, OutlineShapeProto,
+            id = data.paintWidgetId+"Outline";
+
+        if (this.attr.outlineShapes.hasOwnProperty(id)) {
+          outlineShape = this.attr.outlineShapes[id];
+          this.setOutlineShapeProperties(outlineShape);
+
+          this.publishUpdatedOutlineShape(oldActiveOutlineShape, {
+            id: id,
+            outlineShape: outlineShape
+          });
+        } else {
+          require(["outlineShapes/" + id], function(OutlineShapeProto){
+            outlineShape = new OutlineShapeProto(this.attr.canvas, this.attr.prop);
+            // remember me
+            this.attr.outlineShapes[id] = outlineShape;
+
+            this.publishUpdatedOutlineShape(oldActiveOutlineShape, {
+              id: id,
+              outlineShape: outlineShape
+            });
+          }.bind(this));
+          
+        }
       }
+    };
+
+    this.publishUpdatedOutlineShape = function(oldOutlineShape, newOutlineShape){
+      this.attr.activeOutlineShape = newOutlineShape;
+      
+      this.trigger(document, "outlineShapeUpdated", {
+        oldActiveOutlineShape: oldOutlineShape,
+        newActiveOutlineShape: newOutlineShape
+      });
     };
 
     /**
