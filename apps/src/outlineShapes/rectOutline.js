@@ -5,16 +5,25 @@
 define(function(require){
 
   function RectOutline(canvas, cfg){
-    cfg = cfg || {};
     this.canvas = canvas;
-    this.brushColor = cfg.color || "#000000";
-
     this.canvas.selection = false;
+    this.canvas.defaultCursor = "crosshair";
+
     this.isDrawing = false;
     this.outline = undefined;
 
-    this.canvas.defaultCursor = "crosshair";
+    cfg = cfg || {};
+    cfg.fillColor = cfg.fillColor || "#000000";
+    this.cfg = cfg;
   }
+
+  RectOutline.prototype.set = function(key, value) {
+    this.cfg[key] = value;
+  };
+
+  RectOutline.prototype.get = function(key) {
+    return this.cfg[key];
+  };
 
   RectOutline.prototype.onMouseDown = function(e) {
     this.canvas.selection = false;
@@ -65,7 +74,7 @@ define(function(require){
     ctx.save();
 
     ctx.lineWidth = 1;
-    ctx.strokeStyle = this.brushColor;
+    ctx.strokeStyle = this.cfg.fillColor;
     ctx.strokeRect(this.outline.x, this.outline.y, this.outline.width, this.outline.height);
 
     ctx.restore();
