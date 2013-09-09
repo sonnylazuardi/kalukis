@@ -29,6 +29,7 @@ require(
   "specs/brushes/circleSpec",
   "specs/brushServices/brushManagerSpec.js",
   "specs/outlineServices/outlineManagerSpec.js",
+  "specs/dataServices/brushlistSpec.js",
   "specs/painters/lukisSpec",
   "specs/painters/withCanvasEventsSpec",
   "specs/painters/withBrushPainterSpec",

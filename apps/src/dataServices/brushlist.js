@@ -3,11 +3,22 @@
  */
 define(function(require){
 
-  var defineComponent = require("flight/lib/component");
+  var defineComponent = require("flight/lib/component"),
+      brushes = require("text!data/brushes.json")
 
   return defineComponent(brushlist);
 
   function brushlist(){
+
+    this.defaultAttrs({
+
+      brushes: []
+
+    });
+
+    this.after("initialize", function(){
+      this.attr.brushes = JSON.parse(brushes);
+    });
     
   }
 
