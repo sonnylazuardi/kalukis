@@ -15,13 +15,9 @@ define(function(require){
         });
       });
 
-      it("Should have an paintWidgetEl", function(){
-        expect(this.component.$node).toContain("#paintWidgetsCollection");
+      it("Should have rendered the template given the data", function(){
+        expect(this.component.$node).toContain("#pencil");
       });
-
-      // it("Should have rendered the template given the data", function(){
-      //   expect(this.component.$node).toHaveId("line");
-      // });
 
     });
 

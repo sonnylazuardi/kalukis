@@ -9,22 +9,19 @@ define(function(require){
   function paintWidgets(){
 
     this.defaultAttrs({
-      paintWidgetElId: "paintWidgetsCollection"
+      paintWidgetElId: "paintWidgetsCollection",
+
+      widgetList: undefined
     });
 
     this.after("initialize", function(){
-      this.appendPaintWidgetEl();
       this.attachEventListeners();
     });
-
-    this.appendPaintWidgetEl = function(){
-      this.$node.append("<div id='" + this.attr.paintWidgetElId + "'></div>");
-    };
 
     this.attachEventListeners = function(){
       this.on("click", this.publishClickedPaintWidget);
 
-      this.on("paintWidgetsLoaded", this.renderTemplate);
+      this.on(document, "paintWidgetsLoaded", this.renderTemplate);
     };
 
     this.publishClickedPaintWidget = function(e, data){
@@ -32,7 +29,12 @@ define(function(require){
     };
 
     this.renderTemplate = function(e, data){
-
+      var widgetList = mustache.render(tmpl, data);
+      if (this.$node.children().length) {
+        this.$node.children().replaceWith(widgetList)
+      } else {
+        this.$node.append(widgetList);
+      }
     };
     
   }
