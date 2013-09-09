@@ -19,6 +19,14 @@ define(function(require){
         expect(this.component.$node).toContain("#pencil");
       });
 
+      it("Should only contains one list of widgets", function(){
+        $(document).trigger("paintWidgetsLoaded", {
+          paintWidgets: JSON.parse(paintWidgets)
+        });
+
+        expect(this.$node.children().length).toEqual(1);
+      });
+
     });
 
   });
