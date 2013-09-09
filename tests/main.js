@@ -34,7 +34,8 @@ require(
   "specs/painters/lukisSpec",
   "specs/painters/withCanvasEventsSpec",
   "specs/painters/withBrushPainterSpec",
-  "specs/painters/withOutlinePainterSpec"
+  "specs/painters/withOutlinePainterSpec",
+  "specs/ui/paintWidget/paintWidgetsSpec"
 ],
 
 function(){

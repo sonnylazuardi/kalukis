@@ -38,6 +38,7 @@ define(function(require){
      * instantiated
      */
     brushlist.attachTo(document);
+    paintWidgetList.attachTo(document);
   };
 
   return Application;
