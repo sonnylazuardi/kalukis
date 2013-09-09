@@ -20,6 +20,11 @@ describeComponent("dataServices/brushlist", function(){
 
     it("Should have published a brushLoaded event when the brushes have been fully loaded", function(){
       expect(spiedEvent).toHaveBeenTriggeredOn(document);
+
+      var brushes = spiedEvent.mostRecentCall.data.brushes;
+      expect(brushes.length).toEqual(6);
+      expect(brushes[1].id).toEqual("spray");
+      expect(brushes[1].name).toEqual("Spray");         
     });
 
   });
