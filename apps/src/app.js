@@ -7,7 +7,7 @@ define(function(require){
       paintWidgets = require("ui/paintWidget/paintWidgets"),
       brushManager = require("brushServices/brushManager"),
       outlineManager = require("outlineServices/outlineManager"),
-      brushlist = require("data/brushlist");
+      brushlist = require("dataServices/brushlist");
 
   function Application(){}
 
