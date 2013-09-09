@@ -1,0 +1,44 @@
+[
+  {
+    "id": "pencil",
+    "title": "Pencil Brush",
+    "icon": "icon-pencil",
+    "position": 0
+  },
+  {
+    "id": "line",
+    "title": "Paints Line",
+    "icon": "icon-minus",
+    "position": 1
+  },
+  {
+    "id": "rect",
+    "title": "Rectangle Brush",
+    "icon": "icon-check-empty",
+    "position": 2
+  },
+  {
+    "id": "circle",
+    "title": "Circle Brush",
+    "icon": "icon-circle-blank",
+    "position": 3
+  },
+  {
+    "id": "image",
+    "title": "Load Image",
+    "icon": "icon-picture",
+    "position": 4
+  },
+  {
+    "id": "remove",
+    "title": "Remove Objects",
+    "icon": "icon-remove",
+    "position": 5
+  },
+  {
+    "id": "clear",
+    "title": "Clear Canvas",
+    "icon": "icon-trash",
+    "position": 6
+  }
+]
