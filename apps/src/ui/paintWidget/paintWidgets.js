@@ -19,6 +19,7 @@ define(function(require){
     };
 
     this.publishClickedPaintWidget = function(e, data){
+      console.log(data);
       this.trigger(document, "paintWidgetClicked", data);
     };
 
