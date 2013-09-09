@@ -29,5 +29,22 @@ define(function(require){
 
     });
 
+    describe("Event Handling", function(){
+
+      beforeEach(function(){
+        $(document).trigger("paintWidgetsLoaded", {
+          paintWidgets: JSON.parse(paintWidgets)
+        });
+      });
+
+      it("Should have publish paintWidgetClicked with correct data", function(){
+        var spiedEvent = spyOnEvent(document, "paintWidgetClicked");
+        this.component.$node.select("#pencil").click();
+
+        expect(spiedEvent).toHaveBeenTriggeredOn(document);
+      });
+
+    });
+
   });
 });

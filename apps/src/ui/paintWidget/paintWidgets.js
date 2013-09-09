@@ -25,7 +25,7 @@ define(function(require){
     };
 
     this.publishClickedPaintWidget = function(e, data){
-      this.trigger(document, "paintWidgetClicked");
+      this.trigger(document, "paintWidgetClicked", data);
     };
 
     this.renderTemplate = function(e, data){
