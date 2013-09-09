@@ -8,12 +8,6 @@ define(function(require){
 
   function paintWidgets(){
 
-    this.defaultAttrs({
-      paintWidgetElId: "paintWidgetsCollection",
-
-      widgetList: undefined
-    });
-
     this.after("initialize", function(){
       this.attachEventListeners();
     });
