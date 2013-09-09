@@ -39,9 +39,12 @@ define(function(require){
 
       it("Should have publish paintWidgetClicked with correct data", function(){
         var spiedEvent = spyOnEvent(document, "paintWidgetClicked");
-        this.component.$node.select("#pencil").click();
+        this.component.$node.find("#pencil").click();
 
         expect(spiedEvent).toHaveBeenTriggeredOn(document);
+
+        var eventData = spiedEvent.mostRecentCall.data;
+        expect(eventData.paintWidgetId).toEqual("pencil");
       });
 
     });

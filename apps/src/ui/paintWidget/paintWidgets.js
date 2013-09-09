@@ -18,9 +18,12 @@ define(function(require){
       this.on(document, "paintWidgetsLoaded", this.renderTemplate);
     };
 
-    this.publishClickedPaintWidget = function(e, data){
-      console.log(data);
-      this.trigger(document, "paintWidgetClicked", data);
+    this.publishClickedPaintWidget = function(e){
+      if (e.target.id) {
+        this.trigger(document, "paintWidgetClicked", {
+          paintWidgetId: e.target.id
+        });
+      }
     };
 
     this.renderTemplate = function(e, data){
