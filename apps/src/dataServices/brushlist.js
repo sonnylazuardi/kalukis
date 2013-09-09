@@ -17,8 +17,15 @@ define(function(require){
     });
 
     this.after("initialize", function(){
-      this.attr.brushes = JSON.parse(brushes);
+      this.attachBrushes();
     });
+
+    this.attachBrushes = function(){
+      this.attr.brushes = JSON.parse(brushes);
+      this.trigger("brushesLoaded", {
+        brushes: this.attr.brushes
+      });
+    };
     
   }
 
