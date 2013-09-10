@@ -9,15 +9,23 @@ for (var file in window.__karma__.files) {
 
 requirejs.config({
     // Karma serves files from '/base'
-    baseUrl: '/base',
+    baseUrl: '/base/apps/src',
 
     paths: {
-      text: 'bower_components/requirejs-text/text'
+      fabric: 'canvas-lib/fabric',
+      text: '../../vendor/requirejs-text/text',
+      mustache: '../../vendor/mustache/mustache'
     },
 
     shim: {
-      jquery: {
-        exports: '$'
+      fabric: {
+        exports: "fabric"
+      }
+    },
+
+    map: {
+      '*': {
+        'flight': '../../vendor/flight'
       }
     },
 

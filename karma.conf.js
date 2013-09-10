@@ -14,17 +14,24 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'vendor/es5-shim/es5-shim.js',
-      'vendor/es5-shim/es5-sham.js',
       'vendor/jquery/jquery.js',
       'vendor/jasmine/lib/jasmine-core/jasmine-html.js',
       'vendor/jasmine-jquery/lib/jasmine-jquery.js',
       'vendor/flight-jasmine/lib/flight-jasmine.js',
+      'tests/lib/jasmine/matchers/toBe.js',
+      'tests/lib/jasmine/matchers/toContain.js',
+      'tests/lib/jasmine/matchers/toHave.js',
 
       'tests/test-main.js',
 
+      {pattern: 'vendor/requirejs-text/text.js', included: false},
+      {pattern: 'apps/src/canvas-lib/fabric.js', included: false},
+      {pattern: 'vendor/flight/**/*.js', included: false},
+      {pattern: 'vendor/mustache/mustache.js', included: false},
       {pattern: 'apps/src/**/*.js', included: false},
-      {pattern: 'tests/**/*.js', included: false}
+      {pattern: 'apps/src/**/*.json', included: false},
+      {pattern: 'apps/src/**/*.html', included: false},
+      {pattern: 'tests/**/*Spec.js', included: false}
     ],
 
 
