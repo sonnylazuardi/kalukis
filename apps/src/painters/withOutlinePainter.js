@@ -47,7 +47,7 @@ define(function(require){
      * Start preparation of drawing outline shape.
      */
     this.prepareOutlineShapePainting = function(e, data){
-      
+      // TODO
     };
 
     /**
@@ -57,7 +57,7 @@ define(function(require){
      * @param {Object} data Event Data
      */
     this.finalizeOutlineShapePainting = function(e, data){
-
+      // TODO
     };
 
   }
