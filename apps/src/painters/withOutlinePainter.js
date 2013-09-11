@@ -4,6 +4,9 @@
  */
 define(function(require){
 
+  var compose = require("flight/lib/compose"),
+      advice = require("flight/lib/advice");
+
   return withOutlinePainter;
 
   function withOutlinePainter(){
@@ -16,9 +19,6 @@ define(function(require){
       this.on("outlineShapePaintingInitted", this.prepareOutlineShapePainting);
       this.on("outlineShapePropertyUpdated", this.updateOutlineShapeProperty);
       this.on("activeOutlineShapeUpdated", this.setActiveOutlineShape);
-
-      // add an after-advice
-      // this.after("startOutlineShapePainting", this.finalizeOutlineShapePainting);
     });
 
     /**
@@ -65,6 +65,9 @@ define(function(require){
               }
             };
 
+        compose.mixin(outlineShape, [advice.withAdvice]);
+        outlineShape.after("finish", this.finalizeOutlineShapePainting);
+
         data.canvasEventsService.registerEventListeners(data.canvas, listeners);
         this.attr.activeOutlineShape.outlineShape.start();
       }
@@ -77,7 +80,7 @@ define(function(require){
      * @param {Object} data Event Data
      */
     this.finalizeOutlineShapePainting = function(e, data){
-      // TODO
+      console.log("called");
     };
 
   }

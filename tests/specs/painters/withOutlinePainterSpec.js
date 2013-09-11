@@ -64,6 +64,20 @@ define(function(require){
         expect(activeOutlineShape.onMouseMove).toHaveBeenCalled();
       });
 
+      it("Should have called finalizeOutlineShapePainting after outlineShape's finish function has been executed", function(){
+        var activeOutlineShape = this.component.attr.activeOutlineShape.outlineShape;
+
+        spyOn(this.component, "finalizeOutlineShapePainting");
+
+        $('.component-root').trigger("outlineShapePaintingInitted", {
+          canvas: canvas,
+          canvasEventsService: canvasEventsService
+        });
+
+        activeOutlineShape.finish();
+        expect(this.component.finalizeOutlineShapePainting).toHaveBeenCalled();
+      });
+
     });
 
   });
