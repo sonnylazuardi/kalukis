@@ -3,3 +3,4 @@ apps/scripts/vendor/
 build/scripts/vendor/
 node_modules/
 todo/
+internal_docs
