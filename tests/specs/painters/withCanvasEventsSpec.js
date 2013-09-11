@@ -21,7 +21,6 @@ define(function(require){
 
     beforeEach(function(){
       setupComponent();
-      this.component.attr.canvas = canvas;
     });
 
     describe("Attaching to canvas events", function(){
@@ -35,10 +34,6 @@ define(function(require){
 
       afterEach(function(){
         this.component.unregisterExistingListeners(canvas);
-      });
-
-      it("Should have referenced the correct listeners", function(){
-        expect(this.component.attr.listeners).toEqual(listeners);
       });
 
       it("Should invoke the registered listener for mouse:up", function(){
@@ -62,7 +57,7 @@ define(function(require){
 
       beforeEach(function(){
         onMouseUpFired = false;
-        onMouseUpDownFired = false;
+        onMouseDownFired = false;
         onMouseMoveFired = false;
         this.component.registerEventListeners(canvas, listeners);
       });
@@ -73,8 +68,6 @@ define(function(require){
 
       it("Should unregister any existing listener", function(){
         this.component.unregisterExistingListeners(canvas);
-
-        expect(this.component.attr.listeners).toEqual({});
 
         canvas.trigger("mouse:up");
         expect(onMouseUpFired).toBeFalsy();

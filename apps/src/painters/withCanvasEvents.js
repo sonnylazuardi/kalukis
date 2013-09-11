@@ -4,6 +4,8 @@
  */
 define(function(require){
   
+  var mixinListeners = {};
+
   return withCanvasEvents;
 
   function withCanvasEvents(){
@@ -23,18 +25,18 @@ define(function(require){
      */
     this.registerEventListeners = function(canvas, listeners){
       if (canvas){
-        this.attr.listeners = listeners;
+        mixinListeners = listeners;
 
-        if (listeners.onMouseDown) {
-          canvas.on("mouse:down", this.attr.listeners.onMouseDown);
+        if (mixinListeners.onMouseDown) {
+          canvas.on("mouse:down", mixinListeners.onMouseDown);
         }
 
-        if (listeners.onMouseUp) {
-          canvas.on("mouse:up", this.attr.listeners.onMouseUp);
+        if (mixinListeners.onMouseUp) {
+          canvas.on("mouse:up", mixinListeners.onMouseUp);
         }
 
-        if (listeners.onMouseMove) {
-          canvas.on("mouse:move", this.attr.listeners.onMouseMove);
+        if (mixinListeners.onMouseMove) {
+          canvas.on("mouse:move", mixinListeners.onMouseMove);
         }
       }
     };
@@ -43,25 +45,24 @@ define(function(require){
      * Unregister any existing listener
      */
     this.unregisterExistingListeners = function(canvas){
-      var listeners = this.attr.listeners;
-
       if (canvas) {
-        if (listeners.onMouseDown) {
-          canvas.off("mouse:down", listeners.onMouseDown);
+        if (mixinListeners.onMouseDown) {
+          canvas.off("mouse:down", mixinListeners.onMouseDown);
         }
 
-        if (listeners.onMouseUp) {
-          canvas.off("mouse:up", listeners.onMouseUp);
+        if (mixinListeners.onMouseUp) {
+          canvas.off("mouse:up", mixinListeners.onMouseUp);
         }
 
-        if (listeners.onMouseMove) {
-          canvas.off("mouse:move", listeners.onMouseMove);
+        if (mixinListeners.onMouseMove) {
+          canvas.off("mouse:move", mixinListeners.onMouseMove);
         }
 
-        this.attr.listeners = {};  
+        mixinListeners = {};  
       }
       
     };
 
   }
+
 });
