@@ -52,15 +52,15 @@ define(function(require){
       });
 
       it("Should have register the canvas events handler properly", function(){
+        var activeOutlineShape = this.component.attr.activeOutlineShape.outlineShape;
+        spyOn(activeOutlineShape, "onMouseMove");
+
         $('.component-root').trigger("outlineShapePaintingInitted", {
           canvas: canvas,
           canvasEventsService: canvasEventsService
         });
 
-        var activeOutlineShape = this.component.attr.activeOutlineShape.outlineShape;
-        spyOn(activeOutlineShape, "onMouseMove");
-
-        canvas.fire("mouse:move");
+        canvas.trigger("mouse:move");
         expect(activeOutlineShape.onMouseMove).toHaveBeenCalled();
       });
 
