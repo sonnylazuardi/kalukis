@@ -66,7 +66,7 @@ define(function(require){
             };
 
         compose.mixin(outlineShape, [advice.withAdvice]);
-        outlineShape.after("finish", this.finalizeOutlineShapePainting);
+        outlineShape.after("finish", this.finalizeOutlineShapePainting.bind(this));
 
         data.canvasEventsService.registerEventListeners(data.canvas, listeners);
         this.attr.activeOutlineShape.outlineShape.start();
@@ -80,7 +80,7 @@ define(function(require){
      * @param {Object} data Event Data
      */
     this.finalizeOutlineShapePainting = function(e, data){
-      console.log("called");
+      this.trigger("outlineShapePaintingFinished");
     };
 
   }
