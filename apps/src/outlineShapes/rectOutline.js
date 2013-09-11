@@ -45,7 +45,6 @@ define(function(require){
   };
 
   RectOutline.prototype.onMouseMove = function(e) {
-    console.log("yoo");
     if (this.isDrawing) {
       var point = this.canvas.getPointer(e.e);
 
