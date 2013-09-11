@@ -47,7 +47,11 @@ define(function(require){
      * Start preparation of drawing outline shape.
      */
     this.prepareOutlineShapePainting = function(e, data){
-      // TODO
+      if (this.attr.activeOutlineShape && data.canvasEventsService && data.canvas){
+        // register out outline shape painter to the canvas events
+        // so that it can draw itself according to user's mouse interaction
+        data.canvasEventsService.registerEventListeners(data.canvas, this.attr.activeOutlineShape);
+      }
     };
 
     /**

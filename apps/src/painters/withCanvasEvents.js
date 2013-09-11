@@ -21,10 +21,7 @@ define(function(require){
      *                            the value is the listener
      *                            function
      */
-    this.registerEventListeners = function(listeners){
-      var canvas = this.attr.canvas,
-          me = this;
-
+    this.registerEventListeners = function(canvas, listeners){
       if (canvas){
         this.attr.listeners = listeners;
 
@@ -45,9 +42,8 @@ define(function(require){
     /**
      * Unregister any existing listener
      */
-    this.unregisterExistingListeners = function(){
-      var listeners = this.attr.listeners,
-          canvas = this.attr.canvas;
+    this.unregisterExistingListeners = function(canvas){
+      var listeners = this.attr.listeners;
 
       if (canvas) {
         if (listeners.onMouseDown) {

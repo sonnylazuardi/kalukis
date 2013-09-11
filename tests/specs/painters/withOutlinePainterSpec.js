@@ -2,7 +2,12 @@ define(function(require){
 
   var fabric = require("fabric"),
       canvas = new fabric.Canvas(),
-      RectOutline = require("outlineShapes/rectOutline");
+      RectOutline = require("outlineShapes/rectOutline"),
+      withCanvas = require("painters/withCanvasEvents"),
+      compose = require("flight/lib/compose"),
+      canvasEventsService = {};
+
+  compose.mixin(canvasEventsService, [withCanvas]);
 
   describeMixin("painters/withOutlinePainter", function(){
 
@@ -33,6 +38,30 @@ define(function(require){
 
         var outlineShape = this.component.attr.activeOutlineShape.outlineShape;
         expect(outlineShape.get("width")).toEqual(50);
+      });
+
+    });
+
+    describe("Outline shape painting", function(){
+
+      beforeEach(function(){
+        this.component.attr.activeOutlineShape = {
+          id: "rectOutline",
+          outlineShape: new RectOutline(canvas, {})
+        };
+      });
+
+      it("Should have register the canvas events handler properly", function(){
+        $('.component-root').trigger("outlineShapePaintingInitted", {
+          canvas: canvas,
+          canvasEventsService: canvasEventsService
+        });
+
+        var activeOutlineShape = this.component.attr.activeOutlineShape.outlineShape;
+        spyOn(activeOutlineShape, "onMouseMove");
+
+        canvas.fire("mouse:move");
+        expect(activeOutlineShape.onMouseMove).toHaveBeenCalled();
       });
 
     });

@@ -30,11 +30,11 @@ define(function(require){
         onMouseUpFired = false;
         onMouseDownFired = false;
         onMouseMoveFired = false;
-        this.component.registerEventListeners(listeners);
+        this.component.registerEventListeners(canvas, listeners);
       });
 
       afterEach(function(){
-        this.component.unregisterExistingListeners();
+        this.component.unregisterExistingListeners(canvas);
       });
 
       it("Should have referenced the correct listeners", function(){
@@ -64,15 +64,15 @@ define(function(require){
         onMouseUpFired = false;
         onMouseUpDownFired = false;
         onMouseMoveFired = false;
-        this.component.registerEventListeners(listeners);
+        this.component.registerEventListeners(canvas, listeners);
       });
 
       afterEach(function(){
-        this.component.unregisterExistingListeners();
+        this.component.unregisterExistingListeners(canvas);
       });
 
       it("Should unregister any existing listener", function(){
-        this.component.unregisterExistingListeners();
+        this.component.unregisterExistingListeners(canvas);
 
         expect(this.component.attr.listeners).toEqual({});
 
