@@ -50,6 +50,20 @@ define(function(require){
     
   };
 
+  /**
+   * Draw this brush on the provided path. This method expects that
+   * the `cfg` parameter has these properties:
+   *
+   * `x`      : the x coordinate of the circle centre point
+   * `y`      : the y coordinate of the circle center point
+   * `radius` : the radius of the circle
+   * 
+   * @param  {Object} cfg Path configuration
+   */
+  CircleBrush.prototype.drawPath = function(cfg) {
+    // body...
+  };
+
   CircleBrush.prototype.render = function(ctx) {
     if (!ctx) {
       

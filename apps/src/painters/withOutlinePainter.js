@@ -80,7 +80,10 @@ define(function(require){
      * @param {Object} data Event Data
      */
     this.finalizeOutlineShapePainting = function(e, data){
-      this.trigger("outlineShapePaintingFinished");
+      this.trigger("outlineShapePaintingFinished", {
+        outlineShapeId: this.attr.activeOutlineShape.id,
+        outlineShape: this.attr.activeOutlineShape.outlineShape
+      });
     };
 
   }

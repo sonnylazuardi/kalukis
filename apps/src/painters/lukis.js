@@ -49,6 +49,7 @@ define(function(require){
 
     this.attachEventListeners = function(){
       this.on("outlineShapePaintingReady", this.initOutlineShapePainting);
+      this.on("outlineShapePaintingFinished", this.initBrushPainting);
     };
 
     this.initOutlineShapePainting = function(){
@@ -59,6 +60,10 @@ define(function(require){
           unregisterEventListerns: this.unregisterEventListerns
         }
       });
+    };
+
+    this.initBrushPainting = function(){
+
     };
 
   }

@@ -28,6 +28,10 @@ define(function(require){
     return this.cfg[key];
   };
 
+  RectOutline.prototype.getOutline = function(){
+    return this.outline;
+  };
+
   RectOutline.prototype.onMouseDown = function(e) {
     this.canvas.selection = false;
     var point = this.canvas.getPointer(e.e);
