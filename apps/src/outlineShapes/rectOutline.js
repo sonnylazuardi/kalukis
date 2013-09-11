@@ -7,7 +7,6 @@ define(function(require){
   function RectOutline(canvas, cfg){
     this.canvas = canvas;
     this.canvas.selection = false;
-    this.canvas.defaultCursor = "crosshair";
 
     this.isDrawing = false;
     this.outline = undefined;
@@ -16,6 +15,10 @@ define(function(require){
     cfg.fillColor = cfg.fillColor || "#000000";
     this.cfg = cfg;
   }
+
+  RectOutline.prototype.start = function() {
+    this.canvas.defaultCursor = "crosshair";
+  };
 
   RectOutline.prototype.set = function(key, value) {
     this.cfg[key] = value;
@@ -42,6 +45,7 @@ define(function(require){
   };
 
   RectOutline.prototype.onMouseMove = function(e) {
+    console.log("yoo");
     if (this.isDrawing) {
       var point = this.canvas.getPointer(e.e);
 

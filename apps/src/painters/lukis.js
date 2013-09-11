@@ -6,9 +6,10 @@ define(function(require){
   var fabric = require("fabric"),
       defineComponent = require("flight/lib/component"),
       withCanvasEvents = require("painters/withCanvasEvents"),
-      withBrushPainter = require("painters/withBrushPainter");
+      withBrushPainter = require("painters/withBrushPainter"),
+      withOutlinePainter = require("painters/withOutlinePainter");
 
-  return defineComponent(Lukis, withCanvasEvents, withBrushPainter);
+  return defineComponent(Lukis, withCanvasEvents, withBrushPainter, withOutlinePainter);
 
   function Lukis(){
 
@@ -34,14 +35,29 @@ define(function(require){
 
     this.after("initialize", function(){
       this.constructCanvas();
+      this.attachEventListeners();
     });
 
     this.constructCanvas = function(){
-      this.attr.canvas = new fabric.Canvas(this.attr.canvasEl, this.attr.canvasCfg);
+      this.attr.canvas = new fabric.Canvas(this.attr.canvasEl.replace(/(#|\.)/,''));
 
       this.trigger("canvasConstructed", {
         canvasEl: this.attr.canvasEl,
         canvas: this.attr.canvas
+      });
+    };
+
+    this.attachEventListeners = function(){
+      this.on("outlineShapePaintingReady", this.initOutlineShapePainting);
+    };
+
+    this.initOutlineShapePainting = function(){
+      this.trigger("outlineShapePaintingInitted", {
+        canvas: this.attr.canvas,
+        canvasEventsService: {
+          registerEventListeners: this.registerEventListeners,
+          unregisterEventListerns: this.unregisterEventListerns
+        }
       });
     };
 

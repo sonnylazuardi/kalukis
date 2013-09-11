@@ -18,7 +18,7 @@ define(function(require){
       this.on("activeOutlineShapeUpdated", this.setActiveOutlineShape);
 
       // add an after-advice
-      this.after("startOutlineShapePainting", this.finalizeOutlineShapePainting);
+      // this.after("startOutlineShapePainting", this.finalizeOutlineShapePainting);
     });
 
     /**
@@ -40,6 +40,7 @@ define(function(require){
     this.setActiveOutlineShape = function(e, data){
       if (data.newActiveOutlineShape) {
         this.attr.activeOutlineShape = data.newActiveOutlineShape;
+        this.trigger("outlineShapePaintingReady");
       }
     };
 
@@ -51,6 +52,7 @@ define(function(require){
         // register out outline shape painter to the canvas events
         // so that it can draw itself according to user's mouse interaction
         data.canvasEventsService.registerEventListeners(data.canvas, this.attr.activeOutlineShape.outlineShape);
+        this.attr.activeOutlineShape.outlineShape.start();
       }
     };
 
