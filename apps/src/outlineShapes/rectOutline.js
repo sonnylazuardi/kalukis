@@ -32,6 +32,35 @@ define(function(require){
     return this.outline;
   };
 
+  RectOutline.prototype.getOutlinePoints = function(pointDistance){
+    var points = [],
+        xLength = this.outline.x + this.outline.width,
+        yHeight = this.outline.y + this.outline.height,
+        x = this.outline.x,
+        y = this.outline.y;
+
+    for (var i = x; i < xLength; i+= pointDistance){
+      points.push({x: i, y: y});
+    }
+
+    // get left
+    for (i = y; i < yHeight; i += pointDistance){
+      points.push({x: x, y: i});
+    }
+
+    // get bottom
+    for (i = x; i < xLength; i += pointDistance){
+      points.push({x: i, y: y + yHeight});
+    }
+
+    // get right
+    for (i = yHeight; i >= y; i -= pointDistance){
+      points.push({x: x + xLength, y: i});
+    }
+
+    return points;
+  };
+
   RectOutline.prototype.onMouseDown = function(e) {
     this.canvas.selection = false;
     var point = this.canvas.getPointer(e.e);

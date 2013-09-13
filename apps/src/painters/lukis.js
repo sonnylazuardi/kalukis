@@ -62,8 +62,17 @@ define(function(require){
       });
     };
 
-    this.initBrushPainting = function(){
+    this.initBrushPainting = function(e, data){
+      // TODO bagaimana caranya agar kita dapat memperoleh points
 
+      this.trigger("brushPaintingInitted", {
+        canvas: this.attr.canvas,
+        canvasEventsService: {
+          registerEventListeners: this.registerEventListeners,
+          unregisterEventListerns: this.unregisterEventListerns
+        },
+        points: data.outlineShape.getOutlinePoints(this.attr.activeBrush.brush.get('width'))
+      });
     };
 
   }

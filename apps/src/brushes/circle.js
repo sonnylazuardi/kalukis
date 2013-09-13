@@ -4,7 +4,8 @@
  */
 define(function(require){
   
-  var fabric = require("fabric");
+  var fabric = require("fabric"),
+      getRandomInt = fabric.util.getRandomInt;
 
   function CircleBrush(canvas, cfg){
     this.canvas = canvas;
@@ -43,25 +44,29 @@ define(function(require){
       throw Error("X or Y has not been defined");
     }
 
+    var originalRenderOnAddition = this.canvas.renderOnAddition;
+    this.canvas.renderOnAddition = false;
 
+    this.canvas.add(new fabric.Circle({
+      radius: getRandomInt(Math.max(0, this.cfg.width - 20), this.cfg.width + 20) / 2,
+      left: point.x,
+      top: point.y,
+      fill: new fabric.Color(this.cfg.fillColor)
+                .setAlpha(getRandomInt(0, 100) / 100)
+                .toRgba(),
+      stroke: this.cfg.strokeColor,
+      hasControls: false,
+      hasRotatingPoint: false,
+      lockUniScaling: true
+    }));
+
+    this.canvas.clearContext(this.canvas.contextTop);
+    this.canvas.renderOnAddition = originalRenderOnAddition;
+    this.canvas.renderAll();
   };
 
   CircleBrush.prototype.drawAtPoints = function(points) {
     
-  };
-
-  /**
-   * Draw this brush on the provided path. This method expects that
-   * the `cfg` parameter has these properties:
-   *
-   * `x`      : the x coordinate of the circle centre point
-   * `y`      : the y coordinate of the circle center point
-   * `radius` : the radius of the circle
-   * 
-   * @param  {Object} cfg Path configuration
-   */
-  CircleBrush.prototype.drawPath = function(cfg) {
-    // body...
   };
 
   CircleBrush.prototype.render = function(ctx) {
