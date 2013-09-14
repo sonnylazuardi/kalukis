@@ -18,6 +18,10 @@ define(function(require){
       it("Should have rendered the template", function(){
         expect(this.component.$node).toContain("#brushlist-widget");
       });
+
+      it("Should containts the brushes list", function(){
+        expect(this.component.$node.find("#brushlist-select-widget").length).not.toEqual(0);
+      });
     });
 
   });
