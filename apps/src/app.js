@@ -4,10 +4,14 @@
 define(function(require){
 
   var lukis = require("painters/lukis"),
+
       paintWidgets = require("ui/paintWidget/paintWidgets"),
       brushListWidget = require("ui/brushListWidget/brushListWidget"),
+      brushSizeWidget = require("ui/brushSizeWidget/brushSizeWidget"),
+
       brushManager = require("brushServices/brushManager"),
       outlineManager = require("outlineServices/outlineManager"),
+
       brushList = require("dataServices/brushList"),
       paintWidgetList = require("dataServices/paintWidgetList");
 
@@ -22,6 +26,7 @@ define(function(require){
      */
     paintWidgets.attachTo("#left-navigation");
     brushListWidget.attachTo("#brushescombo");
+    brushSizeWidget.attachTo("#sizerange");
 
 
     brushManager.attachTo(document);
