@@ -78,6 +78,16 @@ define(function(require){
         expect(brush.get("strokeColor")).toEqual("pink");
       });
 
+      it("Should set the active brush to the default on bruhsLoaded event", function(){
+        $(document).on("activeBrushUpdated", function(){
+          expect(this.component.attr.activeBrush.id).toEqual("pencil");
+        }.bind(this));
+
+        $(document).trigger("brushesLoaded", {
+          brushes: [{id: "pencil", name: "Pencil"}]
+        });
+      });
+
     });
   });
 });

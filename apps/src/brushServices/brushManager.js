@@ -73,6 +73,7 @@ define(function(require){
 
       this.on("brushPropertyChanged", this.updateBrushProperty);
       this.on("brushCreated", this.updateCreatedBrushList);
+      this.on("brushesLoaded", this.onDefaultBrushesLoaded);
 
       this.on("activeBrushChanged", this.setActiveBrush);
     };
@@ -125,6 +126,16 @@ define(function(require){
       Object.keys(this.attr.prop || {}).forEach(function(key){
         brush.set(key, this.attr.prop[key]);
       }, this);
+    };
+
+    this.onDefaultBrushesLoaded = function(e, data){
+      if (data.brushes) {
+        var defaultBrush = data.brushes[0];
+
+        this.setActiveBrush(e, {
+          activeBrushId: defaultBrush.id
+        });
+      }
     };
 
     /**
