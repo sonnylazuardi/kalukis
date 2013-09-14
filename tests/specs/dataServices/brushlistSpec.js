@@ -9,10 +9,6 @@ describeComponent("dataServices/brushList", function(){
 
   describe("Loading data", function(){
 
-    it("Should have loaded the brushes data", function(){
-      expect(this.component.attr.brushes.length).toEqual(6);
-    });
-
     it("Should have parsed the brushes correctly", function(){
       expect(this.component.attr.brushes[0].id).toEqual("circle");
       expect(this.component.attr.brushes[0].name).toEqual("Circle"); 
@@ -22,9 +18,9 @@ describeComponent("dataServices/brushList", function(){
       expect(spiedEvent).toHaveBeenTriggeredOn(document);
 
       var brushes = spiedEvent.mostRecentCall.data.brushes;
-      expect(brushes.length).toEqual(6);
-      expect(brushes[1].id).toEqual("pencil");
-      expect(brushes[1].name).toEqual("Pencil");         
+      expect(brushes.length).toEqual(7);
+      expect(brushes[1].id).toEqual("rect");
+      expect(brushes[1].name).toEqual("Rectangular");         
     });
 
   });

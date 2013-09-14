@@ -46,10 +46,9 @@ define(function(require){
 
     var originalRenderOnAddition = this.canvas.renderOnAddition;
     this.canvas.renderOnAddition = false;
-    var radius = getRandomInt(0, this.cfg.width);
-    console.log(radius);
+
     this.canvas.add(new fabric.Circle({
-      radius: radius,
+      radius: getRandomInt(0, this.cfg.width),
       left: point.x,
       top: point.y,
       fill: new fabric.Color(this.cfg.fillColor)
@@ -73,12 +72,6 @@ define(function(require){
     points.forEach(function(point){
       this.drawAt(point, false);
     }, this);
-  };
-
-  CircleBrush.prototype.render = function(ctx) {
-    if (!ctx) {
-      
-    }
   };
 
   return CircleBrush;
