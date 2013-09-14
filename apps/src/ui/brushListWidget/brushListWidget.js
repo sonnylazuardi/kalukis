@@ -16,12 +16,11 @@ define(function(require){
     });
 
     this.attachEventListeners = function(){
-
+      this.on("change", this.brushSelected);
       this.on(document, "brushesLoaded", this.setBrushList);
     };
 
     this.renderTemplate = function(data){
-      console.log(data);
       if (data.brushes){
         var widget = mustache.render(tmpl, data);
 
@@ -37,6 +36,14 @@ define(function(require){
       if (data.brushes) {
         this.renderTemplate(data);
       }
+    };
+
+    this.brushSelected = function(e, data){
+      var selectedBrush = $('#' + e.target.id).val();
+
+      this.trigger(document, "activeBrushChanged", {
+        activeBrushId: selectedBrush
+      });
     };
 
   }
