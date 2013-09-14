@@ -9,7 +9,19 @@ requirejs.config({
   baseUrl: '/base/apps/src',
 
   paths: {
-    'flight': './../../bower_components/flight'
+    fabric: 'canvas-lib/fabric',
+    flight: './../../vendor/flight',
+    text: './../../vendor/requirejs-text/text',
+    mustache: '../../vendor/mustache/mustache',
+  },
+
+  shim: {
+    fabric: {
+      exports: "fabric"
+    },
+    jquery: {
+      exports: "$"
+    }
   },
 
   // ask Require.js to load these files (all our tests)

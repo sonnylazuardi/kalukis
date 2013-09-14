@@ -14,8 +14,19 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      // 'vendor/es5-shim/es5-shim.js',
+      // 'vendor/es5-shim/es5-sham.js',
+
+      'vendor/jquery/jquery.js',
+      'vendor/jasmine-jquery/lib/jasmine-jquery.js',
+      'vendor/flight-jasmine/lib/flight-jasmine.js',
+
       'tests/test-main.js',
-      {pattern: 'apps/src/*.js', included: false},
+      {pattern: 'vendor/flight/**/*.js', included: false},
+      {pattern: 'vendor/mustache/**/*.js', included: false},
+      {pattern: 'vendor/requirejs-text/**/*.js', included: false},
+      {pattern: 'apps/src/**/*.js', included: false},
+      {pattern: 'apps/src/**/*.json', included: false},
       {pattern: 'tests/**/*.js', included: false}
     ],
 
@@ -58,7 +69,7 @@ module.exports = function(config) {
     // - Safari (only Mac)
     // - PhantomJS
     // - IE (only Windows)
-    browsers: ['Chrome', 'PhantomJS'],
+    browsers: ['PhantomJS'],
 
 
     // If browser does not capture in given timeout [ms], kill it
