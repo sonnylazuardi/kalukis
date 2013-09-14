@@ -14,7 +14,12 @@ define(function(require){
 
     this.after("initialize", function(){
       this.renderWidget({value: this.attr.width});
+      this.attachEventListeners();
     });
+
+    this.attachEventListeners = function(){
+      this.on("change", this.brushSizeChanged);
+    };
 
     this.renderWidget = function(data){
       var widget = mustache.render(tmpl, data);
@@ -24,6 +29,13 @@ define(function(require){
       } else {
         this.$node.append(widget);
       }
+    };
+
+    this.brushSizeChanged = function(e, data){
+      var size = e.target.value;
+      this.trigger(document, "brushPropertyChanged", {
+        width: parseInt(size, 10)
+      });
     };
 
   }

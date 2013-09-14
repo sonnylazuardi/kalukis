@@ -46,9 +46,10 @@ define(function(require){
 
     var originalRenderOnAddition = this.canvas.renderOnAddition;
     this.canvas.renderOnAddition = false;
-
+    var radius = getRandomInt(0, this.cfg.width);
+    console.log(radius);
     this.canvas.add(new fabric.Circle({
-      radius: getRandomInt(Math.max(0, this.cfg.width - 20), this.cfg.width + 20) / 2,
+      radius: radius,
       left: point.x,
       top: point.y,
       fill: new fabric.Color(this.cfg.fillColor)
