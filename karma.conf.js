@@ -11,6 +11,10 @@ module.exports = function(config) {
     // frameworks to use
     frameworks: ['jasmine', 'requirejs'],
 
+    preprocessors: {
+      '**/*.html': []
+    },
+
 
     // list of files / patterns to load in the browser
     files: [
@@ -29,7 +33,7 @@ module.exports = function(config) {
       {pattern: 'vendor/requirejs-text/**/*.js', included: false},
       {pattern: 'apps/src/**/*.js', included: false},
       {pattern: 'apps/src/**/*.json', included: false},
-      {pattern: 'apps/src/ui/**/*.html', included: true},
+      {pattern: 'apps/src/ui/**/*.html', included: false},
       {pattern: 'tests/**/*.js', included: false}
     ],
 
