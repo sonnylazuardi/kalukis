@@ -1,15 +1,15 @@
 [
   {
+    "id": "circle",
+    "name": "Circle"
+  },
+  {
     "id": "pencil",
     "name": "Pencil"
   },
   {
     "id": "spray",
     "name": "Spray"
-  },
-  {
-    "id": "circle",
-    "name": "Circle"
   },
   {
     "id": "hollowCircle",

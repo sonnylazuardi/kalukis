@@ -7,7 +7,7 @@ define(function(require){
       paintWidgets = require("ui/paintWidget/paintWidgets"),
       brushManager = require("brushServices/brushManager"),
       outlineManager = require("outlineServices/outlineManager"),
-      brushlist = require("dataServices/brushList"),
+      brushList = require("dataServices/brushList"),
       paintWidgetList = require("dataServices/paintWidgetList");
 
   function Application(){}
@@ -37,7 +37,7 @@ define(function(require){
      * It should publish an update on its data once its is
      * instantiated
      */
-    brushlist.attachTo(document);
+    brushList.attachTo(document);
     paintWidgetList.attachTo(document);
   };
 

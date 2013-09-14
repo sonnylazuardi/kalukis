@@ -42,13 +42,20 @@ define(function(require){
 
       beforeEach(function(){
         $('.component-root').trigger("activeBrushUpdated", {
-          newActiveBrush: "newActive"
+          newActiveBrush: {
+            id: "pencil",
+            brush: {}
+          }
         });
       });
 
       it("Should have changed the active brush attribrute", function(){
-        expect(this.component.attr.activeBrush).toEqual("newActive");
+        expect(this.component.attr.activeBrush).toEqual({
+          id: "pencil",
+          brush: {}
+        });
       });
+      
     });
 
     describe("Brush Painting Flow", function(){

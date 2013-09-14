@@ -66,7 +66,9 @@ define(function(require){
   };
 
   CircleBrush.prototype.drawAtPoints = function(points) {
-    
+    points.forEach(function(point){
+      this.drawAt(point);
+    }, this);
   };
 
   CircleBrush.prototype.render = function(ctx) {

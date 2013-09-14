@@ -146,7 +146,6 @@ define(function(require){
      */
     this.setActiveBrush = function(e, data){
       if (data.activeBrushId && this.attr.canvas){
-
         var oldActiveBrush = this.attr.activeBrush,
             brush, BrushProto;
         
@@ -154,26 +153,35 @@ define(function(require){
           brush = this.attr.brushes[data.activeBrushId];
           // update the brush properties
           this.setBrushProperties(brush);
+          this.attr.activeBrush = {
+            id: data.activeBrushId,
+            brush: brush
+          };
+
+          this.processSetActiveBrush(oldActiveBrush, this.attr.activeBrush);
         } else {
           // TODO what if the brush requested cannot be found?
-          BrushProto = require("brushes/" + data.activeBrushId);
-          brush = new BrushProto(this.attr.canvas, this.attr.prop);
-          // remember this brush
-          this.attr.brushes[data.activeBrushId] = brush;
+          require(["brushes/" + data.activeBrushId], function(BrushProto){
+            brush = new BrushProto(this.attr.canvas, this.attr.prop);
+            // remember this brush
+            this.attr.brushes[data.activeBrushId] = brush;
+            this.attr.activeBrush = {
+              id: data.activeBrushId,
+              brush: brush
+            };
+
+            this.processSetActiveBrush(oldActiveBrush, this.attr.activeBrush);
+          }.bind(this));
         }
-
-        this.attr.activeBrush = {
-          id: data.activeBrushId,
-          brush: brush
-        };
-
-        this.trigger("activeBrushUpdated", {
-          oldActiveBrush: oldActiveBrush,
-          newActiveBrush: this.attr.activeBrush
-        });
       }
     };
 
+    this.processSetActiveBrush = function(oldActiveBrush, newActiveBrush){
+      this.trigger("activeBrushUpdated", {
+        oldActiveBrush: oldActiveBrush,
+        newActiveBrush: newActiveBrush
+      });
+    };
   }
 
 });

@@ -10,7 +10,7 @@ define(function(require){
 
   function brushlist(){
 
-    this.defaultAttrs({
+  this.defaultAttrs({
 
       brushes: []
 

@@ -14,8 +14,8 @@ describeComponent("dataServices/brushList", function(){
     });
 
     it("Should have parsed the brushes correctly", function(){
-      expect(this.component.attr.brushes[0].id).toEqual("pencil");
-      expect(this.component.attr.brushes[0].name).toEqual("Pencil"); 
+      expect(this.component.attr.brushes[0].id).toEqual("circle");
+      expect(this.component.attr.brushes[0].name).toEqual("Circle"); 
     });
 
     it("Should have published a brushLoaded event when the brushes have been fully loaded", function(){
@@ -23,8 +23,8 @@ describeComponent("dataServices/brushList", function(){
 
       var brushes = spiedEvent.mostRecentCall.data.brushes;
       expect(brushes.length).toEqual(6);
-      expect(brushes[1].id).toEqual("spray");
-      expect(brushes[1].name).toEqual("Spray");         
+      expect(brushes[1].id).toEqual("pencil");
+      expect(brushes[1].name).toEqual("Pencil");         
     });
 
   });
