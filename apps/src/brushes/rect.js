@@ -3,6 +3,24 @@ define(function(require){
   var fabric = require("fabric"),
       getRandomInt = fabric.util.getRandomInt;
 
+  var RectBrushClass = fabric.util.createClass(fabric.BaseBrush, {
+
+    addPoint: function(pointer) {
+      var pointerPoint = new fabric.Point(pointer.x, pointer.y);
+
+      var width = getRandomInt(0, this.cfg.width);
+
+      var strokeColor = new fabric.Color(this.color)
+                          .setAlpha(fabric.util.getRandomInt(0, 100) / 100)
+                          .toRgba();
+
+      pointerPoint.width = pointerPoint.height = width;
+      pointerPoint.strokeColor = strokeColor;
+
+      
+    }
+  });
+
   function RectBrush(canvas, cfg){
     this.canvas = canvas;
 
@@ -20,7 +38,7 @@ define(function(require){
   }
 
   RectBrush.prototype.initBrush = function() {
-    // body...
+    this.brush = new RectBrushClass(this.canvas);
   };
 
   RectBrush.prototype.getBrush = function() {

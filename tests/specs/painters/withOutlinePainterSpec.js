@@ -64,6 +64,27 @@ define(function(require){
         expect(activeOutlineShape.onMouseMove).toHaveBeenCalled();
       });
 
+      it("Should have unregister the previous event handler when another widget has been clicked", function(){
+        var activeOutlineShape = this.component.attr.activeOutlineShape.outlineShape,
+            called = 0;
+
+        spyOn(activeOutlineShape, "onMouseMove").andCallFake(function(){
+          called++;
+        });
+
+        $('.component-root').trigger("outlineShapePaintingInitted", {
+          canvas: canvas,
+          canvasEventsService: canvasEventsService
+        });
+        $('.component-root').trigger("outlineShapePaintingInitted", {
+          canvas: canvas,
+          canvasEventsService: canvasEventsService
+        });
+
+        canvas.trigger("mouse:move");
+        expect(called).toEqual(1);
+      });
+
       it("Should have called finalizeOutlineShapePainting after outlineShape's finish function has been executed", function(){
         var activeOutlineShape = this.component.attr.activeOutlineShape.outlineShape;
 
