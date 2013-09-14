@@ -9,7 +9,15 @@ define(function(require){
     });
 
     describe("Rendering Template", function(){
-      
+      beforeEach(function(){
+        $(document).trigger("brushesLoaded", {
+          brushes: JSON.parse(brushes)
+        });
+      });
+
+      it("Should have rendered the template", function(){
+        expect(this.component.$node).toContain("#brushlist-widget");
+      });
     });
 
   });
