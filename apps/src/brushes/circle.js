@@ -39,7 +39,7 @@ define(function(require){
     return this.cfg[key];
   };
 
-  CircleBrush.prototype.drawAt = function(point) {
+  CircleBrush.prototype.drawAt = function(point, renderAfter) {
     if (!point.hasOwnProperty("x") || !point.hasOwnProperty("y")) {
       throw Error("X or Y has not been defined");
     }
@@ -62,12 +62,15 @@ define(function(require){
 
     this.canvas.clearContext(this.canvas.contextTop);
     this.canvas.renderOnAddition = originalRenderOnAddition;
-    this.canvas.renderAll();
+
+    if (renderAfter === true){
+      this.canvas.renderAll();
+    }
   };
 
   CircleBrush.prototype.drawAtPoints = function(points) {
     points.forEach(function(point){
-      this.drawAt(point);
+      this.drawAt(point, false);
     }, this);
   };
 

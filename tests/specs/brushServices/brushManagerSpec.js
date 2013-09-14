@@ -36,27 +36,14 @@ define(function(require){
       });
 
       it("Should listen to active brush changed event", function(){
+        $('.component-root').on("activeBrushUpdated", function(e, data){
+          expect(this.component.attr.activeBrush.id).toEqual("circle");
+          expect(this.component.attr.activeBrush.brush).toBeInstanceOf(CircleBrush);
+        }, this);
+
         $('.component-root').trigger("activeBrushChanged", {
           activeBrushId: "circle"
         });
-
-        expect(this.component.attr.activeBrush.id).toEqual("circle");
-        expect(this.component.attr.activeBrush.brush).toBeInstanceOf(CircleBrush);
-      });
-
-      it("Should publish active brush updated event when active brush has been changed", function(){
-        var spiedEvent = spyOnEvent('.component-root', "activeBrushUpdated");
-        $('.component-root').trigger("activeBrushChanged", {
-          activeBrushId: "circle"
-        });      
-
-        expect(spiedEvent).toHaveBeenTriggeredOn('.component-root');
-
-        var eventData = spiedEvent.mostRecentCall.data;
-        expect(eventData.oldActiveBrush).toBeUndefined();
-        expect(eventData.newActiveBrush.id).toEqual("circle");
-        expect(eventData.newActiveBrush.brush).toBeInstanceOf(CircleBrush);
-
       });
 
       it("Should have set the properties of the activeBrush before sending it on activeBrushUpdated event", function(){
@@ -66,20 +53,23 @@ define(function(require){
         this.component.attr.prop.width = 35;
         this.component.attr.prop.fillColor = "yellow";
         this.component.attr.prop.strokeColor = "pink";
-        var spiedEvent = spyOnEvent('.component-root', "activeBrushUpdated");
+
+        $('.component-root').on("activeBrushUpdated", function(e, data){
+          var brush = data.newActiveBrush.brush;
+
+          expect(brush.get('width')).toEqual(35);
+          expect(brush.get("fillColor")).toEqual("yellow");
+          expect(brush.get("strokeColor")).toEqual("pink");  
+        });
+
         // should have changed now
         $('.component-root').trigger("activeBrushChanged", {
           activeBrushId: "circle"
         });
-
-        var brush = spiedEvent.mostRecentCall.data.newActiveBrush.brush;
-        expect(brush.get('width')).toEqual(35);
-        expect(brush.get("fillColor")).toEqual("yellow");
-        expect(brush.get("strokeColor")).toEqual("pink");
       });
 
       it("Should set the active brush to the default on bruhsLoaded event", function(){
-        $(document).on("activeBrushUpdated", function(){
+        $('.component-root').on("activeBrushUpdated", function(){
           expect(this.component.attr.activeBrush.id).toEqual("pencil");
         }.bind(this));
 

@@ -71,8 +71,9 @@ define(function(require){
      * @param {Object} config The painting configuration
      */
     this.startBrushPainting = function(config){
-      if (config.points) {
+      if (config.points && config.canvas) {
         this.attr.activeBrush.brush.drawAtPoints(config.points);
+        config.canvas.renderAll();
       }
     };
 
