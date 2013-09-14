@@ -9,7 +9,7 @@ define(function(require){
     this.canvas.selection = false;
 
     this.isDrawing = false;
-    this.outline = undefined;
+    this.outline = {};
 
     cfg = cfg || {};
     cfg.fillColor = cfg.fillColor || "#000000";
@@ -38,8 +38,8 @@ define(function(require){
         yHeight = this.outline.y + this.outline.height,
         x = this.outline.x,
         y = this.outline.y;
-
-    for (var i = x; i < xLength; i+= pointDistance){
+    // top
+    for (var i = x + pointDistance; i < xLength; i+= pointDistance){
       points.push({x: i, y: y});
     }
 
@@ -50,12 +50,12 @@ define(function(require){
 
     // get bottom
     for (i = x; i < xLength; i += pointDistance){
-      points.push({x: i, y: y + yHeight});
+      points.push({x: i, y: yHeight});
     }
 
     // get right
     for (i = yHeight; i >= y; i -= pointDistance){
-      points.push({x: x + xLength, y: i});
+      points.push({x: xLength, y: i});
     }
 
     return points;
@@ -121,3 +121,5 @@ define(function(require){
   return RectOutline;
   
 });
+/**
+[Object{x: 10, y: 10}, Object{x: 15, y: 10}, Object{x: 20, y: 10}, Object{x: 5, y: 10}, Object{x: 5, y: 15}, Object{x: 5, y: 20}, Object{x: 5, y: 25}, Object{x: 5, y: 40}, Object{x: 10, y: 40}, Object{x: 15, y: 40}, Object{x: 20, y: 40}, Object{x: 30, y: 30}, Object{x: 30, y: 25}, Object{x: 30, y: 20}, Object{x: 30, y: 15}, Object{x: 30, y: 10}]**/
