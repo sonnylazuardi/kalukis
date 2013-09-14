@@ -66,8 +66,13 @@ define(function(require){
             };
 
         compose.mixin(outlineShape, [advice.withAdvice]);
-        outlineShape.after("finish", this.finalizeOutlineShapePainting.bind(this));
 
+        if (!outlineShape.hasOwnProperty("__hasBeenAddedAfterAdvice")) {
+          outlineShape.after("finish", this.finalizeOutlineShapePainting.bind(this));
+          outlineShape.__hasBeenAddedAfterAdvice = true;
+        }
+        
+        
         data.canvasEventsService.unregisterExistingListeners(data.canvas);
         data.canvasEventsService.registerEventListeners(data.canvas, listeners);
         this.attr.activeOutlineShape.outlineShape.start();

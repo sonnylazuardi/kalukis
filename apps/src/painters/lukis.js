@@ -57,7 +57,7 @@ define(function(require){
         canvas: this.attr.canvas,
         canvasEventsService: {
           registerEventListeners: this.registerEventListeners,
-          unregisterEventListerns: this.unregisterEventListerns
+          unregisterExistingListeners: this.unregisterExistingListeners
         }
       });
     };

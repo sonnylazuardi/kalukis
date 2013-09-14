@@ -99,6 +99,27 @@ define(function(require){
         expect(this.component.finalizeOutlineShapePainting).toHaveBeenCalled();
       });
 
+      it("Should have called finalizeOutlineShapePainting once", function(){
+        var activeOutlineShape = this.component.attr.activeOutlineShape.outlineShape,
+            called = 0;
+
+        spyOn(this.component, "finalizeOutlineShapePainting").andCallFake(function(){
+          called++;
+        });
+
+        $('.component-root').trigger("outlineShapePaintingInitted", {
+          canvas: canvas,
+          canvasEventsService: canvasEventsService
+        });
+        $('.component-root').trigger("outlineShapePaintingInitted", {
+          canvas: canvas,
+          canvasEventsService: canvasEventsService
+        });
+
+        activeOutlineShape.finish();
+        expect(called).toEqual(1);
+      });
+
       it("Should have triggered outlineShapePaintingFinished", function(){
         var activeOutlineShape = this.component.attr.activeOutlineShape.outlineShape,
           spiedEvent = spyOnEvent(document, "outlineShapePaintingFinished");
