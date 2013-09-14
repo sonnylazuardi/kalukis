@@ -5,6 +5,7 @@ define(function(require){
 
   var lukis = require("painters/lukis"),
       paintWidgets = require("ui/paintWidget/paintWidgets"),
+      brushListWidget = require("ui/brushListWidget/brushListWidget"),
       brushManager = require("brushServices/brushManager"),
       outlineManager = require("outlineServices/outlineManager"),
       brushList = require("dataServices/brushList"),
@@ -20,6 +21,8 @@ define(function(require){
      * component is instantiated
      */
     paintWidgets.attachTo("#left-navigation");
+    brushListWidget.attachTo("#brushescombo");
+
 
     brushManager.attachTo(document);
     outlineManager.attachTo(document);
