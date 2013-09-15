@@ -94,13 +94,7 @@ define(function(require){
     return this;
   };
 
-  CircleOutline.prototype.normalizeOutlinePosition = function() {
-    
-  };
-
   CircleOutline.prototype.finish = function() {
-    this.normalizeOutlinePosition();
-
     this.canvas.clearContext(this.canvas.contextTop);
     this.canvas.selection = true;
     return this;
