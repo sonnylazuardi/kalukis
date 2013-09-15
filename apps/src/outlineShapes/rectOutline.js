@@ -135,5 +135,3 @@ define(function(require){
   return RectOutline;
   
 });
-/**
-[Object{x: 10, y: 10}, Object{x: 15, y: 10}, Object{x: 20, y: 10}, Object{x: 5, y: 10}, Object{x: 5, y: 15}, Object{x: 5, y: 20}, Object{x: 5, y: 25}, Object{x: 5, y: 40}, Object{x: 10, y: 40}, Object{x: 15, y: 40}, Object{x: 20, y: 40}, Object{x: 30, y: 30}, Object{x: 30, y: 25}, Object{x: 30, y: 20}, Object{x: 30, y: 15}, Object{x: 30, y: 10}]**/
