@@ -5,7 +5,7 @@ define(function(require){
       RectOutline = require("outlineShapes/rectOutline"),
       outline, brush;
 
-  describe("Circle Outline", function(){
+  describe("Rect Outline", function(){
 
     beforeEach(function(){
       outline = new RectOutline(canvas, {});
@@ -49,6 +49,28 @@ define(function(require){
       });
 
     });
+
+    describe("Outline position", function(){
+
+      it("Should normalized the position", function(){
+        outline.outline = {
+          x: 50,
+          y: 50,
+          width: -10,
+          height: -20
+        };
+
+        outline.normalizeOutlinePosition();
+        expect(outline.outline).toEqual({
+          x: 40,
+          y: 30,
+          width: 10,
+          height: 20
+        });
+      });
+
+    });
+
   });
 
 });
