@@ -100,6 +100,16 @@ define(function(require){
   };
 
   RectOutline.prototype.finish = function() {
+    if (this.outline.width < 0){
+      this.outline.x = this.outline.x + this.outline.width;
+      this.outline.width *= -1;
+    }
+
+    if (this.outline.height < 0) {
+      this.outline.y = this.outline.y + this.outline.height;
+      this.outline.height *= -1;
+    }
+
     this.canvas.clearContext(this.canvas.contextTop);
     this.canvas.selection = true;
     return this;
