@@ -52,9 +52,8 @@ define(function(require){
       left: point.x,
       top: point.y,
       fill: new fabric.Color(this.cfg.fillColor)
-                .setAlpha(getRandomInt(0, 100) / 100)
-                .toRgba(),
-      stroke: this.cfg.strokeColor,
+              .setAlpha(fabric.util.getRandomInt(0, 100) / 100)
+              .toRgba(),
       hasControls: false,
       hasRotatingPoint: false,
       lockUniScaling: true

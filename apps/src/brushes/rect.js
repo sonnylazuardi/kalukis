@@ -5,19 +5,60 @@ define(function(require){
 
   var RectBrushClass = fabric.util.createClass(fabric.BaseBrush, {
 
+    width: 10,
+
+    initialize: function(canvas){
+      this.canvas = canvas;
+      this.points = [];
+    },
+
+    onMouseDown: function(){
+      this.points.length = 0;
+      this.canvas.clearContext(this.canvas.contextTop);
+    },
+
+    onMouseMove: function(pointer){
+      var point = this.addPoint(pointer),
+          ctx = this.canvas.contextTop;
+
+      ctx.fillStyle = point.fill;
+      ctx.fillRect(point.x, point.y, point.width, point.height);
+    },
+
+    onMouseUp: function(){
+      var originalRenderOnAddition = this.canvas.renderOnAddition;
+      this.canvas.renderOnAddition = false;
+
+      for (var i = 0, len = this.points.length; i < len; i++) {
+        var point = this.points[i];
+        this.canvas.add(new fabric.Rect({
+          width: point.width,
+          height: point.height,
+          top: point.y,
+          left: point.x,
+          fill: point.fill
+        }));
+      }
+
+      this.canvas.clearContext(this.canvas.contextTop);
+      this.canvas.renderOnAddition = originalRenderOnAddition;
+      this.canvas.renderAll();
+    },
+
     addPoint: function(pointer) {
       var pointerPoint = new fabric.Point(pointer.x, pointer.y);
 
-      var width = getRandomInt(0, this.cfg.width);
+      var width = getRandomInt(0, this.width);
 
-      var strokeColor = new fabric.Color(this.color)
+      var color = new fabric.Color(this.color)
                           .setAlpha(fabric.util.getRandomInt(0, 100) / 100)
                           .toRgba();
 
       pointerPoint.width = pointerPoint.height = width;
-      pointerPoint.strokeColor = strokeColor;
+      pointerPoint.fill = color;
 
-      
+      this.points.push(pointerPoint);
+      return pointerPoint;
     }
   });
 
@@ -61,15 +102,14 @@ define(function(require){
     var originalRenderOnAddition = this.canvas.renderOnAddition;
     this.canvas.renderOnAddition = false;
 
-    this.canvas.add(new fabric.Circle({
+    this.canvas.add(new fabric.Rect({
       width: getRandomInt(0, this.cfg.width),
       height: getRandomInt(0, this.cfg.width),
       left: point.x,
       top: point.y,
       fill: new fabric.Color(this.cfg.fillColor)
-                .setAlpha(getRandomInt(0, 100) / 100)
-                .toRgba(),
-      stroke: this.cfg.strokeColor,
+              .setAlpha(fabric.util.getRandomInt(0, 100) / 100)
+              .toRgba(),
       hasControls: false,
       hasRotatingPoint: false,
       lockUniScaling: true
