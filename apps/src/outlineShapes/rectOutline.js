@@ -99,7 +99,7 @@ define(function(require){
     return this;
   };
 
-  RectOutline.prototype.finish = function() {
+  RectOutline.prototype.normalizeOutlinePosition = function() {
     if (this.outline.width < 0){
       this.outline.x = this.outline.x + this.outline.width;
       this.outline.width *= -1;
@@ -109,6 +109,10 @@ define(function(require){
       this.outline.y = this.outline.y + this.outline.height;
       this.outline.height *= -1;
     }
+  };
+
+  RectOutline.prototype.finish = function() {
+    this.normalizeOutlinePosition();
 
     this.canvas.clearContext(this.canvas.contextTop);
     this.canvas.selection = true;
