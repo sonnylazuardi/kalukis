@@ -22,7 +22,7 @@ define(function(require){
           ctx = this.canvas.contextTop;
 
       ctx.fillStyle = point.fill;
-      ctx.fillRect(point.x, point.y, point.width, point.height);
+      ctx.fillRect(point.x - point.width/2, point.y - point.height/2, point.width, point.height);
     },
 
     onMouseUp: function(){
