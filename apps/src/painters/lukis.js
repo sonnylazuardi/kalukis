@@ -7,9 +7,10 @@ define(function(require){
       defineComponent = require("flight/lib/component"),
       withCanvasEvents = require("painters/withCanvasEvents"),
       withBrushPainter = require("painters/withBrushPainter"),
-      withOutlinePainter = require("painters/withOutlinePainter");
+      withOutlinePainter = require("painters/withOutlinePainter"),
+      withFreehandPainter = require("painters/withFreehandPainter");
 
-  return defineComponent(Lukis, withCanvasEvents, withBrushPainter, withOutlinePainter);
+  return defineComponent(Lukis, withCanvasEvents, withBrushPainter, withOutlinePainter, withFreehandPainter);
 
   function Lukis(){
 
@@ -48,11 +49,16 @@ define(function(require){
     };
 
     this.attachEventListeners = function(){
+      this.on("freehandPaintingReady", this.initFreehandPainting);
       this.on("outlineShapePaintingReady", this.initOutlineShapePainting);
       this.on("outlineShapePaintingFinished", this.initBrushPainting);
     };
 
-    this.initOutlineShapePainting = function(){
+    this.initFreehandPainting = function(e, data){
+      this.startFreehandPainting(data.canvas, this.attr.activeBrush.brush);
+    };
+
+    this.initOutlineShapePainting = function(e, data){
       this.trigger("outlineShapePaintingInitted", {
         canvas: this.attr.canvas,
         canvasEventsService: {

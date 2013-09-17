@@ -40,7 +40,9 @@ define(function(require){
     this.setActiveOutlineShape = function(e, data){
       if (data.newActiveOutlineShape) {
         this.attr.activeOutlineShape = data.newActiveOutlineShape;
-        this.trigger("outlineShapePaintingReady");
+        this.trigger("outlineShapePaintingReady", {
+          activeOutlineShape: this.attr.activeOutlineShape
+        });
       }
     };
 
