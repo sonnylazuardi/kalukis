@@ -17,7 +17,11 @@ define(function(require){
     };
 
     this.attachEventListeners = function(){
+      this.on("click", this.initFreehandPainting);
+    };
 
+    this.initFreehandPainting = function(){
+      this.trigger(document, "freehandPaintingReady");
     };
 
   }

@@ -82,41 +82,31 @@ define(function(require){
     this.setActiveOutlineShape = function(e, data){
       if (data.paintWidgetId && this.attr.canvas) {
 
-        if (data.paintWidgetId === "pencil") {
-          this.activateFreeHandPainting(this.attr.canvas);
-        } else {
-          var oldActiveOutlineShape = this.attr.activeOutlineShape,
-              outlineShape, OutlineShapeProto,
-              id = data.paintWidgetId+"Outline";
+        var oldActiveOutlineShape = this.attr.activeOutlineShape,
+            outlineShape, OutlineShapeProto,
+            id = data.paintWidgetId+"Outline";
 
-          if (this.attr.outlineShapes.hasOwnProperty(id)) {
-            outlineShape = this.attr.outlineShapes[id];
-            this.setOutlineShapeProperties(outlineShape);
+        if (this.attr.outlineShapes.hasOwnProperty(id)) {
+          outlineShape = this.attr.outlineShapes[id];
+          this.setOutlineShapeProperties(outlineShape);
+
+          this.publishUpdatedOutlineShape(oldActiveOutlineShape, {
+            id: id,
+            outlineShape: outlineShape
+          });
+        } else {
+          require(["outlineShapes/" + id], function(OutlineShapeProto){
+            outlineShape = new OutlineShapeProto(this.attr.canvas, this.attr.prop);
+            // remember me
+            this.attr.outlineShapes[id] = outlineShape;
 
             this.publishUpdatedOutlineShape(oldActiveOutlineShape, {
               id: id,
               outlineShape: outlineShape
             });
-          } else {
-            require(["outlineShapes/" + id], function(OutlineShapeProto){
-              outlineShape = new OutlineShapeProto(this.attr.canvas, this.attr.prop);
-              // remember me
-              this.attr.outlineShapes[id] = outlineShape;
-
-              this.publishUpdatedOutlineShape(oldActiveOutlineShape, {
-                id: id,
-                outlineShape: outlineShape
-              });
-            }.bind(this));
-          }
+          }.bind(this));
         }
       }
-    };
-
-    this.activateFreeHandPainting = function(canvas){
-      this.trigger(document, "freehandPaintingReady", {
-        canvas: canvas
-      });
     };
 
     this.publishUpdatedOutlineShape = function(oldOutlineShape, newOutlineShape){

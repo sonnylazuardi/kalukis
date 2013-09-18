@@ -55,7 +55,7 @@ define(function(require){
     };
 
     this.initFreehandPainting = function(e, data){
-      this.startFreehandPainting(data.canvas, this.attr.activeBrush.brush);
+      this.startFreehandPainting(this.attr.canvas, this.attr.activeBrush.brush);
     };
 
     this.initOutlineShapePainting = function(e, data){

@@ -24,7 +24,9 @@ define(function(require){
      * Listen to events
      */
     this.attachEventListeners = function(){
-      this.on("click", this.publishClickedPaintWidget);
+      this.on("click", {
+        "paintWidgetListEl": this.publishClickedPaintWidget
+      });
 
       this.on(document, "paintWidgetsLoaded", this.renderTemplate);
     };
