@@ -7,6 +7,10 @@ define(function(require){
 
   function FreehandWidget() {
 
+    this.defaultAttrs({
+      freehandWidgetEl: "#freehandwidget"
+    });
+
     this.after("initialize", function(){
       this.renderTemplate();
       this.attachEventListeners();
@@ -17,7 +21,9 @@ define(function(require){
     };
 
     this.attachEventListeners = function(){
-      this.on("click", this.initFreehandPainting);
+      this.on("click", {
+        freehandWidgetEl: this.initFreehandPainting
+      });
     };
 
     this.initFreehandPainting = function(){
