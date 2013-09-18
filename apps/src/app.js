@@ -8,6 +8,7 @@ define(function(require){
       paintWidgets = require("ui/paintWidget/paintWidgets"),
       brushListWidget = require("ui/brushListWidget/brushListWidget"),
       brushSizeWidget = require("ui/brushSizeWidget/brushSizeWidget"),
+      freehandWidget = require("ui/freehandWidget/freehandWidget"),
 
       brushManager = require("brushServices/brushManager"),
       outlineManager = require("outlineServices/outlineManager"),
@@ -24,6 +25,7 @@ define(function(require){
      * placed in this upper block, before the `lukis`
      * component is instantiated
      */
+    freehandWidget.attachTo("#left-navigation");
     paintWidgets.attachTo("#left-navigation");
     brushListWidget.attachTo("#brushescombo");
     brushSizeWidget.attachTo("#sizerange");

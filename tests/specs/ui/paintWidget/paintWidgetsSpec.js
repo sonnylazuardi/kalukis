@@ -16,7 +16,7 @@ define(function(require){
       });
 
       it("Should have rendered the template given the data", function(){
-        expect(this.component.$node).toContain("#pencil");
+        expect(this.component.$node).toContain("#line");
       });
 
       it("Should only contains one list of widgets", function(){
@@ -39,12 +39,12 @@ define(function(require){
 
       it("Should have publish paintWidgetClicked with correct data", function(){
         var spiedEvent = spyOnEvent(document, "paintWidgetClicked");
-        this.component.$node.find("#pencil").click();
+        this.component.$node.find("#line").click();
 
         expect(spiedEvent).toHaveBeenTriggeredOn(document);
 
         var eventData = spiedEvent.mostRecentCall.data;
-        expect(eventData.paintWidgetId).toEqual("pencil");
+        expect(eventData.paintWidgetId).toEqual("line");
       });
 
     });

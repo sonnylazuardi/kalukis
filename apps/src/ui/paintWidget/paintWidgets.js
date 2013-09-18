@@ -12,6 +12,10 @@ define(function(require){
 
   function paintWidgets(){
 
+    this.defaultAttrs({
+      paintWidgetListEl: "#paintwidget-list"
+    });
+
     this.after("initialize", function(){
       this.attachEventListeners();
     });
@@ -43,8 +47,9 @@ define(function(require){
      */
     this.renderTemplate = function(e, data){
       var widgetList = mustache.render(tmpl, data);
-      if (this.$node.children().length) {
-        this.$node.children().replaceWith(widgetList)
+
+      if (this.select("paintWidgetListEl").length){
+        this.select("paintWidgetListEl").replaceWith(widgetList);
       } else {
         this.$node.append(widgetList);
       }
