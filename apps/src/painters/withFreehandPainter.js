@@ -6,23 +6,46 @@ define(function(require){
 
   function withFreeHandPainter(){
 
-    var mixinCanvas;
+    this.defaultAttrs({
+
+      mixinCanvas: undefined,
+
+      brushWidth: 10,
+
+      brushColor: "#000000"
+
+    });
 
     this.after("initialize", function(){
       this.on("activeBrushUpdated", function(e, data){
         this.setBrush(data.newActiveBrush.brush);
       }.bind(this));
+      this.on("brushPropertyUpdated", function(e, data){
+        if (data.key === "width") {
+          this.setBrushWidth(data.newValue);  
+        }
+      }.bind(this));
     });
 
     this.startFreehandPainting = function(canvas, brush){
-      mixinCanvas = canvas;
-      mixinCanvas.isDrawingMode = true;
-      mixinCanvas.freeDrawingBrush = brush.getBrush();
+      this.attr.mixinCanvas = canvas;
+      this.attr.mixinCanvas.isDrawingMode = true;
+      this.attr.mixinCanvas.freeDrawingBrush = brush.getBrush();
+      this.attr.mixinCanvas.freeDrawingBrush.color = this.attr.brushColor;
+      this.attr.mixinCanvas.freeDrawingBrush.width = this.attr.brushWidth;
     };
 
     this.setBrush = function(brush){
-      if (mixinCanvas && mixinCanvas.isDrawingMode) {
-        mixinCanvas.freeDrawingBrush = brush.getBrush();
+      if (this.attr.mixinCanvas && this.attr.mixinCanvas.isDrawingMode) {
+        this.attr.mixinCanvas.freeDrawingBrush = brush.getBrush();
+      }
+    };
+
+    this.setBrushWidth = function(width){
+      this.attr.brushWidth = width;
+
+      if (this.attr.mixinCanvas && this.attr.mixinCanvas.isDrawingMode) {
+        this.attr.mixinCanvas.freeDrawingBrush.width = this.attr.brushWidth;
       }
     };
 
