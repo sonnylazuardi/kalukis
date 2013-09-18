@@ -3,6 +3,26 @@ define(function(require){
   var fabric = require("fabric"),
       getRandomInt = fabric.util.getRandomInt;
 
+  var hLine = fabric.util.createClass(fabric.PatternBrush, {
+    getPatternSrc: function(){
+        // create a canvas for the pattern
+      var patternCanvas = fabric.document.createElement("canvas");
+      patternCanvas.width = patternCanvas.height = 10;
+
+      var ctx = patternCanvas.getContext("2d");
+      // create the pattern
+      ctx.strokeStyle = this.color;
+      ctx.lineWidth = 5;
+      ctx.beginPath();
+      ctx.moveTo(0, 5);
+      ctx.lineTo(10, 5);
+      ctx.closePath();
+      ctx.stroke();
+      // return this canvas pattern
+      return patternCanvas;
+    }
+  });
+
   function HorizontalLineBrush(canvas, cfg){
     this.canvas = canvas;
 
@@ -20,27 +40,7 @@ define(function(require){
   }
 
   HorizontalLineBrush.prototype.initBrush = function() {
-    var hLine = new fabric.PatternBrush(this.canvas);
-
-    hLine.getPatternSrc = function(){
-        // create a canvas for the pattern
-      var patternCanvas = fabric.document.createElement("canvas");
-      patternCanvas.width = patternCanvas.height = 10;
-
-      var ctx = patternCanvas.getContext("2d");
-      // create the pattern
-      ctx.strokeStyle = this.color;
-      ctx.lineWidth = 5;
-      ctx.beginPath();
-      ctx.moveTo(0, 5);
-      ctx.lineTo(10, 5);
-      ctx.closePath();
-      ctx.stroke();
-      // return this canvas pattern
-      return patternCanvas;
-    };
-
-    this.brush = hLine;
+    this.brush = new hLine(this.canvas);
   };
 
   HorizontalLineBrush.prototype.getBrush = function() {
