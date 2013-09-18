@@ -1,9 +1,10 @@
 define(function(require){
 
   var fabric = require("fabric"),
+      RectBrushClass = require("extBrushes/fabric.RectBrush"),
       getRandomInt = fabric.util.getRandomInt;
 
-  var HollowRectBrushClass = fabric.util.createClass(fabric.CircleBrush, {
+  var HollowSquareBrushClass = fabric.util.createClass(RectBrushClass, {
     /**
      * Override fabric.CircleBrush addPoint method. We need to
      * define our own circle properties. In this case, we dont
@@ -17,7 +18,7 @@ define(function(require){
       var pointerPoint = new fabric.Point(pointer.x, pointer.y);
 
       // generate random circle's radius
-      var circleRadius = getRandomInt(0, this.width);
+      var width = getRandomInt(0, this.width);
 
       // generate random stroke style. This includes the
       // alpha property
@@ -25,7 +26,7 @@ define(function(require){
                           .setAlpha(getRandomInt(0, 100) / 100)
                           .toRgba();
 
-      pointerPoint.radius = circleRadius;
+      pointerPoint.width = pointerPoint.height = width;
       pointerPoint.strokeColor = strokeColor;
 
       this.points.push(pointerPoint);
@@ -36,12 +37,11 @@ define(function(require){
     onMouseMove: function(pointer){
       var point = this.addPoint(pointer);
       var ctx = this.canvas.contextTop;
-
+      
       ctx.lineWidth = 1;
       ctx.strokeStyle = point.strokeColor;
       ctx.beginPath();
-      ctx.arc(point.x, point.y, point.radius, 0, Math.PI*2, false);
-      ctx.closePath();
+      ctx.strokeRect(point.x - point.width/2, point.y - point.height/2, point.width, point.height);
       ctx.stroke();
     },
 
@@ -51,25 +51,25 @@ define(function(require){
 
       for (var i = 0, len = this.points.length; i < len; i++) {
         var point = this.points[i];
-        var circle = new fabric.Circle({
-          radius: point.radius,
+        var square = new fabric.Rect({
+          width: point.width,
+          height: point.height,
           left: point.x,
           top: point.y,
           fill: null,
           stroke: point.strokeColor,
           strokeWidth: 1
         });
-        this.canvas.add(circle);
+        this.canvas.add(square);
       }
 
       this.canvas.clearContext(this.canvas.contextTop);
-      this.removeShadowStyles();
       this.canvas.renderOnAddition = originalRenderOnAddition;
       this.canvas.renderAll();
     }
   });
 
-  function HollowCircleBrush(canvas, cfg) {
+  function HollowSquareBrush(canvas, cfg) {
     this.canvas = canvas;
 
     cfg = cfg || {};
@@ -81,23 +81,23 @@ define(function(require){
     this.initBrush();
   }
 
-  HollowCircleBrush.prototype.initBrush = function() {
-    this.brush = new HollowRectBrushClass(this.canvas);
+  HollowSquareBrush.prototype.initBrush = function() {
+    this.brush = new HollowSquareBrushClass(this.canvas);
   };
 
-  HollowCircleBrush.prototype.getBrush = function() {
+  HollowSquareBrush.prototype.getBrush = function() {
     return this.brush;
   };
 
-  HollowCircleBrush.prototype.set = function(key, value) {
+  HollowSquareBrush.prototype.set = function(key, value) {
     this.cfg[key] = value;
   };
 
-  HollowCircleBrush.prototype.get = function(key) {
+  HollowSquareBrush.prototype.get = function(key) {
     return this.cfg[key];
   };
 
-  HollowCircleBrush.prototype.drawAt = function(point, renderAfter) {
+  HollowSquareBrush.prototype.drawAt = function(point, renderAfter) {
     if (!point.hasOwnProperty("x") || !point.hasOwnProperty("y")) {
       throw Error("X or Y has not been defined");
     }
@@ -105,8 +105,11 @@ define(function(require){
     var originalRenderOnAddition = this.canvas.renderOnAddition;
     this.canvas.renderOnAddition = false;
 
-    this.canvas.add(new fabric.Circle({
-      radius: getRandomInt(0, this.cfg.width),
+    var width = getRandomInt(0, this.cfg.width);
+
+    this.canvas.add(new fabric.Rect({
+      width: width,
+      height: width,
       left: point.x,
       top: point.y,
       fill: null,
@@ -124,12 +127,12 @@ define(function(require){
     }
   };
 
-  HollowCircleBrush.prototype.drawAtPoints = function(points) {
+  HollowSquareBrush.prototype.drawAtPoints = function(points) {
     points.forEach(function(point){
       this.drawAt(point, false);
     }, this);
   };
 
-  return HollowCircleBrush;
+  return HollowSquareBrush;
 
 });
