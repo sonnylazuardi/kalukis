@@ -26,5 +26,9 @@
   {
     "id": "circularPattern",
     "name": "Circular Pattern"
+  },
+  {
+    "id": "horizontalLine",
+    "name": "Horizontal Line"
   }
 ]
