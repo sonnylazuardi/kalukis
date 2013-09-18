@@ -18,7 +18,7 @@ describeComponent("dataServices/brushList", function(){
       expect(spiedEvent).toHaveBeenTriggeredOn(document);
 
       var brushes = spiedEvent.mostRecentCall.data.brushes;
-      expect(brushes.length).toEqual(7);
+      expect(brushes.length).not.toEqual(0);
       expect(brushes[1].id).toEqual("rect");
       expect(brushes[1].name).toEqual("Rectangular");         
     });
