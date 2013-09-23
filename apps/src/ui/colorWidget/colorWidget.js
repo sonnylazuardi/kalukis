@@ -15,6 +15,15 @@ define(function(require){
       this.renderTemplate(tmpl);
     });
 
+    this.publishColorChange = function(color){
+      this.trigger(document, "brushPropertyChanged", {
+        fillColor: color.toHexString()
+      });
+      this.trigger(document, "brushPropertyChanged", {
+        strokeColor: color.toHexString()
+      });
+    };
+
     this.renderTemplate = function(tmpl){
       this.$node.append(tmpl);
 
@@ -23,16 +32,8 @@ define(function(require){
         showInput: true,
         clickoutFiresChange: true,
         showButtons: false,
-        move: function(color){
-          this.trigger(document, "brushPropertyChanged", {
-            color: color.toHexString()
-          });
-        }.bind(this),
-        change: function(color){
-          this.trigger(document, "brushPropertyChanged", {
-            color: color.toHexString()
-          });
-        }.bind(this)
+        move: this.publishColorChange.bind(this),
+        change: this.publishColorChange.bind(this)
       });
     };
 

@@ -52,11 +52,12 @@ define(function(require){
 
         this.component.attr.prop.width = 35;
         this.component.attr.prop.fillColor = "yellow";
+        this.component.attr.prop.strokeColor = "yellow";
 
         $('.component-root').on("activeBrushUpdated", function(e, data){
           var brush = data.newActiveBrush.brush;
 
-          expect(brush.get('width')).toEqual(35);
+          expect(brush.get("width")).toEqual(35);
           expect(brush.get("fillColor")).toEqual("yellow");
           expect(brush.get("strokeColor")).toEqual("yellow");  
         });

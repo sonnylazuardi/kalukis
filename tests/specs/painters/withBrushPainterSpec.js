@@ -33,7 +33,7 @@ define(function(require){
           key: "strokeColor"
         });
 
-        expect(this.component.attr.activeBrush.brush.get("strokeColor")).toEqual("red");
+        expect(this.component.attr.activeBrush.brush.get("strokeColor")).toEqual("#000000");
       });
 
     });
