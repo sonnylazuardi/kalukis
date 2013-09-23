@@ -12,9 +12,7 @@ define(function(require){
     });
 
     this.after("initialize", function(){
-
       this.renderTemplate(tmpl);
-
     });
 
     this.renderTemplate = function(tmpl){

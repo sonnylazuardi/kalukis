@@ -125,6 +125,9 @@ define(function(require){
      */
     this.updateOutlineProperties = function(e, data){
       if (data.hasOwnProperty("key") && data.hasOwnProperty("newValue")) {
+        if (data.key === "color"){
+          data.key = "fillColor";
+        }
         var oldValue = this.attr.prop[data.key];
         this.attr.prop[data.key] = data.newValue;
 
