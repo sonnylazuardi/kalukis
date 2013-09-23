@@ -32,7 +32,11 @@ define(function(require){
   };
 
   CircleBrush.prototype.set = function(key, value) {
-    this.cfg[key] = value;
+    if (key === "fillColor" || key === "strokeColor"){
+      this.cfg.fillColor = this.cfg.strokeColor = value;
+    } else {
+      this.cfg[key] = value;
+    }
   };
 
   CircleBrush.prototype.get = function(key) {
