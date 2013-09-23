@@ -8,9 +8,10 @@ define(function(require){
       withCanvasEvents = require("painters/withCanvasEvents"),
       withBrushPainter = require("painters/withBrushPainter"),
       withOutlinePainter = require("painters/withOutlinePainter"),
-      withFreehandPainter = require("painters/withFreehandPainter");
+      withFreehandPainter = require("painters/withFreehandPainter"),
+      withImagePainter = require("painters/withImagePainter");
 
-  return defineComponent(Lukis, withCanvasEvents, withBrushPainter, withOutlinePainter, withFreehandPainter);
+  return defineComponent(Lukis, withCanvasEvents, withBrushPainter, withOutlinePainter, withFreehandPainter, withImagePainter);
 
   function Lukis(){
 
@@ -31,7 +32,13 @@ define(function(require){
        */
       canvasCfg: {
 
-      }
+      },
+
+      /**
+       * Custom event handlers for events related to this module
+       * @type {Array}
+       */
+      customHandlers: {}
     });
 
     this.after("initialize", function(){
@@ -51,7 +58,19 @@ define(function(require){
     this.attachEventListeners = function(){
       this.on("freehandPaintingReady", this.initFreehandPainting);
       this.on("outlineShapePaintingReady", this.initOutlineShapePainting);
-      this.on("outlineShapePaintingFinished", this.initBrushPainting);
+
+      this.on("outlineShapePaintingFinished", function(e, data){
+        if (this.attr.customHandlers.outlineShapePaintingFinished) {
+          var handler = this.attr.customHandlers.outlineShapePaintingFinished;
+
+          // custom handler lives once only
+          delete this.attr.customHandlers["outlineShapePaintingFinished"];
+
+          handler.call(this, data);
+        } else {
+          this.initBrushPainting(data);
+        }
+      }.bind(this));
     };
 
     this.cancelCurrentPainting = function(){
@@ -66,13 +85,19 @@ define(function(require){
 
     this.initOutlineShapePainting = function(e, data){
       this.cancelCurrentPainting();
+
+      if (data.customHandler){
+        var key = Object.keys(data.customHandler)[0];
+        this.attr.customHandlers[key] = data.customHandler[key];
+      }
+
       this.prepareOutlineShapePainting(this.attr.canvas, {
         registerEventListeners: this.registerEventListeners,
         unregisterExistingListeners: this.unregisterExistingListeners
-      });
+      }, data.outlineShape || null);
     };
 
-    this.initBrushPainting = function(e, data){
+    this.initBrushPainting = function(data){
       this.prepareBrushPainting(this.attr.canvas, {
           registerEventListeners: this.registerEventListeners,
           unregisterEventListerns: this.unregisterEventListerns

@@ -14,11 +14,13 @@ define(function(require){
     });
 
     this.attachEventListeners = function(){
-      this.on("addingImageInitted", this.addImage);
+      this.on("addingImageInitted", function(e, data){
+        this.addImages(data.images);
+      });
     };
 
-    this.addImage = function(e, data){
-
+    this.addImages = function(images){
+      console.log(images);
     };
 
   }

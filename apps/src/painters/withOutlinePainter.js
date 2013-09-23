@@ -51,7 +51,12 @@ define(function(require){
     /**
      * Start preparation of drawing outline shape.
      */
-    this.prepareOutlineShapePainting = function(canvas, canvasEventsService){
+    this.prepareOutlineShapePainting = function(canvas, canvasEventsService, outlineShape){
+
+      if (outlineShape) {
+        this.attr.activeOutlineShape = outlineShape;
+      }
+
       if (this.attr.activeOutlineShape){
         // register out outline shape painter to the canvas events
         // so that it can draw itself according to user's mouse interaction

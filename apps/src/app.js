@@ -16,6 +16,8 @@ define(function(require){
       brushManager = require("brushServices/brushManager"),
       outlineManager = require("outlineServices/outlineManager"),
 
+      imageCanvas = require("images/imageCanvas"),
+
       brushList = require("dataServices/brushList"),
       paintWidgetList = require("dataServices/paintWidgetList"),
       canvasManipulationList = require("dataServices/canvasManipulationList");
@@ -37,9 +39,10 @@ define(function(require){
     brushSizeWidget.attachTo("#sizerange");
     colorWidget.attachTo("#colorpicker");
 
-
     brushManager.attachTo(document);
     outlineManager.attachTo(document);
+
+    imageCanvas.attachTo(document);
 
     /**
      * The lukis component will publish the canvas instance

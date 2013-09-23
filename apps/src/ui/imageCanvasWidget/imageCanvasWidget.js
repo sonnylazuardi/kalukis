@@ -8,7 +8,8 @@ define(function(require){
   function imageCanvasWidget() {
 
     this.defaultAttrs({
-      imageCanvasWidgetEl: "#imagecanvaswidget"
+      imageCanvasWidgetEl: "#imagecanvaswidget",
+      hiddenImageInputEl: "#imageinput"
     });
 
     this.after("initialize", function(){
@@ -22,12 +23,22 @@ define(function(require){
 
     this.attachEventListeners = function(){
       this.on("click", {
-        imageCanvasWidgetEl: this.requestImageAddition
+        imageCanvasWidgetEl: this.requestImageAddition,
+      });
+
+      this.on("change", {
+        hiddenImageInputEl: this.requestImage
       });
     };
 
     this.requestImageAddition = function(){
-      this.trigger(document, "imageWidgetClicked");
+      this.select("hiddenImageInputEl").click();
+    };
+
+    this.requestImage = function(e){
+      this.trigger(document, "imageCanvasClicked", {
+        files: e.target.files
+      });
     };
 
   }
