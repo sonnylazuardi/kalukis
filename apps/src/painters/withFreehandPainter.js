@@ -37,6 +37,12 @@ define(function(require){
       this.attr.mixinCanvas.freeDrawingBrush.width = this.attr.brushWidth;
     };
 
+    this.stopFreehandPainting = function(){
+      if (this.attr.mixinCanvas) {
+        this.attr.mixinCanvas.isDrawingMode = false;  
+      }
+    };
+
     this.setBrush = function(brush){
       if (this.attr.mixinCanvas && this.attr.mixinCanvas.isDrawingMode) {
         this.attr.mixinCanvas.freeDrawingBrush = brush.getBrush();

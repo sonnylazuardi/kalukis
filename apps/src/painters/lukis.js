@@ -54,11 +54,18 @@ define(function(require){
       this.on("outlineShapePaintingFinished", this.initBrushPainting);
     };
 
+    this.cancelCurrentPainting = function(){
+      this.unregisterExistingListeners(this.attr.canvas);
+      this.stopFreehandPainting();
+    };
+
     this.initFreehandPainting = function(e, data){
+      this.cancelCurrentPainting();
       this.startFreehandPainting(this.attr.canvas, this.attr.activeBrush.brush);
     };
 
     this.initOutlineShapePainting = function(e, data){
+      this.cancelCurrentPainting();
       this.trigger("outlineShapePaintingInitted", {
         canvas: this.attr.canvas,
         canvasEventsService: {
