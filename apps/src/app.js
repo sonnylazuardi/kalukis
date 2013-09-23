@@ -6,6 +6,7 @@ define(function(require){
   var lukis = require("painters/lukis"),
 
       paintWidgets = require("ui/paintWidget/paintWidgets"),
+      canvasManipulationWidget = require("ui/canvasManipulationWidget/canvasManipulationWidget"),
       brushListWidget = require("ui/brushListWidget/brushListWidget"),
       brushSizeWidget = require("ui/brushSizeWidget/brushSizeWidget"),
       freehandWidget = require("ui/freehandWidget/freehandWidget"),
@@ -15,7 +16,8 @@ define(function(require){
       outlineManager = require("outlineServices/outlineManager"),
 
       brushList = require("dataServices/brushList"),
-      paintWidgetList = require("dataServices/paintWidgetList");
+      paintWidgetList = require("dataServices/paintWidgetList"),
+      canvasManipulationList = require("dataServices/canvasManipulationList");
 
   function Application(){}
 
@@ -28,6 +30,7 @@ define(function(require){
      */
     freehandWidget.attachTo(".left-navigation");
     paintWidgets.attachTo(".left-navigation");
+    canvasManipulationWidget.attachTo(".left-navigation");
     brushListWidget.attachTo("#brushescombo");
     brushSizeWidget.attachTo("#sizerange");
     colorWidget.attachTo("#colorpicker");
@@ -51,6 +54,7 @@ define(function(require){
      */
     brushList.attachTo(document);
     paintWidgetList.attachTo(document);
+    canvasManipulationList.attachTo(document);
   };
 
   return Application;

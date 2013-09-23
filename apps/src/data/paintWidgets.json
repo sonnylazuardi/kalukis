@@ -22,17 +22,5 @@
     "title": "Load Image",
     "icon": "icon-picture",
     "position": 3
-  },
-  {
-    "id": "remove",
-    "title": "Remove Objects",
-    "icon": "icon-remove",
-    "position": 4
-  },
-  {
-    "id": "clear",
-    "title": "Clear Canvas",
-    "icon": "icon-trash",
-    "position": 5
   }
 ]
