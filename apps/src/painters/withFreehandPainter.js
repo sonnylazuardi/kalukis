@@ -23,7 +23,7 @@ define(function(require){
       this.on("brushPropertyUpdated", function(e, data){
         if (data.key === "width") {
           this.setBrushWidth(data.newValue);  
-        } else if (data.key === "color") {
+        } else if (data.key === "fillColor" || data.key === "strokeColor") {
           this.setBrushColor(data.newValue);
         }
       }.bind(this));

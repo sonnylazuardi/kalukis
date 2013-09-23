@@ -9,7 +9,8 @@ define(function(require){
   function brushSizeWidget(){
 
     this.defaultAttrs({
-      width: 10
+      width: 10,
+      brushSizeWidgetEl: "#brushsize-widget"
     });
 
     this.after("initialize", function(){
@@ -18,7 +19,9 @@ define(function(require){
     });
 
     this.attachEventListeners = function(){
-      this.on("change", this.brushSizeChanged);
+      this.on("change", {
+        brushSizeWidgetEl: this.brushSizeChanged
+      });
     };
 
     this.renderWidget = function(data){
@@ -33,6 +36,7 @@ define(function(require){
 
     this.brushSizeChanged = function(e, data){
       var size = e.target.value;
+      console.log("here");
       this.trigger(document, "brushPropertyChanged", {
         width: parseInt(size, 10)
       });
