@@ -22,11 +22,12 @@ define(function(require){
 
     this.attachEventListeners = function(){
       this.on("click", {
-        imageCanvasWidgetEl: this.addImageToCanvas
+        imageCanvasWidgetEl: this.requestImageAddition
       });
     };
 
-    this.addImageToCanvas = function(){
+    this.requestImageAddition = function(){
+      this.trigger(document, "imageWidgetClicked");
     };
 
   }
