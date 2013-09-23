@@ -36,7 +36,6 @@ define(function(require){
 
     this.brushSizeChanged = function(e, data){
       var size = e.target.value;
-      console.log("here");
       this.trigger(document, "brushPropertyChanged", {
         width: parseInt(size, 10)
       });
