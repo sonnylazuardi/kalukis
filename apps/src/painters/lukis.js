@@ -73,14 +73,12 @@ define(function(require){
     };
 
     this.initBrushPainting = function(e, data){
-      this.trigger("brushPaintingInitted", {
-        canvas: this.attr.canvas,
-        canvasEventsService: {
+      this.prepareBrushPainting(this.attr.canvas, {
           registerEventListeners: this.registerEventListeners,
           unregisterEventListerns: this.unregisterEventListerns
         },
-        points: data.outlineShape.getOutlinePoints(this.attr.activeBrush.brush.get('width'))
-      });
+        data.outlineShape.getOutlinePoints(this.attr.activeBrush.brush.get('width'))
+      );
     };
 
   }

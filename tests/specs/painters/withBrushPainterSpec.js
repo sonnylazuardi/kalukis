@@ -77,7 +77,7 @@ define(function(require){
       it("Should have called finalizePainting after startBrushPainting has been executed", function(){
         var spiedEvent = spyOnEvent('.component-root', "brushPaintingFinished");
 
-        this.component.startBrushPainting({});
+        this.component.startBrushPainting(canvas,[]);
         expect(spiedEvent).toHaveBeenTriggeredOn('.component-root');
       });
 

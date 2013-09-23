@@ -17,7 +17,9 @@ define(function(require){
     });
 
     this.after("initialize", function(){
-      this.on("brushPaintingInitted", this.prepareBrushPainting);
+      this.on("brushPaintingInitted", function(e, data){
+        this.prepareBrushPainting(data.canvas, data.canvasEventsService, data.points);
+      }.bind(this));
       this.on("brushPropertyUpdated", this.updateBrushProperty);
       this.on("activeBrushUpdated", this.setActiveBrush);
 
@@ -57,10 +59,10 @@ define(function(require){
      * @param  {String} e    Event
      * @param  {Object} data Event Data
      */
-    this.prepareBrushPainting = function(e, data){
+    this.prepareBrushPainting = function(canvas, canvasEventsService, points){
       // only proceed if `data.points` are available
-      if (data.points && this.attr.activeBrush) {
-        this.startBrushPainting(data);
+      if (this.attr.activeBrush) {
+        this.startBrushPainting(canvas, points);
       }
     };
 
@@ -70,11 +72,9 @@ define(function(require){
      * requested object
      * @param {Object} config The painting configuration
      */
-    this.startBrushPainting = function(config){
-      if (config.points && config.canvas) {
-        this.attr.activeBrush.brush.drawAtPoints(config.points);
-        config.canvas.renderAll();
-      }
+    this.startBrushPainting = function(canvas, points){
+      this.attr.activeBrush.brush.drawAtPoints(points);
+      canvas.renderAll();
     };
 
     /**
