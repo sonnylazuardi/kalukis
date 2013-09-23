@@ -49,7 +49,12 @@ define(function(require){
     };
 
     /**
-     * Start preparation of drawing outline shape.
+     * Start the preparation of painting an outline shape. Note, if `outlineShape`
+     * is provided, than that `outlineShape` will be drawn.
+     * 
+     * @param  {Object} canvas              Canvas instance
+     * @param  {Object} canvasEventsService Canvas Events Service
+     * @param  {Object} outlineShape        The custom outlineShape
      */
     this.prepareOutlineShapePainting = function(canvas, canvasEventsService, outlineShape){
 
