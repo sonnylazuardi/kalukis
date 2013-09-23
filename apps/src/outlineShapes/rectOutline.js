@@ -12,7 +12,7 @@ define(function(require){
     this.outline = {};
 
     cfg = cfg || {};
-    cfg.fillColor = cfg.fillColor || "#000000";
+    cfg.strokeColor = cfg.strokeColor || "#000000";
     this.cfg = cfg;
   }
 
@@ -124,7 +124,7 @@ define(function(require){
     ctx.save();
 
     ctx.lineWidth = 1;
-    ctx.strokeStyle = this.cfg.fillColor;
+    ctx.strokeStyle = this.cfg.strokeColor;
     ctx.strokeRect(this.outline.x, this.outline.y, this.outline.width, this.outline.height);
 
     ctx.restore();
