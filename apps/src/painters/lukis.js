@@ -76,8 +76,6 @@ define(function(require){
     };
 
     this.initBrushPainting = function(e, data){
-      // TODO bagaimana caranya agar kita dapat memperoleh points
-
       this.trigger("brushPaintingInitted", {
         canvas: this.attr.canvas,
         canvasEventsService: {

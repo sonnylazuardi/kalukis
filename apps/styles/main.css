@@ -3,13 +3,17 @@
 @import url("./../../vendor/font-awesome/css/font-awesome.min.css");
 @import url("./../../vendor/spectrum/spectrum.css");
 
-.right-side-nav {
+.right-navigation {
   display: inline-block;
   font-family: Helvetica,"Times New Roman",Serif;
 }
 
-.left-nav{
+.left-navigation{
   text-align: center;
+}
+
+.left-navigation ul{
+  margin-bottom: 5px !important;
 }
 
 label {

@@ -26,8 +26,8 @@ define(function(require){
      * placed in this upper block, before the `lukis`
      * component is instantiated
      */
-    freehandWidget.attachTo("#left-navigation");
-    paintWidgets.attachTo("#left-navigation");
+    freehandWidget.attachTo(".left-navigation");
+    paintWidgets.attachTo(".left-navigation");
     brushListWidget.attachTo("#brushescombo");
     brushSizeWidget.attachTo("#sizerange");
     colorWidget.attachTo("#colorpicker");
