@@ -16,11 +16,5 @@
     "title": "Circle Brush",
     "icon": "icon-circle-blank",
     "position": 2
-  },
-  {
-    "id": "image",
-    "title": "Load Image",
-    "icon": "icon-picture",
-    "position": 3
   }
 ]
