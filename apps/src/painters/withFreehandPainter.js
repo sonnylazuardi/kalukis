@@ -23,6 +23,8 @@ define(function(require){
       this.on("brushPropertyUpdated", function(e, data){
         if (data.key === "width") {
           this.setBrushWidth(data.newValue);  
+        } else if (data.key === "color") {
+          this.setBrushColor(data.newValue);
         }
       }.bind(this));
     });
@@ -46,6 +48,14 @@ define(function(require){
 
       if (this.attr.mixinCanvas && this.attr.mixinCanvas.isDrawingMode) {
         this.attr.mixinCanvas.freeDrawingBrush.width = this.attr.brushWidth;
+      }
+    };
+
+    this.setBrushColor = function(color){
+      this.attr.brushColor = color;
+
+      if (this.attr.mixinCanvas && this.attr.mixinCanvas.isDrawingMode) {
+        this.attr.mixinCanvas.freeDrawingBrush.color = this.attr.brushColor;
       }
     };
 

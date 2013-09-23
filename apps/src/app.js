@@ -9,6 +9,7 @@ define(function(require){
       brushListWidget = require("ui/brushListWidget/brushListWidget"),
       brushSizeWidget = require("ui/brushSizeWidget/brushSizeWidget"),
       freehandWidget = require("ui/freehandWidget/freehandWidget"),
+      colorWidget = require("ui/colorWidget/colorWidget"),
 
       brushManager = require("brushServices/brushManager"),
       outlineManager = require("outlineServices/outlineManager"),
@@ -29,6 +30,7 @@ define(function(require){
     paintWidgets.attachTo("#left-navigation");
     brushListWidget.attachTo("#brushescombo");
     brushSizeWidget.attachTo("#sizerange");
+    colorWidget.attachTo("#colorpicker");
 
 
     brushManager.attachTo(document);
