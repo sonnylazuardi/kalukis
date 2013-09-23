@@ -66,12 +66,9 @@ define(function(require){
 
     this.initOutlineShapePainting = function(e, data){
       this.cancelCurrentPainting();
-      this.trigger("outlineShapePaintingInitted", {
-        canvas: this.attr.canvas,
-        canvasEventsService: {
-          registerEventListeners: this.registerEventListeners,
-          unregisterExistingListeners: this.unregisterExistingListeners
-        }
+      this.prepareOutlineShapePainting(this.attr.canvas, {
+        registerEventListeners: this.registerEventListeners,
+        unregisterExistingListeners: this.unregisterExistingListeners
       });
     };
 
