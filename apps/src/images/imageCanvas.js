@@ -24,10 +24,7 @@ define(function(require){
 
     };
 
-    // TODO I believe this sucks so much
-    this.addImages = function(canvas, images, cfg){
-      this.attr.canvas = canvas;
-
+    this.addImageToCanvas = function(canvas, image, cfg){
       var reader = new FileReader();
 
       reader.onload = function(e){
@@ -50,7 +47,15 @@ define(function(require){
         img.src = e.target.result;    
       };
 
-      reader.readAsDataURL(images[0]);
+      reader.readAsDataURL(image);
+    };
+
+    this.addImages = function(canvas, images, cfg){
+      this.attr.canvas = canvas;
+
+      for (var i = 0; i < images.length; i++) {
+        this.addImageToCanvas(canvas, images[i], cfg);
+      }
     };
   }
 
