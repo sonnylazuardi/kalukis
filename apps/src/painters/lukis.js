@@ -132,13 +132,17 @@ define(function(require){
      * Start painting the brush.
      *
      * The `data` contains:
-     * + customHandler  : a custom handler for any event that might be published by the brush painter (TODO)
+     * + customHandler  : a custom handler for any event that might be published by the brush painter
      * + outlineShapeId : the outline shape id
      * + outlineShape   : the outline shape instance
      * 
      * @param  {Object} data Data need to paint
      */
     this.initBrushPainting = function(data){
+      if (data.customHandler){
+        var key = Object.keys(data.customHandler)[0];
+        this.attr.customHandlers[key] = data.customHandler[key];
+      }
       // calls method from withBrushPainter
       this.prepareBrushPainting(this.attr.canvas, {
           registerEventListeners: this.registerEventListeners,
