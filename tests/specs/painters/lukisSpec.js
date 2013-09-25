@@ -19,6 +19,11 @@ define(function(require){
         expect(this.component.attr.customHandlers.hasOwnProperty("outlineShapePaintingFinished")).toBeFalsy();
       });
 
+      it("Should delete the handler when cancelCurrentPainting is called", function(){
+        this.component.cancelCurrentPainting();
+        expect(this.component.attr.customHandlers).not.toHaveOwnProperties("outlineShapePaintingFinished");
+      });
+
     });
 
   });

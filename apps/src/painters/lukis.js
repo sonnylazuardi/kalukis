@@ -89,6 +89,7 @@ define(function(require){
     this.cancelCurrentPainting = function(){
       this.unregisterExistingListeners(this.attr.canvas);
       this.stopFreehandPainting();
+      this.attr.customHandlers = {};
     };
 
     /**
@@ -106,6 +107,7 @@ define(function(require){
      *
      * The `data` contains:
      * + customHandler  : a custom handler for any event that might be published by the outline painter
+     * + activeOutlineShape: the outline shape to use
      * 
      * @param  {Object} data Data need to paint
      */
