@@ -1,5 +1,5 @@
 /**
- * This component has an authority in managing the steps needed
+ * I have the authority to manage the steps needed
  * to paint an object on top of the canvas
  */
 define(function(require){
@@ -46,6 +46,10 @@ define(function(require){
       this.attachEventListeners();
     });
 
+    /**
+     * Initialize the canvas instance. Once it's done, publish the canvas
+     * element and instance on canvasConstructod event
+     */
     this.constructCanvas = function(){
       this.attr.canvas = new fabric.Canvas(this.attr.canvasEl.replace(/(#|\.)/,''));
 
@@ -56,10 +60,16 @@ define(function(require){
     };
 
     this.attachEventListeners = function(){
-      this.on("freehandPaintingReady", this.initFreehandPainting);
-      this.on("outlineShapePaintingReady", this.initOutlineShapePainting);
+      this.on("freehandPaintingReady", function(e, data){
+        this.initFreehandPainting(data);
+      }.bind(this));
+
+      this.on("outlineShapePaintingReady", function(e, data){
+        this.initOutlineShapePainting(data);
+      }.bind(this));
 
       this.on("outlineShapePaintingFinished", function(e, data){
+        // allowing a custom handler
         if (this.attr.customHandlers.outlineShapePaintingFinished) {
           var handler = this.attr.customHandlers.outlineShapePaintingFinished;
 
@@ -73,17 +83,20 @@ define(function(require){
       }.bind(this));
     };
 
+    /**
+     * Cancel current painting
+     */
     this.cancelCurrentPainting = function(){
       this.unregisterExistingListeners(this.attr.canvas);
       this.stopFreehandPainting();
     };
 
-    this.initFreehandPainting = function(e, data){
+    this.initFreehandPainting = function(data){
       this.cancelCurrentPainting();
       this.startFreehandPainting(this.attr.canvas, this.attr.activeBrush.brush);
     };
 
-    this.initOutlineShapePainting = function(e, data){
+    this.initOutlineShapePainting = function(data){
       this.cancelCurrentPainting();
 
       // if a customHandler is provided, than we need to call this handler
