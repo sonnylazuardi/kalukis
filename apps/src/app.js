@@ -16,6 +16,8 @@ define(function(require){
       brushManager = require("brushServices/brushManager"),
       outlineManager = require("outlineServices/outlineManager"),
 
+      cleaningService = require("canvasServices/cleaner"),
+
       imageCanvas = require("images/imageCanvas"),
 
       brushList = require("dataServices/brushList"),
@@ -41,6 +43,8 @@ define(function(require){
 
     brushManager.attachTo(document);
     outlineManager.attachTo(document);
+
+    cleaningService.attachTo(document);
 
     imageCanvas.attachTo(document);
 
