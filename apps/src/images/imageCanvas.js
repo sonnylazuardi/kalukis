@@ -19,11 +19,12 @@ define(function(require){
 
     this.attachEventListeners = function(){
       this.on("addingImageInitted", function(e, data){
-        this.addImages(data.canvas, data.images, data.position);
+        this.addImages(data.canvas, data.images, data.cfg);
       });
 
     };
 
+    // TODO I believe this sucks so much
     this.addImages = function(canvas, images, cfg){
       this.attr.canvas = canvas;
 
@@ -34,12 +35,12 @@ define(function(require){
 
         img.onload = function(){
           var image = new fabric.Image(img);
-
+          console.log(cfg);
           image.set({
-            top: cfg.y,
-            left: cfg.x,
-            width: 300,
-            height: 300
+            top: cfg.y + cfg.height / 2,
+            left: cfg.x + cfg.width / 2,
+            width: cfg.width,
+            height: cfg.height
           });
 
           canvas.add(image).renderAll();

@@ -42,15 +42,18 @@ define(function(require){
         },
         customHandler: {
           outlineShapePaintingFinished: function(canvas, data){
-            var position = {
-              x: data.outlineShape.getOutline.x,
-              y: data.outlineShape.getOutline.y
-            };
-
+            var outline = data.outlineShape.getOutline(),
+                cfg = {
+                  x: outline.x,
+                  y: outline.y,
+                  width: outline.width,
+                  height: outline.height
+                };
+            
             this.trigger("addingImageInitted", {
               canvas: canvas,
               images: images,
-              position: position
+              cfg: cfg
             });
           }.bind(this)
         }
