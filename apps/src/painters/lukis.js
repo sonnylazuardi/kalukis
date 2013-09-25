@@ -91,11 +91,24 @@ define(function(require){
       this.stopFreehandPainting();
     };
 
+    /**
+     * Start freehand painting. This will cancel any active painting.
+     *
+     * @param  {Object} data Data needed to paint.
+     */
     this.initFreehandPainting = function(data){
       this.cancelCurrentPainting();
       this.startFreehandPainting(this.attr.canvas, this.attr.activeBrush.brush);
     };
 
+    /**
+     * Start painting outline.
+     *
+     * The `data` contains:
+     * + customHandler  : a custom handler for any event that might be published by the outline painter
+     * 
+     * @param  {Object} data Data need to paint
+     */
     this.initOutlineShapePainting = function(data){
       this.cancelCurrentPainting();
 
@@ -106,14 +119,25 @@ define(function(require){
         this.attr.customHandlers[key] = data.customHandler[key];
       }
 
+      // calls method from withOutlineShapePainter
       this.prepareOutlineShapePainting(this.attr.canvas, {
         registerEventListeners: this.registerEventListeners,
         unregisterExistingListeners: this.unregisterExistingListeners
-      }, data.outlineShape || null);
+      });
     };
 
-    // TODO should this provide a way for customHandler to be registered
+    /**
+     * Start painting the brush.
+     *
+     * The `data` contains:
+     * + customHandler  : a custom handler for any event that might be published by the brush painter (TODO)
+     * + outlineShapeId : the outline shape id
+     * + outlineShape   : the outline shape instance
+     * 
+     * @param  {Object} data Data need to paint
+     */
     this.initBrushPainting = function(data){
+      // calls method from withBrushPainter
       this.prepareBrushPainting(this.attr.canvas, {
           registerEventListeners: this.registerEventListeners,
           unregisterEventListerns: this.unregisterEventListerns
