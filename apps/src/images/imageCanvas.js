@@ -1,5 +1,5 @@
 /**
- * This module knows how to add an image to canvas
+ * I know how to add an image to canvas
  */
 define(function(require){
 
@@ -24,6 +24,12 @@ define(function(require){
 
     };
 
+    /**
+     * Add a particular image to canvas
+     * @param {Object} canvas The canvas
+     * @param {HTMLFile} image  The File representation of the image
+     * @param {Object} cfg    The configuration
+     */
     this.addImageToCanvas = function(canvas, image, cfg){
       var reader = new FileReader();
 
@@ -50,6 +56,12 @@ define(function(require){
       reader.readAsDataURL(image);
     };
 
+    /**
+     * Add the images to canvas
+     * @param {Object} canvas The canvas
+     * @param {HTMLFileList} images The images file list
+     * @param {Object} cfg    The configuration
+     */
     this.addImages = function(canvas, images, cfg){
       this.attr.canvas = canvas;
 
