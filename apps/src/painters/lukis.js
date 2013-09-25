@@ -66,7 +66,7 @@ define(function(require){
           // custom handler lives once only
           delete this.attr.customHandlers["outlineShapePaintingFinished"];
 
-          handler.call(this, data);
+          handler.call(this, this.attr.canvas, data);
         } else {
           this.initBrushPainting(data);
         }
@@ -86,6 +86,8 @@ define(function(require){
     this.initOutlineShapePainting = function(e, data){
       this.cancelCurrentPainting();
 
+      // if a customHandler is provided, than we need to call this handler
+      // later
       if (data.customHandler){
         var key = Object.keys(data.customHandler)[0];
         this.attr.customHandlers[key] = data.customHandler[key];
@@ -97,6 +99,7 @@ define(function(require){
       }, data.outlineShape || null);
     };
 
+    // TODO should this provide a way for customHandler to be registered
     this.initBrushPainting = function(data){
       this.prepareBrushPainting(this.attr.canvas, {
           registerEventListeners: this.registerEventListeners,

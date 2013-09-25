@@ -41,9 +41,16 @@ define(function(require){
           outlineShape: this.attr.mixinRectOutline
         },
         customHandler: {
-          outlineShapePaintingFinished: function(){
+          outlineShapePaintingFinished: function(canvas, data){
+            var position = {
+              x: data.outlineShape.getOutline.x,
+              y: data.outlineShape.getOutline.y
+            };
+
             this.trigger("addingImageInitted", {
-              images: images
+              canvas: canvas,
+              images: images,
+              position: position
             });
           }.bind(this)
         }
