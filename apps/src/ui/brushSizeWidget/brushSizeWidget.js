@@ -1,3 +1,7 @@
+/**
+ * I'am responsible to handle user event on changing the
+ * brush size on the brushSizeWidget
+ */
 define(function(require){
 
   var defineComponent = require("flight/lib/component"),

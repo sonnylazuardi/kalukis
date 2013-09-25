@@ -1,5 +1,5 @@
 /**
- * This mixin knows how to manage the drawing of an outline
+ * I know how to manage the drawing of an outline
  * shape.
  */
 define(function(require){

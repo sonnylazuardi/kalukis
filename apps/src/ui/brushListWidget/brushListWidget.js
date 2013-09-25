@@ -1,5 +1,5 @@
 /**
- * This module is responsible for rendering the brushes list widget
+ * I'am responsible for rendering the brushes list widget
  */
 define(function(require){
   var defineComponent = require("flight/lib/component"),

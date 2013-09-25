@@ -1,6 +1,6 @@
 /**
- * This module manages the steps needed to add image to the canvas.
- * Adding the image itself is not handled by this module, as that
+ * I manage the steps needed to add image to the canvas.
+ * Adding the image itself is not handled by me, as that
  * task is delegated to other module.
  */
 define(function(require){
@@ -28,12 +28,19 @@ define(function(require){
       }.bind(this));
     };
 
+    /**
+     * Load the outlineShape
+     */
     this.loadOutlineShape = function(){
       require(["outlineShapes/rectOutline"], function(RectOutline){
         this.attr.mixinRectOutline = new RectOutline(this.attr.canvas, {});
       }.bind(this));
     };
 
+    /**
+     * Load the images for the canvas
+     * @param  {HTMLFileList} images The images
+     */
     this.loadImages = function(images){
       this.trigger("outlineShapePaintingReady", {
         outlineShape: {
