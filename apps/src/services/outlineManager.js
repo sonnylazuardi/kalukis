@@ -63,7 +63,10 @@ define(function(require){
         this.setCanvas(data.id, data.canvas);
       }.bind(this));
 
-      this.on(document, "paintWidgetClicked", this.setActiveOutlineShape);
+      this.on(document, "paintWidgetClicked", function(e, data){
+        this.setActiveOutlineShape(data.paintWidgetId);
+      }.bind(this));
+      
       this.on("brushPropertyUpdated", this.updateOutlineProperties);
     };
 
@@ -83,36 +86,34 @@ define(function(require){
 
     /**
      * Set the active outline shape
-     * @param {String} e    Event
-     * @param {Object} data Event Data
+     * 
+     * @param {String} id    OutlineShape ID
      */
-    this.setActiveOutlineShape = function(e, data){
-      if (data.paintWidgetId && this.attr.canvas) {
+    this.setActiveOutlineShape = function(id){
+      var oldActiveOutlineShape = this.attr.activeOutlineShape,
+          outlineShape, OutlineShapeProto;
+      
+      id += "Outline";
 
-        var oldActiveOutlineShape = this.attr.activeOutlineShape,
-            outlineShape, OutlineShapeProto,
-            id = data.paintWidgetId+"Outline";
+      if (this.attr.outlineShapes.hasOwnProperty(id)) {
+        outlineShape = this.attr.outlineShapes[id];
+        this.setOutlineShapeProperties(outlineShape);
 
-        if (this.attr.outlineShapes.hasOwnProperty(id)) {
-          outlineShape = this.attr.outlineShapes[id];
-          this.setOutlineShapeProperties(outlineShape);
+        this.publishUpdatedOutlineShape(oldActiveOutlineShape, {
+          id: id,
+          outlineShape: outlineShape
+        });
+      } else {
+        require(["outlineShapes/" + id], function(OutlineShapeProto){
+          outlineShape = new OutlineShapeProto(this.attr.canvas, this.attr.prop);
+          // remember me
+          this.attr.outlineShapes[id] = outlineShape;
 
           this.publishUpdatedOutlineShape(oldActiveOutlineShape, {
             id: id,
             outlineShape: outlineShape
           });
-        } else {
-          require(["outlineShapes/" + id], function(OutlineShapeProto){
-            outlineShape = new OutlineShapeProto(this.attr.canvas, this.attr.prop);
-            // remember me
-            this.attr.outlineShapes[id] = outlineShape;
-
-            this.publishUpdatedOutlineShape(oldActiveOutlineShape, {
-              id: id,
-              outlineShape: outlineShape
-            });
-          }.bind(this));
-        }
+        }.bind(this));
       }
     };
 
