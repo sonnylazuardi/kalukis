@@ -1,7 +1,6 @@
 /**
- * This component has an authority in managing brushes that have
- * been initted. It also has responsibility in interacting with
- * events related to brushes properties.
+ * I know how to manage the lifecycle of a brush. I also provide these
+ * brushes when someone request them.
  */
 define(function(require){
 
@@ -81,10 +80,19 @@ define(function(require){
         this.updateBrushProperty(key, value);
       }.bind(this));
 
-      this.on("brushCreated", this.updateCreatedBrushList);
-      this.on("brushesLoaded", this.onDefaultBrushesLoaded);
+      this.on("brushesLoaded", function(e, data){
+        if (data.brushes) {
+          var defaultBrush = data.brushes[0];
 
-      this.on("activeBrushChanged", this.setActiveBrush);
+          this.setActiveBrush(e, {
+            activeBrushId: defaultBrush.id
+          });
+        }
+      }.bind(this));
+
+      this.on("activeBrushChanged", function(e, data){
+        this.setActiveBrush(data.activeBrushId);
+      }.bind(this));
     };
 
     this.requestCanvas = function(){
@@ -118,19 +126,8 @@ define(function(require){
       this.trigger("brushPropertyUpdated", {
         key: key,
         oldValue: oldValue,
-        newValue: value
+        newValue: this.attr.prop[key]
       });
-    };
-
-    /**
-     * Update initted brushes
-     * @param  {String} e    Event
-     * @param  {Object} data Event Data
-     */
-    this.updateCreatedBrushList = function(e, data){
-      if (data.brush && data.brushId) {
-        this.attr.brushes[data.brushId] = data.brush;
-      }
     };
 
     /**
@@ -142,51 +139,39 @@ define(function(require){
       }, this);
     };
 
-    this.onDefaultBrushesLoaded = function(e, data){
-      if (data.brushes) {
-        var defaultBrush = data.brushes[0];
-
-        this.setActiveBrush(e, {
-          activeBrushId: defaultBrush.id
-        });
-      }
-    };
-
     /**
      * Set the current active brush. We will construct
      * the brush if it has not been constructed before.
-     * @param {String} e    Event
-     * @param {Object} data Event Data
+     * 
+     * @param {String} id    Brush Id
      */
-    this.setActiveBrush = function(e, data){
-      if (data.activeBrushId && this.attr.canvas){
-        var oldActiveBrush = this.attr.activeBrush,
-            brush, BrushProto;
-        
-        if (this.attr.brushes.hasOwnProperty(data.activeBrushId)) {
-          brush = this.attr.brushes[data.activeBrushId];
-          // update the brush properties
-          this.setBrushProperties(brush);
+    this.setActiveBrush = function(id){
+      var oldActiveBrush = this.attr.activeBrush,
+          brush, BrushProto;
+      
+      if (this.attr.brushes.hasOwnProperty(id)) {
+        brush = this.attr.brushes[id];
+        // update the brush properties
+        this.setBrushProperties(brush);
+        this.attr.activeBrush = {
+          id: id,
+          brush: brush
+        };
+
+        this.processSetActiveBrush(oldActiveBrush, this.attr.activeBrush);
+      } else {
+        // TODO what if the brush requested cannot be found?
+        require(["brushes/" + id], function(BrushProto){
+          brush = new BrushProto(this.attr.canvas, this.attr.prop);
+          // remember this brush
+          this.attr.brushes[id] = brush;
           this.attr.activeBrush = {
-            id: data.activeBrushId,
+            id: id,
             brush: brush
           };
 
           this.processSetActiveBrush(oldActiveBrush, this.attr.activeBrush);
-        } else {
-          // TODO what if the brush requested cannot be found?
-          require(["brushes/" + data.activeBrushId], function(BrushProto){
-            brush = new BrushProto(this.attr.canvas, this.attr.prop);
-            // remember this brush
-            this.attr.brushes[data.activeBrushId] = brush;
-            this.attr.activeBrush = {
-              id: data.activeBrushId,
-              brush: brush
-            };
-
-            this.processSetActiveBrush(oldActiveBrush, this.attr.activeBrush);
-          }.bind(this));
-        }
+        }.bind(this));
       }
     };
 
