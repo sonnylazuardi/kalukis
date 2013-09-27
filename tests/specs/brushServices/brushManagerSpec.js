@@ -3,7 +3,7 @@ define(function(require){
   CircleBrush = require("brushes/circle"),
   canvas = new fabric.Canvas();
 
-  describeComponent("brushServices/brushManager", function(){
+  describeComponent("services/brushManager", function(){
 
     describe("Listening to events", function(){
 

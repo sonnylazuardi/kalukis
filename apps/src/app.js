@@ -14,7 +14,7 @@ define(function(require){
       freehandWidget = require("ui/freehandWidget/freehandWidget"),
       colorWidget = require("ui/colorWidget/colorWidget"),
 
-      brushManager = require("brushServices/brushManager"),
+      brushManager = require("services/brushManager"),
       outlineManager = require("services/outlineManager"),
 
       cleaningService = require("canvasServices/cleaner"),
