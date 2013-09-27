@@ -28,13 +28,15 @@ module.exports = function(config) {
       {pattern: 'tests/lib/jasmine/matchers/*.js', included: true},
 
       'tests/test-main.js',
+
       {pattern: 'vendor/flight/**/*.js', included: false},
       {pattern: 'vendor/mustache/**/*.js', included: false},
       {pattern: 'vendor/requirejs-text/**/*.js', included: false},
       {pattern: 'apps/src/**/*.js', included: false},
       {pattern: 'apps/src/**/*.json', included: false},
       {pattern: 'apps/src/ui/**/*.html', included: false},
-      {pattern: 'tests/**/*.js', included: false}
+      {pattern: 'tests/**/*.js', included: false},
+      {pattern: 'tests/fixtures/**/*.html', included: false}
     ],
 
 
