@@ -52,7 +52,24 @@ define(function(require){
 
     describe("Active OutlineShape Management", function(){
 
-      xit("Should have set outlineShape properties before publishing outlineShapeUpdated is triggered", function(){
+      beforeEach(function(){
+        this.component.attr.canvas = new fabric.Canvas();
+        this.component.attr.outlineShapes = {};
+      });
+
+      it("Should set the new outline shape when paintWidgetClicked triggered", function(){
+
+        spyOn(this.component, "setActiveOutlineShape");
+
+        $(".component-root").trigger("paintWidgetClicked", {
+          paintWidgetId: "rect"
+        });
+
+        expect(this.component.setActiveOutlineShape).toHaveBeenCalledWith("rect");
+      });
+
+      xit("Should have set outlineShape properties before publishing outlineShapeUpdated", function(){
+
         this.component.attr.activeOutlineShape = {
           id: "rectOutline",
           outlineShape: new RectOutline(this.component.attr.canvas, {})
@@ -60,29 +77,17 @@ define(function(require){
         this.component.attr.prop.width = 25;
         this.component.attr.prop.fillColor = "red";
 
-        var executed = false,
-            eventData;
+        var spiedEvent = spyOnEvent(".component-root", "activeOutlineShapeUpdated");
 
-        runs(function(){
-          $(document).on("activeOutlineShapeUpdated", function(e, data){
-            executed = true;
-            eventData = data;
-          });
-
-          $(document).trigger('paintWidgetClicked', {
-            paintWidgetId: "rect"
-          });
+        $('.component-root').trigger("paintWidgetClicked", {
+          paintWidgetId: "rect"
         });
 
-        waitsFor(function(){
-          return executed;
-        }, "The event listener has been executed", 1000);
-
-        runs(function(){
-          var outlineShape = eventData.newActiveOutlineShape.outlineShape;
-          expect(outlineShape.get("width")).toEqual(25);
-          expect(outlineShape.get("fillColor")).toEqual("red");
-        });
+        expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
+        
+        // var outlineShape = spiedEvent.mostRecentCall.data.newActiveOutlineShape.outlineShape;
+        // expect(outlineShape.get("width")).toEqual(25);
+        // expect(outlineShape.get("fillColor")).toEqual("red");
       });
     });
 

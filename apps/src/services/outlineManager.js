@@ -63,10 +63,10 @@ define(function(require){
         this.setCanvas(data.id, data.canvas);
       }.bind(this));
 
-      this.on(document, "paintWidgetClicked", function(e, data){
+      this.on("paintWidgetClicked", function(e, data){
         this.setActiveOutlineShape(data.paintWidgetId);
       }.bind(this));
-      
+
       this.on("brushPropertyUpdated", this.updateOutlineProperties);
     };
 
