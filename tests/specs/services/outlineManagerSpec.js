@@ -1,14 +1,47 @@
 define(function(require){
 
   var fabric = require("fabric"),
-      canvas = new fabric.Canvas(),
       RectOutline = require("outlineShapes/rectOutline");
 
   describeComponent("services/outlineManager", function(){
 
     beforeEach(function(){
       setupComponent();
-      this.component.attr.canvas = canvas;
+    });
+
+    describe("Constructing the component", function(){
+
+      it("Should publish request for canvas", function(){
+        var spiedEvent = spyOnEvent('.component-root', "canvasRequested");
+
+        this.component.initialize();
+        expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
+        
+      });
+
+      it("Should setup the canvas", function(){
+        setupComponent();
+        $('.component-root').trigger("canvasRequestResponded", {
+          id: "lukis",
+          canvas: "canvas"
+        });
+
+        expect(this.component.attr.canvasId).toEqual("lukis");
+        expect(this.component.attr.canvas).toEqual("canvas");
+      });
+
+    });
+
+    describe("OutlineShape cache", function(){
+
+    });
+
+    describe("Active OutlineShape Management", function(){
+
+    });
+
+    describe("Managing outlineShape properties", function(){
+
     });
 
     describe("Event Listener", function(){

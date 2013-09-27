@@ -13,16 +13,16 @@ define(function(require){
     
     this.defaultAttrs({
       /**
+       * The canvas element ID
+       * @type {String}
+       */
+      canvasId: undefined,
+
+      /**
        * Canvas instance
        * @type {Object}
        */
       canvas: undefined,
-
-      /**
-       * Canvas element
-       * @type {String}
-       */
-      canvasEl: "",
 
       /**
        * The outline shapes that have been constructed
@@ -51,6 +51,7 @@ define(function(require){
 
     this.after("initialize", function(){
       this.attachEventListener();
+      this.requestCanvas();
     });
 
     /**
@@ -58,10 +59,16 @@ define(function(require){
      * @return {[type]} [description]
      */
     this.attachEventListener = function(){
-      this.on("canvasConstructed", this.setCanvas);
+      this.on("canvasRequestResponded", function(e, data){
+        this.setCanvas(data.id, data.canvas);
+      }.bind(this));
 
       this.on(document, "paintWidgetClicked", this.setActiveOutlineShape);
       this.on("brushPropertyUpdated", this.updateOutlineProperties);
+    };
+
+    this.requestCanvas = function(){
+      this.trigger("canvasRequested");
     };
 
     /**
@@ -69,9 +76,9 @@ define(function(require){
      * @param {String} e    Event
      * @param {Object} data EVent Data
      */
-    this.setCanvas = function(e, data){
-      this.attr.canvas = data.canvas;
-      this.attr.canvasEl = data.canvasEl;
+    this.setCanvas = function(id, canvas){
+      this.attr.canvasId = id;
+      this.attr.canvas = canvas;
     };
 
     /**
