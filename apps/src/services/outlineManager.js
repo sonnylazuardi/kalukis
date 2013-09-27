@@ -30,12 +30,6 @@ define(function(require){
       outlineShapes: {},
 
       /**
-       * The current active outline shape
-       * @type {Object}
-       */
-      activeOutlineShape: undefined,
-
-      /**
        * The properties of the outline shape
        * @type {Object}
        */
@@ -62,10 +56,8 @@ define(function(require){
         this.setCanvas(data.id, data.canvas);
       }.bind(this));
 
-      // TODO this shouldn't be here. It doesnt have anything
-      // todo with this module's responsibility
-      this.on("paintWidgetClicked", function(e, data){
-        this.setActiveOutlineShape(data.paintWidgetId);
+      this.on("outlineShapeRequested", function(e, data){
+
       }.bind(this));
 
       this.on("brushPropertyUpdated", this.updateOutlineProperties);
@@ -85,46 +77,28 @@ define(function(require){
       this.attr.canvas = canvas;
     };
 
-    /**
-     * Set the active outline shape
-     * 
-     * @param {String} id    OutlineShape ID
-     */
-    this.setActiveOutlineShape = function(id){
-
-      var oldActiveOutlineShape = this.attr.activeOutlineShape,
-          outlineShape, OutlineShapeProto;
-      
+    this.requestOutlineShape = function(id) {
       id += "Outline";
 
       if (this.attr.outlineShapes.hasOwnProperty(id)) {
-        outlineShape = this.attr.outlineShapes[id];
+        var outlineShape = this.attr.outlineShapes[id];
         this.setOutlineShapeProperties(outlineShape);
 
-        this.publishUpdatedOutlineShape(oldActiveOutlineShape, {
-          id: id,
-          outlineShape: outlineShape
-        });
+        this.publishOutlineShape(outlineShape);
       } else {
         require(["outlineShapes/" + id], function(OutlineShapeProto){
-          outlineShape = new OutlineShapeProto(this.attr.canvas, this.attr.prop);
+          var outlineShape = new OutlineShapeProto(this.attr.canvas, this.attr.prop);
           // remember me
           this.attr.outlineShapes[id] = outlineShape;
 
-          this.publishUpdatedOutlineShape(oldActiveOutlineShape, {
-            id: id,
-            outlineShape: outlineShape
-          });
+          this.publishOutlineShape(outlineShape);
         }.bind(this));
       }
     };
 
-    this.publishUpdatedOutlineShape = function(oldOutlineShape, newOutlineShape){
-      this.attr.activeOutlineShape = newOutlineShape;
-
-      this.trigger("activeOutlineShapeUpdated", {
-        oldActiveOutlineShape: oldOutlineShape,
-        newActiveOutlineShape: newOutlineShape
+    this.publishOutlineShape = function(outlineShape){
+      this.trigger("outlineShapeRequestResponded", {
+        outlineShape: outlineShape
       });
     };
 

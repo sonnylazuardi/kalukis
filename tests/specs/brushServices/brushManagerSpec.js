@@ -89,6 +89,10 @@ define(function(require){
 
     describe("Brush Event Request", function(){
 
+      beforeEach(function(){
+        this.component.attr.canvas = new fabric.Canvas();
+      });
+
       it("Should publish a response when a brush is requested", function(){
 
         var spiedEvent = spyOnEvent(".component-root", "brushRequestResponded");
