@@ -84,9 +84,7 @@ define(function(require){
         if (data.brushes) {
           var defaultBrush = data.brushes[0];
 
-          this.setActiveBrush(e, {
-            activeBrushId: defaultBrush.id
-          });
+          this.setActiveBrush(defaultBrush.id);
         }
       }.bind(this));
 

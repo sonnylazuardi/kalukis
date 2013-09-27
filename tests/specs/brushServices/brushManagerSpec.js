@@ -76,13 +76,13 @@ define(function(require){
       });
 
       it("Should set the active brush to first brushlist on the brushLoaded event data", function(){
-        $('.component-root').on("activeBrushUpdated", function(){
-          expect(this.component.attr.activeBrush.id).toEqual("pencil");
-        }.bind(this));
+        spyOn(this.component, "setActiveBrush");
 
-        $(document).trigger("brushesLoaded", {
+        $('.component-root').trigger("brushesLoaded", {
           brushes: [{id: "pencil", name: "Pencil"}]
         });
+
+        expect(this.component.setActiveBrush).toHaveBeenCalledWith("pencil");
       });
 
     });
