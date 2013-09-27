@@ -4,7 +4,7 @@ define(function(require){
       canvas = new fabric.Canvas(),
       RectOutline = require("outlineShapes/rectOutline");
 
-  describeComponent("outlineServices/outlineManager", function(){
+  describeComponent("services/outlineManager", function(){
 
     beforeEach(function(){
       setupComponent();

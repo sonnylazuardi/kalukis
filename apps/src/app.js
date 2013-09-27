@@ -3,7 +3,8 @@
  */
 define(function(require){
 
-  var lukis = require("painters/lukis"),
+  var canvas = require("services/canvas"),
+      lukis = require("painters/lukis"),
 
       paintWidgets = require("ui/paintWidget/paintWidgets"),
       canvasManipulationWidget = require("ui/canvasManipulationWidget/canvasManipulationWidget"),
@@ -14,7 +15,7 @@ define(function(require){
       colorWidget = require("ui/colorWidget/colorWidget"),
 
       brushManager = require("brushServices/brushManager"),
-      outlineManager = require("outlineServices/outlineManager"),
+      outlineManager = require("services/outlineManager"),
 
       cleaningService = require("canvasServices/cleaner"),
 
@@ -27,6 +28,9 @@ define(function(require){
   function Application(){}
 
   Application.prototype.start = function() {
+    canvas.attachTo(document, {
+      id: "lukis"
+    });
     /**
      * Any components that needs to hold a reference
      * to canvas instance and canvas element, should be
