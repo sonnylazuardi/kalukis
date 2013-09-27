@@ -12,18 +12,18 @@ define(function(require){
   function brushManager(){
 
     this.defaultAttrs({
+      /**
+       * The canvas element ID
+       * @type {String}
+       */
       canvasId: undefined,
+
       /**
        * Canvas instance
        * @type {Object}
        */
       canvas: undefined,
 
-      /**
-       * Canvas element
-       * @type {String}
-       */
-      canvasEl: "",
       /**
        * Brushes that have been initted
        * @type {Object}
@@ -72,10 +72,15 @@ define(function(require){
      */
     this.attachEventListeners = function(){
       this.on("canvasRequestResponded", function(e, data){
-        this.setCanvas(data);
+        this.setCanvas(data.id, data.canvas);
       }.bind(this));
 
-      this.on("brushPropertyChanged", this.updateBrushProperty);
+      this.on("brushPropertyChanged", function(e, data){
+        var key = Object.keys(data)[0],
+            value = data[key];
+        this.updateBrushProperty(key, value);
+      }.bind(this));
+
       this.on("brushCreated", this.updateCreatedBrushList);
       this.on("brushesLoaded", this.onDefaultBrushesLoaded);
 
@@ -87,33 +92,34 @@ define(function(require){
     };
 
     /**
-     * Set the canvas instance and its element
-     * @param {Object} data EVent Data
+     * Setup canvas attributes
+     * @param {String} id     Canvas element id
+     * @param {Object} canvas Canvas Object
      */
-    this.setCanvas = function(data){
-      this.attr.canvas = data.canvas;
-      this.attr.canvasId = data.id;
-      this.attr.canvasEl = data.canvasEl;
+    this.setCanvas = function(id, canvas){
+      this.attr.canvas = canvas;
+      this.attr.canvasId = id;
     };
 
     /**
      * Update brush properties.
      * 
-     * @param  {String} e    Event
      * @param  {Object} data Event Data
      */
-    this.updateBrushProperty = function(e, data){
-      Object.keys(data || {}).forEach(function(key){
-        var oldValue = this.attr.prop[key] || undefined;
+    this.updateBrushProperty = function(key, value){
+      if (!key) {
+        return;
+      }
 
-        this.attr.prop[key] = data[key];
+      var oldValue = this.attr.prop[key];
 
-        this.trigger("brushPropertyUpdated", {
-          key: key,
-          oldValue: oldValue,
-          newValue: data[key]
-        });
-      }, this);
+      this.attr.prop[key] = value;
+
+      this.trigger("brushPropertyUpdated", {
+        key: key,
+        oldValue: oldValue,
+        newValue: value
+      });
     };
 
     /**
