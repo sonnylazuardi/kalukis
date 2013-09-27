@@ -11,14 +11,23 @@ define(function(require){
 
     describe("Constructing the component", function(){
 
-      
-
       it("Should publish request for canvas", function(){
         var spiedEvent = spyOnEvent('.component-root', "canvasRequested");
 
         this.component.initialize();
         expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
         
+      });
+
+      it("Should setup the canvas", function(){
+        setupComponent();
+        $('.component-root').trigger("canvasRequestResponded", {
+          id: "lukis",
+          canvas: "canvas"
+        });
+
+        expect(this.component.attr.canvasId).toEqual("lukis");
+        expect(this.component.attr.canvas).toEqual("canvas");
       });
 
     });

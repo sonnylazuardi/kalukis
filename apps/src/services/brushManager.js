@@ -12,6 +12,7 @@ define(function(require){
   function brushManager(){
 
     this.defaultAttrs({
+      canvasId: undefined,
       /**
        * Canvas instance
        * @type {Object}
@@ -91,6 +92,7 @@ define(function(require){
      */
     this.setCanvas = function(data){
       this.attr.canvas = data.canvas;
+      this.attr.canvasId = data.id;
       this.attr.canvasEl = data.canvasEl;
     };
 
