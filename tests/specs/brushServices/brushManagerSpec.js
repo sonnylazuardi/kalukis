@@ -34,8 +34,17 @@ define(function(require){
 
     describe("Brush Cache", function(){
 
-      xit("Should save a brush to the cache once it has been created", function(){
+      beforeEach(function(){
+        this.component.attr.brushes = {};
+      });
 
+      it("Should save a brush to the cache once it has been created", function(){
+        $('.component-root').on("activeBrushUpdated", function(){
+          expect(Object.keys(this.component.attr.brushes).length).toEqual(1);
+          expect(this.component.attr.brushes).toHaveOwnProperties("circle");
+        }, this);
+
+        this.component.setActiveBrush("circle");
       });
 
     });
