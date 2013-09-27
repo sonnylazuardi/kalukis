@@ -57,12 +57,15 @@ define(function(require){
       }.bind(this));
 
       this.on("outlineShapeRequested", function(e, data){
-        this.requestOutlineShape(data.id);
+        this.prepareOutlineShape(data.id);
       }.bind(this));
 
       this.on("brushPropertyUpdated", this.updateOutlineProperties);
     };
 
+    /**
+     * Request for canvas
+     */
     this.requestCanvas = function(){
       this.trigger("canvasRequested");
     };
@@ -77,13 +80,19 @@ define(function(require){
       this.attr.canvas = canvas;
     };
 
-    this.requestOutlineShape = function(id) {
+    /**
+     * Setup outline shape
+     * @param  {String} id OutlineShape id
+     */
+    this.prepareOutlineShape = function(id) {
       id += "Outline";
 
       if (this.attr.outlineShapes.hasOwnProperty(id)) {
+        console.log("yaaaaa");
         var outlineShape = this.attr.outlineShapes[id];
+        console.log("yaa");
         this.setOutlineShapeProperties(outlineShape);
-
+        console.log("whaat");
         this.publishOutlineShape(outlineShape);
       } else {
         require(["outlineShapes/" + id], function(OutlineShapeProto){
@@ -96,6 +105,10 @@ define(function(require){
       }
     };
 
+    /**
+     * Publish the outlineShape
+     * @param  {Obect} outlineShape OutlineShape instance
+     */
     this.publishOutlineShape = function(outlineShape){
       this.trigger("outlineShapeRequestResponded", {
         outlineShape: outlineShape
