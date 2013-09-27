@@ -62,6 +62,7 @@ define(function(require){
 
     this.after("initialize", function(){
       this.attachEventListeners();
+      this.requestCanvas();
     });
 
     /**
@@ -69,7 +70,9 @@ define(function(require){
      * @return {[type]} [description]
      */
     this.attachEventListeners = function(){
-      this.on("canvasConstructed", this.setCanvas);
+      this.on("canvasRequestResponded", function(e, data){
+        this.setCanvas(data);
+      }.bind(this));
 
       this.on("brushPropertyChanged", this.updateBrushProperty);
       this.on("brushCreated", this.updateCreatedBrushList);
@@ -78,12 +81,15 @@ define(function(require){
       this.on("activeBrushChanged", this.setActiveBrush);
     };
 
+    this.requestCanvas = function(){
+      this.trigger("canvasRequested");
+    };
+
     /**
      * Set the canvas instance and its element
-     * @param {String} e    Event
      * @param {Object} data EVent Data
      */
-    this.setCanvas = function(e, data){
+    this.setCanvas = function(data){
       this.attr.canvas = data.canvas;
       this.attr.canvasEl = data.canvasEl;
     };

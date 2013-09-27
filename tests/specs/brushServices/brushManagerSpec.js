@@ -1,9 +1,27 @@
 define(function(require){
   var fabric = require("fabric"),
-  CircleBrush = require("brushes/circle"),
-  canvas = new fabric.Canvas();
+      CircleBrush = require("brushes/circle"),
+      canvas = new fabric.Canvas();
 
   describeComponent("services/brushManager", function(){
+
+    beforeEach(function(){
+      setupComponent();
+    });
+
+    describe("Constructing the component", function(){
+
+      
+
+      it("Should publish request for canvas", function(){
+        var spiedEvent = spyOnEvent('.component-root', "canvasRequested");
+
+        this.component.initialize();
+        expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
+        
+      });
+
+    });
 
     describe("Listening to events", function(){
 
