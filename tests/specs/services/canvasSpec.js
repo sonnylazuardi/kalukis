@@ -28,6 +28,7 @@ define(function(require){
 
         expect(spiedEvent).toHaveBeenTriggeredOn('.component-root');
         expect(spiedEvent.mostRecentCall.data.canvas).toBeInstanceOf(fabric.Canvas);
+        expect(spiedEvent.mostRecentCall.data.id).toEqual("lukis");
       });
 
     });
