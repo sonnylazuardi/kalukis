@@ -3,6 +3,8 @@ define(function(require){
       CircleBrush = require("brushes/circle"),
       canvas = new fabric.Canvas();
 
+  var async = new AsyncSpec(this);
+
   describeComponent("services/brushManager", function(){
 
     beforeEach(function(){
@@ -93,15 +95,17 @@ define(function(require){
         this.component.attr.canvas = new fabric.Canvas();
       });
 
-      it("Should publish a response when a brush is requested", function(){
+      async.it("Should publish a response when a brush is requested", function(done){
 
-        var spiedEvent = spyOnEvent(".component-root", "brushRequestResponded");
+        $(".component-root").on("brushRequestResponded", function(e, data){
+          expect(data.brush).toBeInstanceOf(CircleBrush);
+          done();
+        });
 
         $(".component-root").trigger("brushRequested", {
           id: "circle"
         });
-        expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
-
+        
       });
 
     });
