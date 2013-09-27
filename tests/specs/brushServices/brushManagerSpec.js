@@ -115,6 +115,14 @@ define(function(require){
         expect(eventData.newValue).toEqual("red");
       });
 
+      it("Should publish brush properties when someone requested them", function(){
+        var spiedEvent = spyOnEvent('.component-root', "brushPropertiesRequestResponded");
+
+        $('.component-root').trigger("brushPropertiesRequested");
+        expect(spiedEvent).toHaveBeenTriggeredOn('.component-root');
+
+      });
+
     });
 
   });

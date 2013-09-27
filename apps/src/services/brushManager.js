@@ -88,6 +88,10 @@ define(function(require){
         }
       }.bind(this));
 
+      this.on("brushPropertiesRequested", function(){
+        this.publishBrushProperties();
+      });
+
       this.on("activeBrushChanged", function(e, data){
         this.setActiveBrush(data.activeBrushId);
       }.bind(this));
@@ -105,6 +109,15 @@ define(function(require){
     this.setCanvas = function(id, canvas){
       this.attr.canvas = canvas;
       this.attr.canvasId = id;
+    };
+
+    /**
+     * Publish the recorded brush properties
+     */
+    this.publishBrushProperties = function(){
+      this.trigger("brushPropertiesRequestResponded", {
+        properties: this.attr.prop
+      });
     };
 
     /**
