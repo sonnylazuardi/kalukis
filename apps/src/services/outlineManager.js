@@ -57,7 +57,7 @@ define(function(require){
       }.bind(this));
 
       this.on("outlineShapeRequested", function(e, data){
-
+        this.requestOutlineShape(data.id);
       }.bind(this));
 
       this.on("brushPropertyUpdated", this.updateOutlineProperties);

@@ -3,6 +3,8 @@ define(function(require){
   var fabric = require("fabric"),
       RectOutline = require("outlineShapes/rectOutline");
 
+  var async = new AsyncSpec(this);
+
   describeComponent("services/outlineManager", function(){
 
     beforeEach(function(){
@@ -54,6 +56,27 @@ define(function(require){
     });
 
     describe("Managing outlineShape properties", function(){
+
+    });
+
+    describe("OutlineShape Request Event", function(){
+
+      beforeEach(function(){
+        this.component.attr.canvas = new fabric.Canvas();
+      });
+
+      async.it("Should respond to request event", function(done){
+
+        $(".component-root").on("outlineShapeRequestResponded", function(e, data){
+          expect(data.outlineShape).toBeInstanceOf(RectOutline);
+          done();
+        });
+
+        $(".component-root").trigger("outlineShapeRequested", {
+          id: "rect"
+        });
+
+      });
 
     });
 
