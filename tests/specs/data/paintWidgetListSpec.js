@@ -1,4 +1,4 @@
-describeComponent("dataServices/paintWidgetList", function(){
+describeComponent("data/paintWidgetList", function(){
 
   var spiedEvent;
 

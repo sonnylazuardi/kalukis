@@ -21,9 +21,9 @@ define(function(require){
 
       imageCanvas = require("images/imageCanvas"),
 
-      brushList = require("dataServices/brushList"),
-      paintWidgetList = require("dataServices/paintWidgetList"),
-      canvasManipulationList = require("dataServices/canvasManipulationList");
+      brushList = require("data/brushList"),
+      paintWidgetList = require("data/paintWidgetList"),
+      canvasManipulationList = require("data/canvasManipulationList");
 
   function Application(){}
 

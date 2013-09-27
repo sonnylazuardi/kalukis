@@ -1,4 +1,4 @@
-describeComponent("dataServices/brushList", function(){
+describeComponent("data/brushList", function(){
 
   var spiedEvent;
 
