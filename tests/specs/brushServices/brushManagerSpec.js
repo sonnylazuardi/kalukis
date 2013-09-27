@@ -44,54 +44,7 @@ define(function(require){
           expect(this.component.attr.brushes).toHaveOwnProperties("circle");
         }, this);
 
-        this.component.setActiveBrush("circle");
-      });
-
-    });
-
-    describe("Active Brush management", function(){
-
-      it("Should listen to active brush changed event", function(){
-        $('.component-root').on("activeBrushUpdated", function(e, data){
-          expect(this.component.attr.activeBrush.id).toEqual("circle");
-          expect(this.component.attr.activeBrush.brush).toBeInstanceOf(CircleBrush);
-        }, this);
-
-        $('.component-root').trigger("activeBrushChanged", {
-          activeBrushId: "circle"
-        });
-      });
-
-      it("Should have set the properties of the activeBrush before sending it on activeBrushUpdated event", function(){
-        // as if this brush had been created before
-        this.component.attr.brushes["circle"] = new CircleBrush(canvas, {});
-
-        this.component.attr.prop.width = 35;
-        this.component.attr.prop.fillColor = "yellow";
-        this.component.attr.prop.strokeColor = "yellow";
-
-        $('.component-root').on("activeBrushUpdated", function(e, data){
-          var brush = data.newActiveBrush.brush;
-
-          expect(brush.get("width")).toEqual(35);
-          expect(brush.get("fillColor")).toEqual("yellow");
-          expect(brush.get("strokeColor")).toEqual("yellow");  
-        });
-
-        // should have changed now
-        $('.component-root').trigger("activeBrushChanged", {
-          activeBrushId: "circle"
-        });
-      });
-
-      it("Should set the active brush to first brushlist on the brushLoaded event data", function(){
-        spyOn(this.component, "setActiveBrush");
-
-        $('.component-root').trigger("brushesLoaded", {
-          brushes: [{id: "pencil", name: "Pencil"}]
-        });
-
-        expect(this.component.setActiveBrush).toHaveBeenCalledWith("pencil");
+        this.component.requestBrush("circle");
       });
 
     });
@@ -129,6 +82,21 @@ define(function(require){
 
         $('.component-root').trigger("brushPropertiesRequested");
         expect(spiedEvent).toHaveBeenTriggeredOn('.component-root');
+
+      });
+
+    });
+
+    describe("Brush Event Request", function(){
+
+      it("Should publish a response when a brush is requested", function(){
+
+        var spiedEvent = spyOnEvent(".component-root", "brushRequestResponded");
+
+        $(".component-root").trigger("brushRequested", {
+          id: "circle"
+        });
+        expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
 
       });
 

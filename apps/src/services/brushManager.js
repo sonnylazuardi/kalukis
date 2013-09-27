@@ -30,12 +30,6 @@ define(function(require){
       brushes: {},
 
       /**
-       * The current active brush
-       * @type {Object}
-       */
-      activeBrush: undefined,
-
-      /**
        * Global brush properties
        * @type {Object}
        */
@@ -80,21 +74,14 @@ define(function(require){
         this.updateBrushProperty(key, value);
       }.bind(this));
 
-      this.on("brushesLoaded", function(e, data){
-        if (data.brushes) {
-          var defaultBrush = data.brushes[0];
-
-          this.setActiveBrush(defaultBrush.id);
-        }
-      }.bind(this));
-
       this.on("brushPropertiesRequested", function(){
         this.publishBrushProperties();
       });
 
-      this.on("activeBrushChanged", function(e, data){
-        this.setActiveBrush(data.activeBrushId);
-      }.bind(this));
+      this.on("brushRequested", function(e, data){
+        this.requestBrush(data.id);
+      });
+      
     };
 
     this.requestCanvas = function(){
@@ -151,45 +138,35 @@ define(function(require){
     };
 
     /**
-     * Set the current active brush. We will construct
-     * the brush if it has not been constructed before.
-     * 
-     * @param {String} id    Brush Id
+     * Publish the requested brush
+     * @param  {String} id Brush ID
      */
-    this.setActiveBrush = function(id){
-      var oldActiveBrush = this.attr.activeBrush,
-          brush, BrushProto;
-      
+    this.requestBrush = function(id) {
       if (this.attr.brushes.hasOwnProperty(id)) {
-        brush = this.attr.brushes[id];
+        var brush = this.attr.brushes[id];
         // update the brush properties
         this.setBrushProperties(brush);
-        this.attr.activeBrush = {
-          id: id,
-          brush: brush
-        };
 
-        this.processSetActiveBrush(oldActiveBrush, this.attr.activeBrush);
+        this.publishRequestedBrush(brush);
       } else {
         // TODO what if the brush requested cannot be found?
         require(["brushes/" + id], function(BrushProto){
-          brush = new BrushProto(this.attr.canvas, this.attr.prop);
+          var brush = new BrushProto(this.attr.canvas, this.attr.prop);
           // remember this brush
           this.attr.brushes[id] = brush;
-          this.attr.activeBrush = {
-            id: id,
-            brush: brush
-          };
-
-          this.processSetActiveBrush(oldActiveBrush, this.attr.activeBrush);
+          
+          this.publishRequestedBrush(brush);
         }.bind(this));
       }
     };
 
-    this.processSetActiveBrush = function(oldActiveBrush, newActiveBrush){
-      this.trigger("activeBrushUpdated", {
-        oldActiveBrush: oldActiveBrush,
-        newActiveBrush: newActiveBrush
+    /**
+     * Publish the requested brush
+     * @param  {Object} brush The brush to publish
+     */
+    this.publishRequestedBrush = function(brush){
+      this.trigger("brushRequestResponded", {
+        brush: brush
       });
     };
   }

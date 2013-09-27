@@ -40,55 +40,17 @@ define(function(require){
       });
 
       it("Should save a brush to the cache once it has been created", function(){
-        $('.component-root').on("outlineShapeUpdated", function(){
+        $(".component-root").on("activeOutlineShapeUpdated", function(){
+          console.log("yoo");
           expect(Object.keys(this.component.attr.outlineShapes).length).toEqual(1);
           expect(this.component.attr.outlineShapes).toHaveOwnProperties("circleOutline");
-        }, this);
-
-        this.component.setActiveOutlineShape("circle");
-      });
-
-    });
-
-    describe("Active OutlineShape Management", function(){
-
-      beforeEach(function(){
-        this.component.attr.canvas = new fabric.Canvas();
-        this.component.attr.outlineShapes = {};
-      });
-
-      it("Should set the new outline shape when paintWidgetClicked triggered", function(){
-
-        spyOn(this.component, "setActiveOutlineShape");
+        }.bind(this));
 
         $(".component-root").trigger("paintWidgetClicked", {
-          paintWidgetId: "rect"
+          paintWidgetId: "circle"
         });
-
-        expect(this.component.setActiveOutlineShape).toHaveBeenCalledWith("rect");
       });
 
-      xit("Should have set outlineShape properties before publishing outlineShapeUpdated", function(){
-
-        this.component.attr.activeOutlineShape = {
-          id: "rectOutline",
-          outlineShape: new RectOutline(this.component.attr.canvas, {})
-        };
-        this.component.attr.prop.width = 25;
-        this.component.attr.prop.fillColor = "red";
-
-        var spiedEvent = spyOnEvent(".component-root", "activeOutlineShapeUpdated");
-
-        $('.component-root').trigger("paintWidgetClicked", {
-          paintWidgetId: "rect"
-        });
-
-        expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
-        
-        // var outlineShape = spiedEvent.mostRecentCall.data.newActiveOutlineShape.outlineShape;
-        // expect(outlineShape.get("width")).toEqual(25);
-        // expect(outlineShape.get("fillColor")).toEqual("red");
-      });
     });
 
     describe("Managing outlineShape properties", function(){

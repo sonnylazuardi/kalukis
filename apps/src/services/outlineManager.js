@@ -1,7 +1,6 @@
 /**
- * This components has authority in managing outline shapes painter
- * that has been initted. It also has responsibility in interacting
- * with events related to outline properties and activities.
+ * I know how to manage outlineShape lifecycle. I also provide these outlineShapes
+ * when someone requested them.
  */
 define(function(require){
 
@@ -63,6 +62,8 @@ define(function(require){
         this.setCanvas(data.id, data.canvas);
       }.bind(this));
 
+      // TODO this shouldn't be here. It doesnt have anything
+      // todo with this module's responsibility
       this.on("paintWidgetClicked", function(e, data){
         this.setActiveOutlineShape(data.paintWidgetId);
       }.bind(this));
@@ -90,6 +91,7 @@ define(function(require){
      * @param {String} id    OutlineShape ID
      */
     this.setActiveOutlineShape = function(id){
+
       var oldActiveOutlineShape = this.attr.activeOutlineShape,
           outlineShape, OutlineShapeProto;
       
@@ -119,8 +121,8 @@ define(function(require){
 
     this.publishUpdatedOutlineShape = function(oldOutlineShape, newOutlineShape){
       this.attr.activeOutlineShape = newOutlineShape;
-      
-      this.trigger(document, "activeOutlineShapeUpdated", {
+
+      this.trigger("activeOutlineShapeUpdated", {
         oldActiveOutlineShape: oldOutlineShape,
         newActiveOutlineShape: newOutlineShape
       });
