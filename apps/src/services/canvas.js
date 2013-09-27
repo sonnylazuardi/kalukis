@@ -1,3 +1,6 @@
+/**
+ * I instantiate the canvas instance and respond to anyone asking for it
+ */
 define(function(require){
 
   var defineComponent = require("flight/lib/component"),
