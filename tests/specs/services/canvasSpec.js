@@ -1,7 +1,6 @@
 define(function(require){
 
-  var fabric = require("fabric"),
-      canvas;
+  var fabric = require("fabric");
 
   describeComponent("services/canvas", function(){
 
@@ -10,7 +9,6 @@ define(function(require){
       setupComponent({
         id: "lukis"
       });
-      canvas = new fabric.Canvas("lukis");
     });
 
     describe("Initialize component", function(){
@@ -24,7 +22,12 @@ define(function(require){
     describe("Component communication", function(){
 
       it("Should publish the correct data on canvasRequested event", function(){
+        var spiedEvent = spyOnEvent('.component-root', "canvasRequestResponded");
 
+        $('.component-root').trigger("canvasRequested");
+
+        expect(spiedEvent).toHaveBeenTriggeredOn('.component-root');
+        expect(spiedEvent.mostRecentCall.data.canvas).toBeInstanceOf(fabric.Canvas);
       });
 
     });
