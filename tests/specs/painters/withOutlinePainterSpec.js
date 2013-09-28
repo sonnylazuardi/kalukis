@@ -25,6 +25,14 @@ define(function(require){
         expect(this.component.attr.activeOutlineShapeId).toEqual("rect");
       });
 
+      it("Returns the correct id", function(){
+        $(".component-root").trigger("activeOutlineShapeChanged", {
+          activeOutlineShapeId: "rect"
+        });
+
+        expect(this.component.getActiveOutlineShapeId()).toEqual("rect");
+      });
+
     });
 
     describe("Active Outline Shape Management", function(){
@@ -39,124 +47,124 @@ define(function(require){
 
     });
 
-    describe("Event Listener", function(){
+    // describe("Event Listener", function(){
 
-      it("Should have changed the active outline shape on activeOutlineShapeUpdated event", function(){
-        $('.component-root').trigger("activeOutlineShapeUpdated", {
-          newActiveOutlineShape: "example"
-        });
+    //   it("Should have changed the active outline shape on activeOutlineShapeUpdated event", function(){
+    //     $('.component-root').trigger("activeOutlineShapeUpdated", {
+    //       newActiveOutlineShape: "example"
+    //     });
 
-        expect(this.component.attr.activeOutlineShape).toEqual("example");
-      });
+    //     expect(this.component.attr.activeOutlineShape).toEqual("example");
+    //   });
 
-      it("Should have updated the property of the active outline shape instance", function(){
-        this.component.attr.activeOutlineShape = {
-          id: "rectOutline",
-          outlineShape: new RectOutline(canvas, {})
-        };
+    //   it("Should have updated the property of the active outline shape instance", function(){
+    //     this.component.attr.activeOutlineShape = {
+    //       id: "rectOutline",
+    //       outlineShape: new RectOutline(canvas, {})
+    //     };
 
-        $('.component-root').trigger("outlineShapePropertyUpdated", {
-          key: "width",
-          newValue: 50
-        });
+    //     $('.component-root').trigger("outlineShapePropertyUpdated", {
+    //       key: "width",
+    //       newValue: 50
+    //     });
 
-        var outlineShape = this.component.attr.activeOutlineShape.outlineShape;
-        expect(outlineShape.get("width")).toEqual(50);
-      });
+    //     var outlineShape = this.component.attr.activeOutlineShape.outlineShape;
+    //     expect(outlineShape.get("width")).toEqual(50);
+    //   });
 
-    });
+    // });
 
-    describe("Outline shape painting", function(){
+    // describe("Outline shape painting", function(){
 
-      beforeEach(function(){
-        this.component.attr.activeOutlineShape = {
-          id: "rectOutline",
-          outlineShape: new RectOutline(canvas, {})
-        };
-      });
+    //   beforeEach(function(){
+    //     this.component.attr.activeOutlineShape = {
+    //       id: "rectOutline",
+    //       outlineShape: new RectOutline(canvas, {})
+    //     };
+    //   });
 
-      it("Should have register the canvas events handler properly", function(){
-        var activeOutlineShape = this.component.attr.activeOutlineShape.outlineShape;
-        spyOn(activeOutlineShape, "onMouseMove");
+    //   it("Should have register the canvas events handler properly", function(){
+    //     var activeOutlineShape = this.component.attr.activeOutlineShape.outlineShape;
+    //     spyOn(activeOutlineShape, "onMouseMove");
 
-        $('.component-root').trigger("outlineShapePaintingInitted", {
-          canvas: canvas,
-          canvasEventsService: canvasEventsService
-        });
+    //     $('.component-root').trigger("outlineShapePaintingInitted", {
+    //       canvas: canvas,
+    //       canvasEventsService: canvasEventsService
+    //     });
 
-        canvas.trigger("mouse:move");
-        expect(activeOutlineShape.onMouseMove).toHaveBeenCalled();
-      });
+    //     canvas.trigger("mouse:move");
+    //     expect(activeOutlineShape.onMouseMove).toHaveBeenCalled();
+    //   });
 
-      it("Should have unregister the previous event handler when another widget has been clicked", function(){
-        var activeOutlineShape = this.component.attr.activeOutlineShape.outlineShape,
-            called = 0;
+    //   it("Should have unregister the previous event handler when another widget has been clicked", function(){
+    //     var activeOutlineShape = this.component.attr.activeOutlineShape.outlineShape,
+    //         called = 0;
 
-        spyOn(activeOutlineShape, "onMouseMove").andCallFake(function(){
-          called++;
-        });
+    //     spyOn(activeOutlineShape, "onMouseMove").andCallFake(function(){
+    //       called++;
+    //     });
 
-        $('.component-root').trigger("outlineShapePaintingInitted", {
-          canvas: canvas,
-          canvasEventsService: canvasEventsService
-        });
-        $('.component-root').trigger("outlineShapePaintingInitted", {
-          canvas: canvas,
-          canvasEventsService: canvasEventsService
-        });
+    //     $('.component-root').trigger("outlineShapePaintingInitted", {
+    //       canvas: canvas,
+    //       canvasEventsService: canvasEventsService
+    //     });
+    //     $('.component-root').trigger("outlineShapePaintingInitted", {
+    //       canvas: canvas,
+    //       canvasEventsService: canvasEventsService
+    //     });
 
-        canvas.trigger("mouse:move");
-        expect(called).toEqual(1);
-      });
+    //     canvas.trigger("mouse:move");
+    //     expect(called).toEqual(1);
+    //   });
 
-      it("Should have called finalizeOutlineShapePainting after outlineShape's finish function has been executed", function(){
-        var activeOutlineShape = this.component.attr.activeOutlineShape.outlineShape;
+    //   it("Should have called finalizeOutlineShapePainting after outlineShape's finish function has been executed", function(){
+    //     var activeOutlineShape = this.component.attr.activeOutlineShape.outlineShape;
 
-        spyOn(this.component, "finalizeOutlineShapePainting");
+    //     spyOn(this.component, "finalizeOutlineShapePainting");
 
-        $('.component-root').trigger("outlineShapePaintingInitted", {
-          canvas: canvas,
-          canvasEventsService: canvasEventsService
-        });
+    //     $('.component-root').trigger("outlineShapePaintingInitted", {
+    //       canvas: canvas,
+    //       canvasEventsService: canvasEventsService
+    //     });
 
-        activeOutlineShape.finish();
-        expect(this.component.finalizeOutlineShapePainting).toHaveBeenCalled();
-      });
+    //     activeOutlineShape.finish();
+    //     expect(this.component.finalizeOutlineShapePainting).toHaveBeenCalled();
+    //   });
 
-      it("Should have called finalizeOutlineShapePainting once", function(){
-        var activeOutlineShape = this.component.attr.activeOutlineShape.outlineShape,
-            called = 0;
+    //   it("Should have called finalizeOutlineShapePainting once", function(){
+    //     var activeOutlineShape = this.component.attr.activeOutlineShape.outlineShape,
+    //         called = 0;
 
-        spyOn(this.component, "finalizeOutlineShapePainting").andCallFake(function(){
-          called++;
-        });
+    //     spyOn(this.component, "finalizeOutlineShapePainting").andCallFake(function(){
+    //       called++;
+    //     });
 
-        $('.component-root').trigger("outlineShapePaintingInitted", {
-          canvas: canvas,
-          canvasEventsService: canvasEventsService
-        });
-        $('.component-root').trigger("outlineShapePaintingInitted", {
-          canvas: canvas,
-          canvasEventsService: canvasEventsService
-        });
+    //     $('.component-root').trigger("outlineShapePaintingInitted", {
+    //       canvas: canvas,
+    //       canvasEventsService: canvasEventsService
+    //     });
+    //     $('.component-root').trigger("outlineShapePaintingInitted", {
+    //       canvas: canvas,
+    //       canvasEventsService: canvasEventsService
+    //     });
 
-        activeOutlineShape.finish();
-        expect(called).toEqual(1);
-      });
+    //     activeOutlineShape.finish();
+    //     expect(called).toEqual(1);
+    //   });
 
-      it("Should have triggered outlineShapePaintingFinished", function(){
-        var activeOutlineShape = this.component.attr.activeOutlineShape.outlineShape,
-          spiedEvent = spyOnEvent(document, "outlineShapePaintingFinished");
+    //   it("Should have triggered outlineShapePaintingFinished", function(){
+    //     var activeOutlineShape = this.component.attr.activeOutlineShape.outlineShape,
+    //       spiedEvent = spyOnEvent(document, "outlineShapePaintingFinished");
 
-        $('.component-root').trigger("outlineShapePaintingInitted", {
-          canvas: canvas,
-          canvasEventsService: canvasEventsService
-        });
-        activeOutlineShape.finish();
-        expect(spiedEvent).toHaveBeenTriggeredOn(document);
-      });
+    //     $('.component-root').trigger("outlineShapePaintingInitted", {
+    //       canvas: canvas,
+    //       canvasEventsService: canvasEventsService
+    //     });
+    //     activeOutlineShape.finish();
+    //     expect(spiedEvent).toHaveBeenTriggeredOn(document);
+    //   });
 
-    });
+    // });
 
   });
 

@@ -31,6 +31,7 @@ define(function(require){
     });
 
     this.after("initialize", function(){
+      
       this.on("activeBrushChanged", function(e, data){
         this.setActiveBrushId(data.activeBrushId);
       }.bind(this));

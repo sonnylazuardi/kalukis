@@ -26,6 +26,7 @@ define(function(require){
     });
 
     this.after("initialize", function(){
+
       this.on("activeOutlineShapeChanged", function(e, data){
         this.setActiveOutlineShapeId(data.activeOutlineShapeId);
       }.bind(this));
@@ -57,17 +58,19 @@ define(function(require){
     };
 
     /**
-     * Set the new active outline shape
-     * @param {String} e    Event
-     * @param {Object} data Event Data
+     * Returns the active outline shape ID
+     * @return {String} ID
      */
-    this.setActiveOutlineShape = function(e, data){
-      if (data.newActiveOutlineShape) {
-        this.attr.activeOutlineShape = data.newActiveOutlineShape;
-        this.trigger("outlineShapePaintingReady", {
-          activeOutlineShape: this.attr.activeOutlineShape
-        });
-      }
+    this.getActiveOutlineShapeId = function(){
+      return this.attr.activeOutlineShapeId;
+    };
+
+    /**
+     * Set the active outline shape
+     * @param {Object} outlineShape OutlineShape instance
+     */
+    this.setActiveOutlineShape = function(outlineShape){
+      this.attr.activeOutlineShape = outlineShape;
     };
 
     /**
