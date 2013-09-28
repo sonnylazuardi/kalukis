@@ -44,8 +44,18 @@ define(function(require){
      */
     this.setActiveBrushId = function(id) {
       this.attr.activeBrushId = id;
+
+      this.trigger("activeBrushIdUpdated", {
+        id: id
+      });
     };
 
+    /**
+     * Returns the active brush ID. This could be used by
+     * the component which this mixin is composed to.
+     * 
+     * @return {String} The current brush ID
+     */
     this.getActiveBrushId = function(){
       return this.attr.activeBrushId;
     };

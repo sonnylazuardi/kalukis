@@ -25,13 +25,28 @@ define(function(require){
         $(".component-root").trigger("activeBrushChanged", {
           activeBrushId: "rect"
         });
-        
+
         expect(this.component.getActiveBrushId()).toEqual("rect");
+      });
+
+      it("Should publish event regarding active brush id changed", function(){
+        var spiedEvent = spyOnEvent(".component-root", "activeBrushIdUpdated");
+
+        $(".component-root").trigger("activeBrushChanged", {
+          activeBrushId: "rect"
+        });
+
+        expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
+        expect(spiedEvent.mostRecentCall.data.id).toEqual("rect");
       });
 
     });
 
     describe("Active Brush Property Management", function(){
+
+      beforeEach(function(){
+
+      });
 
     });
 
