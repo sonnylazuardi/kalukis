@@ -55,6 +55,10 @@ define(function(require){
      */
     this.setActiveOutlineShapeId = function(id) {
       this.attr.activeOutlineShapeId = id;
+
+      this.trigger("activeOutlineShapeIdUpdated", {
+        id: id
+      });
     };
 
     /**

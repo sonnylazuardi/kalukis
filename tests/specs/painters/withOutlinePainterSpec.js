@@ -33,6 +33,16 @@ define(function(require){
         expect(this.component.getActiveOutlineShapeId()).toEqual("rect");
       });
 
+      it("Should publish activeOutlineShapeIdUpdated", function(){
+        var spiedEvent = spyOnEvent(".component-root", "activeOutlineShapeIdUpdated");
+
+        $(".component-root").trigger("activeOutlineShapeChanged", {
+          activeOutlineShapeId: "rect"
+        });
+
+        expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
+      });
+
     });
 
     describe("Active Outline Shape Management", function(){
