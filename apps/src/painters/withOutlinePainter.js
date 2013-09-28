@@ -109,6 +109,8 @@ define(function(require){
       this.attr.isRequestingForActiveOutlineShapeInstance = false;
     };
 
+    // TODO these steps need review
+
     /**
      * Start the preparation of painting an outline shape. Note, if `outlineShape`
      * is provided, than that `outlineShape` will be drawn.
