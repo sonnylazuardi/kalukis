@@ -66,6 +66,23 @@ define(function(require){
 
         expect(this.component.attr.activeBrush).toEqual("rectBrush");
       });
+
+      it("Should detach itself from brushRequestResponded event once the active brush instance has been saved", function(){
+        
+        $(".component-root").trigger("activeBrushChanged", {
+          activeBrushId: "rect"
+        });
+
+        $(".component-root").trigger("brushRequestResponded", {
+          brush: "rectBrush"
+        });
+
+        $(".component-root").trigger("brushRequestResponded", {
+          brush: "yellowBrush"
+        });
+
+        expect(this.component.attr.activeBrush).toEqual("rectBrush");
+      });
     });
 
     describe("Active Brush Property Management", function(){

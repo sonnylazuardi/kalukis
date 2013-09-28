@@ -20,7 +20,14 @@ define(function(require){
        * The current active brush used to paint
        * @type {Object}
        */
-      activeBrush: undefined
+      activeBrush: undefined,
+
+      /**
+       * A state which tells wether this mixin is
+       * requesting for an active brush instance
+       * @type {Boolean}
+       */
+      isRequestingForActiveBrushInstance: false
     });
 
     this.after("initialize", function(){
@@ -67,13 +74,23 @@ define(function(require){
         this.setActiveBrush(data.brush);
       }.bind(this));
 
+      this.attr.isRequestingForActiveBrushInstance = true;
+
       this.trigger("brushRequested", {
         id: id
       });
     };
 
     this.setActiveBrush = function(brush){
-      this.attr.activeBrush = brush;
+      if (this.attr.isRequestingForActiveBrushInstance) {
+        this.attr.activeBrush = brush;
+
+        this.detachFromBrushRespondEvent();
+      }
+    };
+
+    this.detachFromBrushRespondEvent = function(){
+      this.off("brushRequestResponded");
     };
 
     /**
