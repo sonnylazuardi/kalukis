@@ -48,6 +48,10 @@ define(function(require){
       this.trigger("activeBrushIdUpdated", {
         id: id
       });
+
+      this.trigger("brushRequested", {
+        id: id
+      });
     };
 
     /**

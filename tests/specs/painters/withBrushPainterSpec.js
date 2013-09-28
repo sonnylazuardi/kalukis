@@ -40,6 +40,17 @@ define(function(require){
         expect(spiedEvent.mostRecentCall.data.id).toEqual("rect");
       });
 
+      it("Should request an instance of the active brush when the activeBrushId has been updated", function(){
+        var spiedEvent = spyOnEvent(".component-root", "brushRequested");
+
+        $(".component-root").trigger("activeBrushChanged", {
+          activeBrushId: "rect"
+        });
+
+        expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
+        expect(spiedEvent.mostRecentCall.data.id).toEqual("rect");
+      });
+
     });
 
     describe("Active Brush Property Management", function(){
