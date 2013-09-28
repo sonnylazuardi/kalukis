@@ -45,8 +45,6 @@ define(function(require){
         this.updateOutlineShapeProperty(data.key, data.newValue);
       }.bind(this));
 
-      this.on("outlineShapePropertyUpdated", this.updateOutlineShapeProperty);
-      this.on("activeOutlineShapeUpdated", this.setActiveOutlineShape);
     });
 
     /**

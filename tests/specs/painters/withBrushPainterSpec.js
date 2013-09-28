@@ -102,7 +102,6 @@ define(function(require){
         });
 
         expect(this.component.attr.activeBrush.get("width")).toEqual(20);
-
       });
 
     });
