@@ -49,9 +49,7 @@ define(function(require){
         id: id
       });
 
-      this.trigger("brushRequested", {
-        id: id
-      });
+      this.requestActiveBrush(id);
     };
 
     /**
@@ -62,6 +60,20 @@ define(function(require){
      */
     this.getActiveBrushId = function(){
       return this.attr.activeBrushId;
+    };
+
+    this.requestActiveBrush = function(id){
+      this.on("brushRequestResponded", function(e, data){
+        this.setActiveBrush(data.brush);
+      }.bind(this));
+
+      this.trigger("brushRequested", {
+        id: id
+      });
+    };
+
+    this.setActiveBrush = function(brush){
+      this.attr.activeBrush = brush;
     };
 
     /**
