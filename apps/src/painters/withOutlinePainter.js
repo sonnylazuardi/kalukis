@@ -22,7 +22,13 @@ define(function(require){
        * The active outlineshape instance
        * @type {Object}
        */
-      activeOutlineShape: undefined
+      activeOutlineShape: undefined,
+
+      /**
+       * Am I requesting an outlineShape instance
+       * @type {Boolean}
+       */
+      isRequestingForActiveOutlineShapeInstance: false
     });
 
     this.after("initialize", function(){
@@ -76,6 +82,8 @@ define(function(require){
         this.setActiveOutlineShape(data.outlineShape);
       }.bind(this));
 
+      this.attr.isRequestingForActiveOutlineShapeInstance = true;
+
       this.trigger("outlineShapeRequested", {
         id: id
       });
@@ -86,7 +94,16 @@ define(function(require){
      * @param {Object} outlineShape OutlineShape instance
      */
     this.setActiveOutlineShape = function(outlineShape){
-      this.attr.activeOutlineShape = outlineShape;
+      if (this.attr.isRequestingForActiveOutlineShapeInstance) {
+        this.attr.activeOutlineShape = outlineShape;  
+
+        this.detachFromOutlineShapeRespondEvent();
+      }
+    };
+
+    this.detachFromOutlineShapeRespondEvent = function(){
+      this.off("outlineShapeRequestResponded");
+      this.attr.isRequestingForActiveOutlineShapeInstance = false;
     };
 
     /**
