@@ -38,7 +38,10 @@ define(function(require){
       this.on("brushPaintingInitted", function(e, data){
         this.prepareBrushPainting(data.canvas, data.canvasEventsService, data.points);
       }.bind(this));
-      this.on("brushPropertyUpdated", this.updateBrushProperty);
+
+      this.on("brushPropertyUpdated", function(e, data){
+        this.updateBrushProperty(data.key, data.newValue);
+      }.bind(this));
       // this.on("activeBrushUpdated", this.setActiveBrush);
 
       // add an after-advice
@@ -69,6 +72,10 @@ define(function(require){
       return this.attr.activeBrushId;
     };
 
+    /**
+     * Request for the active brush instance
+     * @param  {String} id The brush ID
+     */
     this.requestActiveBrush = function(id){
       this.on("brushRequestResponded", function(e, data){
         this.setActiveBrush(data.brush);
@@ -81,6 +88,10 @@ define(function(require){
       });
     };
 
+    /**
+     * Set the active brush instance
+     * @param {Object} brush The brush instance
+     */
     this.setActiveBrush = function(brush){
       if (this.attr.isRequestingForActiveBrushInstance) {
         this.attr.activeBrush = brush;
@@ -89,18 +100,31 @@ define(function(require){
       }
     };
 
+    /**
+     * Returns the active brush instance. Could be used by
+     * the component which has this mixin composed to itself
+     * 
+     * @return {Object} Active brush instance
+     */
+    this.getActiveBrush = function(){
+      return this.attr.activeBrush;
+    };
+
+    /**
+     * Dont listen to the brushRequestRespondedEvent
+     */
     this.detachFromBrushRespondEvent = function(){
       this.off("brushRequestResponded");
     };
 
     /**
-     * Update brush instance's property
-     * @param  {String} e    Event
-     * @param  {Object} data Event Data
+     * Update active brush instance property
+     * @param  {String} key   The property
+     * @param  {String} value The value
      */
-    this.updateBrushProperty = function(e, data){
-      if (data.key && data.newValue && this.attr.activeBrush) {
-        this.attr.activeBrush.brush.set(data.key, data.newValue);
+    this.updateBrushProperty = function(key, value){
+      if (this.attr.activeBrush) {
+        this.attr.activeBrush.set(key, value);
       }
     };
 

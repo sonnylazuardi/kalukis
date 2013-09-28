@@ -77,6 +77,7 @@ define(function(require){
           brush: "rectBrush"
         });
 
+        // should not update the brush instance
         $(".component-root").trigger("brushRequestResponded", {
           brush: "yellowBrush"
         });
@@ -88,6 +89,18 @@ define(function(require){
     describe("Active Brush Property Management", function(){
 
       beforeEach(function(){
+        this.component.attr.activeBrush = new CircleBrush(canvas, {});
+        this.component.attr.activeBrushId = "circle";
+      });
+
+      it("Should update the active brush property when there is a change in the brush property", function(){
+        $(".component-root").trigger("brushPropertyUpdated", {
+          key: "width",
+          oldValue: 10,
+          newValue: 20
+        });
+
+        expect(this.component.attr.activeBrush.get("width")).toEqual(20);
 
       });
 
