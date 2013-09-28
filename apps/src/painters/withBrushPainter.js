@@ -46,6 +46,10 @@ define(function(require){
       this.attr.activeBrushId = id;
     };
 
+    this.getActiveBrushId = function(){
+      return this.attr.activeBrushId;
+    };
+
     /**
      * Update brush instance's property
      * @param  {String} e    Event

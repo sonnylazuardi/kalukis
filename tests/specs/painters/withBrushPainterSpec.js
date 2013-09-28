@@ -21,6 +21,14 @@ define(function(require){
         expect(this.component.attr.activeBrushId).toEqual("rect");
       });
 
+      it("Returns the correct activeBrushID", function(){
+        $(".component-root").trigger("activeBrushChanged", {
+          activeBrushId: "rect"
+        });
+        
+        expect(this.component.getActiveBrushId()).toEqual("rect");
+      });
+
     });
 
     describe("Active Brush Property Management", function(){
