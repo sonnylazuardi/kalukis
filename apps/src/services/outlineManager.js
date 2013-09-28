@@ -88,11 +88,8 @@ define(function(require){
       id += "Outline";
 
       if (this.attr.outlineShapes.hasOwnProperty(id)) {
-        console.log("yaaaaa");
         var outlineShape = this.attr.outlineShapes[id];
-        console.log("yaa");
         this.setOutlineShapeProperties(outlineShape);
-        console.log("whaat");
         this.publishOutlineShape(outlineShape);
       } else {
         require(["outlineShapes/" + id], function(OutlineShapeProto){

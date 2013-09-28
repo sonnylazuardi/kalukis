@@ -3,8 +3,6 @@ define(function(require){
   var fabric = require("fabric"),
       RectOutline = require("outlineShapes/rectOutline");
 
-  var async = new AsyncSpec(this);
-
   describeComponent("services/outlineManager", function(){
 
     beforeEach(function(){
@@ -89,8 +87,13 @@ define(function(require){
 
     describe("OutlineShape Request Event", function(){
 
+      var async = new AsyncSpec(this);
+
       beforeEach(function(){
         this.component.attr.canvas = new fabric.Canvas();
+        this.component.attr.prop.width = 20;
+        this.component.attr.prop.fillColor = "red";
+        this.component.attr.prop.strokeColor = "yellow";
       });
 
       async.it("Should respond to request event", function(done){
@@ -107,12 +110,11 @@ define(function(require){
       });
 
       async.it("Should set the published outlineShape with the outlineShape properties", function(done){
-        this.component.attr.prop.width = 20;
-        this.component.attr.prop.fillColor = "red";
-        this.component.attr.prop.strokeColor = "yellow";
-
         $(".component-root").on("outlineShapeRequestResponded", function(e, data){
-          console.log("yaaaa");
+          var outlineShape = data.outlineShape;
+          expect(outlineShape.get("fillColor")).toEqual("red");
+          expect(outlineShape.get("strokeColor")).toEqual("yellow");
+          expect(outlineShape.get("width")).toEqual(20);
           done();
         });
 
