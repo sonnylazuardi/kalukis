@@ -129,29 +129,15 @@ define(function(require){
     };
 
     /**
-     * Preparation step before starting to paint. The `data`
-     * passed is expected to have properties of:
-     * + `data.points`: which holds the points for which      *                  canvas objects should be drawn at
-     * + `data.prop`  : canvas objects properties
-     * @param  {String} e    Event
-     * @param  {Object} data Event Data
-     */
-    this.prepareBrushPainting = function(canvas, canvasEventsService, points){
-      // only proceed if `data.points` are available
-      if (this.attr.activeBrush) {
-        this.startBrushPainting(canvas, points);
-      }
-    };
-
-    /**
-     * Paint the object. This method expects that config
-     * has all the configuration needed to paint the
-     * requested object
-     * @param {Object} config The painting configuration
+     * Paints the object with the active brush instance
+     * @param  {Object} canvas The canvas instance
+     * @param  {Array} points Points
      */
     this.startBrushPainting = function(canvas, points){
-      this.attr.activeBrush.brush.drawAtPoints(points);
-      canvas.renderAll();
+      if (this.attr.activeBrush) {
+        this.attr.activeBrush.drawAtPoints(points);
+        canvas.renderAll();  
+      }
     };
 
     /**

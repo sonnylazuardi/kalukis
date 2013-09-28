@@ -109,31 +109,19 @@ define(function(require){
 
     describe("Brush Painting Event Management", function(){
 
+      beforeEach(function(){
+        this.component.attr.activeBrush = new CircleBrush(canvas, {});
+        this.component.attr.activeBrushId = "circle";
+      });
+
+      it("Should have executed finalizePainting after drawing the brush is finished", function(){
+        var spiedEvent = spyOnEvent(".component-root", "brushPaintingFinished");
+
+        this.component.startBrushPainting(canvas, [{x: 0, y: 0}]);
+        expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
+      });
+
     });
 
-    // describe("Brush Painting Flow", function(){
-
-    //   beforeEach(function(){
-    //     setupComponent();
-    //     this.component.attr.activeBrush = {
-    //       id: "circle",
-    //       brush: circleBrush
-    //     };
-
-    //     this.component.attr.prop = {
-    //       width: 25,
-    //       fillColor: "red",
-    //       strokeColor: "blue"
-    //     };
-    //   });
-
-    //   it("Should have called finalizePainting after startBrushPainting has been executed", function(){
-    //     var spiedEvent = spyOnEvent('.component-root', "brushPaintingFinished");
-
-    //     this.component.startBrushPainting(canvas,[]);
-    //     expect(spiedEvent).toHaveBeenTriggeredOn('.component-root');
-    //   });
-
-    // });
   });
 });
