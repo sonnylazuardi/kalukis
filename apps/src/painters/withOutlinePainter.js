@@ -1,6 +1,6 @@
 /**
  * I know how to manage the drawing of an outline
- * shape.
+ * shape. Therefore, I also know which outline shape to use
  */
 define(function(require){
 

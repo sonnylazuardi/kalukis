@@ -1,6 +1,7 @@
 /**
  * I know how to manage the painting of an object
- * which uses a specific brush.
+ * which uses a specific brush. Therefore, I also know
+ * which brush to use.
  */
 define(function(require){
 
@@ -10,6 +11,12 @@ define(function(require){
 
     this.defaultAttrs({
       /**
+       * The active brush id
+       * @type {String}
+       */
+      activeBrushId: undefined,
+
+      /**
        * The current active brush used to paint
        * @type {Object}
        */
@@ -17,15 +24,27 @@ define(function(require){
     });
 
     this.after("initialize", function(){
+      this.on("activeBrushChanged", function(e, data){
+        this.setActiveBrush(data.activeBrushId);
+      }.bind(this));
+
       this.on("brushPaintingInitted", function(e, data){
         this.prepareBrushPainting(data.canvas, data.canvasEventsService, data.points);
       }.bind(this));
       this.on("brushPropertyUpdated", this.updateBrushProperty);
-      this.on("activeBrushUpdated", this.setActiveBrush);
+      // this.on("activeBrushUpdated", this.setActiveBrush);
 
       // add an after-advice
       this.after("startBrushPainting", this.finalizePainting);
     });
+
+    /**
+     * Set the active brush ID
+     * @param {String} id Brush ID
+     */
+    this.setActiveBrush = function(id) {
+      this.attr.activeBrushId = id;
+    };
 
     /**
      * Update brush instance's property
@@ -35,19 +54,6 @@ define(function(require){
     this.updateBrushProperty = function(e, data){
       if (data.key && data.newValue && this.attr.activeBrush) {
         this.attr.activeBrush.brush.set(data.key, data.newValue);
-      }
-    };
-
-    /**
-     * Set active brush. This method expects the brush to
-     * have been constructed so that it can be used straight
-     * away.
-     * @param {String} e    Event
-     * @param {Object} data Event Data
-     */
-    this.setActiveBrush = function(e, data){
-      if (data.newActiveBrush) {
-        this.attr.activeBrush = data.newActiveBrush;
       }
     };
 
