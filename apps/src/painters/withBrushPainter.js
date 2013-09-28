@@ -25,7 +25,7 @@ define(function(require){
 
     this.after("initialize", function(){
       this.on("activeBrushChanged", function(e, data){
-        this.setActiveBrush(data.activeBrushId);
+        this.setActiveBrushId(data.activeBrushId);
       }.bind(this));
 
       this.on("brushPaintingInitted", function(e, data){
@@ -42,7 +42,7 @@ define(function(require){
      * Set the active brush ID
      * @param {String} id Brush ID
      */
-    this.setActiveBrush = function(id) {
+    this.setActiveBrushId = function(id) {
       this.attr.activeBrushId = id;
     };
 
