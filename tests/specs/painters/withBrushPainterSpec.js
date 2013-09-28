@@ -83,6 +83,7 @@ define(function(require){
         });
 
         expect(this.component.attr.activeBrush).toEqual("rectBrush");
+        expect(this.component.attr.isRequestingForActiveBrushInstance).toBeFalsy();
       });
     });
 
@@ -109,54 +110,6 @@ define(function(require){
     describe("Brush Painting Event Management", function(){
 
     });
-
-    // describe("Brush Property Events", function(){
-
-    //   beforeEach(function(){
-    //     this.component.attr.activeBrush = {
-    //       id: "circle",
-    //       brush: circleBrush
-    //     };
-    //     $('.component-root').trigger("brushPropertyUpdated", {
-    //       key: "fillColor",
-    //       oldValue: "green",
-    //       newValue: "red"
-    //     });
-    //   });
-
-    //   it("Should have changed the brush instance's property", function(){
-    //     expect(this.component.attr.activeBrush.brush.get("fillColor")).toEqual("red");
-    //   });
-
-    //   it("Should not have changed the brush property if the event data aren't complete", function(){
-    //     $('.component-root').trigger("brushPropertyUpdated", {
-    //       key: "strokeColor"
-    //     });
-
-    //     expect(this.component.attr.activeBrush.brush.get("strokeColor")).toEqual("#000000");
-    //   });
-
-    // });
-
-    // describe("Active Brush Events", function(){
-
-    //   beforeEach(function(){
-    //     $('.component-root').trigger("activeBrushUpdated", {
-    //       newActiveBrush: {
-    //         id: "pencil",
-    //         brush: {}
-    //       }
-    //     });
-    //   });
-
-    //   it("Should have changed the active brush attribrute", function(){
-    //     expect(this.component.attr.activeBrush).toEqual({
-    //       id: "pencil",
-    //       brush: {}
-    //     });
-    //   });
-      
-    // });
 
     // describe("Brush Painting Flow", function(){
 

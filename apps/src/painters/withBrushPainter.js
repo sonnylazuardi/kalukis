@@ -42,7 +42,6 @@ define(function(require){
       this.on("brushPropertyUpdated", function(e, data){
         this.updateBrushProperty(data.key, data.newValue);
       }.bind(this));
-      // this.on("activeBrushUpdated", this.setActiveBrush);
 
       // add an after-advice
       this.after("startBrushPainting", this.finalizePainting);
@@ -115,6 +114,7 @@ define(function(require){
      */
     this.detachFromBrushRespondEvent = function(){
       this.off("brushRequestResponded");
+      this.attr.isRequestingForActiveBrushInstance = false;
     };
 
     /**
