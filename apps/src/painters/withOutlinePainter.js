@@ -12,10 +12,24 @@ define(function(require){
   function withOutlinePainter(){
 
     this.defaultAttrs({
+      /**
+       * The active outlineshape ID
+       * @type {String}
+       */
+      activeOutlineShapeId: undefined,
+
+      /**
+       * The active outlineshape instance
+       * @type {Object}
+       */
       activeOutlineShape: undefined
     });
 
     this.after("initialize", function(){
+      this.on("activeOutlineShapeChanged", function(e, data){
+        this.setActiveOutlineShapeId(data.activeOutlineShapeId);
+      }.bind(this));
+
       this.on("outlineShapePaintingInitted", function(e, data){
         this.prepareOutlineShapePainting(data.canvas, data.canvasEventsService);
       }.bind(this));
@@ -32,6 +46,14 @@ define(function(require){
       if (data.key && data.newValue && this.attr.activeOutlineShape) {
         this.attr.activeOutlineShape.outlineShape.set(data.key, data.newValue);
       }
+    };
+
+    /**
+     * Set the active outlineshape ID
+     * @param {String} id OutlineShape ID
+     */
+    this.setActiveOutlineShapeId = function(id) {
+      this.attr.activeOutlineShapeId = id;
     };
 
     /**

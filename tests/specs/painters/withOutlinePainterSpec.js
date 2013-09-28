@@ -15,6 +15,30 @@ define(function(require){
       setupComponent();
     });
 
+    describe("Active Outline Shape", function(){
+
+      it("Should hold which outline shape id is currently active", function(){
+        $(".component-root").trigger("activeOutlineShapeChanged", {
+          activeOutlineShapeId: "rect"
+        });
+
+        expect(this.component.attr.activeOutlineShapeId).toEqual("rect");
+      });
+
+    });
+
+    describe("Active Outline Shape Management", function(){
+
+    });
+
+    describe("Active Outline Shape Property Management", function(){
+
+    });
+
+    describe("OutlineShape Painting Event Management", function(){
+
+    });
+
     describe("Event Listener", function(){
 
       it("Should have changed the active outline shape on activeOutlineShapeUpdated event", function(){

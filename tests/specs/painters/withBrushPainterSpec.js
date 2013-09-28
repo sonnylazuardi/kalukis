@@ -12,7 +12,7 @@ define(function(require){
 
     describe("Active Brush", function(){
 
-      it("Should holds which brush is currently active", function(){
+      it("Should hold which brush is currently active", function(){
 
         $(".component-root").trigger("activeBrushChanged", {
           activeBrushId: "rect"
