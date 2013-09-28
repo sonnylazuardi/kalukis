@@ -59,6 +59,8 @@ define(function(require){
       this.trigger("activeOutlineShapeIdUpdated", {
         id: id
       });
+
+      this.requestActiveOutlineShape(id);
     };
 
     /**
@@ -67,6 +69,12 @@ define(function(require){
      */
     this.getActiveOutlineShapeId = function(){
       return this.attr.activeOutlineShapeId;
+    };
+
+    this.requestActiveOutlineShape = function(id){
+      this.trigger("outlineShapeRequested", {
+        id: id
+      });
     };
 
     /**

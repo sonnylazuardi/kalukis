@@ -47,6 +47,16 @@ define(function(require){
 
     describe("Active Outline Shape Management", function(){
 
+      it("Should request for active outline shape instance on updated ID", function(){
+        var spiedEvent = spyOnEvent(".component-root", "outlineShapeRequested");
+
+        $(".component-root").trigger("activeOutlineShapeChanged", {
+          activeOutlineShapeId: "rect"
+        });
+
+        expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
+      });
+
     });
 
     describe("Active Outline Shape Property Management", function(){
