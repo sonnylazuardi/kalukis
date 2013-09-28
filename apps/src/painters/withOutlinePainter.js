@@ -127,7 +127,7 @@ define(function(require){
         // register out outline shape painter to the canvas events
         // so that it can draw itself according to user's mouse interaction
         
-        var outlineShape = this.attr.activeOutlineShape.outlineShape,
+        var outlineShape = this.attr.activeOutlineShape,
             listeners = {
               onMouseDown: function(e){
                 outlineShape.onMouseDown(e);
@@ -150,20 +150,18 @@ define(function(require){
         
         canvasEventsService.unregisterExistingListeners(canvas);
         canvasEventsService.registerEventListeners(canvas, listeners);
-        this.attr.activeOutlineShape.outlineShape.start();
+        this.attr.activeOutlineShape.start();
       }
     };
 
     /**
      * Step taken after the drawing of outline shape has
      * finished
-     * @param {String} e Event
-     * @param {Object} data Event Data
      */
-    this.finalizeOutlineShapePainting = function(e, data){
+    this.finalizeOutlineShapePainting = function(){
       this.trigger("outlineShapePaintingFinished", {
         outlineShapeId: this.attr.activeOutlineShape.id,
-        outlineShape: this.attr.activeOutlineShape.outlineShape
+        outlineShape: this.attr.activeOutlineShape
       });
     };
 
