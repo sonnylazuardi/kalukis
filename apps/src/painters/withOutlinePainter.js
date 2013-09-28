@@ -72,6 +72,10 @@ define(function(require){
     };
 
     this.requestActiveOutlineShape = function(id){
+      this.on("outlineShapeRequestResponded", function(e, data){
+        this.setActiveOutlineShape(data.outlineShape);
+      }.bind(this));
+
       this.trigger("outlineShapeRequested", {
         id: id
       });

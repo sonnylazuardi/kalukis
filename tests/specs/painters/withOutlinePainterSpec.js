@@ -57,6 +57,18 @@ define(function(require){
         expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
       });
 
+      it("Should listen for outlineShapeRequestResponded event when outlineShapeRequested has been triggered", function(){
+        $(".component-root").trigger("activeOutlineShapeChanged", {
+          activeOutlineShapeId: "rect"
+        });
+
+        $(".component-root").trigger("outlineShapeRequestResponded", {
+          outlineShape: "rectOutline"
+        });
+
+        expect(this.component.attr.activeOutlineShape).toEqual("rectOutline");
+      });
+
     });
 
     describe("Active Outline Shape Property Management", function(){
