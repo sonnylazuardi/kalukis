@@ -103,6 +103,21 @@ define(function(require){
 
     describe("Active Outline Shape Property Management", function(){
 
+      beforeEach(function(){
+        this.component.attr.activeOutlineShape = new RectOutline(canvas, {});
+        this.component.attr.activeOutlineShapeId = "rect";
+      });
+
+      it("Should update the active outlineShape properties when there is a change in the brush property", function(){
+        $(".component-root").trigger("brushPropertyUpdated", {
+          key: "fillColor",
+          oldValue: "#000000",
+          newValue: "red"
+        });
+
+        expect(this.component.attr.activeOutlineShape.get("fillColor")).toEqual("red");
+      });
+
     });
 
     describe("OutlineShape Painting Event Management", function(){

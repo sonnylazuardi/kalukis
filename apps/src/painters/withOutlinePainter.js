@@ -40,18 +40,23 @@ define(function(require){
       this.on("outlineShapePaintingInitted", function(e, data){
         this.prepareOutlineShapePainting(data.canvas, data.canvasEventsService);
       }.bind(this));
+
+      this.on("brushPropertyUpdated", function(e, data){
+        this.updateOutlineShapeProperty(data.key, data.newValue);
+      }.bind(this));
+
       this.on("outlineShapePropertyUpdated", this.updateOutlineShapeProperty);
       this.on("activeOutlineShapeUpdated", this.setActiveOutlineShape);
     });
 
     /**
-     * Update the instance of activeOutlineShape property
-     * @param {String} e Event
-     * @param {Object} data Event Data
+     * Update the outlineShape instance property
+     * @param  {String} key   The key property
+     * @param  {String} value The value
      */
-    this.updateOutlineShapeProperty = function(e, data){
-      if (data.key && data.newValue && this.attr.activeOutlineShape) {
-        this.attr.activeOutlineShape.outlineShape.set(data.key, data.newValue);
+    this.updateOutlineShapeProperty = function(key, value){
+      if (this.attr.activeOutlineShape) {
+        this.attr.activeOutlineShape.set(key, value);
       }
     };
 
