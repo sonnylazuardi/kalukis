@@ -50,6 +50,7 @@ define(function(require){
           outlineShape: "circle"
         });
 
+        // make sure only the first activeOutlineShapeUpdated is responded
         var args = this.component.initOutlineShapePainting.mostRecentCall.args[0];
         expect(args).toEqual({
           outlineShape: "rect"
