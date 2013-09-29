@@ -7,11 +7,9 @@ define(function(require){
       defineComponent = require("flight/lib/component"),
       withCanvasEvents = require("painters/withCanvasEvents"),
       withBrushPainter = require("painters/withBrushPainter"),
-      withOutlinePainter = require("painters/withOutlinePainter"),
-      withFreehandPainter = require("painters/withFreehandPainter"),
-      withImagePainter = require("painters/withImagePainter");
+      withOutlinePainter = require("painters/withOutlinePainter");
 
-  return defineComponent(Lukis, withCanvasEvents, withBrushPainter, withOutlinePainter, withFreehandPainter, withImagePainter);
+  return defineComponent(Lukis, withCanvasEvents, withBrushPainter, withOutlinePainter);
 
   function Lukis(){
 
@@ -108,7 +106,7 @@ define(function(require){
       }
 
       // calls method from withOutlineShapePainter
-      this.prepareOutlineShapePainting(this.attr.canvas, {
+      this.startOutlineShapePainting(this.attr.canvas, {
         registerEventListeners: this.registerEventListeners,
         unregisterExistingListeners: this.unregisterExistingListeners
       });
@@ -130,11 +128,11 @@ define(function(require){
         this.attr.customHandlers[key] = data.customHandler[key];
       }
       // calls method from withBrushPainter
-      this.prepareBrushPainting(this.attr.canvas, {
+      this.startBrushPainting(this.attr.canvas, {
           registerEventListeners: this.registerEventListeners,
           unregisterEventListerns: this.unregisterEventListerns
         },
-        data.outlineShape.getOutlinePoints(this.attr.activeBrush.brush.get('width'))
+        data.outlineShape.getOutlinePoints(this.attr.activeBrush.get('width'))
       );
     };
 

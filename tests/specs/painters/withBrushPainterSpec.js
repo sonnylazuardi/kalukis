@@ -40,6 +40,21 @@ define(function(require){
         expect(spiedEvent.mostRecentCall.data.id).toEqual("rect");
       });
 
+      it("Should set the active brush when brushesLoaded event has been triggered", function(){
+        $(".component-root").trigger("brushesLoaded", {
+          brushes: [{
+            "id": "circle",
+            "name": "Circle"
+          },
+          {
+            "id": "rect",
+            "name": "Rectangular"
+          }]
+        });
+
+        expect(this.component.attr.activeBrushId).toEqual("circle");
+      });
+
     });
 
     describe("Active Brush Event Management", function(){

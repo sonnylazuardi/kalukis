@@ -56,9 +56,7 @@ define(function(require){
      * The lukis component will publish the canvas instance
      * and its DOM element with an event name of `canvasConstructed`.
      */
-    lukis.attachTo(document, {
-      canvasEl: "#lukis"
-    });
+    lukis.attachTo(document);
 
     /**
      * Components that hold data should be instantiated here.
