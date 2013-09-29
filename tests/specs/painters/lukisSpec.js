@@ -8,6 +8,35 @@ define(function(require){
       setupComponent();
     });
 
+    describe("Painting Event", function(){
+
+      it("Should map paintWidgetClicked to activeOutlineShapeChanged event", function(){
+        var spiedEvent = spyOnEvent(".component-root", "activeOutlineShapeChanged");
+
+        $(".component-root").trigger("paintWidgetClicked", {
+          paintWidgetId: "rect"
+        });
+
+        expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
+        expect(spiedEvent.mostRecentCall.data.activeOutlineShapeId).toEqual("rect");
+      });
+
+      it("Should listen to activeOutlineShapeUpdated event when activeOutlineShapeChanged has been triggered", function(){
+        spyOn(this.component, "initOutlineShapePainting");
+
+        $(".component-root").trigger("paintWidgetClicked", {
+          paintWidgetId: "rect"
+        });
+
+        $(".component-root").trigger("activeOutlineShapeUpdated", {
+          outlineShape: "rect"
+        });
+
+        expect(this.component.initOutlineShapePainting).toHaveBeenCalled();
+      });
+
+    });
+
     describe("Custom Handlers", function(){
 
       beforeEach(function(){

@@ -65,7 +65,7 @@ define(function(require){
       }.bind(this));
 
       this.on("paintWidgetClicked", function(e, data){
-
+        this.publishActiveOutlineChange(data.paintWidgetId);
       }.bind(this));
 
       this.on("outlineShapePaintingFinished", function(e, data){
@@ -81,6 +81,17 @@ define(function(require){
           this.initBrushPainting(data);
         }
       }.bind(this));
+    };
+
+    this.publishActiveOutlineChange = function(id){
+      this.on("activeOutlineShapeUpdated", function(e, data){
+        this.off("activeOutlineShapeUpdated");
+        this.initOutlineShapePainting(data);
+      }.bind(this));
+
+      this.trigger("activeOutlineShapeChanged", {
+        activeOutlineShapeId: id
+      });
     };
 
     /**
