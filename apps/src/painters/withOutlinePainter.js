@@ -101,6 +101,10 @@ define(function(require){
         this.attr.activeOutlineShape = outlineShape;  
 
         this.detachFromOutlineShapeRespondEvent();
+
+        this.trigger("activeOutlineShapeUpdated", {
+          outlineShape: outlineShape
+        });
       }
     };
 

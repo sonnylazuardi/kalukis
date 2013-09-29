@@ -37,15 +37,12 @@ define(function(require){
       }.bind(this));
 
       this.on("brushPaintingInitted", function(e, data){
-        this.prepareBrushPainting(data.canvas, data.points);
+        this.prepareBrushPainting(data.canvas, data.points, data.brush);
       }.bind(this));
 
       this.on("brushPropertyUpdated", function(e, data){
         this.updateBrushProperty(data.key, data.newValue);
       }.bind(this));
-
-      // add an after-advice
-      this.after("startBrushPainting", this.finalizePainting);
     });
 
     /**
@@ -134,19 +131,23 @@ define(function(require){
      * @param  {Object} canvas The canvas instance
      * @param  {Array} points Points
      */
-    this.startBrushPainting = function(canvas, points){
-      if (this.attr.activeBrush) {
-        this.attr.activeBrush.drawAtPoints(points);
-        canvas.renderAll();  
+    this.startBrushPainting = function(canvas, points, brush){
+      var usedBrush = brush || this.attr.activeBrush;
+
+      if (usedBrush) {
+        usedBrush.drawAtPoints(points);
+        canvas.renderAll();
+
+        this.finalizePainting(usedBrush);
       }
     };
 
     /**
      * The final steps after object has been drawn
      */
-    this.finalizePainting = function(){
+    this.finalizePainting = function(brush){
       this.trigger("brushPaintingFinished", {
-        brush: this.attr.activeBrush
+        brush: brush
       });
     };
 

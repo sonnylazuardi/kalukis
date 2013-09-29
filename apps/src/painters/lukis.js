@@ -60,12 +60,12 @@ define(function(require){
     };
 
     this.attachEventListeners = function(){
-      this.on("freehandPaintingReady", function(e, data){
-        this.initFreehandPainting(data);
+      this.on("cancelPaintingRequested", function(e, data){
+        this.cancelCurrentPainting();
       }.bind(this));
 
-      this.on("outlineShapePaintingReady", function(e, data){
-        this.initOutlineShapePainting(data);
+      this.on("paintWidgetClicked", function(e, data){
+
       }.bind(this));
 
       this.on("outlineShapePaintingFinished", function(e, data){
@@ -88,18 +88,7 @@ define(function(require){
      */
     this.cancelCurrentPainting = function(){
       this.unregisterExistingListeners(this.attr.canvas);
-      this.stopFreehandPainting();
       this.attr.customHandlers = {};
-    };
-
-    /**
-     * Start freehand painting. This will cancel any active painting.
-     *
-     * @param  {Object} data Data needed to paint.
-     */
-    this.initFreehandPainting = function(data){
-      this.cancelCurrentPainting();
-      this.startFreehandPainting(this.attr.canvas, this.attr.activeBrush.brush);
     };
 
     /**

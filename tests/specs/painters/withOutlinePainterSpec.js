@@ -43,6 +43,15 @@ define(function(require){
         expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
       });
 
+      it("Should publish activeOutlineShapeUpdated event when a new active outlineshape is updated", function(){
+        var spiedEvent = spyOnEvent(".component-root", "activeOutlineShapeUpdated");
+
+        this.component.attr.isRequestingForActiveOutlineShapeInstance = true;
+        this.component.setActiveOutlineShape("something");
+
+        expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
+      });
+
     });
 
     describe("Active Outline Shape Management", function(){
