@@ -35,6 +35,27 @@ define(function(require){
         expect(this.component.initOutlineShapePainting).toHaveBeenCalled();
       });
 
+      it("Should detach activeOutlineShapeUpdated event when that event has been captured", function(){
+        spyOn(this.component, "initOutlineShapePainting");
+
+        $(".component-root").trigger("paintWidgetClicked", {
+          paintWidgetId: "rect"
+        });
+
+        $(".component-root").trigger("activeOutlineShapeUpdated", {
+          outlineShape: "rect"
+        });        
+
+        $(".component-root").trigger("activeOutlineShapeUpdated", {
+          outlineShape: "circle"
+        });
+
+        var args = this.component.initOutlineShapePainting.mostRecentCall.args[0];
+        expect(args).toEqual({
+          outlineShape: "rect"
+        });
+      });
+
     });
 
     describe("Custom Handlers", function(){
