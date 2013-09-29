@@ -10,6 +10,10 @@ define(function(require){
 
     describe("Painting Event", function(){
 
+      beforeEach(function(){
+        this.component.attr.canvas = canvas;
+      });
+
       it("Should map paintWidgetClicked to activeOutlineShapeChanged event", function(){
         var spiedEvent = spyOnEvent(".component-root", "activeOutlineShapeChanged");
 
@@ -62,6 +66,7 @@ define(function(require){
     describe("Custom Handlers", function(){
 
       beforeEach(function(){
+        this.component.attr.canvas = canvas;
         this.component.attr.customHandlers["outlineShapePaintingFinished"] = function(){};
       });
 

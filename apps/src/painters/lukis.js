@@ -18,22 +18,10 @@ define(function(require){
     this.defaultAttrs({
     /**
        * Canvas instance
-       * @type {String}
-       */
-      canvas: "",
-      /**
-       * Canvas element
-       * @type {String}
-       */
-      canvasEl: "",
-      /**
-       * Canvas configuration
        * @type {Object}
        */
-      canvasCfg: {
-
-      },
-
+      canvas: undefined,
+      
       /**
        * Custom event handlers for events related to this module
        * @type {Array}
@@ -42,24 +30,15 @@ define(function(require){
     });
 
     this.after("initialize", function(){
-      this.constructCanvas();
       this.attachEventListeners();
+      this.requestCanvas();
     });
 
-    /**
-     * Initialize the canvas instance. Once it's done, publish the canvas
-     * element and instance on canvasConstructod event
-     */
-    this.constructCanvas = function(){
-      this.attr.canvas = new fabric.Canvas(this.attr.canvasEl.replace(/(#|\.)/,''));
-
-      this.trigger("canvasConstructed", {
-        canvasEl: this.attr.canvasEl,
-        canvas: this.attr.canvas
-      });
-    };
-
     this.attachEventListeners = function(){
+      this.on("canvasRequestResponded", function(e, data){
+        this.setupCanvas(data.canvas);
+      }.bind(this));
+
       this.on("cancelPaintingRequested", function(e, data){
         this.cancelCurrentPainting();
       }.bind(this));
@@ -81,6 +60,14 @@ define(function(require){
           this.initBrushPainting(data);
         }
       }.bind(this));
+    };
+
+    this.requestCanvas = function(){
+      this.trigger("canvasRequested");
+    };
+
+    this.setupCanvas = function(canvas){
+      this.attr.canvas = canvas;
     };
 
     this.publishActiveOutlineChange = function(id){
@@ -107,7 +94,6 @@ define(function(require){
      *
      * The `data` contains:
      * + customHandler  : a custom handler for any event that might be published by the outline painter
-     * + activeOutlineShape: the outline shape to use
      * 
      * @param  {Object} data Data need to paint
      */
