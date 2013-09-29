@@ -61,6 +61,20 @@ define(function(require){
         });
       });
 
+      it("Should publish cancelPaintingRequested on painting", function(){
+        var spiedEvent = spyOnEvent(".component-root", "cancelCurrentPainting");
+
+        $(".component-root").trigger("paintWidgetClicked", {
+          paintWidgetId: "rect"
+        });
+        $(".component-root").trigger("activeOutlineShapeUpdated", {
+          outlineShape: "rect"
+        });
+
+        expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
+        expect(spiedEvent.mostRecentCall.data.active).toEqual("paint");
+      });
+
     });
 
     describe("Custom Handlers", function(){

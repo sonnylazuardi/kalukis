@@ -38,7 +38,9 @@ define(function(require){
       }.bind(this));
 
       this.on("cancelPaintingRequested", function(e, data){
-        this.cancelCurrentPainting();
+        if (data.active !== "paint") {
+          this.cancelCurrentPainting();
+        }
       }.bind(this));
 
       this.on("paintWidgetClicked", function(e, data){
@@ -71,6 +73,11 @@ define(function(require){
     this.publishActiveOutlineChange = function(id){
       this.on("activeOutlineShapeUpdated", function(e, data){
         this.off("activeOutlineShapeUpdated");
+        
+        this.trigger("cancelCurrentPainting", {
+          active: "paint"
+        });
+
         this.initOutlineShapePainting(data);
       }.bind(this));
 
