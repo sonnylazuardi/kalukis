@@ -128,10 +128,8 @@ define(function(require){
         this.attr.customHandlers[key] = data.customHandler[key];
       }
       // calls method from withBrushPainter
-      this.startBrushPainting(this.attr.canvas, {
-          registerEventListeners: this.registerEventListeners,
-          unregisterEventListerns: this.unregisterEventListerns
-        },
+      this.startBrushPainting(
+        this.attr.canvas,
         data.outlineShape.getOutlinePoints(this.attr.activeBrush.get('width'))
       );
     };

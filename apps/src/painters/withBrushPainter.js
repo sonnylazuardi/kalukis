@@ -137,7 +137,7 @@ define(function(require){
      */
     this.startBrushPainting = function(canvas, points, brush){
       var usedBrush = brush || this.attr.activeBrush;
-
+      
       if (usedBrush) {
         usedBrush.drawAtPoints(points);
         canvas.renderAll();
