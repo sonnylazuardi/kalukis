@@ -37,7 +37,7 @@ define(function(require){
       }.bind(this));
 
       this.on("brushPaintingInitted", function(e, data){
-        this.prepareBrushPainting(data.canvas, data.canvasEventsService, data.points);
+        this.prepareBrushPainting(data.canvas, data.points);
       }.bind(this));
 
       this.on("brushPropertyUpdated", function(e, data){

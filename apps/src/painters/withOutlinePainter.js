@@ -38,7 +38,7 @@ define(function(require){
       }.bind(this));
 
       this.on("outlineShapePaintingInitted", function(e, data){
-        this.startOutlineShapePainting(data.canvas, data.canvasEventsService);
+        this.startOutlineShapePainting(data.canvas, data.canvasEventsService, data.outlineShape);
       }.bind(this));
 
       this.on("brushPropertyUpdated", function(e, data){
@@ -149,7 +149,10 @@ define(function(require){
         if (!usedOutlineShape.hasOwnProperty("__hasBeenAddedAfterAdvice")) {
           compose.mixin(usedOutlineShape, [advice.withAdvice]);
 
-          usedOutlineShape.after("finish", this.finalizeOutlineShapePainting.bind(this));
+          usedOutlineShape.after("finish", function(){
+            this.finalizeOutlineShapePainting(usedOutlineShape);
+          }.bind(this));
+
           usedOutlineShape.__hasBeenAddedAfterAdvice = true;
         }
         
@@ -164,10 +167,9 @@ define(function(require){
      * Step taken after the drawing of outline shape has
      * finished
      */
-    this.finalizeOutlineShapePainting = function(){
+    this.finalizeOutlineShapePainting = function(outlineShape){
       this.trigger("outlineShapePaintingFinished", {
-        outlineShapeId: this.attr.activeOutlineShape.id,
-        outlineShape: this.attr.activeOutlineShape
+        outlineShape: outlineShape
       });
     };
 
