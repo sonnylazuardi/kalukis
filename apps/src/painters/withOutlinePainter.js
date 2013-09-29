@@ -38,7 +38,7 @@ define(function(require){
       }.bind(this));
 
       this.on("outlineShapePaintingInitted", function(e, data){
-        this.prepareOutlineShapePainting(data.canvas, data.canvasEventsService);
+        this.startOutlineShapePainting(data.canvas, data.canvasEventsService);
       }.bind(this));
 
       this.on("brushPropertyUpdated", function(e, data){
@@ -116,43 +116,47 @@ define(function(require){
      * is provided, than that `outlineShape` will be drawn.
      * 
      * @param  {Object} canvas              Canvas instance
-     * @param  {Object} canvasEventsService Canvas Events Service
-     * @param  {Object} outlineShape        The custom outlineShape
+     * @param  {Object} canvasEventsService Canvas Events Service. This is
+     *                                      needed to attach the painting
+     *                                      to the canvas painting related
+     *                                      events
+     * @param  {Object} outlineShape        The custom outlineShape. If
+     *                                      provided, this instance will
+     *                                      be used instead
      */
-    this.prepareOutlineShapePainting = function(canvas, canvasEventsService, outlineShape){
+    this.startOutlineShapePainting = function(canvas, canvasEventsService, outlineShape){
 
-      if (outlineShape) {
-        this.attr.activeOutlineShape = outlineShape;
-      }
+      var usedOutlineShape = outlineShape || this.attr.activeOutlineShape;
 
-      if (this.attr.activeOutlineShape){
+      if (usedOutlineShape){
         // register out outline shape painter to the canvas events
         // so that it can draw itself according to user's mouse interaction
         
-        var outlineShape = this.attr.activeOutlineShape,
-            listeners = {
+        var listeners = {
               onMouseDown: function(e){
-                outlineShape.onMouseDown(e);
+                usedOutlineShape.onMouseDown(e);
               },
               onMouseMove: function(e){
-                outlineShape.onMouseMove(e);
+                usedOutlineShape.onMouseMove(e);
               },
               onMouseUp: function(e){
-                outlineShape.onMouseUp(e);
+                usedOutlineShape.onMouseUp(e);
               }
             };
 
-        compose.mixin(outlineShape, [advice.withAdvice]);
+        // we need to track wether we have added the after advice, so that
+        // the `finalizeOutlineShapePainting` method is not called twice
+        if (!usedOutlineShape.hasOwnProperty("__hasBeenAddedAfterAdvice")) {
+          compose.mixin(usedOutlineShape, [advice.withAdvice]);
 
-        if (!outlineShape.hasOwnProperty("__hasBeenAddedAfterAdvice")) {
-          outlineShape.after("finish", this.finalizeOutlineShapePainting.bind(this));
-          outlineShape.__hasBeenAddedAfterAdvice = true;
+          usedOutlineShape.after("finish", this.finalizeOutlineShapePainting.bind(this));
+          usedOutlineShape.__hasBeenAddedAfterAdvice = true;
         }
         
         
         canvasEventsService.unregisterExistingListeners(canvas);
         canvasEventsService.registerEventListeners(canvas, listeners);
-        this.attr.activeOutlineShape.start();
+        usedOutlineShape.start();
       }
     };
 

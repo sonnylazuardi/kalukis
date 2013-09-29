@@ -14,11 +14,14 @@ describeComponent("ui/brushSizeWidget/brushSizeWidget", function(){
 
   describe("Events", function(){
 
-    it("Should publish brushPropertyChanged", function(){
-      var spiedEvent = spyOnEvent(document, "brushPropertyChanged");
+    var async = new AsyncSpec(this);
+
+    async.it("Should publish brushPropertyChanged", function(done){
+      $(document).on("brushPropertyChanged", function(){
+        done();
+      });
 
       $("#brushsize-widget").val(25);
-      expect(spiedEvent).toHaveBeenTriggeredOn(document);
     });
   });
 
