@@ -33,11 +33,15 @@ define(function(require){
     });
 
     this.startFreehandPainting = function(canvas, brush){
-      this.attr.mixinCanvas = canvas;
-      this.attr.mixinCanvas.isDrawingMode = true;
-      this.attr.mixinCanvas.freeDrawingBrush = brush.getBrush();
-      this.attr.mixinCanvas.freeDrawingBrush.color = this.attr.brushColor;
-      this.attr.mixinCanvas.freeDrawingBrush.width = this.attr.brushWidth;
+      var usedBrush = brush || this.attr.activeBrush;
+
+      if (usedBrush) {
+        this.attr.mixinCanvas = canvas;
+        this.attr.mixinCanvas.isDrawingMode = true;
+        this.attr.mixinCanvas.freeDrawingBrush = usedBrush.getBrush();
+        this.attr.mixinCanvas.freeDrawingBrush.color = this.attr.brushColor;
+        this.attr.mixinCanvas.freeDrawingBrush.width = this.attr.brushWidth;  
+      }
     };
 
     this.stopFreehandPainting = function(){
@@ -48,7 +52,7 @@ define(function(require){
 
     this.setBrush = function(brush){
       this.attr.activeBrush = brush;
-      
+
       if (this.attr.mixinCanvas && this.attr.mixinCanvas.isDrawingMode) {
         this.attr.mixinCanvas.freeDrawingBrush = brush.getBrush();
       }

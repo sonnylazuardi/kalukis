@@ -5,6 +5,7 @@ define(function(require){
 
   var canvas = require("services/canvas"),
       lukis = require("painters/lukis"),
+      freehandPainter = require("painters/freehandPainter"),
 
       paintWidgets = require("ui/paintWidget/paintWidgets"),
       canvasManipulationWidget = require("ui/canvasManipulationWidget/canvasManipulationWidget"),
@@ -57,6 +58,7 @@ define(function(require){
      * and its DOM element with an event name of `canvasConstructed`.
      */
     lukis.attachTo(document);
+    freehandPainter.attachTo(document);
 
     /**
      * Components that hold data should be instantiated here.
