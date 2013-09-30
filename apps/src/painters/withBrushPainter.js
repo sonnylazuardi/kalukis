@@ -98,6 +98,9 @@ define(function(require){
         this.attr.activeBrush = brush;
 
         this.detachFromBrushRespondEvent();
+        this.trigger("activeBrushUpdated", {
+          brush: brush
+        });
       }
     };
 

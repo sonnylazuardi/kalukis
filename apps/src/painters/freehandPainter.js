@@ -7,11 +7,28 @@ define(function(require){
 
   function freehandPainter(){
 
-    this.after("initialize", function(){
-      this.attachEventListeners();
+    this.defaultAttrs({
+      canvas: undefined
     });
 
+    this.after("initialize", function(){
+      this.attachEventListeners();
+      this.requestCanvas();
+    });
+
+    this.requestCanvas = function(){
+      this.trigger("canvasRequested");
+    };
+
+    this.setCanvas = function(canvas) {
+      this.attr.canvas = canvas;
+    };
+
     this.attachEventListeners = function(){
+      this.on("canvasRequestResponded", function(e, data){
+        this.setCanvas(data.canvas);
+      }.bind(this));
+
       this.on("cancelCurrentPainting", function(e, data){
         if (data.active !== "freehand") {
           this.stopFreehandPainting();
@@ -31,7 +48,7 @@ define(function(require){
     };
 
     this.initFreehandPainting = function(){
-
+      this.startFreehandPainting(this.attr.canvas);
     };
   }
 

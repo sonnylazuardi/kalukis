@@ -10,6 +10,8 @@ define(function(require){
 
       mixinCanvas: undefined,
 
+      activeBrush: undefined,
+
       brushWidth: 10,
 
       brushColor: "#000000"
@@ -18,8 +20,9 @@ define(function(require){
 
     this.after("initialize", function(){
       this.on("activeBrushUpdated", function(e, data){
-        this.setBrush(data.newActiveBrush.brush);
+        this.setBrush(data.brush);
       }.bind(this));
+
       this.on("brushPropertyUpdated", function(e, data){
         if (data.key === "width") {
           this.setBrushWidth(data.newValue);  
@@ -44,6 +47,8 @@ define(function(require){
     };
 
     this.setBrush = function(brush){
+      this.attr.activeBrush = brush;
+      
       if (this.attr.mixinCanvas && this.attr.mixinCanvas.isDrawingMode) {
         this.attr.mixinCanvas.freeDrawingBrush = brush.getBrush();
       }

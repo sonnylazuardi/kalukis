@@ -12,6 +12,7 @@ define(function(require){
     describe("Painting Event", function(){
 
       beforeEach(function(){
+        this.component.attr.canvas = canvas;
         this.component.attr.mixinCanvas = canvas;
       });
 
