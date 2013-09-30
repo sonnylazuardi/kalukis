@@ -1,3 +1,6 @@
+/**
+ * I know whats needed to draw a free hand
+ */
 define(function(require){
 
   var fabric = require("fabric");

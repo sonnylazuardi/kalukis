@@ -1,7 +1,5 @@
 /**
- * I manage the steps needed to add image to the canvas.
- * Adding the image itself is not handled by me, as that
- * task is delegated to other module.
+ * I know whats needed in order for painting image to run properly
  */
 define(function(require){
 
@@ -18,10 +16,6 @@ define(function(require){
     });
 
     this.after("initialize", function(){
-      // this.on("imageCanvasClicked", function(e, data){
-      //   this.loadImages(data.files);
-      // }.bind(this));
-
       this.loadOutlineShape();
     });
 
