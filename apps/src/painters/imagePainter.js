@@ -50,7 +50,7 @@ define(function(require){
 
       this.on("cancelCurrentPainting", function(e, data){
         if (data !== "image") {
-          this.stopPainting();
+          this.stopImagePainting();
         }
       });
     };

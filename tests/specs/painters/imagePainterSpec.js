@@ -35,12 +35,12 @@ define(function(require){
       });
 
       it("Should stop any painting when cancelCurrentPainting", function(){
-        spyOn(this.component, "stopPainting");
+        spyOn(this.component, "stopImagePainting");
 
         $(".component-root").trigger("cancelCurrentPainting", {
           active: "freehand"
         });
-        expect(this.component.stopPainting).toHaveBeenCalled();
+        expect(this.component.stopImagePainting).toHaveBeenCalled();
       });
 
     });

@@ -19,7 +19,11 @@ define(function(require){
       this.loadOutlineShape();
     });
 
-    this.stopPainting = function(){
+    this.stopImagePainting = function(){
+
+    };
+
+    this.startImagePainting = function(){
 
     };
 
