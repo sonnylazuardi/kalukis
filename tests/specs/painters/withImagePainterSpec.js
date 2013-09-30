@@ -37,9 +37,14 @@ define(function(require){
         expect(this.component.attr.mixinRectOutline).toHaveProperties("__hasBeenAddedAfterAdvice");
       });
 
-      xit("Publish addingImageInitted after outlineShapePainting is finisihed", function(){
+      it("Publish addingImageInitted after outlineShapePainting is finisihed", function(){
+        var spiedEvent = spyOnEvent(".component-root", "addingImageInitted");
 
+        this.component.startImagePainting(canvas, [], canvasEventsService);
+        this.component.attr.mixinRectOutline.finish();
+        expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
       });
+
 
     });
 

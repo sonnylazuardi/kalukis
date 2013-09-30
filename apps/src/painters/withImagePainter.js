@@ -61,7 +61,7 @@ define(function(require){
           compose.mixin(outlineShape, [advice.withAdvice]);
 
           outlineShape.after("finish", function(){
-            this.loadImages(files);
+            this.loadImages(files, outlineShape);
           }.bind(this));
 
           outlineShape.__hasBeenAddedAfterAdvice = true;
@@ -78,29 +78,19 @@ define(function(require){
      * Load the images for the canvas
      * @param  {HTMLFileList} images The images
      */
-    this.loadImages = function(images){
-      this.trigger("outlineShapePaintingReady", {
-        outlineShape: {
-          id: "rect",
-          outlineShape: this.attr.mixinRectOutline
-        },
-        customHandler: {
-          outlineShapePaintingFinished: function(canvas, data){
-            var outline = data.outlineShape.getOutline(),
-                cfg = {
-                  x: outline.x,
-                  y: outline.y,
-                  width: outline.width,
-                  height: outline.height
-                };
-            
-            this.trigger("addingImageInitted", {
-              canvas: canvas,
-              images: images,
-              cfg: cfg
-            });
-          }.bind(this)
-        }
+    this.loadImages = function(images, outlineShape){
+      var outline = outlineShape.getOutline(),
+          cfg = {
+            x: outline.x,
+            y: outline.y,
+            width: outline.width,
+            height: outline.height
+          };
+      
+      this.trigger("addingImageInitted", {
+        canvas: this.attr.canvas,
+        images: images,
+        cfg: cfg
       });
     };
   }
