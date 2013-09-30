@@ -1,5 +1,6 @@
 /**
- * I know whats needed in order for painting image to run properly
+ * I know whats needed in order for painting image to run properly. I
+ * also process the painting events
  */
 define(function(require){
 
@@ -10,7 +11,10 @@ define(function(require){
   function withImagePainter(){
 
     this.defaultAttrs({
-
+      /**
+       * The outlineshape used by this mixin
+       * @type {Object}
+       */
       mixinRectOutline: undefined
 
     });
@@ -19,11 +23,22 @@ define(function(require){
       this.loadOutlineShape();
     });
 
+    /**
+     * Stop current painting
+     * @return {[type]} [description]
+     */
     this.stopImagePainting = function(){
 
     };
 
-    this.startImagePainting = function(){
+    /**
+     * Start image painting
+     * @param  {Object} canvas       Canvas instance
+     * @param  {HTMLFileList} files        The images to paint
+     * @param  {CanvasEvents} canvasEvents Canvas events which provides
+     *                                     API to connect to canvas events
+     */
+    this.startImagePainting = function(canvas, files, canvasEvents){
 
     };
 

@@ -1,5 +1,5 @@
 /**
- * I know how to manage the drawing of an outline
+ * I know how to execute the drawing of an outline
  * shape. Therefore, I also know which outline shape to use
  */
 define(function(require){

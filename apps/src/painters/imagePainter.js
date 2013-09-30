@@ -69,7 +69,10 @@ define(function(require){
      * @param  {HTMLFileList} files Images to paint
      */
     this.initImagePainting = function(files){
-
+      this.startImagePainting(this.attr.canvas, files, {
+        registerEventListeners: this.registerEventListeners,
+        unregisterExistingListeners: this.unregisterExistingListeners
+      });
     };
 
   }
