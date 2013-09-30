@@ -13,7 +13,9 @@ define(function(require){
     });
 
     this.after("initialize", function(){
-
+      this.on("imageCanvasClicked", function(e, data){
+        this.initImagePainting(data.files);
+      }.bind(this));
     });
 
     this.requestCanvas = function(){
@@ -28,7 +30,7 @@ define(function(require){
 
     };
 
-    this.initImagePainting = function(){
+    this.initImagePainting = function(files){
 
     };
 
