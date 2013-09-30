@@ -13,9 +13,7 @@ define(function(require){
     });
 
     this.after("initialize", function(){
-      this.on("imageCanvasClicked", function(e, data){
-        this.initImagePainting(data.files);
-      }.bind(this));
+      this.attachEventListener();
     });
 
     this.requestCanvas = function(){
@@ -27,7 +25,16 @@ define(function(require){
     };
 
     this.attachEventListener = function(){
+      this.on("imageCanvasClicked", function(e, data){
+        this.cancelCurrentPainting();
+        this.initImagePainting(data.files);
+      }.bind(this));
+    };
 
+    this.cancelCurrentPainting = function(){
+      this.trigger("cancelCurrentPainting", {
+        active: "image"
+      });
     };
 
     this.initImagePainting = function(files){

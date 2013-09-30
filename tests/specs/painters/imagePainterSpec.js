@@ -17,6 +17,20 @@ define(function(require){
         expect(this.component.initImagePainting).toHaveBeenCalled();
       });
 
+      it("Should request canceling any active painting when imageCanvasClicked is triggered", function(){
+        var spiedEvent = spyOnEvent(".component-root", "cancelCurrentPainting");
+
+        $(".component-root").trigger("imageCanvasClicked", {
+          files: []
+        });
+
+        expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
+      });
+
+      xit("Should stop any painting when cancelCurrentPainting", function(){
+
+      });
+
     });
 
   });

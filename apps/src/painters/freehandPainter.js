@@ -42,7 +42,7 @@ define(function(require){
     };
 
     this.cancelCurrentPainting = function(){
-      this.trigger("cancelPaintingRequested", {
+      this.trigger("cancelCurrentPainting", {
         active: "freehand"
       });
     };
