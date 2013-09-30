@@ -22,6 +22,7 @@ define(function(require){
 
     this.after("initialize", function(){
       this.attachEventListener();
+      this.requestCanvas();
     });
 
     /**
@@ -43,6 +44,10 @@ define(function(require){
      * Add event handlers for interesting events
      */
     this.attachEventListener = function(){
+      this.on("canvasRequestResponded", function(e, data){
+        this.setCanvas(data.canvas);
+      }.bind(this));
+
       this.on("imageCanvasClicked", function(e, data){
         // ask for other painting activity to stop
         this.trigger("cancelCurrentPainting", {

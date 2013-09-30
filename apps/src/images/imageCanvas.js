@@ -38,7 +38,7 @@ define(function(require){
 
         img.onload = function(){
           var image = new fabric.Image(img);
-          console.log(cfg);
+          
           image.set({
             top: cfg.y + cfg.height / 2,
             left: cfg.x + cfg.width / 2,
