@@ -13,11 +13,16 @@ define(function(require){
 
     this.attachEventListeners = function(){
       this.on("freehandPaintingRequested", function(e, data){
-        this.startFreehandPainting();
+        this.cancelCurrentPainting();
+        this.initFreehandPainting();
       }.bind(this));
     };
 
-    this.startFreehandPainting = function(){
+    this.cancelCurrentPainting = function(){
+
+    };
+
+    this.initFreehandPainting = function(){
 
     };
   }
