@@ -62,6 +62,10 @@ define(function(require){
           this.stopCurrentPainting();
         }
       });
+
+      this.on("addingImagesFinished", function(){
+        this.stopCurrentPainting();
+      }.bind(this));
     };
 
     /**

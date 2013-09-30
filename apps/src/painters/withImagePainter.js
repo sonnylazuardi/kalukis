@@ -87,7 +87,7 @@ define(function(require){
             height: outline.height
           };
       
-      this.trigger("addingImageInitted", {
+      this.trigger("addingImagesInitted", {
         canvas: this.attr.canvas,
         images: images,
         cfg: cfg
