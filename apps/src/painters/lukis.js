@@ -87,7 +87,7 @@ define(function(require){
     };
 
     /**
-     * Cancel current painting
+     * Cancel current lukis painting
      */
     this.cancelCurrentPainting = function(){
       this.unregisterExistingListeners(this.attr.canvas);

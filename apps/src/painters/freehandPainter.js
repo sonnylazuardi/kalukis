@@ -41,6 +41,10 @@ define(function(require){
       }.bind(this));
     };
 
+    /**
+     * Cancel current freehand painting
+     * TODO
+     */
     this.cancelCurrentPainting = function(){
       this.trigger("cancelCurrentPainting", {
         active: "freehand"

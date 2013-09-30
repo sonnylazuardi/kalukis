@@ -44,24 +44,29 @@ define(function(require){
      */
     this.attachEventListener = function(){
       this.on("imageCanvasClicked", function(e, data){
-        this.cancelCurrentPainting();
+        // ask for other painting activity to stop
+        this.trigger("cancelCurrentPainting", {
+          active: "image"
+        });
+
         this.initImagePainting(data.files);
       }.bind(this));
 
       this.on("cancelCurrentPainting", function(e, data){
         if (data !== "image") {
-          this.stopImagePainting();
+          this.stopCurrentPainting();
         }
       });
     };
 
     /**
-     * Cancel current painting
+     * Cancel current image painting
      */
-    this.cancelCurrentPainting = function(){
-      this.trigger("cancelCurrentPainting", {
-        active: "image"
-      });
+    this.stopCurrentPainting = function(){
+      // stop image painting
+      this.stopImagePainting();
+      // unregister canvas events listener
+      this.unregisterExistingListeners(this.attr.canvas);
     };
 
     /**

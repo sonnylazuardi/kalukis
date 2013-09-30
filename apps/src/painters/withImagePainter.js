@@ -4,7 +4,10 @@
  */
 define(function(require){
 
-  var defineComponent = require("flight/lib/component");
+  var defineComponent = require("flight/lib/component"),
+      compose = require("flight/lib/compose"),
+      advice = require("flight/lib/advice"),
+      RectOutline = require("outlineShapes/rectOutline");
 
   return withImagePainter;
 
@@ -20,7 +23,7 @@ define(function(require){
     });
 
     this.after("initialize", function(){
-      this.loadOutlineShape();
+      this.attr.mixinRectOutline = new RectOutline(this.attr.canvas, {});
     });
 
     /**
@@ -35,20 +38,37 @@ define(function(require){
      * Start image painting
      * @param  {Object} canvas       Canvas instance
      * @param  {HTMLFileList} files        The images to paint
-     * @param  {CanvasEvents} canvasEvents Canvas events which provides
+     * @param  {canvasEventsService} canvasEventsService Canvas events which provides
      *                                     API to connect to canvas events
      */
-    this.startImagePainting = function(canvas, files, canvasEvents){
+    this.startImagePainting = function(canvas, files, canvasEventsService){
+      var outlineShape = this.attr.mixinRectOutline;
 
-    };
+      if (outlineShape) {
+        var listeners = {
+          onMouseDown: function(e){
+            outlineShape.onMouseDown(e);
+          },
+          onMouseMove: function(e){
+            outlineShape.onMouseMove(e);
+          },
+          onMouseUp: function(e){
+            outlineShape.onMouseUp(e);
+          }
+        };
 
-    /**
-     * Load the outlineShape
-     */
-    this.loadOutlineShape = function(){
-      require(["outlineShapes/rectOutline"], function(RectOutline){
-        this.attr.mixinRectOutline = new RectOutline(this.attr.canvas, {});
-      }.bind(this));
+        if (!outlineShape.hasOwnProperty("__hasBeenAddedAfterAdvice")) {
+          compose.mixin(outlineShape, [advice.withAdvice]);
+
+          outlineShape.after("finish", function(){
+            this.loadImages(files);
+          }.bind(this));
+
+          outlineShape.__hasBeenAddedAfterAdvice = true;
+        }
+
+
+      }
     };
 
     /**

@@ -6,14 +6,12 @@ define(function(require){
   describeComponent("painters/imagePainter", function(){
 
     beforeEach(function(){
-      setupComponent();
+      setupComponent({
+        canvas: canvas
+      });
     });
 
     describe("Painting Event", function(){
-
-      beforeEach(function(){
-        this.component.attr.canvas = canvas;
-      });
 
       it("Should respond to imageCanvasClicked event", function(){
         spyOn(this.component, "initImagePainting");
