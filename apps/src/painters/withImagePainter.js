@@ -67,6 +67,9 @@ define(function(require){
           outlineShape.__hasBeenAddedAfterAdvice = true;
         }
 
+        canvasEventsService.unregisterExistingListeners(canvas);
+        canvasEventsService.registerEventListeners(canvas, listeners);
+        outlineShape.start();
 
       }
     };

@@ -22,8 +22,19 @@ define(function(require){
 
     describe("Painting Execution", function(){
 
-      xit("Register painting event to canvas events", function(){
+      var canvasEventsService = {
+        unregisterExistingListeners: function(){},
+        registerEventListeners: function(){}
+      };
 
+      xit("Register painting event to canvas events", function(){
+        this.component.startImagePainting(canvas, [], canvasEventsService);
+
+      });
+
+      it("Register after advice", function(){
+        this.component.startImagePainting(canvas, [], canvasEventsService);
+        expect(this.component.attr.mixinRectOutline).toHaveProperties("__hasBeenAddedAfterAdvice");
       });
 
       xit("Publish addingImageInitted after outlineShapePainting is finisihed", function(){
