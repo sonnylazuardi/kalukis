@@ -12,6 +12,12 @@ define(function(require){
     });
 
     this.attachEventListeners = function(){
+      this.on("cancelCurrentPainting", function(e, data){
+        if (data.active !== "freehand") {
+          this.stopFreehandPainting();
+        }
+      }.bind(this));
+
       this.on("freehandPaintingRequested", function(e, data){
         this.cancelCurrentPainting();
         this.initFreehandPainting();
@@ -19,7 +25,9 @@ define(function(require){
     };
 
     this.cancelCurrentPainting = function(){
-
+      this.trigger("cancelPaintingRequested", {
+        active: "freehand"
+      });
     };
 
     this.initFreehandPainting = function(){
