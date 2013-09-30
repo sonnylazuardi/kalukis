@@ -1,8 +1,9 @@
 define(function(require){
 
-  var defineComponent = require("flight/lib/component");
+  var defineComponent = require("flight/lib/component"),
+      withImagePainter = require("painters/withImagePainter");
 
-  return defineComponent(imagePainter);
+  return defineComponent(imagePainter, withImagePainter);
 
   function imagePainter(){
 
@@ -29,6 +30,12 @@ define(function(require){
         this.cancelCurrentPainting();
         this.initImagePainting(data.files);
       }.bind(this));
+
+      this.on("cancelCurrentPainting", function(e, data){
+        if (data !== "image") {
+          this.stopPainting();
+        }
+      });
     };
 
     this.cancelCurrentPainting = function(){

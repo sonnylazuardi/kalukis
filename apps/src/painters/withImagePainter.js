@@ -18,14 +18,15 @@ define(function(require){
     });
 
     this.after("initialize", function(){
-      this.attachEventListener();
+      // this.on("imageCanvasClicked", function(e, data){
+      //   this.loadImages(data.files);
+      // }.bind(this));
+
       this.loadOutlineShape();
     });
 
-    this.attachEventListener = function(){
-      this.on("imageCanvasClicked", function(e, data){
-        this.loadImages(data.files);
-      }.bind(this));
+    this.stopPainting = function(){
+
     };
 
     /**

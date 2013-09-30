@@ -1,5 +1,8 @@
 define(function(require){
 
+  var fabric = require("fabric"),
+      canvas = new fabric.Canvas();
+
   describeComponent("painters/imagePainter", function(){
 
     beforeEach(function(){
@@ -7,6 +10,10 @@ define(function(require){
     });
 
     describe("Painting Event", function(){
+
+      beforeEach(function(){
+        this.component.attr.canvas = canvas;
+      });
 
       it("Should respond to imageCanvasClicked event", function(){
         spyOn(this.component, "initImagePainting");
@@ -27,8 +34,13 @@ define(function(require){
         expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
       });
 
-      xit("Should stop any painting when cancelCurrentPainting", function(){
+      it("Should stop any painting when cancelCurrentPainting", function(){
+        spyOn(this.component, "stopPainting");
 
+        $(".component-root").trigger("cancelCurrentPainting", {
+          active: "freehand"
+        });
+        expect(this.component.stopPainting).toHaveBeenCalled();
       });
 
     });
