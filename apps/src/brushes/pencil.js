@@ -60,11 +60,11 @@ define(function(require){
     this.canvas.add(new fabric.Rect({
       width: outline.width,
       height: outline.height,
-      top: outline.y,
-      left: outline.x,
+      top: outline.y + outline.height / 2,
+      left: outline.x + outline.width / 2,
       fill: null,
       stroke: this.cfg.strokeColor,
-      strokeWidth: this.cfg.brushWidth
+      strokeWidth: this.cfg.brushWidth || 1
     }));
     this.canvas.renderAll();
   };
@@ -76,7 +76,7 @@ define(function(require){
       top: outline.y,
       fill: null,
       stroke: this.cfg.strokeColor,
-      strokeWidth: this.cfg.brushWidth
+      strokeWidth: this.cfg.brushWidth || 1
     }));
     this.canvas.renderAll();
   };
@@ -87,7 +87,7 @@ define(function(require){
       outline.x2, outline.y2
     ], {
       stroke: this.cfg.strokeColor,
-      strokeWidth: this.cfg.brushWidth
+      strokeWidth: this.cfg.brushWidth || 1
     }));
     this.canvas.renderAll();
   };
