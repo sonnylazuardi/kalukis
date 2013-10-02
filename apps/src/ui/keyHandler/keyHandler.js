@@ -1,3 +1,6 @@
+/**
+ * I know how to reach to keyboard handler
+ */
 define(function(require){
 
   var defineComponent = require("flight/lib/component");
@@ -18,6 +21,10 @@ define(function(require){
       });
     };
 
+    /**
+     * Cancel any currently active painting
+     * @return {[type]} [description]
+     */
     this.cancelActivePainting = function(){
       this.trigger("cancelCurrentPainting", {
         active: "key"
