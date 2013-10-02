@@ -12,8 +12,7 @@ requirejs.config({
     fabric: 'canvas-lib/fabric',
     flight: './../../vendor/flight',
     text: './../../vendor/requirejs-text/text',
-    mustache: '../../vendor/mustache/mustache',
-    canvasProvider: "sandboxes/canvasExtension/fabricCanvasProvider"
+    mustache: '../../vendor/mustache/mustache'
   },
 
   shim: {
