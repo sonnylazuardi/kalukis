@@ -29,7 +29,6 @@ define(function(require){
 
   PencilBrush.prototype.set = function(key, value) {
     if (key === "width") {
-      console.log(value);
       this.cfg.brushWidth = value;
     }
     this.cfg[key] = value;
