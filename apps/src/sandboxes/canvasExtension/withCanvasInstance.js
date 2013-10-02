@@ -15,7 +15,7 @@ define(function(require){
      * @param  {String} elementId Canvas DOM element ID
      */
     this.initCanvas = function(elementId) {
-
+      return canvasProvider.init(elementId);
     };
 
     /**

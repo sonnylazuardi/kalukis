@@ -16,7 +16,15 @@ define(function(require){
 
         this.component.getCanvasInstance("lukis");
         expect(this.component.initCanvas).toHaveBeenCalledWith("lukis");
+      });
 
+      it("Should return the correct canvas object", function(){
+        expect(this.component.getCanvasInstance("lukis")).toBeInstanceOf(fabric.Canvas);
+      });
+
+      it("Should have saved the created canvas instance", function(){
+        this.component.getCanvasInstance("lukis");
+        expect(this.component.attr.initted).toHaveProperties("lukis");
       });
 
     });
