@@ -16,6 +16,7 @@ define(function(require){
       imageCanvasWidget = require("ui/imageCanvasWidget/imageCanvasWidget"),
       freehandWidget = require("ui/freehandWidget/freehandWidget"),
       colorWidget = require("ui/colorWidget/colorWidget"),
+      keyHandler = require("ui/keyHandler/keyHandler"),
 
       brushManager = require("services/brushManager"),
       outlineManager = require("services/outlineManager"),
@@ -47,6 +48,7 @@ define(function(require){
     brushListWidget.attachTo("#brushescombo");
     brushSizeWidget.attachTo("#sizerange");
     colorWidget.attachTo("#colorpicker");
+    keyHandler.attachTo(document);
 
     brushManager.attachTo(document);
     outlineManager.attachTo(document);
