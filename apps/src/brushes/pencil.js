@@ -29,6 +29,7 @@ define(function(require){
 
   PencilBrush.prototype.set = function(key, value) {
     if (key === "width") {
+      console.log(value);
       this.cfg.brushWidth = value;
     }
     this.cfg[key] = value;
@@ -54,6 +55,7 @@ define(function(require){
     } else if (outline.hasOwnProperty("x1")) {
       this.drawLine(outline);
     }
+    console.log(this.cfg.brushWidth);
   };
 
   PencilBrush.prototype.drawRect = function(outline) {
@@ -64,7 +66,7 @@ define(function(require){
       left: outline.x + outline.width / 2,
       fill: null,
       stroke: this.cfg.strokeColor,
-      strokeWidth: this.cfg.brushWidth || 1
+      strokeWidth: this.cfg.brushWidth || 10
     }));
     this.canvas.renderAll();
   };
@@ -76,7 +78,7 @@ define(function(require){
       top: outline.y,
       fill: null,
       stroke: this.cfg.strokeColor,
-      strokeWidth: this.cfg.brushWidth || 1
+      strokeWidth: this.cfg.brushWidth || 10
     }));
     this.canvas.renderAll();
   };
@@ -87,7 +89,7 @@ define(function(require){
       outline.x2, outline.y2
     ], {
       stroke: this.cfg.strokeColor,
-      strokeWidth: this.cfg.brushWidth || 1
+      strokeWidth: this.cfg.brushWidth || 10
     }));
     this.canvas.renderAll();
   };

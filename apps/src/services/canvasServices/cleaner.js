@@ -16,6 +16,7 @@ define(function(require){
 
     this.after("initialize", function(){
       this.attachEventListener();
+      this.requestCanvas();
     });
 
     this.attachEventListener = function(){
@@ -25,9 +26,13 @@ define(function(require){
         }
       });
 
-      this.on("canvasConstructed", function(e, data){
+      this.on("canvasRequestResponded", function(e, data){
         this.setCanvas(data.canvas);
-      });
+      }.bind(this));
+    };
+
+    this.requestCanvas = function(){
+      this.trigger("canvasRequested");
     };
 
     this.setCanvas = function(canvas){
