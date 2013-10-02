@@ -20,7 +20,7 @@ define(function(require){
       brushManager = require("services/brushManager"),
       outlineManager = require("services/outlineManager"),
 
-      cleaningService = require("canvasServices/cleaner"),
+      cleaningService = require("services/canvasServices/cleaner"),
 
       imageCanvas = require("images/imageCanvas"),
 

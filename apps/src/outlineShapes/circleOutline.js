@@ -32,6 +32,10 @@ define(function(require){
   };
 
   CircleOutline.prototype.getOutlinePoints = function(pointDistance) {
+    if (pointDistance < 0) {
+      return this.outline;
+    }
+    
     var points = [],
         w = pointDistance - 5,
         x = this.outline.x,

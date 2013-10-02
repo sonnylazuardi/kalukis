@@ -10,8 +10,9 @@ define(function(require){
     cfg.fillColor = cfg.fillColor || "#000000";
     cfg.strokeColor = cfg.strokeColor || "#000000";
 
-    cfg.width = cfg.width || 10;
-    cfg.offset = cfg.offset || 0;
+    cfg.width = -1;
+    cfg.brushWidth = cfg.brushWidth || 10;
+    cfg.outlineAsIs = true;
 
     this.cfg = cfg;
 
@@ -27,25 +28,68 @@ define(function(require){
   };
 
   PencilBrush.prototype.set = function(key, value) {
-    // body...
+    if (key === "width") {
+      this.cfg.brushWidth = value;
+    }
+    this.cfg[key] = value;
   };
 
   PencilBrush.prototype.get = function(key) {
-    // body...
+    return this.cfg[key];
   };
 
   PencilBrush.prototype.drawAt = function(point) {
-    // body...
+    return;
   };
 
-  PencilBrush.prototype.drawAtPoints = function(points) {
-    points.forEach(function(point){
-      this.drawAt(point);
-    }, this);
+  /**
+   * Just an alias only for this brush
+   * @param  {Object} points The drawing configuration
+   */
+  PencilBrush.prototype.drawAtPoints = function(outline) {
+    if (outline.hasOwnProperty("radius")) {
+      this.drawCircle(outline);
+    } else if (outline.hasOwnProperty("width") && outline.hasOwnProperty("height")) {
+      this.drawRect(outline);
+    } else if (outline.hasOwnProperty("x1")) {
+      this.drawLine(outline);
+    }
   };
 
-  PencilBrush.prototype.render = function(ctx) {
-    // body...
+  PencilBrush.prototype.drawRect = function(outline) {
+    this.canvas.add(new fabric.Rect({
+      width: outline.width,
+      height: outline.height,
+      top: outline.y,
+      left: outline.x,
+      fill: null,
+      stroke: this.cfg.strokeColor,
+      strokeWidth: this.cfg.brushWidth
+    }));
+    this.canvas.renderAll();
+  };
+
+  PencilBrush.prototype.drawCircle = function(outline) {
+    this.canvas.add(new fabric.Circle({
+      radius: outline.radius,
+      left: outline.x,
+      top: outline.y,
+      fill: null,
+      stroke: this.cfg.strokeColor,
+      strokeWidth: this.cfg.brushWidth
+    }));
+    this.canvas.renderAll();
+  };
+
+  PencilBrush.prototype.drawLine = function(outline) {
+    this.canvas.add(new fabric.Line([
+      outline.x1, outline.y1,
+      outline.x2, outline.y2
+    ], {
+      stroke: this.cfg.strokeColor,
+      strokeWidth: this.cfg.brushWidth
+    }));
+    this.canvas.renderAll();
   };
 
   return PencilBrush;

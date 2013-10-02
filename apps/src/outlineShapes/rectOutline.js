@@ -33,6 +33,10 @@ define(function(require){
   };
 
   RectOutline.prototype.getOutlinePoints = function(pointDistance){
+    if (pointDistance < 0) {
+      return this.outline;
+    }
+    
     var points = [],
         xLength = this.outline.x + this.outline.width,
         yHeight = this.outline.y + this.outline.height,

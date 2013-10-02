@@ -45,6 +45,10 @@ define(function(require){
   };
 
   LineOutline.prototype.getOutlinePoints = function(pointDistance){
+    if (pointDistance < 0) {
+      return this.outline;
+    }
+    
     var points = [],
         distance = Math.abs(this.outline.x1 - this.outline.x2),
         lineEq = this.getLineEquation({
