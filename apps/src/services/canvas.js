@@ -2,6 +2,12 @@
  * I instantiate the canvas instance and respond to anyone asking for it
  */
 define(function(require){
+  /**
+   * TODO
+   * I don't like the current implementation. I don't think it
+   * is a good thing that a component that needs canvas instance has
+   * to request for the instance through event
+   */
 
   var defineComponent = require("flight/lib/component"),
       fabric = require("fabric");
