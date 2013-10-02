@@ -4,6 +4,7 @@
 define(function(require){
 
   var canvas = require("services/canvas"),
+  
       lukis = require("painters/lukis"),
       freehandPainter = require("painters/freehandPainter"),
       imagePainter = require("painters/imagePainter"),

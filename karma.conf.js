@@ -20,7 +20,6 @@ module.exports = function(config) {
     files: [
       // 'vendor/es5-shim/es5-shim.js',
       // 'vendor/es5-shim/es5-sham.js',
-
       'vendor/jquery/jquery.js',
       'vendor/jasmine-jquery/lib/jasmine-jquery.js',
       'vendor/jasmine.async/lib/jasmine.async.js',
@@ -36,8 +35,7 @@ module.exports = function(config) {
       {pattern: 'apps/src/**/*.js', included: false},
       {pattern: 'apps/src/**/*.json', included: false},
       {pattern: 'apps/src/ui/**/*.html', included: false},
-      {pattern: 'tests/**/*.js', included: false},
-      {pattern: 'tests/fixtures/**/*.html', included: false}
+      {pattern: 'tests/**/*.js', included: false}
     ],
 
 
