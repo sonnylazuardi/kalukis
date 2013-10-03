@@ -1,23 +1,24 @@
 <html>
 <head>
   <title>Lukis</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="styles/main.css">
 </head>
 <body>
   <div id="loading-indicator"><p>Loading ...</p></div>
-  <div class="container-fluid">
-    <div class="navbar">
-      <div class="navbar-inner">
-        <a href="" class="brand">Lukis</a>
+  <div class="container">
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="navbar-header">
+        <a href="#" class="navbar-brand">Lukis</a>
       </div>
-    </div>
-    <div class="row-fluid">
-      <div class="left-navigation span1">
+    </nav>
+    <div class="row">
+      <div class="left-navigation col-md-1">
       </div>
-      <div class="span7">
+      <div class="col-md-7">
         <canvas id="lukis" width="600px" height="600px" style="border:1px solid #aaa"></canvas>
       </div>
-      <div class="span4">
+      <div class="col-md-4">
         <div class="right-navigation">
           <div id="sizerange"></div>
           <div id="colorpicker"></div>

@@ -1,5 +1,5 @@
-@import url("./../../vendor/bootstrap.css/css/bootstrap.min.css");
-@import url("./../../vendor/bootstrap.css/css/bootstrap-responsive.min.css");
+@import url("./../../vendor/bootstrap/dist/css/bootstrap.min.css");
+@import url("./../../vendor/bootstrap/dist/css/bootstrap-theme.min.css");
 @import url("./../../vendor/font-awesome/css/font-awesome.min.css");
 @import url("./../../vendor/spectrum/spectrum.css");
 
@@ -12,7 +12,7 @@
   text-align: center;
 }
 
-.left-navigation ul{
+.left-navigation .list-group{
   margin-bottom: 5px !important;
 }
 
