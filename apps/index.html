@@ -5,19 +5,19 @@
   <link rel="stylesheet" type="text/css" href="styles/main.css">
 </head>
 <body>
+  <div class="header">
+    <div class="pure-menu pure-menu-open pure-menu-horizontal">
+      <a href="#" class="pure-menu-heading">Lukis</a>
+    </div>  
+  </div>
   <div class="container">
-    <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
-      <div class="navbar-header">
-        <a href="#" class="navbar-brand">Lukis</a>
+    <div class="pure-g">
+      <div class="left-navigation pure-u-2-12">
       </div>
-    </nav>
-    <div class="row">
-      <div class="left-navigation col-md-1">
-      </div>
-      <div class="col-md-7">
+      <div class="pure-u-6-12">
         <canvas id="lukis" width="600px" height="600px" style="border:1px solid #aaa"></canvas>
       </div>
-      <div class="col-md-4">
+      <div class="pure-u-4-12">
         <div class="right-navigation">
           <div id="sizerange"></div>
           <div id="colorpicker"></div>
@@ -25,7 +25,6 @@
         </div>
       </div>
     </div>
-
   </div>
   <script src="../vendor/requirejs/require.js" data-main="src/main"></script>
 </body>
