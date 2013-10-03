@@ -43,11 +43,13 @@ define(function(require){
      */
     freehandWidget.attachTo(".left-navigation");
     paintWidgets.attachTo(".left-navigation");
-    canvasManipulationWidget.attachTo(".left-navigation");
     imageCanvasWidget.attachTo(".left-navigation");
+    canvasManipulationWidget.attachTo(".left-navigation");
+
     brushListWidget.attachTo("#brushescombo");
     brushSizeWidget.attachTo("#sizerange");
     colorWidget.attachTo("#colorpicker");
+    
     keyHandler.attachTo(document);
 
     brushManager.attachTo(document);
