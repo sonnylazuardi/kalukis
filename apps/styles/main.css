@@ -1,5 +1,4 @@
-@import url("./../../vendor/bootstrap/dist/css/bootstrap.min.css");
-@import url("./../../vendor/bootstrap/dist/css/bootstrap-theme.min.css");
+@import url("./../../vendor/pure/pure-min.css");
 @import url("./../../vendor/font-awesome/css/font-awesome.min.css");
 @import url("./../../vendor/spectrum/spectrum.css");
 
