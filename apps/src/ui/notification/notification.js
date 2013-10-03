@@ -13,12 +13,16 @@ define(function(require){
     this.attachEventListeners = function(){
 
       this.on(document, "notify", function(e, data){
+        var options = {
+          message: data.message
+        };
+
         if (data.type === "error") {
-          this.alertError(data.options);
+          this.alertError(options);
         } else if (data.type === "warning") {
-          this.alertWarning(data.options);
+          this.alertWarning(options);
         } else if (data.type === "info") {
-          this.alertInfo(data.options);
+          this.alertInfo(options);
         }
       }.bind(this));
 
@@ -34,7 +38,7 @@ define(function(require){
      * @param  {Object} options The options
      */
     this.alertError = function(options) {
-      this.$node.addClass("alert-error");
+      this.addAlertUi("error", options.message);
     };
     
     /**
@@ -47,7 +51,7 @@ define(function(require){
      * @param  {Object} options The options
      */
     this.alertWarning = function(options) {
-      this.$node.addClass("alert-warning");
+      this.addAlertUi("warning", options.message);
     };
 
     /**
@@ -60,7 +64,11 @@ define(function(require){
      * @param  {Object} options The options
      */
     this.alertInfo = function(options) {
-      this.$node.addClass("alert-info");
+      this.addAlertUi("info", options.message);
+    };
+
+    this.addAlertUi = function(type, message) {
+      this.$node.append("<div class='alert alert-" + type + "'>" + message + "</div>");
     };
 
   }

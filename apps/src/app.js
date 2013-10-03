@@ -17,7 +17,6 @@ define(function(require){
       freehandWidget = require("ui/freehandWidget/freehandWidget"),
       colorWidget = require("ui/colorWidget/colorWidget"),
       keyHandler = require("ui/keyHandler/keyHandler"),
-      notification = require("ui/notification/notification"),
 
       brushManager = require("services/brushManager"),
       outlineManager = require("services/outlineManager"),
@@ -52,8 +51,6 @@ define(function(require){
     colorWidget.attachTo("#colorpicker");
     
     keyHandler.attachTo(document);
-
-    notification.attachTo(".alerts");
 
     brushManager.attachTo(document);
     outlineManager.attachTo(document);
