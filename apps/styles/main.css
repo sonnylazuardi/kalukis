@@ -2,6 +2,18 @@
 @import url("./../../vendor/font-awesome/css/font-awesome.min.css");
 @import url("./../../vendor/spectrum/spectrum.css");
 
+.header {
+  margin-bottom: 10px;
+}
+
+.container .pure-menu {
+  border: none;
+}
+
+.left-navigation{
+  text-align: center;
+}
+
 .right-navigation {
   font-family: Arimo,Arial,Serif;
   font-size: 14px;
@@ -11,18 +23,6 @@
   display: inline-block;
   vertical-align: top;
   width: 100px;
-}
-
-.header {
-  margin-bottom: 10px;
-}
-
-.left-navigation{
-  text-align: center;
-}
-
-.container .pure-menu {
-  border: none;
 }
 
 #sizerange, #colorpicker, #brushescombo {

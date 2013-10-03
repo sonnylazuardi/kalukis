@@ -26,9 +26,7 @@ define(function(require){
 
     this.after("initialize", function(){
       this.setCanvas();
-
       this.on("canvasRequested", this.respondCanvasRequest);
-
     });
 
     this.setCanvas = function(){
