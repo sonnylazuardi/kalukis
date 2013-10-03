@@ -10,8 +10,7 @@ define(function(require){
     cfg.fillColor = cfg.fillColor || "#000000";
     cfg.strokeColor = cfg.strokeColor || "#000000";
 
-    cfg.width = -1;
-    cfg.brushWidth = cfg.brushWidth || 10;
+    cfg.width = cfg.width || 10;
     cfg.outlineAsIs = true;
 
     this.cfg = cfg;
@@ -28,13 +27,14 @@ define(function(require){
   };
 
   PencilBrush.prototype.set = function(key, value) {
-    if (key === "width") {
-      this.cfg.brushWidth = value;
-    }
     this.cfg[key] = value;
   };
 
   PencilBrush.prototype.get = function(key) {
+    if (key === "width") {
+      return -1;
+    }
+
     return this.cfg[key];
   };
 
@@ -54,7 +54,6 @@ define(function(require){
     } else if (outline.hasOwnProperty("x1")) {
       this.drawLine(outline);
     }
-    console.log(this.cfg.brushWidth);
   };
 
   PencilBrush.prototype.drawRect = function(outline) {
@@ -65,7 +64,7 @@ define(function(require){
       left: outline.x + outline.width / 2,
       fill: null,
       stroke: this.cfg.strokeColor,
-      strokeWidth: this.cfg.brushWidth || 10
+      strokeWidth: this.cfg.width || 10
     }));
     this.canvas.renderAll();
   };
@@ -77,7 +76,7 @@ define(function(require){
       top: outline.y,
       fill: null,
       stroke: this.cfg.strokeColor,
-      strokeWidth: this.cfg.brushWidth || 10
+      strokeWidth: this.cfg.width || 10
     }));
     this.canvas.renderAll();
   };
@@ -88,7 +87,7 @@ define(function(require){
       outline.x2, outline.y2
     ], {
       stroke: this.cfg.strokeColor,
-      strokeWidth: this.cfg.brushWidth || 10
+      strokeWidth: this.cfg.width || 10
     }));
     this.canvas.renderAll();
   };
