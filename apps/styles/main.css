@@ -1,10 +1,17 @@
 @import url("./../../vendor/pure/pure-min.css");
-@import url("./pure-style.css");
 @import url("./../../vendor/font-awesome/css/font-awesome.min.css");
 @import url("./../../vendor/spectrum/spectrum.css");
 
+body {
+    background-color: #575757;
+}
+
 .header {
   margin-bottom: 10px;
+}
+
+.header .pure-menu {
+  background-color: #ECF0F1;
 }
 
 .container .pure-menu {
