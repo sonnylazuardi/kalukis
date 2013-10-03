@@ -3,29 +3,30 @@
 @import url("./../../vendor/spectrum/spectrum.css");
 
 .right-navigation {
+  font-family: Arimo,Arial,Serif;
+  font-size: 14px;
+}
+
+.right-navigation label {
   display: inline-block;
-  font-family: Helvetica,"Times New Roman",Serif;
+  vertical-align: top;
+  width: 100px;
+}
+
+.header {
+  margin-bottom: 10px;
 }
 
 .left-navigation{
   text-align: center;
 }
 
-.left-navigation .list-group{
-  margin-bottom: 5px !important;
-}
-
-label {
-  display: inline-block;
-  width: 100px;
+.container .pure-menu {
+  border: none;
 }
 
 #sizerange, #colorpicker, #brushescombo {
   margin-bottom: 10px;
-}
-
-#colorpicker label{
-  vertical-align: top;
 }
 
 #loading-indicator{
@@ -40,8 +41,4 @@ label {
   background-color: #3498DB;
   color: white;
   padding: 5px 5px;
-}
-
-#paint-size-widget{
-  margin-top: 10px;
 }
