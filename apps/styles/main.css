@@ -1,4 +1,5 @@
 @import url("./../../vendor/pure/pure-min.css");
+@import url("./pure-style.css");
 @import url("./../../vendor/font-awesome/css/font-awesome.min.css");
 @import url("./../../vendor/spectrum/spectrum.css");
 
@@ -8,9 +9,19 @@
 
 .container .pure-menu {
   border: none;
+  background-color: #575757;
 }
 
-.left-navigation{
+.container .pure-menu ul li a{
+  color: #ECF0F1;
+}
+
+.container .pure-menu ul li a:hover{
+  background-color: #575757;
+  color: #97999A;
+}
+
+.left-navigation {
   text-align: center;
 }
 
