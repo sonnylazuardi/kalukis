@@ -1,10 +1,12 @@
 # Lukis
 
-![](pics/lukis0.7.3.jpeg)
+ALPHA - I'm currently doing a rewrite
+
+![](pics/lukis-pure.jpeg)
 
 Lukis is an experimental Painting Apps. Lukis is built on top of [flight](http://twitter.github.io/flight/) and [fabricjs](fabricjs.com).
 
-This application uses event-driven approach. This means that we are trying to decouple each components by making sure that they do not communicate directly. Instead, they should communicate thgroug events.
+This application uses event-driven approach. This means that we are trying to decouple each components by making sure that they do not communicate directly. Instead, they should communicate through events.
 
 The above approach is possible by using [flight](http://twitter.github.io/flight/).
 
@@ -26,21 +28,19 @@ I think that's about it. To try the application, just open `apps/index.html`.
 
 <del>Run `tests/index.html` in your browser of choice. I'm currently checking out [phantomjs](http://phantomjs.org) in order to run the tests from console.</del>
 
-I've decided to use `testem` in order to run my tests. Just install `testem` globally through `npm`:
+To run the tests, it is expected that `karma` is installed globally:
 
-> npm install -g testem
+> npm install -g karma
 
 To run the test, just type the command below on your console:
 
-> testem
-
-**Testem** will run the test with PhantomJS. So, you actually need to have PhantomJS installed. Please see their [site](http://phantomjs.org) to know the steps.
+> karma start
 
 ## TODO
 
 This application is still at it's early stage. So, ofcourse there are a lot of things to do.
 
-- [ ] Better Module Naming
+- [x] Better Module Naming
 - [ ] Improve the architecture
 - [x] Start Unit test
 - [x] Use PhantomJS to run unit tests (with the help of testem)
