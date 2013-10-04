@@ -15,7 +15,7 @@ define(function(require){
       }.bind(this));
 
       this.on("brushPropertyUpdated", function(e, data){
-
+        this.updateActiveOutlineShapeProperty(data.key, data.newValue);
       }.bind(this));
 
     });
@@ -23,7 +23,7 @@ define(function(require){
     this.requestOutlineShapeInstance = function(id){
       this.on("outlineShapeRequestResponded", function(e, data) {
         this.off("outlineShapeRequestResponded");
-        this.setOutlineShapeInstance(data.outlineShape);
+        this.setActiveOutlineShapeInstance(data.outlineShape);
       }.bind(this));
 
       this.trigger("outlineShapeRequested", {
@@ -31,12 +31,18 @@ define(function(require){
       });
     };
 
-    this.setOutlineShapeInstance = function(outlineShape) {
+    this.setActiveOutlineShapeInstance = function(outlineShape) {
       activeOutlineShape = outlineShape;
     };
 
     this.getActiveOutlineShape = function(){
       return activeOutlineShape;
+    };
+
+    this.updateActiveOutlineShapeProperty = function(key, value) {
+      if (activeOutlineShape) {
+        activeOutlineShape.set(key, value);
+      }
     };
   }
 
