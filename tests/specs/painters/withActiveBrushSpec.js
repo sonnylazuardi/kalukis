@@ -24,7 +24,7 @@ define(function(require){
       });
 
       it("Should update the current active brush property when a property is upadted", function(){
-        this.component.setBrushInstance(new CircleBrush(canvas, {}));
+        this.component.setActiveBrushInstance(new CircleBrush(canvas, {}));
 
         $(".component-root").trigger("brushPropertyUpdated", {
           key: "width",
@@ -38,7 +38,7 @@ define(function(require){
 
       it("Should publish activeBrushReady on setting new brush instance", function(){
         var spiedEvent = spyOnEvent(".component-root", "activeBrushReady");
-        this.component.setBrushInstance(new CircleBrush(canvas, {}));
+        this.component.setActiveBrushInstance(new CircleBrush(canvas, {}));
 
         expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
 

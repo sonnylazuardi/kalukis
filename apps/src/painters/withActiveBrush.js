@@ -26,7 +26,7 @@ define(function(require){
     this.requestBrushInstance = function(id){
       this.on("brushServed", function(e, data){
         this.off("brushRequested");
-        this.setBrushInstance(data.brush);
+        this.setActiveBrushInstance(data.brush);
       }.bind(this));
 
       this.trigger("brushRequested", {
@@ -38,7 +38,7 @@ define(function(require){
      * Set the active brush instance
      * @param {Object} brush Brush instance
      */
-    this.setBrushInstance = function(brush) {
+    this.setActiveBrushInstance = function(brush) {
       activeBrush = brush;
       this.trigger("activeBrushReady", {
         activeBrush: brush

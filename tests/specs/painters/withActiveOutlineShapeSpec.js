@@ -36,6 +36,14 @@ define(function(require){
         expect(this.component.getActiveOutlineShape().get("fillColor")).toEqual("red");
       });
 
+      it("Should publish activeOutlineShapeReady on setting new brush instance", function(){
+        var spiedEvent = spyOnEvent(".component-root", "activeOutlineShapeReady");
+        this.component.setActiveOutlineShapeInstance(new CircleOutline(canvas, {}));
+
+        expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
+
+      });
+
     });
 
   });
