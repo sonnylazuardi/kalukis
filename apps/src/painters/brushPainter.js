@@ -1,6 +1,8 @@
 /**
  * I have the authority to manage the steps needed
- * to paint an object on top of the canvas
+ * to paint an object on top of the canvas. Therefore, I also needs
+ * to have a reference to the active brush and outlineShape used
+ * to draw.
  */
 define(function(require){
   var fabric = require("fabric"),
