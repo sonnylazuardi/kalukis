@@ -31,6 +31,10 @@ define(function(require){
     });
 
     this.attachEventListeners = function(){
+      this.on("brushesLoaded", function(e, data){
+        this.requestBrush(data.brushes[0].id);
+      });
+
       this.on("canvasServed", function(e, data){
         this.setupCanvas(data.canvas);
       }.bind(this));
@@ -42,7 +46,7 @@ define(function(require){
       }.bind(this));
 
       this.on("paintWidgetClicked", function(e, data){
-        this.publishActiveOutlineChange(data.paintWidgetId);
+        this.requestOutlineShape(data.paintWidgetId);
       }.bind(this));
 
       this.on("outlineShapePaintingFinished", function(e, data){
@@ -58,7 +62,7 @@ define(function(require){
       this.attr.canvas = canvas;
     };
 
-    this.publishActiveOutlineChange = function(id){
+    this.requestOutlineShape = function(id){
       this.on("activeOutlineShapeReady", function(e, data){
         this.off("activeOutlineShapeReady");
         
@@ -72,6 +76,13 @@ define(function(require){
       this.trigger("activeOutlineShapeChanged", {
         activeOutlineShapeId: id,
         id: id
+      });
+    };
+
+    this.requestBrush = function(id) {
+      this.trigger("activeBrushChanged", {
+        id: id,
+        activeBrushId: id
       });
     };
 

@@ -8,6 +8,19 @@ define(function(require){
       setupComponent();
     });
 
+    describe("Setting up", function(){
+
+      it("Should request for brush instance on brushesLoaded event", function(){
+        var spiedEvent = spyOnEvent(".component-root", "activeBrushChanged");
+        $(".component-root").trigger("brushesLoaded", {
+          brushes: [{id: "pencil"}]
+        });
+
+        expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
+      });
+
+    });
+
     describe("Painting Event", function(){
 
       beforeEach(function(){
