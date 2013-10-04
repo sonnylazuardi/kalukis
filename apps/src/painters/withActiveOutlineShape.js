@@ -10,7 +10,7 @@ define(function(require){
 
     this.after("initialize", function(){
 
-      this.on("paintWidgetClicked", function(e, data){
+      this.on("activeOutlineShapeChanged", function(e, data){
         this.requestOutlineShapeInstance(data.paintWidgetId);
       }.bind(this));
 

@@ -21,24 +21,6 @@ define(function(require){
        * @type {Object}
        */
       canvas: undefined,
-      
-      /**
-       * Custom event handlers for events related to this module
-       * @type {Array}
-       */
-      customHandlers: {},
-
-      /**
-       * The current brush used for painting
-       * @type {[type]}
-       */
-      activeBrush: undefined,
-
-      /**
-       * The current outlineShape used for painting
-       * @type {[type]}
-       */
-      activeOutlineShape: undefined
     });
 
     this.after("initialize", function(){

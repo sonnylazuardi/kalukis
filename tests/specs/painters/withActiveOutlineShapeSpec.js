@@ -13,8 +13,8 @@ define(function(require){
     describe("Active OutlineShape Handling", function(){
 
       it("Should have reference to an outlineShape instance when a new one is available", function(){
-        $(".component-root").trigger("paintWidgetClicked", {
-          paintWidgetId: "circle"
+        $(".component-root").trigger("activeOutlineShapeChanged", {
+          activeOutlineShapeId: "circle"
         });
 
         $(".component-root").trigger("outlineShapeServed", {
