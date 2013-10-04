@@ -24,7 +24,11 @@ define(function(require){
        * Custom event handlers for events related to this module
        * @type {Array}
        */
-      customHandlers: {}
+      customHandlers: {},
+
+      activeBrush: undefined,
+
+      activeOutlineShape: undefined
     });
 
     this.after("initialize", function(){

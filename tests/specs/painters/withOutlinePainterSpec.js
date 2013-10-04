@@ -10,7 +10,8 @@ define(function(require){
         onMouseMove: function(){},
         onMouseDown: function(){},
         onMouseUp: function(){},
-        start: function(){}
+        start: function(){},
+        finish: function(){return true;}
       };
 
   compose.mixin(canvasEventsService, [withCanvas]);
@@ -32,72 +33,31 @@ define(function(require){
         expect(listener.onMouseMove).toHaveBeenCalled();
       });
 
-      xit("Should have unregister the previous event handler when another widget has been clicked", function(){
-        var activeOutlineShape = this.component.attr.activeOutlineShape,
-            called = 0;
+      it("Should have unregister the previous event handler when another widget has been clicked", function(){
+        var called = 0;
 
-        spyOn(activeOutlineShape, "onMouseMove").andCallFake(function(){
+        spyOn(listener, "onMouseMove").andCallFake(function(){
           called++;
         });
 
-        $('.component-root').trigger("outlineShapePaintingInitted", {
-          canvas: canvas,
-          canvasEventsService: canvasEventsService
-        });
-        $('.component-root').trigger("outlineShapePaintingInitted", {
-          canvas: canvas,
-          canvasEventsService: canvasEventsService
-        });
+        this.component.startOutlineShapePainting(canvas, listener, canvasEventsService);
+        this.component.startOutlineShapePainting(canvas, listener, canvasEventsService);        
 
         canvas.trigger("mouse:move");
         expect(called).toEqual(1);
       });
 
-      xit("Should have called finalizeOutlineShapePainting after outlineShape's finish function has been executed", function(){
-        var activeOutlineShape = this.component.attr.activeOutlineShape;
-
-        spyOn(this.component, "finalizeOutlineShapePainting");
-
-        $('.component-root').trigger("outlineShapePaintingInitted", {
-          canvas: canvas,
-          canvasEventsService: canvasEventsService
-        });
-
-        activeOutlineShape.finish();
-        expect(this.component.finalizeOutlineShapePainting).toHaveBeenCalled();
-      });
-
-      xit("Should have called finalizeOutlineShapePainting once", function(){
-        var activeOutlineShape = this.component.attr.activeOutlineShape,
-            called = 0;
-
-        spyOn(this.component, "finalizeOutlineShapePainting").andCallFake(function(){
+      it("Should have called finalizeOutlineShapePainting once", function(){
+        var called = 0;
+        spyOn(listener, "finish").andCallFake(function(){
           called++;
         });
 
-        $('.component-root').trigger("outlineShapePaintingInitted", {
-          canvas: canvas,
-          canvasEventsService: canvasEventsService
-        });
-        $('.component-root').trigger("outlineShapePaintingInitted", {
-          canvas: canvas,
-          canvasEventsService: canvasEventsService
-        });
+        this.component.startOutlineShapePainting(canvas, listener, canvasEventsService);
+        this.component.startOutlineShapePainting(canvas, listener, canvasEventsService);
 
-        activeOutlineShape.finish();
+        listener.finish();
         expect(called).toEqual(1);
-      });
-
-      xit("Should have triggered outlineShapePaintingFinished", function(){
-        var activeOutlineShape = this.component.attr.activeOutlineShape,
-          spiedEvent = spyOnEvent(document, "outlineShapePaintingFinished");
-
-        $('.component-root').trigger("outlineShapePaintingInitted", {
-          canvas: canvas,
-          canvasEventsService: canvasEventsService
-        });
-        activeOutlineShape.finish();
-        expect(spiedEvent).toHaveBeenTriggeredOn(document);
       });
 
     });
