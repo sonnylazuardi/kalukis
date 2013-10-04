@@ -4,8 +4,7 @@
  */
 define(function(require){
 
-  var defineComponent = require("flight/lib/component"),
-      DEBUG = require("flight/tools/debug/debug");
+  var defineComponent = require("flight/lib/component");
 
   return defineComponent(brushManager);
 

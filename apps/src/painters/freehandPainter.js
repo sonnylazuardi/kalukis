@@ -8,6 +8,9 @@ define(function(require){
   function freehandPainter(){
 
     this.defaultAttrs({
+
+      isPainting: false,
+
       canvas: undefined
     });
 
@@ -29,7 +32,8 @@ define(function(require){
         this.setCanvas(data.canvas);
       }.bind(this));
 
-      this.on("cancelCurrentPainting", function(e, data){
+      this.on("cancelPaintingRequested", function(e, data){
+        console.log(data.active);
         if (data.active !== "freehand") {
           this.stopFreehandPainting();
         }
@@ -46,7 +50,7 @@ define(function(require){
      * TODO
      */
     this.cancelCurrentPainting = function(){
-      this.trigger("cancelCurrentPainting", {
+      this.trigger("cancelPaintingRequested", {
         active: "freehand"
       });
     };

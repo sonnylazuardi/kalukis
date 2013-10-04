@@ -5,19 +5,25 @@ define(function(require){
 
   var defineComponent = require("flight/lib/component"),
       withImagePainter = require("painters/withImagePainter"),
-      withCanvasEvents = require("painters/withCanvasEvents");
+      withOutlinePainter = require("painters/withOutlinePainter"),
+      withCanvasEvents = require("painters/withCanvasEvents"),
+      RectOutline = require("outlineShapes/rectOutline");
 
-  return defineComponent(imagePainter, withImagePainter, withCanvasEvents);
+  return defineComponent(imagePainter, withImagePainter, withCanvasEvents, withOutlinePainter);
 
   function imagePainter(){
 
     this.defaultAttrs({
+
       /**
        * The canvas instance
        * @type {Object}
        */
-      canvas: undefined
+      canvas: undefined,
 
+      rectOutline: undefined,
+
+      files: []
     });
 
     this.after("initialize", function(){
@@ -38,6 +44,7 @@ define(function(require){
      */
     this.setCanvas = function(canvas) {
       this.attr.canvas = canvas;
+      this.attr.rectOutline = new RectOutline(canvas, {});
     };
 
     /**
@@ -50,7 +57,7 @@ define(function(require){
 
       this.on("imageCanvasClicked", function(e, data){
         // ask for other painting activity to stop
-        this.trigger("cancelCurrentPainting", {
+        this.trigger("cancelPaintingRequested", {
           active: "image"
         });
 
@@ -58,7 +65,7 @@ define(function(require){
       }.bind(this));
 
       this.on("cancelCurrentPainting", function(e, data){
-        if (data !== "image") {
+        if (data.active !== "image") {
           this.stopCurrentPainting();
         }
       });
@@ -73,9 +80,10 @@ define(function(require){
      */
     this.stopCurrentPainting = function(){
       // stop image painting
-      this.stopImagePainting();
+      // this.stopImagePainting();
       // unregister canvas events listener
       this.unregisterExistingListeners(this.attr.canvas);
+      this.attr.files.length = 0;
     };
 
     /**
@@ -83,10 +91,29 @@ define(function(require){
      * @param  {HTMLFileList} files Images to paint
      */
     this.initImagePainting = function(files){
-      this.startImagePainting(this.attr.canvas, files, {
-        registerEventListeners: this.registerEventListeners,
-        unregisterExistingListeners: this.unregisterExistingListeners
-      });
+      var activeOutlineShape = this.attr.rectOutline;
+
+      this.attr.files = files;
+
+      if (activeOutlineShape) {
+
+        this.on("outlineShapePaintingFinished", this.onOutlineShapePaintingFinished);
+
+        this.startOutlineShapePainting(
+          this.attr.canvas,
+          activeOutlineShape,
+          {
+            registerEventListeners: this.registerEventListeners,
+            unregisterExistingListeners: this.unregisterExistingListeners
+          }
+        );
+      }
+      
+    };
+
+    this.onOutlineShapePaintingFinished = function(e, data){
+      this.off("outlineShapePaintingFinished", this.onOutlineShapePaintingFinished);
+      this.loadImages(this.attr.files, this.attr.rectOutline);
     };
 
   }

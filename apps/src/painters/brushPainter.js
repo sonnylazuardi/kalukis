@@ -18,7 +18,8 @@ define(function(require){
   function Lukis(){
 
     this.defaultAttrs({
-    /**
+
+      /**
        * Canvas instance
        * @type {Object}
        */
@@ -78,7 +79,7 @@ define(function(require){
         
         // make sure no other painting other than "paint"
         // is active
-        this.trigger("cancelCurrentPainting", {
+        this.trigger("cancelPaintingRequested", {
           active: "paint"
         });
 
@@ -105,8 +106,8 @@ define(function(require){
      * Cancel current paint painting
      */
     this.cancelCurrentPainting = function(){
-      this.off("outlineShapePaintingFinished");
       this.unregisterExistingListeners(this.attr.canvas);
+      this.off("outlineShapePaintingFinished", this.onOutlineShapePaintingFinished);
     };
 
     /**
@@ -124,9 +125,7 @@ define(function(require){
         this.cancelCurrentPainting();
 
         // when outline painting is finished, we start painting the brush
-        this.on("outlineShapePaintingFinished", function(e, data){
-          this.initBrushPainting(data);
-        }.bind(this));
+        this.on("outlineShapePaintingFinished", this.onOutlineShapePaintingFinished);
 
         // calls method from withOutlineShapePainter
         this.startOutlineShapePainting(
@@ -138,6 +137,10 @@ define(function(require){
           }
         );  
       }
+    };
+
+    this.onOutlineShapePaintingFinished = function(e, data){
+      this.initBrushPainting(data);
     };
 
     /**
