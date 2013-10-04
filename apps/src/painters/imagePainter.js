@@ -95,6 +95,8 @@ define(function(require){
 
       if (activeOutlineShape) {
 
+        // once the outineShape painting has finished, we
+        // should load the images
         this.on("outlineShapePaintingFinished", this.onOutlineShapePaintingFinished);
 
         this.startOutlineShapePainting(

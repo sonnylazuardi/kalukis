@@ -74,23 +74,25 @@ define(function(require){
     this.requestOutlineShape = function(id){
       // Once the outlineShape Instance is ready, we
       // start painting the outline
-      this.on("activeOutlineShapeReady", function(e, data){
-        this.off("activeOutlineShapeReady");
-        
-        // make sure no other painting other than "paint"
-        // is active
-        this.trigger("cancelPaintingRequested", {
-          active: "paint"
-        });
-
-        // start outline painting
-        this.initOutlineShapePainting(data);
-      }.bind(this));
+      this.on("activeOutlineShapeReady", this.onActiveOutlineShapeReady);
 
       this.trigger("activeOutlineShapeChanged", {
         activeOutlineShapeId: id,
         id: id
       });
+    };
+
+    this.onActiveOutlineShapeReady = function(e, data) {
+      this.off("activeOutlineShapeReady", this.onActiveOutlineShapeReady);
+        
+      // make sure no other painting other than "paint"
+      // is active
+      this.trigger("cancelPaintingRequested", {
+        active: "paint"
+      });
+
+      // start outline painting
+      this.initOutlineShapePainting(data);
     };
 
     /**

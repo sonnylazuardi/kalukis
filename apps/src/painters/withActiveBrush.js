@@ -24,14 +24,16 @@ define(function(require){
      * @param  {String} id The brush id
      */
     this.requestBrushInstance = function(id){
-      this.on("brushServed", function(e, data){
-        this.off("brushServed");
-        this.setActiveBrushInstance(data.brush);
-      }.bind(this));
+      this.on("brushServed", this.onBrushServed);
       
       this.trigger("brushRequested", {
         id: id
       });
+    };
+
+    this.onBrushServed = function(e, data) {
+      this.off("brushServed", this.onBrushServed);
+      this.setActiveBrushInstance(data.brush);
     };
 
     /**

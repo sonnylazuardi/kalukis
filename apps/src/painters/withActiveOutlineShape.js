@@ -21,14 +21,16 @@ define(function(require){
     });
 
     this.requestOutlineShapeInstance = function(id){
-      this.on("outlineShapeServed", function(e, data) {
-        this.off("outlineShapeServed");
-        this.setActiveOutlineShapeInstance(data.outlineShape);
-      }.bind(this));
+      this.on("outlineShapeServed", this.onOutlineShapeServed);
 
       this.trigger("outlineShapeRequested", {
         id: id
       });
+    };
+
+    this.onOutlineShapeServed = function(e, data) {
+      this.off("outlineShapeServed", this.onOutlineShapeServed);
+      this.setActiveOutlineShapeInstance(data.outlineShape);
     };
 
     this.setActiveOutlineShapeInstance = function(outlineShape) {
