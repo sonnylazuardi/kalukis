@@ -25,10 +25,10 @@ define(function(require){
      */
     this.requestBrushInstance = function(id){
       this.on("brushServed", function(e, data){
-        this.off("brushRequested");
+        this.off("brushServed");
         this.setActiveBrushInstance(data.brush);
       }.bind(this));
-
+      
       this.trigger("brushRequested", {
         id: id
       });

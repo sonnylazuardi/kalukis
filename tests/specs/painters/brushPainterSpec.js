@@ -11,12 +11,12 @@ define(function(require){
     describe("Setting up", function(){
 
       it("Should request for brush instance on brushesLoaded event", function(){
-        var spiedEvent = spyOnEvent(".component-root", "activeBrushChanged");
+        spyOn(this.component, "requestBrush");
         $(".component-root").trigger("brushesLoaded", {
           brushes: [{id: "pencil"}]
         });
 
-        expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
+        expect(this.component.requestBrush).toHaveBeenCalled();
       });
 
     });

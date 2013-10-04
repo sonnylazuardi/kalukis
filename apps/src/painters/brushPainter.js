@@ -98,10 +98,7 @@ define(function(require){
      * @return {[type]}    [description]
      */
     this.requestBrush = function(id) {
-      this.trigger("activeBrushChanged", {
-        id: id,
-        activeBrushId: id
-      });
+      this.requestBrushInstance(id);
     };
 
     /**
