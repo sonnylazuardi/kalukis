@@ -26,8 +26,16 @@ define(function(require){
        */
       customHandlers: {},
 
+      /**
+       * The current brush used for painting
+       * @type {[type]}
+       */
       activeBrush: undefined,
 
+      /**
+       * The current outlineShape used for painting
+       * @type {[type]}
+       */
       activeOutlineShape: undefined
     });
 
@@ -52,17 +60,7 @@ define(function(require){
       }.bind(this));
 
       this.on("outlineShapePaintingFinished", function(e, data){
-        // allowing a custom handler
-        if (this.attr.customHandlers.outlineShapePaintingFinished) {
-          var handler = this.attr.customHandlers.outlineShapePaintingFinished;
-
-          // custom handler lives once only
-          delete this.attr.customHandlers["outlineShapePaintingFinished"];
-
-          handler.call(this, this.attr.canvas, data);
-        } else {
-          this.initBrushPainting(data);
-        }
+        this.initBrushPainting(data);
       }.bind(this));
     };
 
@@ -95,7 +93,6 @@ define(function(require){
      */
     this.cancelCurrentPainting = function(){
       this.unregisterExistingListeners(this.attr.canvas);
-      this.attr.customHandlers = {};
     };
 
     /**
@@ -109,18 +106,15 @@ define(function(require){
     this.initOutlineShapePainting = function(data){
       this.cancelCurrentPainting();
 
-      // if a customHandler is provided, than we need to call this handler
-      // later
-      if (data.customHandler){
-        var key = Object.keys(data.customHandler)[0];
-        this.attr.customHandlers[key] = data.customHandler[key];
-      }
-
       // calls method from withOutlineShapePainter
-      this.startOutlineShapePainting(this.attr.canvas, {
-        registerEventListeners: this.registerEventListeners,
-        unregisterExistingListeners: this.unregisterExistingListeners
-      });
+      this.startOutlineShapePainting(
+        this.attr.canvas,
+        data.outlineShape,
+        {
+          registerEventListeners: this.registerEventListeners,
+          unregisterExistingListeners: this.unregisterExistingListeners
+        }
+      );
     };
 
     /**
@@ -134,13 +128,10 @@ define(function(require){
      * @param  {Object} data Data need to paint
      */
     this.initBrushPainting = function(data){
-      if (data.customHandler){
-        var key = Object.keys(data.customHandler)[0];
-        this.attr.customHandlers[key] = data.customHandler[key];
-      }
-      // calls method from withBrushPainter
+      
       this.startBrushPainting(
         this.attr.canvas,
+        data.brush,
         data.outlineShape.getOutlinePoints(this.attr.activeBrush.get('width'))
       );
     };
