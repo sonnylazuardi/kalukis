@@ -45,27 +45,44 @@ define(function(require){
         }
       }.bind(this));
 
+      // mapping paintWidgetClicked event to activeOutlineShapeChanged
       this.on("paintWidgetClicked", function(e, data){
         this.requestOutlineShape(data.paintWidgetId);
       }.bind(this));
     };
 
+    /**
+     * Requesting for canvas instance
+     */
     this.requestCanvas = function(){
       this.trigger("canvasRequested");
     };
 
+    /**
+     * Savint the canvas instance
+     * @param  {Object} canvas Canvas instance
+     */
     this.setupCanvas = function(canvas){
       this.attr.canvas = canvas;
     };
 
+    /**
+     * Requesting for outlineShape instance
+     * @param  {String} id OutlineShape ID
+     */
     this.requestOutlineShape = function(id){
+      // Once the outlineShape Instance is ready, we
+      // start painting the outline
       this.on("activeOutlineShapeReady", function(e, data){
         this.off("activeOutlineShapeReady");
         
+        // make sure no other painting other than "paint"
+        // is active
         this.trigger("cancelCurrentPainting", {
           active: "paint"
         });
 
+        // start outline painting
         this.initOutlineShapePainting(data);
       }.bind(this));
 
@@ -75,6 +92,11 @@ define(function(require){
       });
     };
 
+    /**
+     * Requesting for initiation of active brush
+     * @param  {String} id Brush ID
+     * @return {[type]}    [description]
+     */
     this.requestBrush = function(id) {
       this.trigger("activeBrushChanged", {
         id: id,
@@ -83,7 +105,7 @@ define(function(require){
     };
 
     /**
-     * Cancel current lukis painting
+     * Cancel current paint painting
      */
     this.cancelCurrentPainting = function(){
       this.off("outlineShapePaintingFinished");
@@ -94,34 +116,38 @@ define(function(require){
      * Start painting outline.
      *
      * The `data` contains:
-     * + customHandler  : a custom handler for any event that might be published by the outline painter
+     *
+     * + activeOutlineShape: the outline shape instance to use
      * 
      * @param  {Object} data Data need to paint
      */
     this.initOutlineShapePainting = function(data){
-      this.cancelCurrentPainting();
+      if (data.activeOutlineShape) {
+        // cancel any painting
+        this.cancelCurrentPainting();
 
-      // listen once
-      this.on("outlineShapePaintingFinished", function(e, data){
-        this.initBrushPainting(data);
-      }.bind(this));
+        // when outline painting is finished, we start painting the brush
+        this.on("outlineShapePaintingFinished", function(e, data){
+          this.initBrushPainting(data);
+        }.bind(this));
 
-      // calls method from withOutlineShapePainter
-      this.startOutlineShapePainting(
-        this.attr.canvas,
-        data.activeOutlineShape,
-        {
-          registerEventListeners: this.registerEventListeners,
-          unregisterExistingListeners: this.unregisterExistingListeners
-        }
-      );
+        // calls method from withOutlineShapePainter
+        this.startOutlineShapePainting(
+          this.attr.canvas,
+          data.activeOutlineShape,
+          {
+            registerEventListeners: this.registerEventListeners,
+            unregisterExistingListeners: this.unregisterExistingListeners
+          }
+        );  
+      }
     };
 
     /**
      * Start painting the brush.
      *
      * The `data` contains:
-     * + customHandler  : a custom handler for any event that might be published by the brush painter
+     * 
      * + outlineShapeId : the outline shape id
      * + outlineShape   : the outline shape instance
      * 
@@ -130,7 +156,7 @@ define(function(require){
     this.initBrushPainting = function(data){
       var activeBrush = this.getActiveBrush();
 
-      if (activeBrush) {
+      if (activeBrush && data.outlineShape) {
         this.startBrushPainting(
           this.attr.canvas,
           this.getActiveBrush(),
