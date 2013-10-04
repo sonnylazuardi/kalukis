@@ -13,6 +13,10 @@ define(function(require){
       this.on("activeBrushChanged", function(e, data){
         this.requestBrushInstance(data.activeBrushId);
       }.bind(this));
+
+      this.on("brushPropertyUpdated", function(e, data){
+        this.updateBrushProperty(data.key, data.newValue);
+      }.bind(this));
     });
 
     this.requestBrushInstance = function(id){
@@ -32,6 +36,12 @@ define(function(require){
 
     this.getActiveBrush = function() {
       return activeBrush;
+    };
+
+    this.updateBrushProperty = function(key, value) {
+      if (activeBrush) {
+        activeBrush.set(key, value);
+      }
     };
 
   }

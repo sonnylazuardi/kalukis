@@ -23,8 +23,17 @@ define(function(require){
         expect(this.component.getActiveBrush()).toBeInstanceOf(CircleBrush);
       });
 
-      xit("Should update the current active brush property when a property is upadted", function(){
+      it("Should update the current active brush property when a property is upadted", function(){
+        this.component.setBrushInstance(new CircleBrush(canvas, {}));
 
+        $(".component-root").trigger("brushPropertyUpdated", {
+          key: "width",
+          oldValue: 10,
+          newValue: 20
+        });
+
+        var brush = this.component.getActiveBrush();
+        expect(brush.get("width")).toEqual(20);
       });
 
     });
