@@ -41,9 +41,7 @@ define(function(require){
       if (usedBrush) {
         this.attr.mixinCanvas = canvas;
         this.attr.mixinCanvas.isDrawingMode = true;
-        this.attr.mixinCanvas.freeDrawingBrush = usedBrush.getBrush();
-        this.attr.mixinCanvas.freeDrawingBrush.color = usedBrush.get("fillColor");
-        this.attr.mixinCanvas.freeDrawingBrush.width = usedBrush.get("width");  
+        this.setupFreehandPaintingProperty(usedBrush);  
       }
     };
 
@@ -57,10 +55,14 @@ define(function(require){
       this.attr.activeBrush = brush;
 
       if (this.attr.mixinCanvas && this.attr.mixinCanvas.isDrawingMode) {
-        this.attr.mixinCanvas.freeDrawingBrush = brush.getBrush();
-        this.attr.mixinCanvas.freeDrawingBrush.color = brush.get("fillColor");
-        this.attr.mixinCanvas.freeDrawingBrush.width = brush.get("width");
+        this.setupFreehandPaintingProperty(brush);
       }
+    };
+
+    this.setupFreehandPaintingProperty = function(brush) {
+      this.attr.mixinCanvas.freeDrawingBrush = brush.getBrush();
+      this.attr.mixinCanvas.freeDrawingBrush.color = brush.get("fillColor");
+      this.attr.mixinCanvas.freeDrawingBrush.width = brush.get("width");
     };
 
     this.setBrushWidth = function(width){
