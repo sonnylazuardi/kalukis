@@ -5,7 +5,7 @@ define(function(require){
 
   var canvas = require("services/canvas"),
   
-      lukis = require("painters/lukis"),
+      brushPainter = require("painters/brushPainter"),
       freehandPainter = require("painters/freehandPainter"),
       imagePainter = require("painters/imagePainter"),
 
@@ -63,7 +63,7 @@ define(function(require){
      * The lukis component will publish the canvas instance
      * and its DOM element with an event name of `canvasConstructed`.
      */
-    lukis.attachTo(document);
+    brushPainter.attachTo(document);
     freehandPainter.attachTo(document);
     imagePainter.attachTo(document);
 
