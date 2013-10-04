@@ -6,6 +6,10 @@ define(function(require){
 
   function notification(){
 
+    this.defaultAttrs({
+      alert: ".alert"
+    });
+
     this.after("initialize", function(){
       this.attachEventListeners();
     });
@@ -68,6 +72,7 @@ define(function(require){
     };
 
     this.addAlertUi = function(type, message) {
+      this.$node.empty();
       this.$node.append("<div class='alert alert-" + type + "'>" + message + "</div>");
     };
 

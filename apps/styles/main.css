@@ -74,7 +74,7 @@ body {
 .alert {
   font-family: sans-serif;
   font-size: 90%;
-  
+
   padding-top: 5px;
   padding-left: 10px;
 }
@@ -84,7 +84,7 @@ body {
 }
 
 .alert-info {
-  color: #3CB1FF;
+  color: #66C2FF;
 }
 
 .alert-error {
