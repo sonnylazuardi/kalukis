@@ -68,6 +68,10 @@ define(function(require){
      * Start painting
      */
     this.initFreehandPainting = function(){
+      this.trigger("notify", {
+        type: "info",
+        message: "Press [ESC] to cancel the current painting"
+      });
       this.startFreehandPainting(this.attr.canvas);
     };
   }

@@ -26,7 +26,7 @@ define(function(require){
      * @return {[type]} [description]
      */
     this.cancelActivePainting = function(){
-      this.trigger("cancelCurrentPainting", {
+      this.trigger("cancelPaintingRequested", {
         active: "key"
       });
     };

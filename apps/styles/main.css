@@ -3,7 +3,7 @@
 @import url("./../../vendor/spectrum/spectrum.css");
 
 body {
-    background-color: #575757;
+  background-color: #575757;
 }
 
 .header {
@@ -69,4 +69,24 @@ body {
   right: 0;
   height: 32px;
   background-color: #525252;
+}
+
+.alert {
+  font-family: sans-serif;
+  font-size: 90%;
+  
+  padding-top: 5px;
+  padding-left: 10px;
+}
+
+.alert-warning {
+  color: #E67E22;
+}
+
+.alert-info {
+  color: #3CB1FF;
+}
+
+.alert-error {
+  color: #E74C3C;
 }
