@@ -1,7 +1,8 @@
 define(function(require){
 
   var fabric = require("fabric"),
-      canvas = new fabric.Canvas();
+      canvas = new fabric.Canvas(),
+      RectOutline = require("outlineShapes/rectOutline");
 
   describeComponent("painters/imagePainter", function(){
 
@@ -23,7 +24,7 @@ define(function(require){
       });
 
       it("Should request canceling any active painting when imageCanvasClicked is triggered", function(){
-        var spiedEvent = spyOnEvent(".component-root", "cancelCurrentPainting");
+        var spiedEvent = spyOnEvent(".component-root", "cancelPaintingRequested");
 
         $(".component-root").trigger("imageCanvasClicked", {
           files: []
@@ -32,13 +33,13 @@ define(function(require){
         expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
       });
 
-      it("Should stop any painting when cancelCurrentPainting", function(){
-        spyOn(this.component, "stopImagePainting");
+      it("Should stop any painting when cancelPaintingRequested", function(){
+        spyOn(this.component, "stopCurrentPainting");
 
-        $(".component-root").trigger("cancelCurrentPainting", {
+        $(".component-root").trigger("cancelPaintingRequested", {
           active: "freehand"
         });
-        expect(this.component.stopImagePainting).toHaveBeenCalled();
+        expect(this.component.stopCurrentPainting).toHaveBeenCalled();
       });
 
     });

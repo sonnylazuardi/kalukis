@@ -12,14 +12,6 @@ define(function(require){
       });
     });
 
-    describe("Constructing mixin", function(){
-
-      it("RectOutlineShape ready", function(){
-        expect(this.component.attr.mixinRectOutline).toBeInstanceOf(RectOutline);
-      });
-
-    });
-
     describe("Painting Execution", function(){
 
       var canvasEventsService = {
@@ -27,16 +19,10 @@ define(function(require){
         unregisterExistingListeners: function(){}
       };
 
-      it("Register after advice", function(){
-        this.component.startImagePainting(canvas, [], canvasEventsService);
-        expect(this.component.attr.mixinRectOutline).toHaveProperties("__hasBeenAddedAfterAdvice");
-      });
-
       it("Publish addingImageInitted after outlineShapePainting is finisihed", function(){
         var spiedEvent = spyOnEvent(".component-root", "addingImagesInitted");
 
-        this.component.startImagePainting(canvas, [], canvasEventsService);
-        this.component.attr.mixinRectOutline.finish();
+        this.component.loadImages([], new RectOutline(canvas, {}));
         expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
       });
 

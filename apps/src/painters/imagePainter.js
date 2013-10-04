@@ -64,11 +64,11 @@ define(function(require){
         this.initImagePainting(data.files);
       }.bind(this));
 
-      this.on("cancelCurrentPainting", function(e, data){
+      this.on("cancelPaintingRequested", function(e, data){
         if (data.active !== "image") {
           this.stopCurrentPainting();
         }
-      });
+      }.bind(this));
 
       this.on("addingImagesFinished", function(){
         this.stopCurrentPainting();
@@ -79,9 +79,6 @@ define(function(require){
      * Cancel current image painting
      */
     this.stopCurrentPainting = function(){
-      // stop image painting
-      // this.stopImagePainting();
-      // unregister canvas events listener
       this.unregisterExistingListeners(this.attr.canvas);
       this.attr.files.length = 0;
     };

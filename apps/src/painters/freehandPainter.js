@@ -33,7 +33,6 @@ define(function(require){
       }.bind(this));
 
       this.on("cancelPaintingRequested", function(e, data){
-        console.log(data.active);
         if (data.active !== "freehand") {
           this.stopFreehandPainting();
         }
