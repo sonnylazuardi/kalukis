@@ -52,20 +52,21 @@ define(function(require){
         expect(this.component.loadImages).toHaveBeenCalled();
       });
 
-      // it("Should not respond to outlineShapePaintingFinished once the painting process has been initted", function(){
-      //   var called = 0;
+      it("Should not respond to outlineShapePaintingFinished once the painting process has been initted", function(){
+        this.component.attr.rectOutline = new RectOutline(canvas, {});
+        spyOn(this.component, "onOutlineShapePaintingFinished").andCallThrough();
 
-      //   spyOn(this.component, "onOutlineShapePaintingFinished").andCallFake(function(){
-      //     called++;
-      //   });
+        this.component.initImagePainting([]);
 
-      //   this.component.initImagePainting([]);
+        $(".component-root").trigger("outlineShapePaintingFinished", {
+          called: 1
+        });
+        $(".component-root").trigger("outlineShapePaintingFinished", {
+          called: 2
+        });
 
-      //   $(".component-root").trigger("outlineShapePaintingFinished");
-      //   $(".component-root").trigger("outlineShapePaintingFinished");
-
-      //   expect(called).toEqual(1);
-      // });
+        expect(this.component.onOutlineShapePaintingFinished.mostRecentCall.args[1]).toEqual({called: 1});
+      });
 
     });
 
