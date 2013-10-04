@@ -20,6 +20,10 @@ define(function(require){
 
     });
 
+    /**
+     * Request outlineShape instance
+     * @param  {String} id OutlineShape ID
+     */
     this.requestOutlineShapeInstance = function(id){
       this.on("outlineShapeServed", this.onOutlineShapeServed);
 
@@ -33,6 +37,10 @@ define(function(require){
       this.setActiveOutlineShapeInstance(data.outlineShape);
     };
 
+    /**
+     * Set the outlineShape instance
+     * @param {Object} outlineShape OutlineShape Instance
+     */
     this.setActiveOutlineShapeInstance = function(outlineShape) {
       activeOutlineShape = outlineShape;
       this.trigger("activeOutlineShapeReady", {
@@ -40,10 +48,19 @@ define(function(require){
       });
     };
 
+    /**
+     * Get the current active outlineShape
+     * @return {Object} Active outlineShape
+     */
     this.getActiveOutlineShape = function(){
       return activeOutlineShape;
     };
 
+    /**
+     * Update the property of the current active outlineShape
+     * @param  {String} key   Property name
+     * @param  {String} value Property value
+     */
     this.updateActiveOutlineShapeProperty = function(key, value) {
       if (activeOutlineShape) {
         activeOutlineShape.set(key, value);
