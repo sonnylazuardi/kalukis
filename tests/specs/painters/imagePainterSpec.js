@@ -42,6 +42,31 @@ define(function(require){
         expect(this.component.stopCurrentPainting).toHaveBeenCalled();
       });
 
+      it("Should call loadImages once the outlineShape has been painted", function(){
+        this.component.attr.rectOutline = new RectOutline(canvas, {});
+        spyOn(this.component, "loadImages");
+
+        this.component.initImagePainting([]);
+
+        $(".component-root").trigger("outlineShapePaintingFinished");
+        expect(this.component.loadImages).toHaveBeenCalled();
+      });
+
+      // it("Should not respond to outlineShapePaintingFinished once the painting process has been initted", function(){
+      //   var called = 0;
+
+      //   spyOn(this.component, "onOutlineShapePaintingFinished").andCallFake(function(){
+      //     called++;
+      //   });
+
+      //   this.component.initImagePainting([]);
+
+      //   $(".component-root").trigger("outlineShapePaintingFinished");
+      //   $(".component-root").trigger("outlineShapePaintingFinished");
+
+      //   expect(called).toEqual(1);
+      // });
+
     });
 
   });

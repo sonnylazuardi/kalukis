@@ -79,6 +79,7 @@ define(function(require){
      * Cancel current image painting
      */
     this.stopCurrentPainting = function(){
+      this.off("outlineShapePaintingFinished", this.onOutlineShapePaintingFinished);
       this.unregisterExistingListeners(this.attr.canvas);
       this.attr.files.length = 0;
     };
