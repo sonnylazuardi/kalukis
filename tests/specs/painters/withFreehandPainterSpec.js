@@ -9,7 +9,7 @@ define(function(require){
     describe("Active Brush events management", function(){
 
       it("Should save the active brush on activeBrushUpdated", function(){
-        $(".component-root").trigger("activeBrushUpdated", {
+        $(".component-root").trigger("brushServed", {
           brush: "brush"
         });
 

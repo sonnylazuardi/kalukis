@@ -8,9 +8,10 @@ define(function(require){
   function freehandPainter(){
 
     this.defaultAttrs({
-
-      isPainting: false,
-
+      /**
+       * Canvas instance
+       * @type {Object}
+       */
       canvas: undefined
     });
 

@@ -22,7 +22,7 @@ define(function(require){
     });
 
     this.after("initialize", function(){
-      this.on("activeBrushUpdated", function(e, data){
+      this.on("brushServed", function(e, data){
         this.setBrush(data.brush);
       }.bind(this));
 
@@ -42,8 +42,8 @@ define(function(require){
         this.attr.mixinCanvas = canvas;
         this.attr.mixinCanvas.isDrawingMode = true;
         this.attr.mixinCanvas.freeDrawingBrush = usedBrush.getBrush();
-        this.attr.mixinCanvas.freeDrawingBrush.color = this.attr.brushColor;
-        this.attr.mixinCanvas.freeDrawingBrush.width = this.attr.brushWidth;  
+        this.attr.mixinCanvas.freeDrawingBrush.color = usedBrush.get("fillColor");
+        this.attr.mixinCanvas.freeDrawingBrush.width = usedBrush.get("width");  
       }
     };
 
@@ -58,22 +58,25 @@ define(function(require){
 
       if (this.attr.mixinCanvas && this.attr.mixinCanvas.isDrawingMode) {
         this.attr.mixinCanvas.freeDrawingBrush = brush.getBrush();
+        this.attr.mixinCanvas.freeDrawingBrush.color = brush.get("fillColor");
+        this.attr.mixinCanvas.freeDrawingBrush.width = brush.get("width");
       }
     };
 
     this.setBrushWidth = function(width){
-      this.attr.brushWidth = width;
+      // this.attr.brushWidth = width;
+      this.attr.activeBrush.set("width", width);
 
       if (this.attr.mixinCanvas && this.attr.mixinCanvas.isDrawingMode) {
-        this.attr.mixinCanvas.freeDrawingBrush.width = this.attr.brushWidth;
+        this.attr.mixinCanvas.freeDrawingBrush.width = width;
       }
     };
 
     this.setBrushColor = function(color){
-      this.attr.brushColor = color;
+      this.attr.activeBrush.set("fillColor", color);
 
       if (this.attr.mixinCanvas && this.attr.mixinCanvas.isDrawingMode) {
-        this.attr.mixinCanvas.freeDrawingBrush.color = this.attr.brushColor;
+        this.attr.mixinCanvas.freeDrawingBrush.color = color;
       }
     };
 

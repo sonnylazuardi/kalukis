@@ -30,10 +30,10 @@ define(function(require){
         expect(this.component.cancelCurrentPainting).toHaveBeenCalled();
       });
 
-      it("Should stop any painting when cancelCurrentPainting", function(){
+      it("Should stop any painting when cancelPaintingRequested", function(){
         this.component.attr.mixinCanvas.isDrawingMode = true;
 
-        $(".component-root").trigger("cancelCurrentPainting", {
+        $(".component-root").trigger("cancelPaintingRequested", {
           active: "paint"
         });
         expect(this.component.attr.mixinCanvas.isDrawingMode).toEqual(false);
