@@ -1,6 +1,6 @@
 /**
- * I know how to manage outlineShape lifecycle. I also provide these outlineShapes
- * when someone requested them.
+ * I know how to manage the outlineShape lifecycle. I also provide these 
+ * outlineShapes when someone requested them.
  */
 define(function(require){
 
@@ -52,12 +52,13 @@ define(function(require){
      * @return {[type]} [description]
      */
     this.attachEventListener = function(){
+
       this.on("canvasRequestResponded", function(e, data){
         this.setCanvas(data.id, data.canvas);
       }.bind(this));
 
       this.on("outlineShapeRequested", function(e, data){
-        this.prepareOutlineShape(data.id);
+        this.requestOutlineShape(data.id);
       }.bind(this));
 
       this.on("brushPropertyUpdated", this.updateOutlineProperties);
@@ -84,7 +85,7 @@ define(function(require){
      * Setup outline shape
      * @param  {String} id OutlineShape id
      */
-    this.prepareOutlineShape = function(id) {
+    this.requestOutlineShape = function(id) {
       id += "Outline";
 
       if (this.attr.outlineShapes.hasOwnProperty(id)) {

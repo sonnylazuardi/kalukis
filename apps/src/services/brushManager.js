@@ -142,13 +142,15 @@ define(function(require){
      * Publish the requested brush
      * @param  {String} id Brush ID
      */
-    this.requestBrush = function(id) {
+    this.requestBrush = function(id, supress) {
       if (this.attr.brushes.hasOwnProperty(id)) {
         var brush = this.attr.brushes[id];
         // update the brush properties
         this.setBrushProperties(brush);
 
-        this.publishRequestedBrush(brush);
+        if (!supress) {
+          this.publishRequestedBrush(brush);
+        }
       } else {
         // TODO what if the brush requested cannot be found?
         require(["brushes/" + id], function(BrushProto){
@@ -156,7 +158,9 @@ define(function(require){
           // remember this brush
           this.attr.brushes[id] = brush;
           
-          this.publishRequestedBrush(brush);
+          if (!supress) {
+            this.publishRequestedBrush(brush);
+          }
         }.bind(this));
       }
     };
