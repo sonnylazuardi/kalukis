@@ -10,14 +10,17 @@ define(function(require){
   function withFreeHandPainter(){
 
     this.defaultAttrs({
-
+      /**
+       * Canvas instance hold by this mixin
+       * @type {Object}
+       */
       mixinCanvas: undefined,
 
+      /**
+       * The brush to use for painting
+       * @type {Object}
+       */
       activeBrush: undefined,
-
-      brushWidth: 10,
-
-      brushColor: "#000000"
 
     });
 
@@ -35,6 +38,12 @@ define(function(require){
       }.bind(this));
     });
 
+    /**
+     * Start free hand painting
+     * @param  {Object} canvas Canvas
+     * @param  {Object} brush  The custom brush to use. If not provided, then
+     *                         we use the one saved by this mixin
+     */
     this.startFreehandPainting = function(canvas, brush){
       var usedBrush = brush || this.attr.activeBrush;
 
@@ -45,12 +54,19 @@ define(function(require){
       }
     };
 
+    /**
+     * Stop painting
+     */
     this.stopFreehandPainting = function(){
       if (this.attr.mixinCanvas) {
         this.attr.mixinCanvas.isDrawingMode = false;  
       }
     };
 
+    /**
+     * Setting brush instance to use for painting
+     * @param {Object} brush The brush
+     */
     this.setBrush = function(brush){
       this.attr.activeBrush = brush;
 
@@ -59,14 +75,21 @@ define(function(require){
       }
     };
 
+    /**
+     * Setting up freehand brush properties for painting
+     * @param  {Object} brush The brush
+     */
     this.setupFreehandPaintingProperty = function(brush) {
       this.attr.mixinCanvas.freeDrawingBrush = brush.getBrush();
       this.attr.mixinCanvas.freeDrawingBrush.color = brush.get("fillColor");
       this.attr.mixinCanvas.freeDrawingBrush.width = brush.get("width");
     };
 
+    /**
+     * Update brush width
+     * @param {Integer} width Width
+     */
     this.setBrushWidth = function(width){
-      // this.attr.brushWidth = width;
       this.attr.activeBrush.set("width", width);
 
       if (this.attr.mixinCanvas && this.attr.mixinCanvas.isDrawingMode) {
@@ -74,6 +97,10 @@ define(function(require){
       }
     };
 
+    /**
+     * Setting brush color
+     * @param {String} color Color
+     */
     this.setBrushColor = function(color){
       this.attr.activeBrush.set("fillColor", color);
 

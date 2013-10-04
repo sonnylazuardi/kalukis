@@ -1,3 +1,6 @@
+/**
+ * I know how to execute free hand painting
+ */
 define(function(require){
 
   var defineComponent = require("flight/lib/component"),
@@ -20,10 +23,17 @@ define(function(require){
       this.requestCanvas();
     });
 
+    /**
+     * Requesting canvas instance
+     */
     this.requestCanvas = function(){
       this.trigger("canvasRequested");
     };
 
+    /**
+     * Setting canvas instance
+     * @param {Object} canvas Canvas Instance
+     */
     this.setCanvas = function(canvas) {
       this.attr.canvas = canvas;
     };
@@ -47,7 +57,6 @@ define(function(require){
 
     /**
      * Cancel current freehand painting
-     * TODO
      */
     this.cancelCurrentPainting = function(){
       this.trigger("cancelPaintingRequested", {
@@ -55,6 +64,9 @@ define(function(require){
       });
     };
 
+    /**
+     * Start painting
+     */
     this.initFreehandPainting = function(){
       this.startFreehandPainting(this.attr.canvas);
     };
