@@ -36,6 +36,14 @@ define(function(require){
         expect(brush.get("width")).toEqual(20);
       });
 
+      it("Should publish activeBrushReady on setting new brush instance", function(){
+        var spiedEvent = spyOnEvent(".component-root", "activeBrushReady");
+        this.component.setBrushInstance(new CircleBrush(canvas, {}));
+
+        expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
+
+      });
+
     });
 
   });

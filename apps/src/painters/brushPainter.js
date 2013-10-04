@@ -57,8 +57,8 @@ define(function(require){
     };
 
     this.publishActiveOutlineChange = function(id){
-      this.on("activeOutlineShapeUpdated", function(e, data){
-        this.off("activeOutlineShapeUpdated");
+      this.on("activeOutlineShapeReady", function(e, data){
+        this.off("activeOutlineShapeReady");
         
         this.trigger("cancelCurrentPainting", {
           active: "paint"
@@ -93,7 +93,7 @@ define(function(require){
       // calls method from withOutlineShapePainter
       this.startOutlineShapePainting(
         this.attr.canvas,
-        data.outlineShape,
+        data.activeOutlineShape,
         {
           registerEventListeners: this.registerEventListeners,
           unregisterExistingListeners: this.unregisterExistingListeners

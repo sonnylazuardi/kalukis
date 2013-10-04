@@ -40,6 +40,9 @@ define(function(require){
      */
     this.setBrushInstance = function(brush) {
       activeBrush = brush;
+      this.trigger("activeBrushReady", {
+        activeBrush: brush
+      });
     };
 
     /**

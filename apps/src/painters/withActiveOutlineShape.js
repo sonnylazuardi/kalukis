@@ -33,6 +33,9 @@ define(function(require){
 
     this.setActiveOutlineShapeInstance = function(outlineShape) {
       activeOutlineShape = outlineShape;
+      this.trigger("activeOutlineShapeReady", {
+        activeOutlineShape: outlineShape
+      });
     };
 
     this.getActiveOutlineShape = function(){
