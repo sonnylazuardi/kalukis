@@ -48,10 +48,6 @@ define(function(require){
       this.on("paintWidgetClicked", function(e, data){
         this.requestOutlineShape(data.paintWidgetId);
       }.bind(this));
-
-      this.on("outlineShapePaintingFinished", function(e, data){
-        this.initBrushPainting(data);
-      }.bind(this));
     };
 
     this.requestCanvas = function(){
@@ -90,6 +86,7 @@ define(function(require){
      * Cancel current lukis painting
      */
     this.cancelCurrentPainting = function(){
+      this.off("outlineShapePaintingFinished");
       this.unregisterExistingListeners(this.attr.canvas);
     };
 
@@ -103,6 +100,11 @@ define(function(require){
      */
     this.initOutlineShapePainting = function(data){
       this.cancelCurrentPainting();
+
+      // listen once
+      this.on("outlineShapePaintingFinished", function(e, data){
+        this.initBrushPainting(data);
+      }.bind(this));
 
       // calls method from withOutlineShapePainter
       this.startOutlineShapePainting(
@@ -126,12 +128,15 @@ define(function(require){
      * @param  {Object} data Data need to paint
      */
     this.initBrushPainting = function(data){
-      
-      this.startBrushPainting(
-        this.attr.canvas,
-        data.brush,
-        data.outlineShape.getOutlinePoints(this.attr.activeBrush.get('width'))
-      );
+      var activeBrush = this.getActiveBrush();
+
+      if (activeBrush) {
+        this.startBrushPainting(
+          this.attr.canvas,
+          this.getActiveBrush(),
+          data.outlineShape.getOutlinePoints(activeBrush.get('width'))
+        );  
+      }
     };
 
   }
