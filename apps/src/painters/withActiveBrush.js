@@ -24,7 +24,7 @@ define(function(require){
      * @param  {String} id The brush id
      */
     this.requestBrushInstance = function(id){
-      this.on("brushRequestResponded", function(e, data){
+      this.on("brushServed", function(e, data){
         this.off("brushRequested");
         this.setBrushInstance(data.brush);
       }.bind(this));

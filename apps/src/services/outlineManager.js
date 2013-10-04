@@ -53,7 +53,7 @@ define(function(require){
      */
     this.attachEventListener = function(){
 
-      this.on("canvasRequestResponded", function(e, data){
+      this.on("canvasServed", function(e, data){
         this.setCanvas(data.id, data.canvas);
       }.bind(this));
 
@@ -108,7 +108,7 @@ define(function(require){
      * @param  {Obect} outlineShape OutlineShape instance
      */
     this.publishOutlineShape = function(outlineShape){
-      this.trigger("outlineShapeRequestResponded", {
+      this.trigger("outlineShapeServed", {
         outlineShape: outlineShape
       });
     };

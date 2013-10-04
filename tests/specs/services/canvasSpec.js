@@ -22,7 +22,7 @@ define(function(require){
     describe("Component communication", function(){
 
       it("Should publish the correct data on canvasRequested event", function(){
-        var spiedEvent = spyOnEvent('.component-root', "canvasRequestResponded");
+        var spiedEvent = spyOnEvent('.component-root', "canvasServed");
 
         $('.component-root').trigger("canvasRequested");
 

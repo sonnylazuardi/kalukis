@@ -23,7 +23,7 @@ define(function(require){
 
       it("Should setup the canvas", function(){
         setupComponent();
-        $('.component-root').trigger("canvasRequestResponded", {
+        $('.component-root').trigger("canvasServed", {
           id: "lukis",
           canvas: "canvas"
         });
@@ -80,7 +80,7 @@ define(function(require){
       });
 
       it("Should publish brush properties when someone requested them", function(){
-        var spiedEvent = spyOnEvent('.component-root', "brushPropertiesRequestResponded");
+        var spiedEvent = spyOnEvent('.component-root', "brushPropertiesServed");
 
         $('.component-root').trigger("brushPropertiesRequested");
         expect(spiedEvent).toHaveBeenTriggeredOn('.component-root');
@@ -97,7 +97,7 @@ define(function(require){
 
       async.it("Should publish a response when a brush is requested", function(done){
 
-        $(".component-root").on("brushRequestResponded", function(e, data){
+        $(".component-root").on("brushServed", function(e, data){
           expect(data.brush).toBeInstanceOf(CircleBrush);
           done();
         });

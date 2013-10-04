@@ -17,7 +17,7 @@ define(function(require){
           paintWidgetId: "circle"
         });
 
-        $(".component-root").trigger("outlineShapeRequestResponded", {
+        $(".component-root").trigger("outlineShapeServed", {
           outlineShape: new CircleOutline(canvas, {})
         });
 

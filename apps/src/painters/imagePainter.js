@@ -44,7 +44,7 @@ define(function(require){
      * Add event handlers for interesting events
      */
     this.attachEventListener = function(){
-      this.on("canvasRequestResponded", function(e, data){
+      this.on("canvasServed", function(e, data){
         this.setCanvas(data.canvas);
       }.bind(this));
 

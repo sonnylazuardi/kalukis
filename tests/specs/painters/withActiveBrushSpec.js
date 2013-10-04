@@ -16,7 +16,7 @@ define(function(require){
         $(".component-root").trigger("activeBrushChanged", {
           activeBrushId: "circle"
         });
-        $(".component-root").trigger("brushRequestResponded", {
+        $(".component-root").trigger("brushServed", {
           brush: new CircleBrush(canvas, {})
         });
 

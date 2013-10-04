@@ -21,8 +21,8 @@ define(function(require){
     });
 
     this.requestOutlineShapeInstance = function(id){
-      this.on("outlineShapeRequestResponded", function(e, data) {
-        this.off("outlineShapeRequestResponded");
+      this.on("outlineShapeServed", function(e, data) {
+        this.off("outlineShapeServed");
         this.setActiveOutlineShapeInstance(data.outlineShape);
       }.bind(this));
 

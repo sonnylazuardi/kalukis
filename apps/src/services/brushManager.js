@@ -65,7 +65,7 @@ define(function(require){
      * @return {[type]} [description]
      */
     this.attachEventListeners = function(){
-      this.on("canvasRequestResponded", function(e, data){
+      this.on("canvasServed", function(e, data){
         this.setCanvas(data.id, data.canvas);
       }.bind(this));
 
@@ -103,7 +103,7 @@ define(function(require){
      * Publish the recorded brush properties
      */
     this.publishBrushProperties = function(){
-      this.trigger("brushPropertiesRequestResponded", {
+      this.trigger("brushPropertiesServed", {
         properties: this.attr.prop
       });
     };
@@ -170,7 +170,7 @@ define(function(require){
      * @param  {Object} brush The brush to publish
      */
     this.publishRequestedBrush = function(brush){
-      this.trigger("brushRequestResponded", {
+      this.trigger("brushServed", {
         brush: brush
       });
     };

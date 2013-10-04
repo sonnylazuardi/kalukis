@@ -21,7 +21,7 @@ define(function(require){
 
       it("Should setup the canvas", function(){
         setupComponent();
-        $('.component-root').trigger("canvasRequestResponded", {
+        $('.component-root').trigger("canvasServed", {
           id: "lukis",
           canvas: "canvas"
         });
@@ -98,7 +98,7 @@ define(function(require){
 
       async.it("Should respond to request event", function(done){
 
-        $(".component-root").on("outlineShapeRequestResponded", function(e, data){
+        $(".component-root").on("outlineShapeServed", function(e, data){
           expect(data.outlineShape).toBeInstanceOf(RectOutline);
           done();
         });
@@ -110,7 +110,7 @@ define(function(require){
       });
 
       async.it("Should set the published outlineShape with the outlineShape properties", function(done){
-        $(".component-root").on("outlineShapeRequestResponded", function(e, data){
+        $(".component-root").on("outlineShapeServed", function(e, data){
           var outlineShape = data.outlineShape;
           expect(outlineShape.get("fillColor")).toEqual("red");
           expect(outlineShape.get("strokeColor")).toEqual("yellow");
