@@ -19,6 +19,10 @@ define(function(require){
       }.bind(this));
     });
 
+    /**
+     * Request an brush instance
+     * @param  {String} id The brush id
+     */
     this.requestBrushInstance = function(id){
       this.on("brushRequestResponded", function(e, data){
         this.off("brushRequested");
@@ -30,14 +34,27 @@ define(function(require){
       });
     };
 
+    /**
+     * Set the active brush instance
+     * @param {Object} brush Brush instance
+     */
     this.setBrushInstance = function(brush) {
       activeBrush = brush;
     };
 
+    /**
+     * Get the current active brush
+     * @return {Object} The active brush instance
+     */
     this.getActiveBrush = function() {
       return activeBrush;
     };
 
+    /**
+     * Update the property of an active brush instance
+     * @param  {String} key   The property name
+     * @param  {String} value The new value
+     */
     this.updateBrushProperty = function(key, value) {
       if (activeBrush) {
         activeBrush.set(key, value);
