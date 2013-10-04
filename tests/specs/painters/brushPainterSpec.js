@@ -25,36 +25,36 @@ define(function(require){
         expect(spiedEvent.mostRecentCall.data.activeOutlineShapeId).toEqual("rect");
       });
 
-      it("Should listen to activeOutlineShapeUpdated event when activeOutlineShapeChanged has been triggered", function(){
+      it("Should listen to activeOutlineShapeReady event when activeOutlineShapeChanged has been triggered", function(){
         spyOn(this.component, "initOutlineShapePainting");
 
         $(".component-root").trigger("paintWidgetClicked", {
           paintWidgetId: "rect"
         });
 
-        $(".component-root").trigger("activeOutlineShapeUpdated", {
+        $(".component-root").trigger("activeOutlineShapeReady", {
           outlineShape: "rect"
         });
 
         expect(this.component.initOutlineShapePainting).toHaveBeenCalled();
       });
 
-      it("Should detach activeOutlineShapeUpdated event when that event has been captured", function(){
+      it("Should detach activeOutlineShapeReady event when that event has been captured", function(){
         spyOn(this.component, "initOutlineShapePainting");
 
         $(".component-root").trigger("paintWidgetClicked", {
           paintWidgetId: "rect"
         });
 
-        $(".component-root").trigger("activeOutlineShapeUpdated", {
+        $(".component-root").trigger("activeOutlineShapeReady", {
           outlineShape: "rect"
         });        
 
-        $(".component-root").trigger("activeOutlineShapeUpdated", {
+        $(".component-root").trigger("activeOutlineShapeReady", {
           outlineShape: "circle"
         });
 
-        // make sure only the first activeOutlineShapeUpdated is responded
+        // make sure only the first activeOutlineShapeReady is responded
         var args = this.component.initOutlineShapePainting.mostRecentCall.args[0];
         expect(args).toEqual({
           outlineShape: "rect"
