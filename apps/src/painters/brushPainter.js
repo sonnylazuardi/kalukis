@@ -9,9 +9,11 @@ define(function(require){
       defineComponent = require("flight/lib/component"),
       withCanvasEvents = require("painters/withCanvasEvents"),
       withBrushPainter = require("painters/withBrushPainter"),
-      withOutlinePainter = require("painters/withOutlinePainter");
+      withOutlinePainter = require("painters/withOutlinePainter"),
+      withActiveBrush = require("painters/withActiveBrush"),
+      withActiveOutlineShape = require("painters/withActiveOutlineShape");
 
-  return defineComponent(Lukis, withCanvasEvents, withBrushPainter, withOutlinePainter);
+  return defineComponent(Lukis, withCanvasEvents, withBrushPainter, withOutlinePainter, withActiveBrush, withActiveOutlineShape);
 
   function Lukis(){
 
@@ -68,7 +70,8 @@ define(function(require){
       }.bind(this));
 
       this.trigger("activeOutlineShapeChanged", {
-        activeOutlineShapeId: id
+        activeOutlineShapeId: id,
+        id: id
       });
     };
 

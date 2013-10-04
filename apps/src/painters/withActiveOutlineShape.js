@@ -11,7 +11,7 @@ define(function(require){
     this.after("initialize", function(){
 
       this.on("activeOutlineShapeChanged", function(e, data){
-        this.requestOutlineShapeInstance(data.paintWidgetId);
+        this.requestOutlineShapeInstance(data.id);
       }.bind(this));
 
       this.on("brushPropertyUpdated", function(e, data){
