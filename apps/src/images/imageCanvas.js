@@ -31,7 +31,8 @@ define(function(require){
      * @param {Object} cfg    The configuration
      */
     this.addImageToCanvas = function(canvas, image, cfg){
-      var reader = new FileReader();
+      var reader = new FileReader(),
+          me = this;
 
       reader.onload = function(e){
         var img = new Image();
@@ -48,10 +49,19 @@ define(function(require){
 
           canvas.add(image).renderAll();
 
+          me.trigger("notify", {
+            type: "info",
+            message: "Image loaded"
+          });
         };
 
         img.src = e.target.result;    
       };
+
+      this.trigger("notify", {
+        type: "info",
+        message: "Loading image"
+      });
 
       reader.readAsDataURL(image);
     };
