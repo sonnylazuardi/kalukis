@@ -123,6 +123,10 @@ define(function(require){
      */
     this.initOutlineShapePainting = function(data){
       if (data.activeOutlineShape) {
+        this.trigger("notify", {
+          type: "info",
+          message: "Press [ESC] to cancel any painting"
+        });
         // cancel any painting
         this.cancelCurrentPainting();
 

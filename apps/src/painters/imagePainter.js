@@ -94,6 +94,10 @@ define(function(require){
       this.attr.files = files;
 
       if (activeOutlineShape) {
+        this.trigger("notify", {
+          type: "info",
+          message: "Press [ESC] to cancel any painting"
+        });
 
         // once the outineShape painting has finished, we
         // should load the images

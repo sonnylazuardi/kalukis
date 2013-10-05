@@ -70,7 +70,7 @@ define(function(require){
     this.initFreehandPainting = function(){
       this.trigger("notify", {
         type: "info",
-        message: "Press [ESC] to cancel the current painting"
+        message: "Press [ESC] to cancel any painting"
       });
       this.startFreehandPainting(this.attr.canvas);
     };
