@@ -31,7 +31,12 @@ define(function(require){
       paintWidgetList = require("data/paintWidgetList"),
       canvasManipulationList = require("data/canvasManipulationList");
 
-  function Application(){}
+  function Application(){
+    // application wide error handling
+    requirejs.onError = function(err) {
+      console.log(err);
+    };
+  }
 
   Application.prototype.start = function() {
     canvas.attachTo(document, {
