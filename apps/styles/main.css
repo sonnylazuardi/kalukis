@@ -79,6 +79,10 @@ body {
   float: right;
 }
 
+.status-info {
+  color: #ECF0F1;
+}
+
 .social-icon {
   padding-right: 10px;
 }
