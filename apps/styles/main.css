@@ -14,6 +14,10 @@ body {
   background-color: #ECF0F1;
 }
 
+.header .pure-menu-heading {
+  padding-left: 35px;
+}
+
 .container .pure-menu {
   border: none;
   background-color: #575757;
