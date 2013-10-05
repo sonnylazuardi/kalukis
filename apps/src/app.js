@@ -16,6 +16,7 @@ define(function(require){
       imageCanvasWidget = require("ui/imageCanvasWidget/imageCanvasWidget"),
       freehandWidget = require("ui/freehandWidget/freehandWidget"),
       colorWidget = require("ui/colorWidget/colorWidget"),
+
       notification = require("ui/notification/notification"),
       keyHandler = require("ui/keyHandler/keyHandler"),
 
