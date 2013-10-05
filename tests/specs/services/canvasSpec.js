@@ -1,38 +1,38 @@
-define(function(require){
+// define(function(require){
 
-  var fabric = require("fabric");
+//   var fabric = require("fabric");
 
-  describeComponent("services/canvas", function(){
+//   describeComponent("services/canvas", function(){
 
-    beforeEach(function(){
-      loadFixtures("canvas.html");
-      setupComponent({
-        id: "lukis"
-      });
-    });
+//     beforeEach(function(){
+//       loadFixtures("canvas.html");
+//       setupComponent({
+//         id: "lukis"
+//       });
+//     });
 
-    describe("Initialize component", function(){
+//     describe("Initialize component", function(){
 
-      it("Should be able to initialize the canvas", function(){
-        expect(this.component.attr.canvas).toBeInstanceOf(fabric.Canvas);
-      });
+//       it("Should be able to initialize the canvas", function(){
+//         expect(this.component.attr.canvas).toBeInstanceOf(fabric.Canvas);
+//       });
 
-    });
+//     });
 
-    describe("Component communication", function(){
+//     describe("Component communication", function(){
 
-      it("Should publish the correct data on canvasRequested event", function(){
-        var spiedEvent = spyOnEvent('.component-root', "canvasServed");
+//       it("Should publish the correct data on canvasRequested event", function(){
+//         var spiedEvent = spyOnEvent('.component-root', "canvasServed");
 
-        $('.component-root').trigger("canvasRequested");
+//         $('.component-root').trigger("canvasRequested");
 
-        expect(spiedEvent).toHaveBeenTriggeredOn('.component-root');
-        expect(spiedEvent.mostRecentCall.data.canvas).toBeInstanceOf(fabric.Canvas);
-        expect(spiedEvent.mostRecentCall.data.id).toEqual("lukis");
-      });
+//         expect(spiedEvent).toHaveBeenTriggeredOn('.component-root');
+//         expect(spiedEvent.mostRecentCall.data.canvas).toBeInstanceOf(fabric.Canvas);
+//         expect(spiedEvent.mostRecentCall.data.id).toEqual("lukis");
+//       });
 
-    });
+//     });
 
-  });
+//   });
 
-});
+// });

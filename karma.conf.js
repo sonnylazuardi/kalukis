@@ -23,7 +23,7 @@ module.exports = function(config) {
       'vendor/jquery/jquery.js',
       'vendor/jasmine-jquery/lib/jasmine-jquery.js',
       'vendor/jasmine.async/lib/jasmine.async.js',
-      'vendor/flight-jasmine/lib/flight-jasmine.js',
+      'vendor/jasmine-flight/lib/jasmine-flight.js',
 
       {pattern: 'tests/lib/jasmine/matchers/*.js', included: true},
 

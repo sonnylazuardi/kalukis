@@ -13,14 +13,6 @@ define(function(require){
 
     describe("Constructing the component", function(){
 
-      it("Should publish request for canvas", function(){
-        var spiedEvent = spyOnEvent('.component-root', "canvasRequested");
-
-        this.component.initialize();
-        expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
-        
-      });
-
       it("Should setup the canvas", function(){
         setupComponent();
         $('.component-root').trigger("canvasServed", {
