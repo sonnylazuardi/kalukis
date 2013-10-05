@@ -75,6 +75,14 @@ body {
   background-color: #525252;
 }
 
+.pull-right {
+  float: right;
+}
+
+.social-icon {
+  padding-right: 10px;
+}
+
 .alert {
   font-family: sans-serif;
   font-size: 90%;
