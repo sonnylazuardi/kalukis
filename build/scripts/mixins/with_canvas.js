@@ -1,1 +1,0 @@
-define([],function(){function t(){this.defaultAttrs({canvas:"",canvasEl:""}),this.after("initialize",function(){this.on(document,"canvasReady",this.onCanvasReady),this.trigger(document,"canvasRequested")}),this.onCanvasReady=function(t,e){this.attr.canvas=e.canvas,this.attr.canvasEl=e.canvasEl}}return t});

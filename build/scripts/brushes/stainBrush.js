@@ -1,1 +1,0 @@
-define(["require","fabric","flight/lib/compose","mixins/with_outline_helper"],function(t){var e=(t("fabric"),t("flight/lib/compose")),i=t("mixins/with_outline_helper"),r={};return e.mixin(r,[i]),r});

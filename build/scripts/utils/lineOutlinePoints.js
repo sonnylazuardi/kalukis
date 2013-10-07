@@ -1,1 +1,0 @@
-define([],function(){function t(t,e){return(e.y-t.y)/(e.x-t.x)}function e(e,i){var n=t(e,i);return function(t){return e.y+n*(t-e.x)}}return function(t,i,n,r,o){for(var s=[],a=Math.abs(i-r),c=e({x:i,y:n},{x:r,y:o}),h=i>r?-1:1,l=h*t.width,u=0,f=i;a>=u;u+=t.width,f+=l)s.push({x:f,y:c(f)});return s}});
