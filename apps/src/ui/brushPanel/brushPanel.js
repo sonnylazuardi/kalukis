@@ -9,7 +9,8 @@ define(function(require){
   function brushPanel() {
 
     this.defaultAttrs({
-      widgetEl: "brushpanel-widget"
+      widgetEl: "#brushpanel-widget",
+      brushItem: ".brush-box-item"
     });
 
     this.after("initialize", function(){
@@ -20,6 +21,18 @@ define(function(require){
       this.on(document, "brushes-loaded", function(e, data) {
         this.renderTemplate(data);
       }.bind(this));
+
+      this.on("click", {
+        brushItem: function(e, data) {
+          this.brushSelected($(data.el).data("brushId"));
+        }
+      });
+    };
+
+    this.brushSelected = function(id) {
+      this.trigger(document, "activeBrush-changed", {
+        activeBrushId: id
+      });
     };
 
     this.renderTemplate = function(data) {

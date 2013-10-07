@@ -1,10 +1,10 @@
-/* glue: 0.3 hash: 9429661eb2 */
+/* glue: 0.3 hash: 4d18c67d07 */
 .sprite-png-verticalLine,
 .sprite-png-spray,
 .sprite-png-rect,
 .sprite-png-pencil,
 .sprite-png-horizontalLine,
-.sprite-png-hollowRect,
+.sprite-png-hollowSquare,
 .sprite-png-hollowCircle,
 .sprite-png-circularPattern,
 .sprite-png-circle{background-image:url('../img/brushes.png');background-repeat:no-repeat}
@@ -13,7 +13,7 @@
 .sprite-png-rect{background-position:0px -64px;width:64px;height:64px;}
 .sprite-png-pencil{background-position:-64px -64px;width:64px;height:64px;}
 .sprite-png-horizontalLine{background-position:-128px 0px;width:64px;height:64px;}
-.sprite-png-hollowRect{background-position:-128px -64px;width:64px;height:64px;}
+.sprite-png-hollowSquare{background-position:-128px -64px;width:64px;height:64px;}
 .sprite-png-hollowCircle{background-position:0px -128px;width:64px;height:64px;}
 .sprite-png-circularPattern{background-position:-64px -128px;width:64px;height:64px;}
 .sprite-png-circle{background-position:-128px -128px;width:64px;height:64px;}
