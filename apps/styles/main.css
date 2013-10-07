@@ -52,6 +52,14 @@ body {
   margin-bottom: 10px;
 }
 
+#sizerange input {
+  vertical-align: middle;
+}
+
+#sizerange input[type='number'] {
+  width: 48px;
+}
+
 #loading-indicator{
   display: none;
   position: fixed;
@@ -108,7 +116,8 @@ body {
 }
 
 #brushpanel-widget {
-  width: 100%;
+  width: 95%;
   height: 200px;
   background-color: #414141;
+  border-radius: 4px;
 }

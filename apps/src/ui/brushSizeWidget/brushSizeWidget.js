@@ -14,7 +14,8 @@ define(function(require){
 
     this.defaultAttrs({
       width: 10,
-      brushSizeWidgetEl: "#brushsize-widget"
+      brushSizeWidgetEl: "#brushsize-widget",
+      brushNumberEl: "#brushsize-number-widget"
     });
 
     this.after("initialize", function(){
@@ -24,7 +25,8 @@ define(function(require){
 
     this.attachEventListeners = function(){
       this.on("change", {
-        brushSizeWidgetEl: this.brushSizeChanged
+        brushSizeWidgetEl: this.brushSizeChanged,
+        brushNumberEl: this.brushSizeChanged
       });
     };
 
