@@ -1,0 +1,19 @@
+/* glue: 0.3 hash: db6c325286 */
+.sprite-png-verticalLine,
+.sprite-png-spray,
+.sprite-png-rect,
+.sprite-png-pencil,
+.sprite-png-horizontalLine,
+.sprite-png-hollowRect,
+.sprite-png-hollowCircle,
+.sprite-png-circularPattern,
+.sprite-png-circle{background-image:url('../img/png.png');background-repeat:no-repeat}
+.sprite-png-verticalLine{background-position:0px 0px;width:128px;height:128px;}
+.sprite-png-spray{background-position:-128px 0px;width:128px;height:128px;}
+.sprite-png-rect{background-position:0px -128px;width:128px;height:128px;}
+.sprite-png-pencil{background-position:-128px -128px;width:128px;height:128px;}
+.sprite-png-horizontalLine{background-position:-256px 0px;width:128px;height:128px;}
+.sprite-png-hollowRect{background-position:-256px -128px;width:128px;height:128px;}
+.sprite-png-hollowCircle{background-position:0px -256px;width:128px;height:128px;}
+.sprite-png-circularPattern{background-position:-128px -256px;width:128px;height:128px;}
+.sprite-png-circle{background-position:-256px -256px;width:128px;height:128px;}
