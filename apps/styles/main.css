@@ -72,7 +72,7 @@ body {
   left: 0;
   right: 0;
   height: 32px;
-  background-color: #525252;
+  background-color: #414141;
 }
 
 .pull-right {
@@ -110,5 +110,5 @@ body {
 #brushpanel-widget {
   width: 100%;
   height: 200px;
-  background-color: red;
+  background-color: #414141;
 }
