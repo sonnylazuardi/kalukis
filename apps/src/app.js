@@ -16,6 +16,7 @@ define(function(require){
       imageCanvasWidget = require("ui/imageCanvasWidget/imageCanvasWidget"),
       freehandWidget = require("ui/freehandWidget/freehandWidget"),
       colorWidget = require("ui/colorWidget/colorWidget"),
+      brushPanelWidget = require("ui/brushPanel/brushPanel"),
 
       notification = require("ui/notification/notification"),
       keyHandler = require("ui/keyHandler/keyHandler"),
@@ -56,6 +57,7 @@ define(function(require){
     brushListWidget.attachTo("#brushescombo");
     brushSizeWidget.attachTo("#sizerange");
     colorWidget.attachTo("#colorpicker");
+    brushPanelWidget.attachTo("#brushes");
     notification.attachTo("#status-bar");
     
     keyHandler.attachTo(document);

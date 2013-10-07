@@ -1,38 +1,47 @@
 [
   {
     "id": "circle",
-    "name": "Circle"
+    "name": "Circle",
+    "colorInfo": "#1ABC9C"
   },
   {
     "id": "rect",
-    "name": "Rectangular"
+    "name": "Rectangular",
+    "colorInfo": "#3498DB"
   },
   {
     "id": "pencil",
-    "name": "Pencil"
+    "name": "Pencil",
+    "colorInfo": "#9B59B6"
   },
   {
     "id": "spray",
-    "name": "Spray"
+    "name": "Spray",
+    "colorInfo": "#F1C40F"
   },
   {
     "id": "hollowCircle",
-    "name": "Hollow Circle"
+    "name": "Hollow Circle",
+    "colorInfo": "#E74C3C"
   },
   {
     "id": "hollowSquare",
-    "name": "Hollow Square"
+    "name": "Hollow Square",
+    "colorInfo": "#BDC3C7"
   },
   {
     "id": "circularPattern",
-    "name": "Circular Pattern"
+    "name": "Circular Pattern",
+    "colorInfo": "yellow"
   },
   {
     "id": "horizontalLine",
-    "name": "Horizontal Line"
+    "name": "Horizontal Line",
+    "colorInfo": "red"
   },
   {
     "id": "verticalLine",
-    "name": "Vertical Line"
+    "name": "Vertical Line",
+    "colorInfo": "#E67E22"
   }
 ]

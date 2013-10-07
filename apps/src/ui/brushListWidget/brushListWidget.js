@@ -22,13 +22,8 @@ define(function(require){
 
     this.renderTemplate = function(data){
       if (data.brushes){
-        var widget = mustache.render(tmpl, data);
-
-        if (this.$node.children().length) {
-          this.$node.children().replaceWith(widget);
-        } else {
-          this.$node.append(widget);
-        }
+        this.$node.empty();
+        this.$node.append(mustache.render(tmpl, data));
       }
     };
 
