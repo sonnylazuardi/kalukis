@@ -130,3 +130,7 @@ body {
   height: 64px;
   margin: 2px;
 }
+
+.brush-box.active {
+  background-color: #2E2E2E;
+};

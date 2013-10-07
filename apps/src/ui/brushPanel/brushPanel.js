@@ -10,7 +10,8 @@ define(function(require){
 
     this.defaultAttrs({
       widgetEl: "#brushpanel-widget",
-      brushItem: ".brush-box-item"
+      brushItem: ".brush-box-item",
+      selectedBrushInfoEl: "#brushpanel-info .info"
     });
 
     this.after("initialize", function(){
@@ -24,14 +25,16 @@ define(function(require){
 
       this.on("click", {
         brushItem: function(e, data) {
-          this.brushSelected($(data.el).data("brushId"));
+          this.brushSelected(data.el);
         }
       });
     };
 
-    this.brushSelected = function(id) {
+    this.brushSelected = function(el) {
+      this.select("widgetEl").find(".brush-box").removeClass("active");
+      $(el).parent().toggleClass("active");
       this.trigger(document, "activeBrush-changed", {
-        activeBrushId: id
+        activeBrushId: $(el).data("brushId")
       });
     };
 
