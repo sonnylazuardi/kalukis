@@ -1,6 +1,7 @@
 @import url("./../../vendor/pure/pure-min.css");
 @import url("./../../vendor/font-awesome/css/font-awesome.min.css");
 @import url("./../../vendor/spectrum/spectrum.css");
+@import url("./../../icon/css/brushes.css");
 
 body {
   background-color: #575757;
@@ -120,4 +121,12 @@ body {
   height: 200px;
   background-color: #414141;
   border-radius: 4px;
+  overflow: auto;
+}
+
+.brush-box {
+  float: left;
+  width: 64;
+  height: 64px;
+  margin: 2px;
 }

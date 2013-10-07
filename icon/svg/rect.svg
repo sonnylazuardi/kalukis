@@ -82,13 +82,13 @@
      id="layer1"
      transform="translate(0,-924.3622)">
     <rect
-       style="fill:#e74c3c;fill-opacity:1;fill-rule:evenodd;stroke:none"
-       id="rect2993"
-       width="117.1777"
-       height="116.67262"
-       x="5.4111519"
-       y="930.02588"
-       rx="58.588848"
-       ry="58.336311" />
+       style="fill:#e74c3c;fill-opacity:1;fill-rule:evenodd;stroke:#e74c3c;stroke-width:6.78187466;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect2989"
+       width="108.50999"
+       height="108.50999"
+       x="9.4924622"
+       y="933.34955"
+       rx="0"
+       ry="49.453697" />
   </g>
 </svg>
