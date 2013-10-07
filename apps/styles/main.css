@@ -1,7 +1,7 @@
 @import url("./../../vendor/pure/pure-min.css");
 @import url("./../../vendor/font-awesome/css/font-awesome.min.css");
 @import url("./../../vendor/spectrum/spectrum.css");
-@import url("./../../icon/css/brushes.css");
+@import url("./../icon/css/brushes.css");
 
 body {
   background-color: #575757;
