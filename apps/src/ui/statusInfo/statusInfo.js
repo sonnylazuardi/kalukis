@@ -10,7 +10,7 @@ define(function(require) {
     });
 
     this.attachEventListeners = function() {
-      this.on("brushPropertyUpdated", function(e, data) {
+      this.on("brushProperty-updated", function(e, data) {
 
       });
     };

@@ -21,12 +21,12 @@ define(function(require){
         canvasManipulationWidgetEl: this.publishClickedWidget
       });
 
-      this.on(document, "canvasManipulationOperationsLoaded", this.renderTemplate);
+      this.on(document, "canvasManipulationOperations-loaded", this.renderTemplate);
     };
 
     this.publishClickedWidget = function(e){
       if (e.target.id){
-        this.trigger(document, "canvasManipulationClicked", {
+        this.trigger(document, "canvasManipulation-clicked", {
           manipulationId: e.target.id
         });
       }

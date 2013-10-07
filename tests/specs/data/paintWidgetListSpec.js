@@ -3,7 +3,7 @@ describeComponent("data/paintWidgetList", function(){
   var spiedEvent;
 
   beforeEach(function(){
-    spiedEvent = spyOnEvent(document, "paintWidgetsLoaded");
+    spiedEvent = spyOnEvent(document, "paintWidgets-loaded");
     setupComponent();
   });
 

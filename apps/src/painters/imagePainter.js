@@ -35,7 +35,7 @@ define(function(require){
      * Request canvas
      */
     this.requestCanvas = function(){
-      this.trigger("canvasRequested");
+      this.trigger("request-canvas");
     };
 
     /**
@@ -51,26 +51,26 @@ define(function(require){
      * Add event handlers for interesting events
      */
     this.attachEventListener = function(){
-      this.on("canvasServed", function(e, data){
+      this.on("canvas-served", function(e, data){
         this.setCanvas(data.canvas);
       }.bind(this));
 
-      this.on("imageCanvasClicked", function(e, data){
+      this.on("imageCanvas-clicked", function(e, data){
         // ask for other painting activity to stop
-        this.trigger("cancelPaintingRequested", {
+        this.trigger("cancel-painting", {
           active: "image"
         });
 
         this.initImagePainting(data.files);
       }.bind(this));
 
-      this.on("cancelPaintingRequested", function(e, data){
+      this.on("cancel-painting", function(e, data){
         if (data.active !== "image") {
           this.stopCurrentPainting();
         }
       }.bind(this));
 
-      this.on("addingImagesFinished", function(){
+      this.on("images-added", function(){
         this.stopCurrentPainting();
       }.bind(this));
     };
@@ -79,7 +79,7 @@ define(function(require){
      * Cancel current image painting
      */
     this.stopCurrentPainting = function(){
-      this.off("outlineShapePaintingFinished", this.onOutlineShapePaintingFinished);
+      this.off("outlineShape-painting-finished", this.onOutlineShapePaintingFinished);
       this.unregisterExistingListeners(this.attr.canvas);
       this.attr.files.length = 0;
     };
@@ -101,7 +101,7 @@ define(function(require){
 
         // once the outineShape painting has finished, we
         // should load the images
-        this.on("outlineShapePaintingFinished", this.onOutlineShapePaintingFinished);
+        this.on("outlineShape-painting-finished", this.onOutlineShapePaintingFinished);
 
         this.startOutlineShapePainting(
           this.attr.canvas,
@@ -116,7 +116,7 @@ define(function(require){
     };
 
     this.onOutlineShapePaintingFinished = function(e, data){
-      this.off("outlineShapePaintingFinished", this.onOutlineShapePaintingFinished);
+      this.off("outlineShape-painting-finished", this.onOutlineShapePaintingFinished);
       this.loadImages(this.attr.files, this.attr.rectOutline);
     };
 

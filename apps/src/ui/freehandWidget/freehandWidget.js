@@ -27,7 +27,7 @@ define(function(require){
     };
 
     this.initFreehandPainting = function(){
-      this.trigger(document, "freehandPaintingRequested");
+      this.trigger(document, "request-freehandPainting");
     };
 
   }

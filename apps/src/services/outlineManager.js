@@ -53,22 +53,22 @@ define(function(require){
      */
     this.attachEventListener = function(){
 
-      this.on("canvasServed", function(e, data){
+      this.on("canvas-served", function(e, data){
         this.setCanvas(data.id, data.canvas);
       }.bind(this));
 
-      this.on("outlineShapeRequested", function(e, data){
+      this.on("request-outlineShape", function(e, data){
         this.requestOutlineShape(data.id);
       }.bind(this));
 
-      this.on("brushPropertyUpdated", this.updateOutlineProperties);
+      this.on("brushProperty-updated", this.updateOutlineProperties);
     };
 
     /**
      * Request for canvas
      */
     this.requestCanvas = function(){
-      this.trigger("canvasRequested");
+      this.trigger("request-canvas");
     };
 
     /**
@@ -108,7 +108,7 @@ define(function(require){
      * @param  {Obect} outlineShape OutlineShape instance
      */
     this.publishOutlineShape = function(outlineShape){
-      this.trigger("outlineShapeServed", {
+      this.trigger("outlineShape-served", {
         outlineShape: outlineShape
       });
     };
@@ -123,7 +123,7 @@ define(function(require){
         var oldValue = this.attr.prop[data.key];
         this.attr.prop[data.key] = data.newValue;
 
-        this.trigger("outlineShapePropertyUpdated", {
+        this.trigger("outlineShapeProperty-updated", {
           key: data.key,
           oldValue: oldValue,
           newValue: data.newValue

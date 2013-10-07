@@ -27,7 +27,7 @@ define(function(require){
      * Requesting canvas instance
      */
     this.requestCanvas = function(){
-      this.trigger("canvasRequested");
+      this.trigger("request-canvas");
     };
 
     /**
@@ -39,17 +39,17 @@ define(function(require){
     };
 
     this.attachEventListeners = function(){
-      this.on("canvasServed", function(e, data){
+      this.on("canvas-served", function(e, data){
         this.setCanvas(data.canvas);
       }.bind(this));
 
-      this.on("cancelPaintingRequested", function(e, data){
+      this.on("cancel-painting", function(e, data){
         if (data.active !== "freehand") {
           this.stopFreehandPainting();
         }
       }.bind(this));
 
-      this.on("freehandPaintingRequested", function(e, data){
+      this.on("request-freehandPainting", function(e, data){
         this.cancelCurrentPainting();
         this.initFreehandPainting();
       }.bind(this));
@@ -59,7 +59,7 @@ define(function(require){
      * Cancel current freehand painting
      */
     this.cancelCurrentPainting = function(){
-      this.trigger("cancelPaintingRequested", {
+      this.trigger("cancel-painting", {
         active: "freehand"
       });
     };

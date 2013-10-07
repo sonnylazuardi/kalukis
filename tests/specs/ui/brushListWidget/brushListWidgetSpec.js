@@ -10,7 +10,7 @@ define(function(require){
 
     describe("Rendering Template", function(){
       beforeEach(function(){
-        $(document).trigger("brushesLoaded", {
+        $(document).trigger("brushes-loaded", {
           brushes: JSON.parse(brushes)
         });
       });

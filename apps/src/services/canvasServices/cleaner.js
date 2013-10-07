@@ -20,19 +20,19 @@ define(function(require){
     });
 
     this.attachEventListener = function(){
-      this.on("canvasManipulationClicked", function(e, data){
+      this.on("canvasManipulation-clicked", function(e, data){
         if (this[data.manipulationId + "Handler"]) {
           this[data.manipulationId + "Handler"].apply(this, data);
         }
       });
 
-      this.on("canvasServed", function(e, data){
+      this.on("canvas-served", function(e, data){
         this.setCanvas(data.canvas);
       }.bind(this));
     };
 
     this.requestCanvas = function(){
-      this.trigger("canvasRequested");
+      this.trigger("request-canvas");
     };
 
     this.setCanvas = function(canvas){

@@ -18,7 +18,7 @@ define(function(require){
     });
 
     this.attachEventListeners = function(){
-      this.on("addingImagesInitted", function(e, data){
+      this.on("add-images", function(e, data){
         this.addImages(data.canvas, data.images, data.cfg);
       });
 
@@ -79,7 +79,7 @@ define(function(require){
         this.addImageToCanvas(canvas, images[i], cfg);
       }
 
-      this.trigger("addingImagesFinished");
+      this.trigger("images-added");
     };
   }
 

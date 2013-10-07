@@ -22,7 +22,7 @@ define(function(require){
 
     this.attachPaintWidgets = function(){
       this.attr.paintWidgets = JSON.parse(paintWidgets);
-      this.trigger("paintWidgetsLoaded", {
+      this.trigger("paintWidgets-loaded", {
         paintWidgets: this.attr.paintWidgets
       });
     };

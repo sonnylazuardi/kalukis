@@ -17,7 +17,7 @@ define(function(require){
 
     this.attachEventListeners = function(){
       this.on("change", this.brushSelected);
-      this.on(document, "brushesLoaded", this.setBrushList);
+      this.on(document, "brushes-loaded", this.setBrushList);
     };
 
     this.renderTemplate = function(data){
@@ -41,7 +41,7 @@ define(function(require){
     this.brushSelected = function(e, data){
       var selectedBrush = $('#' + e.target.id).val();
 
-      this.trigger(document, "activeBrushChanged", {
+      this.trigger(document, "activeBrush-changed", {
         activeBrushId: selectedBrush
       });
     };

@@ -15,7 +15,7 @@ define(function(require){
 
       it("Should setup the canvas", function(){
         setupComponent();
-        $('.component-root').trigger("canvasServed", {
+        $('.component-root').trigger("canvas-served", {
           id: "lukis",
           canvas: "canvas"
         });
@@ -50,16 +50,16 @@ define(function(require){
       });
 
       it("Should save the new brush property", function(){
-        $('.component-root').trigger("brushPropertyChanged", {
+        $('.component-root').trigger("brushProperty-changed", {
           width: 20
         });
         expect(this.component.attr.prop.width).toEqual(20);
       });
 
       it("Should publish update regarding any changes in brush properties", function(){
-        var spiedEvent = spyOnEvent('.component-root', "brushPropertyUpdated");
+        var spiedEvent = spyOnEvent('.component-root', "brushProperty-updated");
 
-        $('.component-root').trigger("brushPropertyChanged", {
+        $('.component-root').trigger("brushProperty-changed", {
           fillColor: "red"
         });
         expect(this.component.attr.prop.fillColor).toEqual("red");
@@ -72,9 +72,9 @@ define(function(require){
       });
 
       it("Should publish brush properties when someone requested them", function(){
-        var spiedEvent = spyOnEvent('.component-root', "brushPropertiesServed");
+        var spiedEvent = spyOnEvent('.component-root', "brushProperties-served");
 
-        $('.component-root').trigger("brushPropertiesRequested");
+        $('.component-root').trigger("request-brushProperties");
         expect(spiedEvent).toHaveBeenTriggeredOn('.component-root');
 
       });
@@ -89,12 +89,12 @@ define(function(require){
 
       async.it("Should publish a response when a brush is requested", function(done){
 
-        $(".component-root").on("brushServed", function(e, data){
+        $(".component-root").on("brush-served", function(e, data){
           expect(data.brush).toBeInstanceOf(CircleBrush);
           done();
         });
 
-        $(".component-root").trigger("brushRequested", {
+        $(".component-root").trigger("request-brush", {
           id: "circle"
         });
         

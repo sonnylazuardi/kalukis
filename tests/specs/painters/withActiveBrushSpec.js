@@ -13,10 +13,10 @@ define(function(require){
     describe("Active Brush Handling", function(){
 
       it("Should have reference to a brush instance when a new brush is clicked", function(){
-        $(".component-root").trigger("activeBrushChanged", {
+        $(".component-root").trigger("activeBrush-changed", {
           activeBrushId: "circle"
         });
-        $(".component-root").trigger("brushServed", {
+        $(".component-root").trigger("brush-served", {
           brush: new CircleBrush(canvas, {})
         });
 
@@ -26,7 +26,7 @@ define(function(require){
       it("Should update the current active brush property when a property is upadted", function(){
         this.component.setActiveBrushInstance(new CircleBrush(canvas, {}));
 
-        $(".component-root").trigger("brushPropertyUpdated", {
+        $(".component-root").trigger("brushProperty-updated", {
           key: "width",
           oldValue: 10,
           newValue: 20
@@ -36,8 +36,8 @@ define(function(require){
         expect(brush.get("width")).toEqual(20);
       });
 
-      it("Should publish activeBrushReady on setting new brush instance", function(){
-        var spiedEvent = spyOnEvent(".component-root", "activeBrushReady");
+      it("Should publish activeBrush-ready on setting new brush instance", function(){
+        var spiedEvent = spyOnEvent(".component-root", "activeBrush-ready");
         this.component.setActiveBrushInstance(new CircleBrush(canvas, {}));
 
         expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");

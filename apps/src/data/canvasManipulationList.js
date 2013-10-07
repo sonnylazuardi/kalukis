@@ -22,7 +22,7 @@ define(function(require){
 
     this.attachCanvasManipulationOperations = function(){
       this.attr.canvasManipulationOperations = JSON.parse(canvasManipulationOperations);
-      this.trigger("canvasManipulationOperationsLoaded", {
+      this.trigger("canvasManipulationOperations-loaded", {
         canvasManipulationOperations: this.attr.canvasManipulationOperations
       });
     };

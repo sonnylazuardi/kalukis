@@ -21,10 +21,10 @@
 
 //     describe("Component communication", function(){
 
-//       it("Should publish the correct data on canvasRequested event", function(){
-//         var spiedEvent = spyOnEvent('.component-root', "canvasServed");
+//       it("Should publish the correct data on request-canvas event", function(){
+//         var spiedEvent = spyOnEvent('.component-root', "canvas-served");
 
-//         $('.component-root').trigger("canvasRequested");
+//         $('.component-root').trigger("request-canvas");
 
 //         expect(spiedEvent).toHaveBeenTriggeredOn('.component-root');
 //         expect(spiedEvent.mostRecentCall.data.canvas).toBeInstanceOf(fabric.Canvas);

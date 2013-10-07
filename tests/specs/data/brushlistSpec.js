@@ -3,7 +3,7 @@ describeComponent("data/brushList", function(){
   var spiedEvent;
 
   beforeEach(function(){
-    spiedEvent = spyOnEvent(document, "brushesLoaded");
+    spiedEvent = spyOnEvent(document, "brushes-loaded");
     setupComponent();
   });
 

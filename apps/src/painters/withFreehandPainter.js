@@ -25,11 +25,11 @@ define(function(require){
     });
 
     this.after("initialize", function(){
-      this.on("brushServed", function(e, data){
+      this.on("brush-served", function(e, data){
         this.setBrush(data.brush);
       }.bind(this));
 
-      this.on("brushPropertyUpdated", function(e, data){
+      this.on("brushProperty-updated", function(e, data){
         if (data.key === "width") {
           this.setBrushWidth(data.newValue);  
         } else if (data.key === "fillColor" || data.key === "strokeColor") {

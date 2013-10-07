@@ -22,7 +22,7 @@ define(function(require){
 
     this.attachBrushes = function(){
       this.attr.brushes = JSON.parse(brushes);
-      this.trigger("brushesLoaded", {
+      this.trigger("brushes-loaded", {
         brushes: this.attr.brushes
       });
     };

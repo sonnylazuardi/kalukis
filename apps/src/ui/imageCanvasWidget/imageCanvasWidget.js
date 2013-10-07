@@ -36,7 +36,7 @@ define(function(require){
     };
 
     this.requestImage = function(e){
-      this.trigger(document, "imageCanvasClicked", {
+      this.trigger(document, "imageCanvas-clicked", {
         files: e.target.files
       });
     };

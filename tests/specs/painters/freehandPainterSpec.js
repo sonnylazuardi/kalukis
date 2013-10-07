@@ -16,24 +16,24 @@ define(function(require){
         this.component.attr.mixinCanvas = canvas;
       });
 
-      it("Should start painting when freehandPaintingRequested is triggered", function(){
+      it("Should start painting when request-freehandPainting is triggered", function(){
         spyOn(this.component, "initFreehandPainting");
 
-        $(".component-root").trigger("freehandPaintingRequested");
+        $(".component-root").trigger("request-freehandPainting");
         expect(this.component.initFreehandPainting).toHaveBeenCalled();
       });
 
-      it("Should request canceling any active painting when freehandPaintingRequested is triggered", function(){
+      it("Should request canceling any active painting when request-freehandPainting is triggered", function(){
         spyOn(this.component, "cancelCurrentPainting");
 
-        $(".component-root").trigger("freehandPaintingRequested");
+        $(".component-root").trigger("request-freehandPainting");
         expect(this.component.cancelCurrentPainting).toHaveBeenCalled();
       });
 
-      it("Should stop any painting when cancelPaintingRequested", function(){
+      it("Should stop any painting when cancel-painting", function(){
         this.component.attr.mixinCanvas.isDrawingMode = true;
 
-        $(".component-root").trigger("cancelPaintingRequested", {
+        $(".component-root").trigger("cancel-painting", {
           active: "paint"
         });
         expect(this.component.attr.mixinCanvas.isDrawingMode).toEqual(false);

@@ -10,11 +10,11 @@ define(function(require){
     var activeBrush;
 
     this.after("initialize", function(){
-      this.on("activeBrushChanged", function(e, data){
+      this.on("activeBrush-changed", function(e, data){
         this.requestBrushInstance(data.activeBrushId);
       }.bind(this));
 
-      this.on("brushPropertyUpdated", function(e, data){
+      this.on("brushProperty-updated", function(e, data){
         this.updateBrushProperty(data.key, data.newValue);
       }.bind(this));
     });
@@ -24,15 +24,15 @@ define(function(require){
      * @param  {String} id The brush id
      */
     this.requestBrushInstance = function(id){
-      this.on("brushServed", this.onBrushServed);
+      this.on("brush-served", this.onBrushServed);
       
-      this.trigger("brushRequested", {
+      this.trigger("request-brush", {
         id: id
       });
     };
 
     this.onBrushServed = function(e, data) {
-      this.off("brushServed", this.onBrushServed);
+      this.off("brush-served", this.onBrushServed);
       this.setActiveBrushInstance(data.brush);
     };
 
@@ -42,7 +42,7 @@ define(function(require){
      */
     this.setActiveBrushInstance = function(brush) {
       activeBrush = brush;
-      this.trigger("activeBrushReady", {
+      this.trigger("activeBrush-ready", {
         activeBrush: brush
       });
     };

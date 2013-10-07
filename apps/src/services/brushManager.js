@@ -64,28 +64,28 @@ define(function(require){
      * @return {[type]} [description]
      */
     this.attachEventListeners = function(){
-      this.on("canvasServed", function(e, data){
+      this.on("canvas-served", function(e, data){
         this.setCanvas(data.id, data.canvas);
       }.bind(this));
 
-      this.on("brushPropertyChanged", function(e, data){
+      this.on("brushProperty-changed", function(e, data){
         var key = Object.keys(data)[0],
             value = data[key];
         this.updateBrushProperty(key, value);
       }.bind(this));
 
-      this.on("brushPropertiesRequested", function(){
+      this.on("request-brushProperties", function(){
         this.publishBrushProperties();
       });
 
-      this.on("brushRequested", function(e, data){
+      this.on("request-brush", function(e, data){
         this.requestBrush(data.id);
       });
       
     };
 
     this.requestCanvas = function(){
-      this.trigger("canvasRequested");
+      this.trigger("request-canvas");
     };
 
     /**
@@ -102,7 +102,7 @@ define(function(require){
      * Publish the recorded brush properties
      */
     this.publishBrushProperties = function(){
-      this.trigger("brushPropertiesServed", {
+      this.trigger("brushProperties-served", {
         properties: this.attr.prop
       });
     };
@@ -121,7 +121,7 @@ define(function(require){
 
       this.attr.prop[key] = value;
 
-      this.trigger("brushPropertyUpdated", {
+      this.trigger("brushProperty-updated", {
         key: key,
         oldValue: oldValue,
         newValue: this.attr.prop[key]
@@ -165,7 +165,7 @@ define(function(require){
      * @param  {Object} brush The brush to publish
      */
     this.publishRequestedBrush = function(brush){
-      this.trigger("brushServed", {
+      this.trigger("brush-served", {
         brush: brush
       });
     };

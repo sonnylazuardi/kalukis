@@ -66,7 +66,7 @@ define(function(require){
      * finished
      */
     this.finalizeOutlineShapePainting = function(outlineShape){
-      this.trigger("outlineShapePaintingFinished", {
+      this.trigger("outlineShape-painting-finished", {
         outlineShape: outlineShape
       });
     };

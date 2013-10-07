@@ -32,22 +32,22 @@ define(function(require){
     });
 
     this.attachEventListeners = function(){
-      this.on("brushesLoaded", function(e, data){
+      this.on("brushes-loaded", function(e, data){
         this.requestBrush(data.brushes[0].id);
       });
 
-      this.on("canvasServed", function(e, data){
+      this.on("canvas-served", function(e, data){
         this.setupCanvas(data.canvas);
       }.bind(this));
 
-      this.on("cancelPaintingRequested", function(e, data){
+      this.on("cancel-painting", function(e, data){
         if (data.active !== "paint") {
           this.cancelCurrentPainting();
         }
       }.bind(this));
 
-      // mapping paintWidgetClicked event to activeOutlineShapeChanged
-      this.on("paintWidgetClicked", function(e, data){
+      // mapping paintWidget-clicked event to activeOutlineShape-changed
+      this.on("paintWidget-clicked", function(e, data){
         this.requestOutlineShape(data.paintWidgetId);
       }.bind(this));
     };
@@ -56,7 +56,7 @@ define(function(require){
      * Requesting for canvas instance
      */
     this.requestCanvas = function(){
-      this.trigger("canvasRequested");
+      this.trigger("request-canvas");
     };
 
     /**
@@ -74,20 +74,20 @@ define(function(require){
     this.requestOutlineShape = function(id){
       // Once the outlineShape Instance is ready, we
       // start painting the outline
-      this.on("activeOutlineShapeReady", this.onActiveOutlineShapeReady);
+      this.on("activeOutlineShape-ready", this.onActiveOutlineShapeReady);
 
-      this.trigger("activeOutlineShapeChanged", {
+      this.trigger("activeOutlineShape-changed", {
         activeOutlineShapeId: id,
         id: id
       });
     };
 
     this.onActiveOutlineShapeReady = function(e, data) {
-      this.off("activeOutlineShapeReady", this.onActiveOutlineShapeReady);
+      this.off("activeOutlineShape-ready", this.onActiveOutlineShapeReady);
         
       // make sure no other painting other than "paint"
       // is active
-      this.trigger("cancelPaintingRequested", {
+      this.trigger("cancel-painting", {
         active: "paint"
       });
 
@@ -109,7 +109,7 @@ define(function(require){
      */
     this.cancelCurrentPainting = function(){
       this.unregisterExistingListeners(this.attr.canvas);
-      this.off("outlineShapePaintingFinished", this.onOutlineShapePaintingFinished);
+      this.off("outlineShape-painting-finished", this.onOutlineShapePaintingFinished);
     };
 
     /**
@@ -131,7 +131,7 @@ define(function(require){
         this.cancelCurrentPainting();
 
         // when outline painting is finished, we start painting the brush
-        this.on("outlineShapePaintingFinished", this.onOutlineShapePaintingFinished);
+        this.on("outlineShape-painting-finished", this.onOutlineShapePaintingFinished);
 
         // calls method from withOutlineShapePainter
         this.startOutlineShapePainting(

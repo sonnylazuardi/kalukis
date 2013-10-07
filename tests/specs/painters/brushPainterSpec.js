@@ -10,9 +10,9 @@ define(function(require){
 
     describe("Setting up", function(){
 
-      it("Should request for brush instance on brushesLoaded event", function(){
+      it("Should request for brush instance on brushes-loaded event", function(){
         spyOn(this.component, "requestBrush");
-        $(".component-root").trigger("brushesLoaded", {
+        $(".component-root").trigger("brushes-loaded", {
           brushes: [{id: "pencil"}]
         });
 
@@ -27,10 +27,10 @@ define(function(require){
         this.component.attr.canvas = canvas;
       });
 
-      it("Should map paintWidgetClicked to activeOutlineShapeChanged event", function(){
-        var spiedEvent = spyOnEvent(".component-root", "activeOutlineShapeChanged");
+      it("Should map paintWidget-clicked to activeOutlineShape-changed event", function(){
+        var spiedEvent = spyOnEvent(".component-root", "activeOutlineShape-changed");
 
-        $(".component-root").trigger("paintWidgetClicked", {
+        $(".component-root").trigger("paintWidget-clicked", {
           paintWidgetId: "rect"
         });
 
@@ -38,36 +38,36 @@ define(function(require){
         expect(spiedEvent.mostRecentCall.data.activeOutlineShapeId).toEqual("rect");
       });
 
-      it("Should listen to activeOutlineShapeReady event when activeOutlineShapeChanged has been triggered", function(){
+      it("Should listen to activeOutlineShape-ready event when activeOutlineShape-changed has been triggered", function(){
         spyOn(this.component, "initOutlineShapePainting");
 
-        $(".component-root").trigger("paintWidgetClicked", {
+        $(".component-root").trigger("paintWidget-clicked", {
           paintWidgetId: "rect"
         });
 
-        $(".component-root").trigger("activeOutlineShapeReady", {
+        $(".component-root").trigger("activeOutlineShape-ready", {
           outlineShape: "rect"
         });
 
         expect(this.component.initOutlineShapePainting).toHaveBeenCalled();
       });
 
-      it("Should detach activeOutlineShapeReady event when that event has been captured", function(){
+      it("Should detach activeOutlineShape-ready event when that event has been captured", function(){
         spyOn(this.component, "initOutlineShapePainting");
 
-        $(".component-root").trigger("paintWidgetClicked", {
+        $(".component-root").trigger("paintWidget-clicked", {
           paintWidgetId: "rect"
         });
 
-        $(".component-root").trigger("activeOutlineShapeReady", {
+        $(".component-root").trigger("activeOutlineShape-ready", {
           outlineShape: "rect"
         });        
 
-        $(".component-root").trigger("activeOutlineShapeReady", {
+        $(".component-root").trigger("activeOutlineShape-ready", {
           outlineShape: "circle"
         });
 
-        // make sure only the first activeOutlineShapeReady is responded
+        // make sure only the first activeOutlineShape-ready is responded
         var args = this.component.initOutlineShapePainting.mostRecentCall.args[0];
         expect(args).toEqual({
           outlineShape: "rect"

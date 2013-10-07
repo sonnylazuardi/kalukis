@@ -26,7 +26,7 @@ define(function(require){
 
     this.after("initialize", function(){
       this.setCanvas();
-      this.on("canvasRequested", this.respondCanvasRequest);
+      this.on("request-canvas", this.respondCanvasRequest);
     });
 
     this.setCanvas = function(){
@@ -38,7 +38,7 @@ define(function(require){
     };
 
     this.respondCanvasRequest = function(){
-      this.trigger("canvasServed", {
+      this.trigger("canvas-served", {
         id: this.attr.id,
         canvas: this.attr.canvas
       });

@@ -13,7 +13,7 @@ define(function(require){
 
       it("Should setup the canvas", function(){
         setupComponent();
-        $('.component-root').trigger("canvasServed", {
+        $('.component-root').trigger("canvas-served", {
           id: "lukis",
           canvas: "canvas"
         });
@@ -38,7 +38,7 @@ define(function(require){
           expect(this.component.attr.outlineShapes).toHaveOwnProperties("circleOutline");
         }.bind(this));
 
-        $(".component-root").trigger("paintWidgetClicked", {
+        $(".component-root").trigger("paintWidget-clicked", {
           paintWidgetId: "circle"
         });
       });
@@ -51,8 +51,8 @@ define(function(require){
         this.component.attr.canvas = new fabric.Canvas();
       });
 
-      it("Should have updated outlineShapes properties on brushPropertyUpdated", function(){
-        $('.component-root').trigger("brushPropertyUpdated", {
+      it("Should have updated outlineShapes properties on brushProperty-updated", function(){
+        $('.component-root').trigger("brushProperty-updated", {
           key: "width",
           oldValue: 10,
           newValue: 20
@@ -61,10 +61,10 @@ define(function(require){
         expect(this.component.attr.prop.width).toEqual(20);
       });
 
-      it("Should have publish outlineShapePropertyUpdated when the property has been updated", function(){
+      it("Should have publish outlineShapeProperty-updated when the property has been updated", function(){
         this.component.attr.prop.width = 5;
-        var spiedEvent = spyOnEvent('.component-root', "outlineShapePropertyUpdated");
-        $('.component-root').trigger("brushPropertyUpdated", {
+        var spiedEvent = spyOnEvent('.component-root', "outlineShapeProperty-updated");
+        $('.component-root').trigger("brushProperty-updated", {
           key: "width",
           newValue: 40
         });
@@ -90,19 +90,19 @@ define(function(require){
 
       async.it("Should respond to request event", function(done){
 
-        $(".component-root").on("outlineShapeServed", function(e, data){
+        $(".component-root").on("outlineShape-served", function(e, data){
           expect(data.outlineShape).toBeInstanceOf(RectOutline);
           done();
         });
 
-        $(".component-root").trigger("outlineShapeRequested", {
+        $(".component-root").trigger("request-outlineShape", {
           id: "rect"
         });
 
       });
 
       async.it("Should set the published outlineShape with the outlineShape properties", function(done){
-        $(".component-root").on("outlineShapeServed", function(e, data){
+        $(".component-root").on("outlineShape-served", function(e, data){
           var outlineShape = data.outlineShape;
           expect(outlineShape.get("fillColor")).toEqual("red");
           expect(outlineShape.get("strokeColor")).toEqual("yellow");
@@ -110,7 +110,7 @@ define(function(require){
           done();
         });
 
-        $(".component-root").trigger("outlineShapeRequested", {
+        $(".component-root").trigger("request-outlineShape", {
           id: "rect"
         });
       });

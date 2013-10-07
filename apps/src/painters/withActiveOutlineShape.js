@@ -10,11 +10,11 @@ define(function(require){
 
     this.after("initialize", function(){
 
-      this.on("activeOutlineShapeChanged", function(e, data){
+      this.on("activeOutlineShape-changed", function(e, data){
         this.requestOutlineShapeInstance(data.id);
       }.bind(this));
 
-      this.on("brushPropertyUpdated", function(e, data){
+      this.on("brushProperty-updated", function(e, data){
         this.updateActiveOutlineShapeProperty(data.key, data.newValue);
       }.bind(this));
 
@@ -25,15 +25,15 @@ define(function(require){
      * @param  {String} id OutlineShape ID
      */
     this.requestOutlineShapeInstance = function(id){
-      this.on("outlineShapeServed", this.onOutlineShapeServed);
+      this.on("outlineShape-served", this.onOutlineShapeServed);
 
-      this.trigger("outlineShapeRequested", {
+      this.trigger("request-outlineShape", {
         id: id
       });
     };
 
     this.onOutlineShapeServed = function(e, data) {
-      this.off("outlineShapeServed", this.onOutlineShapeServed);
+      this.off("outlineShape-served", this.onOutlineShapeServed);
       this.setActiveOutlineShapeInstance(data.outlineShape);
     };
 
@@ -43,7 +43,7 @@ define(function(require){
      */
     this.setActiveOutlineShapeInstance = function(outlineShape) {
       activeOutlineShape = outlineShape;
-      this.trigger("activeOutlineShapeReady", {
+      this.trigger("activeOutlineShape-ready", {
         activeOutlineShape: outlineShape
       });
     };

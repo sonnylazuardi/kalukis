@@ -25,7 +25,7 @@ define(function(require){
      * The final steps after object has been drawn
      */
     this.finalizePainting = function(brush){
-      this.trigger("brushPaintingFinished", {
+      this.trigger("brushPainting-finished", {
         brush: brush
       });
     };

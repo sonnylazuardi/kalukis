@@ -14,29 +14,29 @@ define(function(require){
 
     describe("Painting Event", function(){
 
-      it("Should respond to imageCanvasClicked event", function(){
+      it("Should respond to imageCanvas-clicked event", function(){
         spyOn(this.component, "initImagePainting");
 
-        $(".component-root").trigger("imageCanvasClicked", {
+        $(".component-root").trigger("imageCanvas-clicked", {
           files: []
         });
         expect(this.component.initImagePainting).toHaveBeenCalled();
       });
 
-      it("Should request canceling any active painting when imageCanvasClicked is triggered", function(){
-        var spiedEvent = spyOnEvent(".component-root", "cancelPaintingRequested");
+      it("Should request canceling any active painting when imageCanvas-clicked is triggered", function(){
+        var spiedEvent = spyOnEvent(".component-root", "cancel-painting");
 
-        $(".component-root").trigger("imageCanvasClicked", {
+        $(".component-root").trigger("imageCanvas-clicked", {
           files: []
         });
 
         expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
       });
 
-      it("Should stop any painting when cancelPaintingRequested", function(){
+      it("Should stop any painting when cancel-painting", function(){
         spyOn(this.component, "stopCurrentPainting");
 
-        $(".component-root").trigger("cancelPaintingRequested", {
+        $(".component-root").trigger("cancel-painting", {
           active: "freehand"
         });
         expect(this.component.stopCurrentPainting).toHaveBeenCalled();
@@ -48,20 +48,20 @@ define(function(require){
 
         this.component.initImagePainting([]);
 
-        $(".component-root").trigger("outlineShapePaintingFinished");
+        $(".component-root").trigger("outlineShape-painting-finished");
         expect(this.component.loadImages).toHaveBeenCalled();
       });
 
-      it("Should not respond to outlineShapePaintingFinished once the painting process has been initted", function(){
+      it("Should not respond to outlineShape-painting-finished once the painting process has been initted", function(){
         this.component.attr.rectOutline = new RectOutline(canvas, {});
         spyOn(this.component, "onOutlineShapePaintingFinished").andCallThrough();
 
         this.component.initImagePainting([]);
 
-        $(".component-root").trigger("outlineShapePaintingFinished", {
+        $(".component-root").trigger("outlineShape-painting-finished", {
           called: 1
         });
-        $(".component-root").trigger("outlineShapePaintingFinished", {
+        $(".component-root").trigger("outlineShape-painting-finished", {
           called: 2
         });
 

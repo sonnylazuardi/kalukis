@@ -10,7 +10,7 @@ define(function(require){
     describe("Rendering Template", function(){
 
       beforeEach(function(){
-        $(document).trigger("paintWidgetsLoaded", {
+        $(document).trigger("paintWidgets-loaded", {
           paintWidgets: JSON.parse(paintWidgets)
         });
       });
@@ -20,7 +20,7 @@ define(function(require){
       });
 
       it("Should only contains one list of widgets", function(){
-        $(document).trigger("paintWidgetsLoaded", {
+        $(document).trigger("paintWidgets-loaded", {
           paintWidgets: JSON.parse(paintWidgets)
         });
 
@@ -32,13 +32,13 @@ define(function(require){
     describe("Event Handling", function(){
 
       beforeEach(function(){
-        $(document).trigger("paintWidgetsLoaded", {
+        $(document).trigger("paintWidgets-loaded", {
           paintWidgets: JSON.parse(paintWidgets)
         });
       });
 
-      it("Should have publish paintWidgetClicked with correct data", function(){
-        var spiedEvent = spyOnEvent(document, "paintWidgetClicked");
+      it("Should have publish paintWidget-clicked with correct data", function(){
+        var spiedEvent = spyOnEvent(document, "paintWidget-clicked");
         this.component.$node.find("#line").click();
 
         expect(spiedEvent).toHaveBeenTriggeredOn(document);

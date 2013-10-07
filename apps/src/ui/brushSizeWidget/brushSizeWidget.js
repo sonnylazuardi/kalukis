@@ -40,7 +40,7 @@ define(function(require){
 
     this.brushSizeChanged = function(e, data){
       var size = e.target.value;
-      this.trigger(document, "brushPropertyChanged", {
+      this.trigger(document, "brushProperty-changed", {
         width: parseInt(size, 10)
       });
     };

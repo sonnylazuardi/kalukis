@@ -20,7 +20,7 @@ define(function(require){
       };
 
       it("Publish addingImageInitted after outlineShapePainting is finisihed", function(){
-        var spiedEvent = spyOnEvent(".component-root", "addingImagesInitted");
+        var spiedEvent = spyOnEvent(".component-root", "add-images");
 
         this.component.loadImages([], new RectOutline(canvas, {}));
         expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");

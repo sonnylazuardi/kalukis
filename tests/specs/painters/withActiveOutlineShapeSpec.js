@@ -13,11 +13,11 @@ define(function(require){
     describe("Active OutlineShape Handling", function(){
 
       it("Should have reference to an outlineShape instance when a new one is available", function(){
-        $(".component-root").trigger("activeOutlineShapeChanged", {
+        $(".component-root").trigger("activeOutlineShape-changed", {
           activeOutlineShapeId: "circle"
         });
 
-        $(".component-root").trigger("outlineShapeServed", {
+        $(".component-root").trigger("outlineShape-served", {
           outlineShape: new CircleOutline(canvas, {})
         });
 
@@ -27,7 +27,7 @@ define(function(require){
       it("Should update the color of the outline when the user has chosen a new color", function(){
         this.component.setActiveOutlineShapeInstance(new CircleOutline(canvas, {}));
 
-        $(".component-root").trigger("brushPropertyUpdated", {
+        $(".component-root").trigger("brushProperty-updated", {
           key: "fillColor",
           oldValue: "#000000",
           newValue: "red"
@@ -36,8 +36,8 @@ define(function(require){
         expect(this.component.getActiveOutlineShape().get("fillColor")).toEqual("red");
       });
 
-      it("Should publish activeOutlineShapeReady on setting new brush instance", function(){
-        var spiedEvent = spyOnEvent(".component-root", "activeOutlineShapeReady");
+      it("Should publish activeOutlineShape-ready on setting new brush instance", function(){
+        var spiedEvent = spyOnEvent(".component-root", "activeOutlineShape-ready");
         this.component.setActiveOutlineShapeInstance(new CircleOutline(canvas, {}));
 
         expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");

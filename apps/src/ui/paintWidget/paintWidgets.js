@@ -28,7 +28,7 @@ define(function(require){
         "paintWidgetListEl": this.publishClickedPaintWidget
       });
 
-      this.on(document, "paintWidgetsLoaded", this.renderTemplate);
+      this.on(document, "paintWidgets-loaded", this.renderTemplate);
     };
 
     /**
@@ -36,7 +36,7 @@ define(function(require){
      */
     this.publishClickedPaintWidget = function(e){
       if (e.target.id) {
-        this.trigger(document, "paintWidgetClicked", {
+        this.trigger(document, "paintWidget-clicked", {
           paintWidgetId: e.target.id
         });
       }
