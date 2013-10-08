@@ -131,37 +131,38 @@ define(function(require){
     return this.cfg[key];
   };
 
-  HollowCircleBrush.prototype.drawAt = function(point, renderAfter) {
-    if (!point.hasOwnProperty("x") || !point.hasOwnProperty("y")) {
-      throw Error("X or Y has not been defined");
+  HollowCircleBrush.prototype.drawObjects = function( points ) {
+    var originalRenderOnAddition = this.canvas.renderOnAddition;
+        this.canvas.renderOnAddition = false;
+
+    var circles = [];
+
+    for (var i = 0, len = points.length; i < len; i++) {
+      var point = points[i];
+      circles.push(new fabric.Circle({
+        radius: getRandomInt(0, this.cfg.width),
+        left: point.x,
+        top: point.y,
+        fill: null,
+        stroke: this.cfg.strokeColor,
+        hasControls: false,
+        hasRotatingPoint: false,
+        lockUniScaling: true
+      }));
     }
 
-    var originalRenderOnAddition = this.canvas.renderOnAddition;
-    this.canvas.renderOnAddition = false;
+    var group = new fabric.Group(circles);
 
-    this.canvas.add(new fabric.Circle({
-      radius: getRandomInt(0, this.cfg.width),
-      left: point.x,
-      top: point.y,
-      fill: null,
-      stroke: this.cfg.strokeColor,
-      hasControls: false,
-      hasRotatingPoint: false,
-      lockUniScaling: true
-    }));
+    this.canvas.add(group);
+    this.canvas.fire('path:created', { path: group });
 
     this.canvas.clearContext(this.canvas.contextTop);
     this.canvas.renderOnAddition = originalRenderOnAddition;
-
-    if (renderAfter === true){
-      this.canvas.renderAll();
-    }
+    this.canvas.renderAll();
   };
 
-  HollowCircleBrush.prototype.drawAtPoints = function(points) {
-    points.forEach(function(point){
-      this.drawAt(point, false);
-    }, this);
+  HollowCircleBrush.prototype.drawAtPoints = function( points ) {
+    this.drawObjects(points);
   };
 
   return HollowCircleBrush;
