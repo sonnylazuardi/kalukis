@@ -12,12 +12,7 @@ define(function(require){
       this.points = [];
     },
 
-    onMouseDown: function(){
-      this.points.length = 0;
-      this.canvas.clearContext(this.canvas.contextTop);
-    },
-
-    onMouseMove: function(pointer){
+    drawRect: function( pointer ) {
       var point = this.addPoint(pointer),
           ctx = this.canvas.contextTop;
 
@@ -25,13 +20,25 @@ define(function(require){
       ctx.fillRect(point.x - point.width/2, point.y - point.height/2, point.width, point.height);
     },
 
+    onMouseDown: function( pointer ){
+      this.points.length = 0;
+      this.canvas.clearContext(this.canvas.contextTop);
+      this.drawRect(pointer);
+    },
+
+    onMouseMove: function( pointer ){
+      this.drawRect(pointer);
+    },
+
     onMouseUp: function(){
       var originalRenderOnAddition = this.canvas.renderOnAddition;
       this.canvas.renderOnAddition = false;
 
+      var rects = [];
+
       for (var i = 0, len = this.points.length; i < len; i++) {
         var point = this.points[i];
-        this.canvas.add(new fabric.Rect({
+        rects.push(new fabric.Rect({
           width: point.width,
           height: point.height,
           top: point.y,
@@ -39,6 +46,11 @@ define(function(require){
           fill: point.fill
         }));
       }
+
+      var group = new fabric.Group(rects);
+
+      this.canvas.add(group);
+      this.canvas.fire('path:created', { path: group });
 
       this.canvas.clearContext(this.canvas.contextTop);
       this.canvas.renderOnAddition = originalRenderOnAddition;
