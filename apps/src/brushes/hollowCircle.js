@@ -3,7 +3,23 @@ define(function(require){
   var fabric = require("fabric"),
       getRandomInt = fabric.util.getRandomInt;
 
-  var HollowCircleBrushClass = fabric.util.createClass(fabric.CircleBrush, {
+  var HollowCircleBrushClass = fabric.util.createClass(fabric.BaseBrush, {
+    /**
+     * Width of a brush
+     * @type Number
+     * @default
+     */
+    width: 10,
+
+    /**
+     * Constructor
+     * @param {fabric.Canvas} canvas
+     * @return {HollowCircleBrushClass} Instance of a circle brush
+     */
+    initialize: function(canvas) {
+      this.canvas = canvas;
+      this.points = [ ];
+    },
     /**
      * Override fabric.CircleBrush addPoint method. We need to
      * define our own circle properties. In this case, we dont
@@ -33,7 +49,7 @@ define(function(require){
       return pointerPoint;
     },
 
-    onMouseMove: function(pointer){
+    drawCircle: function ( pointer ) {
       var point = this.addPoint(pointer);
       var ctx = this.canvas.contextTop;
 
@@ -45,22 +61,41 @@ define(function(require){
       ctx.stroke();
     },
 
+    /**
+     * Invoked on mouse down
+     */
+    onMouseDown: function(pointer) {
+      this.points.length = 0;
+      this.canvas.clearContext(this.canvas.contextTop);
+      this.drawCircle(pointer);
+    },
+
+    onMouseMove: function( pointer ) {
+      this.drawCircle(pointer);
+    },
+
     onMouseUp: function(){
       var originalRenderOnAddition = this.canvas.renderOnAddition;
       this.canvas.renderOnAddition = false;
 
+      var circles = [];
+
       for (var i = 0, len = this.points.length; i < len; i++) {
         var point = this.points[i];
-        var circle = new fabric.Circle({
+        circles.push(new fabric.Circle({
           radius: point.radius,
           left: point.x,
           top: point.y,
           fill: null,
           stroke: point.strokeColor,
           strokeWidth: 1
-        });
-        this.canvas.add(circle);
+        }));
       }
+
+      var group = new fabric.Group(circles);
+
+      this.canvas.add(group);
+      this.canvas.fire('path:created', { path: group });
 
       this.canvas.clearContext(this.canvas.contextTop);
       this.canvas.renderOnAddition = originalRenderOnAddition;
