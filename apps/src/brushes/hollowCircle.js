@@ -131,7 +131,7 @@ define(function(require){
     return this.cfg[key];
   };
 
-  HollowCircleBrush.prototype.drawObjects = function( points ) {
+  HollowCircleBrush.prototype.drawAtPoints = function( points ) {
     var originalRenderOnAddition = this.canvas.renderOnAddition;
         this.canvas.renderOnAddition = false;
 
@@ -159,10 +159,6 @@ define(function(require){
     this.canvas.clearContext(this.canvas.contextTop);
     this.canvas.renderOnAddition = originalRenderOnAddition;
     this.canvas.renderAll();
-  };
-
-  HollowCircleBrush.prototype.drawAtPoints = function( points ) {
-    this.drawObjects(points);
   };
 
   return HollowCircleBrush;
