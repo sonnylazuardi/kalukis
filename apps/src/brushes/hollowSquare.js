@@ -32,7 +32,7 @@ define(function(require){
     return this.cfg[key];
   };
 
-  HollowSquareBrush.prototype.drawObjects = function( points ) {
+  HollowSquareBrush.prototype.drawAtPoints = function( points ) {
     var originalRenderOnAddition = this.canvas.renderOnAddition;
         this.canvas.renderOnAddition = false;
 
@@ -64,10 +64,6 @@ define(function(require){
     this.canvas.clearContext(this.canvas.contextTop);
     this.canvas.renderOnAddition = originalRenderOnAddition;
     this.canvas.renderAll();
-  };
-
-  HollowSquareBrush.prototype.drawAtPoints = function(points) {
-    this.drawObjects(points);
   };
 
   return HollowSquareBrush;

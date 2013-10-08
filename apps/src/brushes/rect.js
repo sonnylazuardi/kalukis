@@ -36,39 +36,36 @@ define(function(require){
     return this.cfg[key];
   };
 
-  RectBrush.prototype.drawAt = function(point, renderAfter) {
-    if (!point.hasOwnProperty("x") || !point.hasOwnProperty("y")) {
-      throw Error("X or Y has not been defined");
+  RectBrush.prototype.drawAtPoints = function( points ) {
+    var originalRenderOnAddition = this.canvas.renderOnAddition;
+        this.canvas.renderOnAddition = false;
+
+    var rects = [];
+
+    for (var i = 0, len = points.length; i < len; i++) {
+      var point = points[i];
+      rects.push(new fabric.Rect({
+        width: getRandomInt(0, this.cfg.width),
+        height: getRandomInt(0, this.cfg.width),
+        left: point.x,
+        top: point.y,
+        fill: new fabric.Color(this.cfg.fillColor)
+                .setAlpha(fabric.util.getRandomInt(0, 100) / 100)
+                .toRgba(),
+        hasControls: false,
+        hasRotatingPoint: false,
+        lockUniScaling: true
+      }));
     }
 
-    var originalRenderOnAddition = this.canvas.renderOnAddition;
-    this.canvas.renderOnAddition = false;
+    var group = new fabric.Group(rects);
 
-    this.canvas.add(new fabric.Rect({
-      width: getRandomInt(0, this.cfg.width),
-      height: getRandomInt(0, this.cfg.width),
-      left: point.x,
-      top: point.y,
-      fill: new fabric.Color(this.cfg.fillColor)
-              .setAlpha(fabric.util.getRandomInt(0, 100) / 100)
-              .toRgba(),
-      hasControls: false,
-      hasRotatingPoint: false,
-      lockUniScaling: true
-    }));
+    this.canvas.add(group);
+    this.canvas.fire('path:created', { path: group });
 
     this.canvas.clearContext(this.canvas.contextTop);
     this.canvas.renderOnAddition = originalRenderOnAddition;
-
-    if (renderAfter === true){
-      this.canvas.renderAll();
-    }
-  };
-
-  RectBrush.prototype.drawAtPoints = function(points) {
-    points.forEach(function(point){
-      this.drawAt(point, false);
-    }, this);
+    this.canvas.renderAll();
   };
 
   return RectBrush;

@@ -39,7 +39,7 @@ define(function(require){
     return this.cfg[key];
   };
 
-  CircleBrush.prototype.drawObjects = function( points ) {
+  CircleBrush.prototype.drawAtPoints = function( points ) {
     var originalRenderOnAddition = this.canvas.renderOnAddition;
         this.canvas.renderOnAddition = false;
 
@@ -68,10 +68,6 @@ define(function(require){
     this.canvas.clearContext(this.canvas.contextTop);
     this.canvas.renderOnAddition = originalRenderOnAddition;
     this.canvas.renderAll();
-  };
-
-  CircleBrush.prototype.drawAtPoints = function(points) {
-    this.drawObjects(points);
   };
 
   return CircleBrush;
