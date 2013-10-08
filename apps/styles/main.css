@@ -61,6 +61,11 @@ body {
   width: 48px;
 }
 
+#sizerange #brushsize-container .brushsize-info {
+  width: 32px;
+  padding-left: 10px;
+}
+
 #loading-indicator{
   display: none;
   position: fixed;
@@ -131,6 +136,6 @@ body {
   margin: 2px;
 }
 
-.brush-box.active {
+.active {
   background-color: #2E2E2E;
-};
+}

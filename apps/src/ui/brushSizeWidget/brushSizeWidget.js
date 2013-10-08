@@ -15,7 +15,7 @@ define(function(require){
     this.defaultAttrs({
       width: 10,
       brushSizeWidgetEl: "#brushsize-widget",
-      brushNumberEl: "#brushsize-number-widget"
+      brushSizeInfoEl: ".brushsize-info"
     });
 
     this.after("initialize", function(){
@@ -25,8 +25,7 @@ define(function(require){
 
     this.attachEventListeners = function(){
       this.on("change", {
-        brushSizeWidgetEl: this.brushSizeChanged,
-        brushNumberEl: this.brushSizeChanged
+        brushSizeWidgetEl: this.brushSizeChanged
       });
     };
 
@@ -41,9 +40,11 @@ define(function(require){
     };
 
     this.brushSizeChanged = function(e, data){
-      var size = e.target.value;
+      var size = parseInt(e.target.value, 10);
+
+      this.select("brushSizeInfoEl").html(size)
       this.trigger(document, "brushProperty-changed", {
-        width: parseInt(size, 10)
+        width: size
       });
     };
 
