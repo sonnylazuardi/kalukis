@@ -35,7 +35,7 @@ define(function(require){
       return pointerPoint;
     },
 
-    onMouseMove: function(pointer){
+    drawRect: function ( pointer ) {
       var point = this.addPoint(pointer);
       var ctx = this.canvas.contextTop;
       
@@ -50,9 +50,11 @@ define(function(require){
       var originalRenderOnAddition = this.canvas.renderOnAddition;
       this.canvas.renderOnAddition = false;
 
+      var rects = [];
+
       for (var i = 0, len = this.points.length; i < len; i++) {
         var point = this.points[i];
-        var square = new fabric.Rect({
+        rects.push(new fabric.Rect({
           width: point.width,
           height: point.height,
           left: point.x,
@@ -60,9 +62,13 @@ define(function(require){
           fill: null,
           stroke: point.strokeColor,
           strokeWidth: 1
-        });
-        this.canvas.add(square);
+        }));
       }
+
+      var group = new fabric.Group(rects);
+
+      this.canvas.add(group);
+      this.canvas.fire('path:created', { path: group });
 
       this.canvas.clearContext(this.canvas.contextTop);
       this.canvas.renderOnAddition = originalRenderOnAddition;
