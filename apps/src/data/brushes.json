@@ -22,17 +22,5 @@
   {
     "id": "hollowSquare",
     "name": "Hollow Square"    
-  },
-  {
-    "id": "circularPattern",
-    "name": "Circular Pattern"
-  },
-  {
-    "id": "horizontalLine",
-    "name": "Horizontal Line"
-  },
-  {
-    "id": "verticalLine",
-    "name": "Vertical Line"
   }
 ]

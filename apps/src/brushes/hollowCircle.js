@@ -63,7 +63,6 @@ define(function(require){
       }
 
       this.canvas.clearContext(this.canvas.contextTop);
-      this.removeShadowStyles();
       this.canvas.renderOnAddition = originalRenderOnAddition;
       this.canvas.renderAll();
     }
