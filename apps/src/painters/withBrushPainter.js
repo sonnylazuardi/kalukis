@@ -16,8 +16,6 @@ define(function(require){
      */
     this.startBrushPainting = function(canvas, brush, points){
       brush.drawAtPoints(points);
-      canvas.renderAll();
-
       this.finalizePainting(brush);
     };
 
