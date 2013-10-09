@@ -61,7 +61,7 @@ body {
   width: 48px;
 }
 
-#sizerange #brushsize-container .brushsize-info {
+label.info-widget {
   width: 32px;
   padding-left: 10px;
 }
