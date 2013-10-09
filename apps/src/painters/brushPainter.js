@@ -147,6 +147,8 @@ define(function(require){
 
     this.onOutlineShapePaintingFinished = function(e, data){
       this.initBrushPainting(data);
+      // dont forget that we're still painting
+      data.outlineShape.start();
     };
 
     /**
