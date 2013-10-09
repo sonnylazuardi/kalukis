@@ -20,6 +20,10 @@ define(function(require){
     this.canvas.defaultCursor = "crosshair";
   };
 
+  RectOutline.prototype.stop = function(  ) {
+    this.canvas.defaultCursor = "default";
+  };
+
   RectOutline.prototype.set = function(key, value) {
     this.cfg[key] = value;
   };
@@ -125,6 +129,8 @@ define(function(require){
 
   RectOutline.prototype.renderOutline = function() {
     var ctx = this.canvas.contextTop;
+
+    this.canvas.clearContext(ctx);
     ctx.save();
 
     ctx.lineWidth = 1;

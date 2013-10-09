@@ -106,6 +106,8 @@ define(function(require){
 
   CircleOutline.prototype.renderOutline = function() {
     var ctx = this.canvas.contextTop;
+
+    this.canvas.clearContext(ctx);
     ctx.save();
 
     ctx.beginPath();

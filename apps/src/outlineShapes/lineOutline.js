@@ -17,6 +17,7 @@ define(function(require){
   }
 
   LineOutline.prototype.start = function() {
+    this.canvas.selection = false;
     this.canvas.defaultCursor = "crosshair";
   };
 
@@ -72,7 +73,6 @@ define(function(require){
   };
 
   LineOutline.prototype.onMouseDown = function(e) {
-    this.canvas.selection = false;
     var point = this.canvas.getPointer(e.e);
 
     this.outline = {
@@ -117,6 +117,8 @@ define(function(require){
 
   LineOutline.prototype.renderOutline = function() {
     var ctx = this.canvas.contextTop;
+
+    this.canvas.clearContext(ctx);
     ctx.save();
 
     ctx.lineWidth = 1;
