@@ -120,11 +120,15 @@ define(function(require){
 
     this.canvas.clearContext(this.canvas.contextTop);
     this.canvas.selection = true;
+
+    this.canvas.defaultCursor = "default";
     return this;
   };
 
   RectOutline.prototype.renderOutline = function() {
     var ctx = this.canvas.contextTop;
+
+    this.canvas.clearContext(ctx);
     ctx.save();
 
     ctx.lineWidth = 1;
