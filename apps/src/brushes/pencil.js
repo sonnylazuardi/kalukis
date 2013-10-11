@@ -1,33 +1,14 @@
 define(function(require){
 
-  var fabric = require("fabric");
+  var fabric = require("fabric"),
+      asBrush = require("./asBrush");
 
   function PencilBrush(canvas, cfg){
-    this.canvas = canvas;
-
-    cfg = cfg || {};
-
-    cfg.fillColor = cfg.fillColor || "#000000";
-    cfg.strokeColor = cfg.strokeColor || "#000000";
-
-    cfg.width = cfg.width || 10;
-    cfg.outlineAsIs = true;
-
-    this.cfg = cfg;
-
-    this.initBrush();
+    this.initialize(canvas, cfg);
   }
 
   PencilBrush.prototype.initBrush = function() {
     this.brush = new fabric.PencilBrush(this.canvas);
-  };
-
-  PencilBrush.prototype.getBrush = function() {
-    return this.brush;
-  };
-
-  PencilBrush.prototype.set = function(key, value) {
-    this.cfg[key] = value;
   };
 
   PencilBrush.prototype.get = function(key) {
@@ -36,10 +17,6 @@ define(function(require){
     }
 
     return this.cfg[key];
-  };
-
-  PencilBrush.prototype.drawAt = function(point) {
-    return;
   };
 
   /**
@@ -91,6 +68,8 @@ define(function(require){
     }));
     this.canvas.renderAll();
   };
+
+  asBrush.call(PencilBrush.prototype);
 
   return PencilBrush;
 });

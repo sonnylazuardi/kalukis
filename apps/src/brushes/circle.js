@@ -5,38 +5,15 @@
 define(function(require){
   
   var fabric = require("fabric"),
-      getRandomInt = fabric.util.getRandomInt;
+      getRandomInt = fabric.util.getRandomInt,
+      asBrush = require("./asBrush");
 
   function CircleBrush(canvas, cfg){
-    this.canvas = canvas;
-
-    cfg = cfg || {};
-
-    cfg.fillColor = cfg.fillColor || "#000000";
-    cfg.strokeColor = cfg.strokeColor || "#000000";
-
-    cfg.width = cfg.width || 10;
-    cfg.offset = cfg.offset || 0;
-
-    this.cfg = cfg;
-
-    this.initBrush();
+    this.initialize(canvas, cfg);
   }
 
   CircleBrush.prototype.initBrush = function() {
     this.brush = new fabric.CircleBrush(this.canvas);
-  };
-
-  CircleBrush.prototype.getBrush = function() {
-    return this.brush;
-  };
-
-  CircleBrush.prototype.set = function(key, value) {
-    this.cfg[key] = value;
-  };
-
-  CircleBrush.prototype.get = function(key) {
-    return this.cfg[key];
   };
 
   CircleBrush.prototype.drawAtPoints = function( points ) {
@@ -69,6 +46,8 @@ define(function(require){
     this.canvas.renderOnAddition = originalRenderOnAddition;
     this.canvas.renderAll();
   };
+
+  asBrush.call(CircleBrush.prototype);
 
   return CircleBrush;
 
