@@ -7,7 +7,7 @@ define(function( require ) {
   var asOutlineShape = require("./asOutlineShape");
 
   function RectOutline(canvas, cfg){
-    this.initialize(canvas, cfg) ;
+    this.initialize(canvas, cfg);
   }
 
   RectOutline.prototype.getOutlinePoints = function(pointDistance){
