@@ -2,34 +2,15 @@ define(function(require){
 
   var fabric = require("fabric"),
       HollowSquareBrushClass = require("extBrushes/fabric.HollowSquareBrush"),
-      getRandomInt = fabric.util.getRandomInt;
+      getRandomInt = fabric.util.getRandomInt,
+      asBrush = require("./asBrush");
 
   function HollowSquareBrush(canvas, cfg) {
-    this.canvas = canvas;
-
-    cfg = cfg || {};
-    cfg.strokeColor = cfg.strokeColor || "#000000";
-    cfg.width = cfg.width || 10;
-
-    this.cfg = cfg;
-
-    this.initBrush();
+    this.initialize(canvas, cfg);
   }
 
   HollowSquareBrush.prototype.initBrush = function() {
     this.brush = new HollowSquareBrushClass(this.canvas);
-  };
-
-  HollowSquareBrush.prototype.getBrush = function() {
-    return this.brush;
-  };
-
-  HollowSquareBrush.prototype.set = function(key, value) {
-    this.cfg[key] = value;
-  };
-
-  HollowSquareBrush.prototype.get = function(key) {
-    return this.cfg[key];
   };
 
   HollowSquareBrush.prototype.drawAtPoints = function( points ) {
@@ -65,6 +46,8 @@ define(function(require){
     this.canvas.renderOnAddition = originalRenderOnAddition;
     this.canvas.renderAll();
   };
+
+  asBrush.call(HollowSquareBrush.prototype);
 
   return HollowSquareBrush;
 
