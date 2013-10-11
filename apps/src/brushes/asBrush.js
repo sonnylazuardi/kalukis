@@ -24,15 +24,16 @@ define(function( require ) {
       }
     };
 
-    this.getBrush = function() {
+    this.getBrush = this.getBrush || function() {
       return this.brush;
     };
 
-    this.set = function( key, value ) {
+    this.set = this.set || function( key, value ) {
       this.cfg[key] = value;
     };
 
-    this.get = function( key ) {
+    this.get = this.get || function( key ) {
+      console.log("used mixin");
       return this.cfg[key];
     };
 
