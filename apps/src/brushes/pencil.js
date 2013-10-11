@@ -12,7 +12,6 @@ define(function(require){
   };
 
   PencilBrush.prototype.get = function(key) {
-    console.log("use this one");
     if (key === "width") {
       return -1;
     }

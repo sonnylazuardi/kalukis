@@ -33,7 +33,6 @@ define(function( require ) {
     };
 
     this.get = this.get || function( key ) {
-      console.log("used mixin");
       return this.cfg[key];
     };
 
