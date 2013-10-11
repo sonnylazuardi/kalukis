@@ -1,7 +1,8 @@
 define(function(require){
 
   var fabric = require("fabric"),
-      getRandomInt = fabric.util.getRandomInt;
+      getRandomInt = fabric.util.getRandomInt,
+      asBrush = require("./asBrush");
 
   function createSprayChunk( pointer, width, brush ) {
     var sprayChunkPoints = [ ];
@@ -30,35 +31,11 @@ define(function(require){
   }
 
   function SprayBrush(canvas, cfg){
-    this.canvas = canvas;
-
-    cfg = cfg || {};
-
-    cfg.fillColor = cfg.fillColor || "#000000";
-    cfg.strokeColor = cfg.strokeColor || "#000000";
-
-    cfg.width = cfg.width || 10;
-    cfg.offset = cfg.offset || 0;
-
-    this.cfg = cfg;
-
-    this.initBrush();
+    this.initialize(canvas, cfg);
   }
 
   SprayBrush.prototype.initBrush = function() {
     this.brush = new fabric.SprayBrush(this.canvas);
-  };
-
-  SprayBrush.prototype.getBrush = function() {
-    return this.brush;
-  };
-
-  SprayBrush.prototype.set = function(key, value) {
-    this.cfg[key] = value;
-  };
-
-  SprayBrush.prototype.get = function(key) {
-    return this.cfg[key];
   };
 
   SprayBrush.prototype.drawAtPoints = function( points ) {
@@ -97,6 +74,8 @@ define(function(require){
     this.canvas.renderOnAddition = originalRenderOnAddition;
     this.canvas.renderAll();
   };
+
+  asBrush.call(SprayBrush.prototype);
 
   return SprayBrush;
 
