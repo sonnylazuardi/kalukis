@@ -9,19 +9,7 @@ define(function(require){
       asBrush = require("./asBrush");
 
   function CircleBrush(canvas, cfg){
-    this.canvas = canvas;
-
-    cfg = cfg || {};
-
-    cfg.fillColor = cfg.fillColor || "#000000";
-    cfg.strokeColor = cfg.strokeColor || "#000000";
-
-    cfg.width = cfg.width || 10;
-    cfg.offset = cfg.offset || 0;
-
-    this.cfg = cfg;
-
-    this.initBrush();
+    this.initialize(canvas, cfg);
   }
 
   CircleBrush.prototype.initBrush = function() {
