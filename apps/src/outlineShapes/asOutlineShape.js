@@ -40,7 +40,9 @@ define(function( require ) {
     }
 
     function finish() {
-      this.normalizeOutlinePosition();
+      if (this.normalizeOutlinePosition) {
+        this.normalizeOutlinePosition();
+      }
 
       this.canvas.clearContext(this.canvas.contextTop);
       this.canvas.selection = true;
