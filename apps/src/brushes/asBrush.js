@@ -6,7 +6,6 @@ define(function( require ) {
   function asBrush() {
 
     this.initialize = function(canvas, cfg) {
-      console.log("called", canvas, cfg);
       this.canvas = canvas;
 
       cfg = cfg || {};
