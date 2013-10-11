@@ -3,9 +3,9 @@
  */
 define(function( require ) {
 
-  function asBrush() {
+  var asBrush = (function() {
 
-    this.initialize = function(canvas, cfg) {
+    function initialize( canvas, cfg ) {
       this.canvas = canvas;
 
       cfg = cfg || {};
@@ -21,21 +21,28 @@ define(function( require ) {
       if (this.initBrush) {
         this.initBrush();
       }
-    };
+    }
 
-    this.getBrush = this.getBrush || function() {
+    function getBrush() {
       return this.brush;
-    };
+    }
 
-    this.set = this.set || function( key, value ) {
+    function set( key, value ) {
       this.cfg[key] = value;
-    };
+    }
 
-    this.get = this.get || function( key ) {
+    function get( key ) {
       return this.cfg[key];
+    }
+
+    return function() {
+      this.initialize = initialize;
+      this.getBrush = this.getBrush || getBrush;
+      this.set = this.set || set;
+      this.get = this.get || get;
     };
 
-  }
+  })();
 
   return asBrush;
 
