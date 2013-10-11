@@ -2,35 +2,13 @@
  * Draw a rectangular outline as the user is drawing on
  * top of the canvas
  */
-define(function(require){
+define(function( require ) {
+
+  var asOutlineShape = require("./asOutlineShape");
 
   function RectOutline(canvas, cfg){
-    this.canvas = canvas;
-    this.canvas.selection = false;
-
-    this.isDrawing = false;
-    this.outline = {};
-
-    cfg = cfg || {};
-    cfg.strokeColor = cfg.strokeColor || "#000000";
-    this.cfg = cfg;
+    this.initialize(canvas, cfg) ;
   }
-
-  RectOutline.prototype.start = function() {
-    this.canvas.defaultCursor = "crosshair";
-  };
-
-  RectOutline.prototype.set = function(key, value) {
-    this.cfg[key] = value;
-  };
-
-  RectOutline.prototype.get = function(key) {
-    return this.cfg[key];
-  };
-
-  RectOutline.prototype.getOutline = function(){
-    return this.outline;
-  };
 
   RectOutline.prototype.getOutlinePoints = function(pointDistance){
     if (pointDistance < 0) {
@@ -94,15 +72,6 @@ define(function(require){
     return this;
   };
 
-  RectOutline.prototype.onMouseUp = function(e) {
-    this.canvas.defaultCursor = "default";
-    
-    this.isDrawing = false;
-    this.canvas.selection = true;
-    this.finish();
-    return this;
-  };
-
   RectOutline.prototype.normalizeOutlinePosition = function() {
     if (this.outline.width < 0){
       this.outline.x = this.outline.x + this.outline.width;
@@ -113,16 +82,6 @@ define(function(require){
       this.outline.y = this.outline.y + this.outline.height;
       this.outline.height *= -1;
     }
-  };
-
-  RectOutline.prototype.finish = function() {
-    this.normalizeOutlinePosition();
-
-    this.canvas.clearContext(this.canvas.contextTop);
-    this.canvas.selection = true;
-
-    this.canvas.defaultCursor = "default";
-    return this;
   };
 
   RectOutline.prototype.renderOutline = function() {
@@ -139,6 +98,8 @@ define(function(require){
 
     return this;
   };
+
+  asOutlineShape.call(RectOutline.prototype);
 
   return RectOutline;
   
