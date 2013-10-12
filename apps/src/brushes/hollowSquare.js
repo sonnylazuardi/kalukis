@@ -13,34 +13,39 @@ define(function(require){
     this.brush = new HollowSquareBrushClass(this.canvas);
   };
 
+  HollowSquareBrush.prototype.drawOne = function( point ) {
+    var width = width = getRandomInt(0, this.cfg.width);
+    return new fabric.Rect({
+      width: width,
+      height: width,
+      left: point.x,
+      top: point.y,
+      fill: null,
+      stroke: this.cfg.strokeColor,
+      hasControls: false,
+      hasRotatingPoint: false,
+      lockUniScaling: true
+    });
+  };
+
+  HollowSquareBrush.prototype.processObjects = function( objects ) {
+    var group = new fabric.Group(objects);
+
+    this.canvas.add(group);
+    this.canvas.fire('path:created', { path: group });
+  };
+
   HollowSquareBrush.prototype.drawAtPoints = function( points ) {
     var originalRenderOnAddition = this.canvas.renderOnAddition;
         this.canvas.renderOnAddition = false;
 
-    var rects = [],
-        width,
-        point;
+    var rects = [];
 
     for (var i = 0, len = points.length; i < len; i++) {
-      width = getRandomInt(0, this.cfg.width);
-      point = points[i];
-      rects.push(new fabric.Rect({
-        width: width,
-        height: width,
-        left: point.x,
-        top: point.y,
-        fill: null,
-        stroke: this.cfg.strokeColor,
-        hasControls: false,
-        hasRotatingPoint: false,
-        lockUniScaling: true
-      }));
+      rects.push(this.drawOne(points[i]));
     }
 
-    var group = new fabric.Group(rects);
-
-    this.canvas.add(group);
-    this.canvas.fire('path:created', { path: group });
+    this.processObjects(rects);
 
     this.canvas.clearContext(this.canvas.contextTop);
     this.canvas.renderOnAddition = originalRenderOnAddition;
