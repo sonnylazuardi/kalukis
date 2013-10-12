@@ -13,13 +13,13 @@ define(function(require){
   function brushSensitivityWidget(){
 
     this.defaultAttrs({
-      width: 0,
+      sensitivity: 1,
       brushSensitivityEl: "#brushsensitivity-widget",
       brushSensitivityInfoEl: ".brushsensitivity-info"
     });
 
     this.after("initialize", function(){
-      this.renderWidget({value: this.attr.width});
+      this.renderWidget({value: this.attr.sensitivity});
       this.attachEventListeners();
     });
 
@@ -42,7 +42,7 @@ define(function(require){
     this.brushsensitivityChanged = function(e, data){
       var sensitivity = parseInt(e.target.value, 10);
 
-      this.select("brushSensitivityInfoEl").html(distance);
+      this.select("brushSensitivityInfoEl").html(sensitivity);
       this.trigger(document, "brushProperty-changed", {
         sensitivity: sensitivity
       });
