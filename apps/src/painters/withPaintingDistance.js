@@ -16,10 +16,6 @@ define(function( require ) {
       return Math.sqrt(dx * dx + dy * dy);
     }
 
-    this.before("registerEventListeners", function( canvas, listeners ) {
-      this.attachDistance(listeners);
-    }.bind(this));
-
     this.after("initialize", function() {
       this.on(document, "brushProperty-updated", function(e, data) {
         if (data.key === "distance") {
