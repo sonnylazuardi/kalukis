@@ -9,28 +9,28 @@ define(function( require ) {
 
   return {
 
-    isFarEnough: function( startPoint, outerPoint, mousePoint, distance ) {
-      if (!startPoint || !outerPoint) {
+    isFarEnough: function( from, to, distance ) {
+      if (!from || !to) {
         return false;
       }
 
-      return getDistance(outerPoint, mousePoint) > distance;
+      return getDistance(from, to) > distance;
     },
 
-    getClosestPoint: function( startPoint, outerPoint, mousePoint, distance ) {
+    getClosestPoint: function( from, to, distance ) {
       if (distance <= 0) {
-        return mousePoint;
+        return to;
       }
 
-      var dX = mousePoint.x - startPoint.x,
-          dY = mousePoint.y - startPoint.y,
+      var dX = to.x - from.x,
+          dY = to.y - from.y,
           dH = Math.sqrt(dX * dX + dY * dY),
           expected = dH - distance,
-          rH = expected / dH;
+          ratio = expected / dH;
 
       return {
-        x: rH * dX + startPoint.x,
-        y: rH * dY + startPoint.y
+        x: ratio * dX + from.x,
+        y: ratio * dY + from.y
       };
     }
 

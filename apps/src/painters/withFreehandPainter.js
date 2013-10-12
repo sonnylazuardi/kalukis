@@ -3,7 +3,8 @@
  */
 define(function(require){
 
-  var fabric = require("fabric");
+  var fabric = require("fabric"),
+      brushDistance = require("extBrushes/fabric.BrushDistance");
 
   return withFreeHandPainter;
 
@@ -34,6 +35,8 @@ define(function(require){
           this.setBrushWidth(data.newValue);  
         } else if (data.key === "fillColor" || data.key === "strokeColor") {
           this.setBrushColor(data.newValue);
+        } else if (data.key === "distance") {
+          this.setBrushDistance(data.newValue);
         }
       }.bind(this));
     });
@@ -80,9 +83,12 @@ define(function(require){
      * @param  {Object} brush The brush
      */
     this.setupFreehandPaintingProperty = function( brush ) {
-      this.attr.mixinCanvas.freeDrawingBrush = brush.getBrush();
-      this.attr.mixinCanvas.freeDrawingBrush.color = brush.get("fillColor");
-      this.attr.mixinCanvas.freeDrawingBrush.width = brush.get("width");
+      var freedrawBrush = this.attr.mixinCanvas.freeDrawingBrush;
+      freedrawBrush = brush.getBrush();
+      freedrawBrush.color = brush.get("fillColor");
+      freedrawBrush.width = brush.get("width");
+
+      brushDistance.hijack(freedrawBrush);
     };
 
     /**
@@ -107,6 +113,10 @@ define(function(require){
       if (this.attr.mixinCanvas && this.attr.mixinCanvas.isDrawingMode) {
         this.attr.mixinCanvas.freeDrawingBrush.color = color;
       }
+    };
+
+    this.setBrushDistance = function( distance ) {
+      brushDistance.setDistance(distance);
     };
 
   }
