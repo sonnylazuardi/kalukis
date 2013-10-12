@@ -6,6 +6,23 @@ define(function( require ){
 
   var asOutlineShape = require("./asOutlineShape");
 
+  function getCircularPoint( iter, point, radius ) {
+    if (iter === 0) {
+      return {x: point.x, y: point.y - radius};
+    } else if (iter === 90){
+      return {x: point.x + radius, y: point.y};
+    } else if (iter === 180){
+      return {x: point.x, y: point.y + radius};
+    } else if (iter === 270){
+      return {x: point.x - radius, y: point.y};
+    } else {
+      return {
+        x: Math.sin(iter) * radius + point.x,
+        y: Math.cos(iter) * radius + point.y
+      };
+    }
+  }
+
   function CircleOutline(canvas, cfg){
     this.initialize(canvas, cfg) ;
   }
@@ -22,20 +39,7 @@ define(function( require ){
         radius = this.outline.radius;
 
     for (var i = 0; i < 360; i += w){
-      if (i === 0) {
-        points.push({x: x, y: y - radius});
-      } else if (i === 90){
-        points.push({x: x + radius, y: y});
-      } else if (i === 180){
-        points.push({x: x, y: y + radius});
-      } else if (i === 270){
-        points.push({x: x - radius, y: y});
-      } else {
-        points.push({
-          x: Math.sin(i) * radius + x,
-          y: Math.cos(i) * radius + y
-        });
-      }
+      points.push(getCircularPoint(i, {x: x, y: y}, radius));
     }
 
     return points;
