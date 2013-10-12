@@ -13,6 +13,26 @@ define(function(require){
     this.brush = new HollowCircleBrushClass(this.canvas);
   };
 
+  HollowCircleBrush.prototype.drawOne = function( point ) {
+    return new fabric.Circle({
+      radius: getRandomInt(0, this.cfg.width),
+      left: point.x,
+      top: point.y,
+      fill: null,
+      stroke: this.cfg.strokeColor,
+      hasControls: false,
+      hasRotatingPoint: false,
+      lockUniScaling: true
+    });
+  };
+
+  HollowCircleBrush.prototype.processObjects = function( objects ) {
+    var group = new fabric.Group(objects);
+
+    this.canvas.add(group);
+    this.canvas.fire('path:created', { path: group });
+  };
+
   HollowCircleBrush.prototype.drawAtPoints = function( points ) {
     var originalRenderOnAddition = this.canvas.renderOnAddition;
         this.canvas.renderOnAddition = false;
@@ -20,23 +40,10 @@ define(function(require){
     var circles = [];
 
     for (var i = 0, len = points.length; i < len; i++) {
-      var point = points[i];
-      circles.push(new fabric.Circle({
-        radius: getRandomInt(0, this.cfg.width),
-        left: point.x,
-        top: point.y,
-        fill: null,
-        stroke: this.cfg.strokeColor,
-        hasControls: false,
-        hasRotatingPoint: false,
-        lockUniScaling: true
-      }));
+      circles.push(this.drawOne(points[i]));
     }
 
-    var group = new fabric.Group(circles);
-
-    this.canvas.add(group);
-    this.canvas.fire('path:created', { path: group });
+    this.processObjects(circles);
 
     this.canvas.clearContext(this.canvas.contextTop);
     this.canvas.renderOnAddition = originalRenderOnAddition;

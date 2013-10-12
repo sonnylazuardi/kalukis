@@ -16,6 +16,27 @@ define(function(require){
     this.brush = new fabric.CircleBrush(this.canvas);
   };
 
+  CircleBrush.prototype.drawOne = function( point ) {
+    return new fabric.Circle({
+      radius: getRandomInt(0, this.cfg.width),
+      left: point.x,
+      top: point.y,
+      fill: new fabric.Color(this.cfg.fillColor)
+              .setAlpha(fabric.util.getRandomInt(0, 100) / 100)
+              .toRgba(),
+      hasControls: false,
+      hasRotatingPoint: false,
+      lockUniScaling: true
+    });
+  };
+
+  CircleBrush.prototype.processObjects = function( objects ) {
+    var group = new fabric.Group(objects);
+
+    this.canvas.add(group);
+    this.canvas.fire('path:created', { path: group });
+  };
+
   CircleBrush.prototype.drawAtPoints = function( points ) {
     var originalRenderOnAddition = this.canvas.renderOnAddition;
         this.canvas.renderOnAddition = false;
@@ -23,24 +44,10 @@ define(function(require){
     var circles = [];
 
     for (var i = 0, len = points.length; i < len; i++) {
-      var point = points[i];
-      circles.push(new fabric.Circle({
-        radius: getRandomInt(0, this.cfg.width),
-        left: point.x,
-        top: point.y,
-        fill: new fabric.Color(this.cfg.fillColor)
-                .setAlpha(fabric.util.getRandomInt(0, 100) / 100)
-                .toRgba(),
-        hasControls: false,
-        hasRotatingPoint: false,
-        lockUniScaling: true
-      }));
+      circles.push(this.drawOne(points[i]));
     }
 
-    var group = new fabric.Group(circles);
-
-    this.canvas.add(group);
-    this.canvas.fire('path:created', { path: group });
+    this.processObjects(circles);
 
     this.canvas.clearContext(this.canvas.contextTop);
     this.canvas.renderOnAddition = originalRenderOnAddition;
