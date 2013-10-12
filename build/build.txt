@@ -6,7 +6,6 @@ icon/css/brushes.css
 styles/main.css
 ----------------
 styles/./../../vendor/pure/pure-min.css
-styles/./../../vendor/font-awesome/css/font-awesome.min.css
 styles/./../../vendor/spectrum/spectrum.css
 styles/./../icon/css/brushes.css
 styles/main.css
