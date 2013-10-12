@@ -1,6 +1,7 @@
 define(function( require ) {
 
-  var fabric = require("fabric");
+  var fabric = require("fabric"),
+      brushDistanceUtil = require("paintingUtils/brushDistance");
 
   return withPaintingDistance;
 
@@ -39,8 +40,8 @@ define(function( require ) {
       listeners.onMouseMove = function( e ) {
         var point = obj.canvas.getPointer(e.e);
 
-        if (obj.isDrawing && getDistance(obj.startPoint, point) > distance) {
-          return obj.updateOutline({x: point.x - distance, y: point.y - distance});
+        if (obj.isDrawing && getDistance(obj.outerPoint, point) > distance) {
+          return obj.updateOutline(brushDistanceUtil.getClosestPoint(distance, obj.outerPoint, point));
         }
 
         return this;

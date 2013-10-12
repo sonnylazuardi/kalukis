@@ -55,7 +55,7 @@ define(function( require ) {
     };
 
     this.isDrawing = true;
-    this.startPoint = point;
+    this.startPoint = this.outerPoint = point;
 
     return this;
   };
@@ -73,6 +73,8 @@ define(function( require ) {
   RectOutline.prototype.updateOutline = function( point ) {
     this.outline.height = point.y - this.outline.y;
     this.outline.width = point.x - this.outline.x;
+
+    this.outerPoint = point;
 
     this.renderOutline();
 
