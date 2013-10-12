@@ -9,7 +9,7 @@ define(function( require ) {
   var _distance = 0;
 
   function _hijack( brush ) {
-    if (brush.hasBeenHijack) {
+    if (brush.hasBeenHijacked) {
       return brush;
     }
 
@@ -24,7 +24,7 @@ define(function( require ) {
       }
     };
 
-    brush.hasBeenHijack = true;
+    brush.hasBeenHijacked = true;
 
     return brush;
   }
