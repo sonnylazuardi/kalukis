@@ -32,6 +32,16 @@ define(function( require ){
       )).toBeTruthy();
     });
 
+    it("Should return the closes point based on the requested distance", function() {
+      var point = brushDistance.getClosestPoint({x: 0,y: 0}, {x:15, y: 15}, 5);
+
+      expect(point.x).toBeGreaterThan(10);
+      expect(point.y).toBeGreaterThan(10);
+
+      expect(point.x).toBeLessThan(12);
+      expect(point.y).toBeLessThan(12);
+    });
+
   });
 
 });
