@@ -1,0 +1,1 @@
+define(["require"],function(){function t(){this.startBrushPainting=function(t,e,i){e.drawAtPoints(i),this.finalizePainting(e)},this.finalizePainting=function(t){this.trigger("brushPainting-finished",{brush:t})}}return t});

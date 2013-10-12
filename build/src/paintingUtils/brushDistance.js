@@ -1,0 +1,1 @@
+define(["require"],function(){function t(t,e){var i=t.x-e.x,n=t.y-e.y;return Math.sqrt(i*i+n*n)}return{isFarEnough:function(e,i,n){return e&&i?t(e,i)>n:!1},getClosestPoint:function(t,e,i){if(0>=i)return e;var n=e.x-t.x,r=e.y-t.y,s=Math.sqrt(n*n+r*r),o=s-i,a=o/s;return{x:a*n+t.x,y:a*r+t.y}}}});
