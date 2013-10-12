@@ -6,6 +6,33 @@ define(function( require ) {
 
   var asOutlineShape = require("./asOutlineShape");
 
+  function getBoundaryPoint( point, xLength, yHeight, distance ) {
+    var x = point.x,
+        y = point.y,
+        points = [];
+    // top
+    for (var iter = x + distance; iter < xLength; iter+= distance){
+      points.push({x: iter, y: y});
+    }
+
+    // get left
+    for (iter = y; iter < yHeight; iter += distance){
+      points.push({x: x, y: iter});
+    }
+
+    // get bottom
+    for (iter = x; iter < xLength; iter += distance){
+      points.push({x: iter, y: yHeight});
+    }
+
+    // get right
+    for (iter = yHeight; iter >= y; iter -= distance){
+      points.push({x: xLength, y: iter});
+    }
+
+    return points;
+  }
+
   function RectOutline(canvas, cfg){
     this.initialize(canvas, cfg);
   }
@@ -15,32 +42,12 @@ define(function( require ) {
       return this.outline;
     }
     
-    var points = [],
-        xLength = this.outline.x + this.outline.width,
+    var xLength = this.outline.x + this.outline.width,
         yHeight = this.outline.y + this.outline.height,
         x = this.outline.x,
         y = this.outline.y;
-    // top
-    for (var i = x + pointDistance; i < xLength; i+= pointDistance){
-      points.push({x: i, y: y});
-    }
-
-    // get left
-    for (i = y; i < yHeight; i += pointDistance){
-      points.push({x: x, y: i});
-    }
-
-    // get bottom
-    for (i = x; i < xLength; i += pointDistance){
-      points.push({x: i, y: yHeight});
-    }
-
-    // get right
-    for (i = yHeight; i >= y; i -= pointDistance){
-      points.push({x: xLength, y: i});
-    }
-
-    return points;
+    
+    return getBoundaryPoint({x: x, y: y}, xLength, yHeight, pointDistance);
   };
 
   RectOutline.prototype.onMouseDown = function(e) {
