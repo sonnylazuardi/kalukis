@@ -2,7 +2,7 @@ require.config({
   baseUrl: "../apps/src",
 
   paths: {
-    fabric: "canvas-lib/fabric",
+    fabric: "../libs/fabric.1.3.7.custom",
     text: "../../vendor/requirejs-text/text",
     mustache: "../../vendor/mustache/mustache"
   },
