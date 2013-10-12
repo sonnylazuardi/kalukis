@@ -13,6 +13,7 @@ define(function(require){
       canvasManipulationWidget = require("ui/canvasManipulationWidget/canvasManipulationWidget"),
       brushSizeWidget = require("ui/brushSizeWidget/brushSizeWidget"),
       brushDistanceWidget = require("ui/brushDistanceWidget/brushDistanceWidget"),
+      brushSensitivityWidget = require("ui/brushSensitivityWidget/brushSensitivityWidget"),
       imageCanvasWidget = require("ui/imageCanvasWidget/imageCanvasWidget"),
       freehandWidget = require("ui/freehandWidget/freehandWidget"),
       colorWidget = require("ui/colorWidget/colorWidget"),
@@ -56,6 +57,7 @@ define(function(require){
 
     brushSizeWidget.attachTo("#sizerange");
     brushDistanceWidget.attachTo("#brushdistance");
+    brushSensitivityWidget.attachTo("#brushsensitivity");
     colorWidget.attachTo("#colorpicker");
     brushPanelWidget.attachTo("#brushes");
     notification.attachTo("#status-bar");
