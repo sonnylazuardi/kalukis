@@ -1,6 +1,6 @@
 define(function( require ){
 
-  var brushDistance = require("paintingUtils/brushDistance");
+  var brushDistance = require("canvasUtils/brushDistance");
 
   describe("BrushDistanceUtils", function() {
 

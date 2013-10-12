@@ -1,7 +1,7 @@
 define(function( require ) {
 
   var fabric = require("fabric"),
-      brushSensitivity = require("paintingUtils/brushSensitivity");
+      brushSensitivity = require("canvasUtils/brushSensitivity");
 
   var _sensitivity = 1;
 

@@ -1,7 +1,7 @@
 define(function( require ) {
 
   var fabric = require("fabric"),
-      brushDistanceUtil = require("paintingUtils/brushDistance");
+      brushDistanceUtil = require("canvasUtils/brushDistance");
 
   var isFarEnough = brushDistanceUtil.isFarEnough,
       getClosestPoint = brushDistanceUtil.getClosestPoint;
