@@ -4,7 +4,8 @@
 define(function(require){
 
   var fabric = require("fabric"),
-      brushDistance = require("extBrushes/fabric.BrushDistance");
+      brushDistance = require("extBrushes/fabric.BrushDistance"),
+      brushSensitivity = require("extBrushes/fabric.BrushSensitivity");
 
   return withFreeHandPainter;
 
@@ -37,6 +38,8 @@ define(function(require){
           this.setBrushColor(data.newValue);
         } else if (data.key === "distance") {
           this.setBrushDistance(data.newValue);
+        } else if (data.key === "sensitivity") {
+          this.setSensitivity(data.newValue);
         }
       }.bind(this));
     });
@@ -89,6 +92,7 @@ define(function(require){
 
       this.attr.mixinCanvas.freeDrawingBrush = freeDrawingBrush;
       brushDistance.hijack(freeDrawingBrush);
+      brushSensitivity.hijack(freeDrawingBrush);
     };
 
     /**
@@ -117,6 +121,10 @@ define(function(require){
 
     this.setBrushDistance = function( distance ) {
       brushDistance.setDistance(distance);
+    };
+
+    this.setSensitivity = function( sensitivity ) {
+      brushSensitivity.setSensitivity(sensitivity);
     };
 
   }
