@@ -55,6 +55,7 @@ define(function( require ) {
     };
 
     this.isDrawing = true;
+    this.startPoint = point;
 
     return this;
   };
@@ -63,11 +64,17 @@ define(function( require ) {
     if (this.isDrawing) {
       var point = this.canvas.getPointer(e.e);
 
-      this.outline.height = point.y - this.outline.y;
-      this.outline.width = point.x - this.outline.x;
-
-      this.renderOutline();
+      this.updateOutline(point);
     }
+
+    return this;
+  };
+
+  RectOutline.prototype.updateOutline = function( point ) {
+    this.outline.height = point.y - this.outline.y;
+    this.outline.width = point.x - this.outline.x;
+
+    this.renderOutline();
 
     return this;
   };

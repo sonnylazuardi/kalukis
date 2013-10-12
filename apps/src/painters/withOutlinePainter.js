@@ -32,6 +32,7 @@ define(function(require){
       // so that it can draw itself according to user's mouse interaction
       
       var listeners = {
+            obj: outlineShape,
             onMouseDown: function(e){
               outlineShape.onMouseDown(e);
             },

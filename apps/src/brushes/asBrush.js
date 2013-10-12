@@ -40,6 +40,8 @@ define(function( require ) {
       this.getBrush = this.getBrush || getBrush;
       this.set = this.set || set;
       this.get = this.get || get;
+
+      return this;
     };
 
   })();

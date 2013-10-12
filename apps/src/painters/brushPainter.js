@@ -11,9 +11,10 @@ define(function(require){
       withBrushPainter = require("painters/withBrushPainter"),
       withOutlinePainter = require("painters/withOutlinePainter"),
       withActiveBrush = require("painters/withActiveBrush"),
-      withActiveOutlineShape = require("painters/withActiveOutlineShape");
+      withActiveOutlineShape = require("painters/withActiveOutlineShape"),
+      withPaintingDistance = require("./withPaintingDistance");
 
-  return defineComponent(Lukis, withCanvasEvents, withBrushPainter, withOutlinePainter, withActiveBrush, withActiveOutlineShape);
+  return defineComponent(Lukis, withCanvasEvents, withBrushPainter, withOutlinePainter, withActiveBrush, withActiveOutlineShape, withPaintingDistance);
 
   function Lukis(){
 

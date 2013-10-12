@@ -59,6 +59,8 @@ define(function( require ) {
       this.getOutline = this.getOutline || getOutline;
       this.onMouseUp = this.onMouseUp || onMouseUp;
       this.finish = this.finish || finish;
+
+      return this;
     };
 
   })();
