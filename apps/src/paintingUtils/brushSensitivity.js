@@ -18,6 +18,7 @@ define(function( require ) {
         return to;
       }
 
+      // TODO wrong implementation
       if (getDistance(from, to) < sensitivity) {
         return from;
       } else {
