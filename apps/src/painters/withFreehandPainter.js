@@ -7,7 +7,7 @@ define(function(require){
 
   return withFreeHandPainter;
 
-  function withFreeHandPainter(){
+  function withFreeHandPainter() {
 
     this.defaultAttrs({
       /**
@@ -24,12 +24,12 @@ define(function(require){
 
     });
 
-    this.after("initialize", function(){
-      this.on("brush-served", function(e, data){
+    this.after("initialize", function() {
+      this.on("brush-served", function( e, data ) {
         this.setBrush(data.brush);
       }.bind(this));
 
-      this.on("brushProperty-updated", function(e, data){
+      this.on("brushProperty-updated", function( e, data ) {
         if (data.key === "width") {
           this.setBrushWidth(data.newValue);  
         } else if (data.key === "fillColor" || data.key === "strokeColor") {
@@ -44,7 +44,7 @@ define(function(require){
      * @param  {Object} brush  The custom brush to use. If not provided, then
      *                         we use the one saved by this mixin
      */
-    this.startFreehandPainting = function(canvas, brush){
+    this.startFreehandPainting = function( canvas, brush ) {
       var usedBrush = brush || this.attr.activeBrush;
 
       if (usedBrush) {
@@ -57,7 +57,7 @@ define(function(require){
     /**
      * Stop painting
      */
-    this.stopFreehandPainting = function(){
+    this.stopFreehandPainting = function() {
       if (this.attr.mixinCanvas) {
         this.attr.mixinCanvas.isDrawingMode = false;  
       }
@@ -67,7 +67,7 @@ define(function(require){
      * Setting brush instance to use for painting
      * @param {Object} brush The brush
      */
-    this.setBrush = function(brush){
+    this.setBrush = function( brush ) {
       this.attr.activeBrush = brush;
 
       if (this.attr.mixinCanvas && this.attr.mixinCanvas.isDrawingMode) {
@@ -79,7 +79,7 @@ define(function(require){
      * Setting up freehand brush properties for painting
      * @param  {Object} brush The brush
      */
-    this.setupFreehandPaintingProperty = function(brush) {
+    this.setupFreehandPaintingProperty = function( brush ) {
       this.attr.mixinCanvas.freeDrawingBrush = brush.getBrush();
       this.attr.mixinCanvas.freeDrawingBrush.color = brush.get("fillColor");
       this.attr.mixinCanvas.freeDrawingBrush.width = brush.get("width");
@@ -89,7 +89,7 @@ define(function(require){
      * Update brush width
      * @param {Integer} width Width
      */
-    this.setBrushWidth = function(width){
+    this.setBrushWidth = function( width ) {
       this.attr.activeBrush.set("width", width);
 
       if (this.attr.mixinCanvas && this.attr.mixinCanvas.isDrawingMode) {
@@ -101,7 +101,7 @@ define(function(require){
      * Setting brush color
      * @param {String} color Color
      */
-    this.setBrushColor = function(color){
+    this.setBrushColor = function( color ) {
       this.attr.activeBrush.set("fillColor", color);
 
       if (this.attr.mixinCanvas && this.attr.mixinCanvas.isDrawingMode) {
