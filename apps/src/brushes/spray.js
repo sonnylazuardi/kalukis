@@ -38,6 +38,23 @@ define(function(require){
     this.brush = new fabric.SprayBrush(this.canvas);
   };
 
+  SprayBrush.prototype.drawOne = function( chunk ) {
+    return new fabric.Rect({
+      width: chunk.width,
+      height: chunk.width,
+      left: chunk.x + 1,
+      top: chunk.y + 1,
+      fill: this.cfg.fillColor
+    });
+  };
+
+  SprayBrush.prototype.processObjects = function( objects ) {
+    var group = new fabric.Group(objects);
+
+    this.canvas.add(group);
+    this.canvas.fire('path:created', { path: group });
+  };  
+
   SprayBrush.prototype.drawAtPoints = function( points ) {
     var originalRenderOnAddition = this.canvas.renderOnAddition;
     this.canvas.renderOnAddition = false;
@@ -50,14 +67,7 @@ define(function(require){
       sprayChunk = createSprayChunk(points[i], this.cfg.width, this.brush);
 
       for (var j = 0, jlen = sprayChunk.length; j < jlen; j++) {
-        
-        sprays.push(new fabric.Rect({
-          width: sprayChunk[j].width,
-          height: sprayChunk[j].width,
-          left: sprayChunk[j].x + 1,
-          top: sprayChunk[j].y + 1,
-          fill: this.cfg.fillColor
-        }));
+        sprays.push(this.drawOne(sprayChunk[j]));
       }
     }
 
@@ -65,10 +75,7 @@ define(function(require){
       sprays = this._getOptimizedRects(sprays);
     }
 
-    var group = new fabric.Group(sprays);
-
-    this.canvas.add(group);
-    this.canvas.fire('path:created', { path: group });
+    this.processObjects(sprays);
 
     this.canvas.clearContext(this.canvas.contextTop);
     this.canvas.renderOnAddition = originalRenderOnAddition;
