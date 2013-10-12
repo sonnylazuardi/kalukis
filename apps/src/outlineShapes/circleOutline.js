@@ -2,34 +2,13 @@
  * Draw a circular outline as the user is drawing on
  * top of the canvas
  */
-define(function(require){
+define(function( require ){
+
+  var asOutlineShape = require("./asOutlineShape");
+
   function CircleOutline(canvas, cfg){
-    this.canvas = canvas;
-    this.canvas.selection = false;
-
-    this.isDrawing = false;
-    this.outline = {};
-
-    cfg = cfg || {};
-    cfg.strokeColor = cfg.strokeColor || "#000000";
-    this.cfg = cfg;
+    this.initialize(canvas, cfg) ;
   }
-
-  CircleOutline.prototype.start = function() {
-    this.canvas.defaultCursor = "crosshair";
-  };
-
-  CircleOutline.prototype.set = function(key, value) {
-    this.cfg[key] = value;
-  };
-
-  CircleOutline.prototype.get = function(key) {
-    return this.cfg[key];
-  };
-
-  CircleOutline.prototype.getOutline = function(){
-    return this.outline;
-  };
 
   CircleOutline.prototype.getOutlinePoints = function(pointDistance) {
     if (pointDistance < 0) {
@@ -89,21 +68,6 @@ define(function(require){
     return this;
   };
 
-  CircleOutline.prototype.onMouseUp = function(e) {
-    this.canvas.defaultCursor = "default";
-
-    this.canvas.selection = true;
-    this.isDrawing = false;
-    this.finish();
-    return this;
-  };
-
-  CircleOutline.prototype.finish = function() {
-    this.canvas.clearContext(this.canvas.contextTop);
-    this.canvas.selection = true;
-    return this;
-  };
-
   CircleOutline.prototype.renderOutline = function() {
     var ctx = this.canvas.contextTop;
 
@@ -118,6 +82,8 @@ define(function(require){
 
     ctx.restore();
   };
+
+  asOutlineShape.call(CircleOutline.prototype);
 
   return CircleOutline;
 });

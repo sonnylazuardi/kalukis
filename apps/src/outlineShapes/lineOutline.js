@@ -2,36 +2,13 @@
  * Draw a line outline as the user is drawing on top
  * of the canvas
  */
-define(function(require){
+define(function( require ){
+
+  var asOutlineShape = require("./asOutlineShape");
 
   function LineOutline(canvas, cfg){
-    this.canvas = canvas;
-    this.canvas.selection = false;
-
-    this.isDrawing = false;
-    this.outline = {};
-
-    cfg = cfg || {};
-    cfg.strokeColor = cfg.strokeColor || "#000000";
-    this.cfg = cfg;
+    this.initialize(canvas, cfg);
   }
-
-  LineOutline.prototype.start = function() {
-    this.canvas.selection = false;
-    this.canvas.defaultCursor = "crosshair";
-  };
-
-  LineOutline.prototype.set = function(key, value) {
-    this.cfg[key] = value;
-  };
-
-  LineOutline.prototype.get = function(key) {
-    return this.cfg[key];
-  };
-
-  LineOutline.prototype.getOutline = function(){
-    return this.outline;
-  };
 
   LineOutline.prototype.getSlope = function(p1, p2) {
     return (p2.y - p1.y) / (p2.x - p1.x);
@@ -100,21 +77,6 @@ define(function(require){
     return this;
   };
 
-  LineOutline.prototype.onMouseUp = function(e) {
-    this.canvas.defaultCursor = "default";
-
-    this.canvas.selection = true;
-    this.isDrawing = false;
-    this.finish();
-    return this;
-  };
-
-  LineOutline.prototype.finish = function() {
-    this.canvas.clearContext(this.canvas.contextTop);
-    this.canvas.selection = true;
-    return this;
-  };
-
   LineOutline.prototype.renderOutline = function() {
     var ctx = this.canvas.contextTop;
 
@@ -133,6 +95,8 @@ define(function(require){
 
     return this;
   };
+
+  asOutlineShape.call(LineOutline.prototype);
 
   return LineOutline;
 });

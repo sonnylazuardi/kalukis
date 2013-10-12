@@ -15,7 +15,7 @@ define(function(require){
 
   return defineComponent(Lukis, withCanvasEvents, withBrushPainter, withOutlinePainter, withActiveBrush, withActiveOutlineShape);
 
-  function Lukis(){
+  function Lukis() {
 
     this.defaultAttrs({
 
@@ -26,28 +26,28 @@ define(function(require){
       canvas: undefined,
     });
 
-    this.after("initialize", function(){
+    this.after("initialize", function() {
       this.attachEventListeners();
       this.requestCanvas();
     });
 
-    this.attachEventListeners = function(){
-      this.on("brushes-loaded", function(e, data){
+    this.attachEventListeners = function() {
+      this.on("brushes-loaded", function( e, data ) {
         this.requestBrush(data.brushes[0].id);
       });
 
-      this.on("canvas-served", function(e, data){
+      this.on("canvas-served", function( e, data ) {
         this.setupCanvas(data.canvas);
       }.bind(this));
 
-      this.on("cancel-painting", function(e, data){
+      this.on("cancel-painting", function( e, data ) {
         if (data.active !== "paint") {
           this.cancelCurrentPainting();
         }
       }.bind(this));
 
       // mapping paintWidget-clicked event to activeOutlineShape-changed
-      this.on("paintWidget-clicked", function(e, data){
+      this.on("paintWidget-clicked", function( e, data ) {
         this.requestOutlineShape(data.paintWidgetId);
       }.bind(this));
     };
@@ -55,7 +55,7 @@ define(function(require){
     /**
      * Requesting for canvas instance
      */
-    this.requestCanvas = function(){
+    this.requestCanvas = function() {
       this.trigger("request-canvas");
     };
 
@@ -63,7 +63,7 @@ define(function(require){
      * Savint the canvas instance
      * @param  {Object} canvas Canvas instance
      */
-    this.setupCanvas = function(canvas){
+    this.setupCanvas = function( canvas ) {
       this.attr.canvas = canvas;
     };
 
@@ -71,7 +71,7 @@ define(function(require){
      * Requesting for outlineShape instance
      * @param  {String} id OutlineShape ID
      */
-    this.requestOutlineShape = function(id){
+    this.requestOutlineShape = function( id ) {
       // Once the outlineShape Instance is ready, we
       // start painting the outline
       this.on("activeOutlineShape-ready", this.onActiveOutlineShapeReady);
@@ -82,7 +82,7 @@ define(function(require){
       });
     };
 
-    this.onActiveOutlineShapeReady = function(e, data) {
+    this.onActiveOutlineShapeReady = function( e, data ) {
       this.off("activeOutlineShape-ready", this.onActiveOutlineShapeReady);
         
       // make sure no other painting other than "paint"
@@ -100,14 +100,14 @@ define(function(require){
      * @param  {String} id Brush ID
      * @return {[type]}    [description]
      */
-    this.requestBrush = function(id) {
+    this.requestBrush = function( id ) {
       this.requestBrushInstance(id);
     };
 
     /**
      * Cancel current paint painting
      */
-    this.cancelCurrentPainting = function(){
+    this.cancelCurrentPainting = function() {
       this.unregisterExistingListeners(this.attr.canvas);
       this.off("outlineShape-painting-finished", this.onOutlineShapePaintingFinished);
     };
@@ -121,7 +121,7 @@ define(function(require){
      * 
      * @param  {Object} data Data need to paint
      */
-    this.initOutlineShapePainting = function(data){
+    this.initOutlineShapePainting = function( data ) {
       if (data.activeOutlineShape) {
         this.trigger("notify", {
           type: "info",
@@ -145,7 +145,7 @@ define(function(require){
       }
     };
 
-    this.onOutlineShapePaintingFinished = function(e, data){
+    this.onOutlineShapePaintingFinished = function( e, data ) {
       this.initBrushPainting(data);
       // dont forget that we're still painting
       data.outlineShape.start();
@@ -161,7 +161,7 @@ define(function(require){
      * 
      * @param  {Object} data Data need to paint
      */
-    this.initBrushPainting = function(data){
+    this.initBrushPainting = function( data ) {
       var activeBrush = this.getActiveBrush();
 
       if (activeBrush && data.outlineShape) {

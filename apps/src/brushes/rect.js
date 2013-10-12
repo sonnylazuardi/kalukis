@@ -2,38 +2,15 @@ define(function(require){
 
   var fabric = require("fabric"),
       RectBrushClass = require("extBrushes/fabric.RectBrush"),
-      getRandomInt = fabric.util.getRandomInt;
+      getRandomInt = fabric.util.getRandomInt,
+      asBrush = require("./asBrush");
 
   function RectBrush(canvas, cfg){
-    this.canvas = canvas;
-
-    cfg = cfg || {};
-
-    cfg.fillColor = cfg.fillColor || "#000000";
-    cfg.strokeColor = cfg.strokeColor || "#000000";
-
-    cfg.width = cfg.width || 10;
-    cfg.offset = cfg.offset || 0;
-
-    this.cfg = cfg;
-
-    this.initBrush();
+    this.initialize(canvas, cfg);
   }
 
   RectBrush.prototype.initBrush = function() {
     this.brush = new RectBrushClass(this.canvas);
-  };
-
-  RectBrush.prototype.getBrush = function() {
-    return this.brush;
-  };
-
-  RectBrush.prototype.set = function(key, value) {
-    this.cfg[key] = value;
-  };
-
-  RectBrush.prototype.get = function(key) {
-    return this.cfg[key];
   };
 
   RectBrush.prototype.drawAtPoints = function( points ) {
@@ -67,6 +44,8 @@ define(function(require){
     this.canvas.renderOnAddition = originalRenderOnAddition;
     this.canvas.renderAll();
   };
+
+  asBrush.call(RectBrush.prototype);
 
   return RectBrush;
 
