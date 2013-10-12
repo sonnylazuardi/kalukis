@@ -83,12 +83,12 @@ define(function(require){
      * @param  {Object} brush The brush
      */
     this.setupFreehandPaintingProperty = function( brush ) {
-      var freedrawBrush = this.attr.mixinCanvas.freeDrawingBrush;
-      freedrawBrush = brush.getBrush();
-      freedrawBrush.color = brush.get("fillColor");
-      freedrawBrush.width = brush.get("width");
+      var freeDrawingBrush = brush.getBrush();
+      freeDrawingBrush.color = brush.get("fillColor");
+      freeDrawingBrush.width = brush.get("width");
 
-      brushDistance.hijack(freedrawBrush);
+      this.attr.mixinCanvas.freeDrawingBrush = freeDrawingBrush;
+      brushDistance.hijack(freeDrawingBrush);
     };
 
     /**

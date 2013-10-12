@@ -16,8 +16,8 @@ define(function( require ) {
     var brushOnMouseMove = brush.onMouseMove;
 
     brush.onMouseMove = function( pointer ) {
-      var length = this._points.length,
-          lastPoint = this._points[length - 1];
+      var length = brush.points.length,
+          lastPoint = brush.points[length - 1];
 
       if (isFarEnough(lastPoint, pointer, _distance)) {
         return brushOnMouseMove.call(brush, getClosestPoint(lastPoint, pointer, _distance));
@@ -25,6 +25,8 @@ define(function( require ) {
     };
 
     brush.hasBeenHijack = true;
+
+    return brush;
   }
 
   return {
