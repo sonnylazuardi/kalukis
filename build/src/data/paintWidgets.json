@@ -1,0 +1,20 @@
+[
+  {
+    "id": "line",
+    "title": "Paints Line",
+    "icon": "icon-minus",
+    "position": 0
+  },
+  {
+    "id": "rect",
+    "title": "Rectangle Brush",
+    "icon": "icon-check-empty",
+    "position": 1
+  },
+  {
+    "id": "circle",
+    "title": "Circle Brush",
+    "icon": "icon-circle-blank",
+    "position": 2
+  }
+]

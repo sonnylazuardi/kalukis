@@ -1,0 +1,1 @@
+define(["require","flight/lib/component"],function(t){function e(){this.after("initialize",function(){this.attachEventListeners()}),this.attachEventListeners=function(){this.on("keydown",function(t){27===t.keyCode&&this.cancelActivePainting()})},this.cancelActivePainting=function(){this.trigger("cancel-painting",{active:"key"})}}var i=t("flight/lib/component");return i(e)});
