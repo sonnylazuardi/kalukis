@@ -13,9 +13,21 @@ define(function( require ) {
       return Math.sqrt(dx * dx + dy * dy);
     }
 
+    var distance = 0;
+
     this.before("registerEventListeners", function( canvas, listeners ) {
       this.attachDistance(listeners);
     }.bind(this));
+
+    this.after("initialize", function() {
+      this.on(document, "brushProperty-updated", function(e, data) {
+        console.log(data);
+        if (data.key === "distance") {
+          distance = data.newValue;
+          console.log(distance);
+        }
+      });
+    });
 
     this.attachDistance = function( listeners ) {
       this.hijackOnMouseMove(listeners);
@@ -27,8 +39,8 @@ define(function( require ) {
       listeners.onMouseMove = function( e ) {
         var point = obj.canvas.getPointer(e.e);
 
-        if (obj.isDrawing && getDistance(obj.startPoint, point) > 20) {
-          return obj.updateOutline({x: point.x - 20, y: point.y - 20});
+        if (obj.isDrawing && getDistance(obj.startPoint, point) > distance) {
+          return obj.updateOutline({x: point.x - distance, y: point.y - distance});
         }
 
         return this;
