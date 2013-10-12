@@ -22,13 +22,10 @@ define(function( require ) {
     };
 
     this.hijackOnMouseMove = function( listeners ) {
-      var oldFunction = listeners.onMouseMove,
-          obj = listeners.obj;
+      var obj = listeners.obj;
 
       listeners.onMouseMove = function( e ) {
         var point = obj.canvas.getPointer(e.e);
-
-        console.log(obj.startPoint, getDistance(obj.startPoint, point));
 
         if (obj.isDrawing && getDistance(obj.startPoint, point) > 20) {
           return obj.updateOutline({x: point.x - 20, y: point.y - 20});

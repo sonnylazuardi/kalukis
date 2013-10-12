@@ -13,7 +13,7 @@ define(function(require){
   function brushDistanceWidget(){
 
     this.defaultAttrs({
-      width: 10,
+      width: 0,
       brushDistanceWidgetEl: "#brushdistance-widget",
       brushDistanceInfoEl: ".brushdistance-info"
     });
