@@ -3,6 +3,17 @@
  * to paint an object on top of the canvas. Therefore, I also needs
  * to have a reference to the active brush and outlineShape used
  * to draw.
+ *
+ * The global steps needed to paint a brush:
+ *
+ * 1. the user chooses a brush and the shape he/she wants to draw
+ * 2. the brushPainter prepares which outlineShape is going to be used
+ * 3. when the user start painting (mouse down, and then mouse move), the
+ * brushPainter initiates outline shape painting. This will draw an outline
+ * of the shape that is later going to be rendered with the chosen brush.
+ * 4. once the user has released the mouse, the brushPainter initiates drawing
+ * the shape with the chosen brush. The brushPainter uses the outline points
+ * that has been drawn on top of the canvas.
  */
 define(function(require){
   var fabric = require("fabric"),
@@ -69,10 +80,11 @@ define(function(require){
      * @param  {String} id OutlineShape ID
      */
     this.requestOutlineShape = function( id ) {
-      // Once the outlineShape Instance is ready, we
+      // We setup an event handler here. So that, 
+      // once the outlineShape Instance is ready, we
       // start painting the outline
       this.on("activeOutlineShape-ready", this.onActiveOutlineShapeReady);
-
+      // now, requesting the active outlineshape instance
       this.trigger("activeOutlineShape-changed", {
         activeOutlineShapeId: id,
         id: id
@@ -80,6 +92,7 @@ define(function(require){
     };
 
     this.onActiveOutlineShapeReady = function( e, data ) {
+      // no need to listen to this event anymore
       this.off("activeOutlineShape-ready", this.onActiveOutlineShapeReady);
         
       // make sure no other painting other than "paint"
