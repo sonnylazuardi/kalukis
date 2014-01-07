@@ -59,13 +59,18 @@ define(function(require){
           height: point.height,
           left: point.x,
           top: point.y,
+          originX: 'center',
+          originY: 'center',
           fill: null,
           stroke: point.strokeColor,
           strokeWidth: 1
         }));
       }
 
-      var group = new fabric.Group(rects);
+      var group = new fabric.Group(rects, {
+        originX: 'center',
+        originY: 'center'
+      });
 
       this.canvas.add(group);
       this.canvas.fire('path:created', { path: group });

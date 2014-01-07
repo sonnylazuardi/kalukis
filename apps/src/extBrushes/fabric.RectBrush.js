@@ -53,7 +53,10 @@ define(function(require) {
         }));
       }
 
-      var group = new fabric.Group(rects);
+      var group = new fabric.Group(rects, {
+        originX: 'center',
+        originY: 'center'
+      });
 
       this.canvas.add(group);
       this.canvas.fire('path:created', { path: group });
