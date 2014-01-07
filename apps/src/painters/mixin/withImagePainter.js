@@ -1,8 +1,6 @@
 /**
  * I know whats needed in order for painting image to run properly. I
  * also process the painting events.
- *
- * TODO move this to ImagePainter?
  */
 define(function(require){
 
