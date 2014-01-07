@@ -42,7 +42,12 @@ define(function(require){
 
   Application.prototype.start = function() {
     canvas.attachTo(document, {
-      id: "lukis"
+      id: "lukis",
+      canvasAttrs: {
+        backgroundColor: "#ECF0F1",
+        interactive: true,
+        selection: true  
+      }
     });
     /**
      * Any components that needs to hold a reference

@@ -20,7 +20,9 @@ define(function(require){
 
       id: undefined,
 
-      canvas: undefined
+      canvas: undefined,
+
+      canvasAttrs: {}
 
     });
 
@@ -30,11 +32,7 @@ define(function(require){
     });
 
     this.setCanvas = function(){
-      this.attr.canvas = new fabric.Canvas(this.attr.id, {
-        backgroundColor: "#ECF0F1",
-        interactive: true,
-        selection: true
-      });
+      this.attr.canvas = new fabric.Canvas(this.attr.id, this.attr.canvasAttrs);
     };
 
     this.respondCanvasRequest = function(){
