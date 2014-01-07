@@ -56,7 +56,6 @@ define(function(require){
 
     this.after("initialize", function(){
       this.attachEventListeners();
-      this.requestCanvas();
     });
 
     /**
@@ -82,10 +81,6 @@ define(function(require){
         this.requestBrush(data.id);
       }.bind(this));
       
-    };
-
-    this.requestCanvas = function(){
-      this.trigger("request-canvas");
     };
 
     /**

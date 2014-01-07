@@ -28,15 +28,7 @@ define(function(require){
 
     this.after("initialize", function(){
       this.attachEventListener();
-      this.requestCanvas();
     });
-
-    /**
-     * Request canvas
-     */
-    this.requestCanvas = function(){
-      this.trigger("request-canvas");
-    };
 
     /**
      * Set the canvas

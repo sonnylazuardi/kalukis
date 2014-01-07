@@ -28,7 +28,6 @@ define(function(require){
 
     this.after("initialize", function() {
       this.attachEventListeners();
-      this.requestCanvas();
     });
 
     this.attachEventListeners = function() {
@@ -50,13 +49,6 @@ define(function(require){
       this.on("paintWidget-clicked", function( e, data ) {
         this.requestOutlineShape(data.paintWidgetId);
       }.bind(this));
-    };
-
-    /**
-     * Requesting for canvas instance
-     */
-    this.requestCanvas = function() {
-      this.trigger("request-canvas");
     };
 
     /**

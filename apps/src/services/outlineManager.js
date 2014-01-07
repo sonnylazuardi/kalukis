@@ -44,7 +44,6 @@ define(function(require){
 
     this.after("initialize", function(){
       this.attachEventListener();
-      this.requestCanvas();
     });
 
     /**
@@ -64,13 +63,6 @@ define(function(require){
       this.on("brushProperty-updated", function(e, data) {
         this.updateOutlineProperties(data);
       }.bind(this));
-    };
-
-    /**
-     * Request for canvas
-     */
-    this.requestCanvas = function(){
-      this.trigger("request-canvas");
     };
 
     /**

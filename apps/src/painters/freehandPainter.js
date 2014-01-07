@@ -20,15 +20,7 @@ define(function(require){
 
     this.after("initialize", function() {
       this.attachEventListeners();
-      this.requestCanvas();
     });
-
-    /**
-     * Requesting canvas instance
-     */
-    this.requestCanvas = function() {
-      this.trigger("request-canvas");
-    };
 
     /**
      * Setting canvas instance
