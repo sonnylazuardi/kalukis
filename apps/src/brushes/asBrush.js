@@ -1,11 +1,11 @@
 /**
  * Mixin for a brush
  */
-define(function( require ) {
+define(function(require) {
 
   var asBrush = (function() {
 
-    function initialize( canvas, cfg ) {
+    function initialize(canvas, cfg) {
       this.canvas = canvas;
 
       cfg = cfg || {};
@@ -27,12 +27,19 @@ define(function( require ) {
       return this.brush;
     }
 
-    function set( key, value ) {
+    function set(key, value) {
       this.cfg[key] = value;
     }
 
-    function get( key ) {
+    function get(key) {
       return this.cfg[key];
+    }
+
+    function processObjects(objects) {
+      var group = new fabric.Group(objects, { originX: 'center', originY: 'center' });
+
+      this.canvas.add(group);
+      this.canvas.fire('path:created', { path: group });
     }
 
     return function() {
@@ -40,6 +47,7 @@ define(function( require ) {
       this.getBrush = this.getBrush || getBrush;
       this.set = this.set || set;
       this.get = this.get || get;
+      this.processObjects = processObjects;
 
       return this;
     };
