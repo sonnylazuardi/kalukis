@@ -16,8 +16,10 @@ define(function(require) {
     var brushOnMouseMove = brush.onMouseMove;
 
     brush.onMouseMove = function(pointer) {
-      var length = brush.points.length,
-          lastPoint = brush.points[length - 1];
+      var points = brush.points ? brush.points : brush._points;
+
+      var length = points.length,
+          lastPoint = points[length - 1];
 
       if (isFarEnough(lastPoint, pointer, _distance)) {
         return brushOnMouseMove.call(brush, getClosestPoint(lastPoint, pointer, _distance));

@@ -1,4 +1,4 @@
-define(function(require){
+define(function(require) {
 
   var fabric = require('fabric'),
       getRandomInt = fabric.util.getRandomInt;
