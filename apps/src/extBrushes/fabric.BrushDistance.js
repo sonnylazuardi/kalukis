@@ -13,11 +13,10 @@ define(function(require) {
       return brush;
     }
 
-    var brushOnMouseMove = brush.onMouseMove;
+    var brushOnMouseMove = brush.onMouseMove,
+        points = brush.points ? brush.points : brush._points;
 
     brush.onMouseMove = function(pointer) {
-      var points = brush.points ? brush.points : brush._points;
-
       var length = points.length,
           lastPoint = points[length - 1];
 
