@@ -50,7 +50,7 @@ define(function(require){
       });
 
       it("Should save the new brush property", function(){
-        $('.component-root').trigger("brushProperty-changed", {
+        $('.component-root').trigger("change-brushProperty", {
           width: 20
         });
         expect(this.component.attr.prop.width).toEqual(20);
@@ -59,7 +59,7 @@ define(function(require){
       it("Should publish update regarding any changes in brush properties", function(){
         var spiedEvent = spyOnEvent('.component-root', "brushProperty-updated");
 
-        $('.component-root').trigger("brushProperty-changed", {
+        $('.component-root').trigger("change-brushProperty", {
           fillColor: "red"
         });
         expect(this.component.attr.prop.fillColor).toEqual("red");

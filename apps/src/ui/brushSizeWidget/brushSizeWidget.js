@@ -43,7 +43,7 @@ define(function(require){
       var size = parseInt(e.target.value, 10);
 
       this.select("brushSizeInfoEl").html(size)
-      this.trigger(document, "brushProperty-changed", {
+      this.trigger(document, "change-brushProperty", {
         width: size
       });
     };

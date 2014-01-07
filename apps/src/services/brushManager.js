@@ -67,7 +67,7 @@ define(function(require){
         this.setCanvas(data.id, data.canvas);
       }.bind(this));
 
-      this.on("brushProperty-changed", function(e, data){
+      this.on("change-brushProperty", function(e, data){
         var key = Object.keys(data)[0],
             value = data[key];
         this.updateBrushProperty(key, value);

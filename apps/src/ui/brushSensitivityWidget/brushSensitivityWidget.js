@@ -43,7 +43,7 @@ define(function(require){
       var sensitivity = parseInt(e.target.value, 10);
 
       this.select("brushSensitivityInfoEl").html(sensitivity);
-      this.trigger(document, "brushProperty-changed", {
+      this.trigger(document, "change-brushProperty", {
         sensitivity: sensitivity
       });
     };

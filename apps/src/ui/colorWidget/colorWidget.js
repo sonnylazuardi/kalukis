@@ -16,10 +16,10 @@ define(function(require){
     });
 
     this.publishColorChange = function(color){
-      this.trigger(document, "brushProperty-changed", {
+      this.trigger(document, "change-brushProperty", {
         fillColor: color.toHexString()
       });
-      this.trigger(document, "brushProperty-changed", {
+      this.trigger(document, "change-brushProperty", {
         strokeColor: color.toHexString()
       });
     };

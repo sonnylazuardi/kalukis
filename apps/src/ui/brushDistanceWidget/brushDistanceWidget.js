@@ -43,7 +43,7 @@ define(function(require){
       var distance = parseInt(e.target.value, 10);
 
       this.select("brushDistanceInfoEl").html(distance);
-      this.trigger(document, "brushProperty-changed", {
+      this.trigger(document, "change-brushProperty", {
         distance: distance
       });
     };

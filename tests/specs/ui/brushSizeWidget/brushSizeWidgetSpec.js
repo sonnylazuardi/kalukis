@@ -14,8 +14,8 @@ describeComponent("ui/brushSizeWidget/brushSizeWidget", function(){
 
   describe("Events", function(){
 
-    xit("Should publish brushProperty-changed", function(done){
-      $(document).on("brushProperty-changed", function(){
+    xit("Should publish change-brushProperty", function(done){
+      $(document).on("change-brushProperty", function(){
         done();
       });
 
