@@ -53,7 +53,7 @@ define(function(require){
      */
     this.attachEventListener = function(){
 
-      this.on("canvas-served", function(e, data){
+      this.on("canvas-ready", function(e, data){
         this.setCanvas(data.id, data.canvas);
       }.bind(this));
 

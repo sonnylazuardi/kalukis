@@ -41,14 +41,6 @@ define(function(require){
   }
 
   Application.prototype.start = function() {
-    canvas.attachTo(document, {
-      id: "lukis",
-      canvasAttrs: {
-        backgroundColor: "#ECF0F1",
-        interactive: true,
-        selection: true  
-      }
-    });
     /**
      * Any components that needs to hold a reference
      * to canvas instance and canvas element, should be
@@ -92,6 +84,15 @@ define(function(require){
     brushList.attachTo(document);
     paintWidgetList.attachTo(document);
     canvasManipulationList.attachTo(document);
+    
+    canvas.attachTo(document, {
+      id: "lukis",
+      canvasAttrs: {
+        backgroundColor: "#ECF0F1",
+        interactive: true,
+        selection: true  
+      }
+    });
   };
 
   return Application;

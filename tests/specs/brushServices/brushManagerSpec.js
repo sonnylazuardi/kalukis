@@ -15,7 +15,7 @@ define(function(require){
 
       it("Should setup the canvas", function(){
         setupComponent();
-        $('.component-root').trigger("canvas-served", {
+        $('.component-root').trigger("canvas-ready", {
           id: "lukis",
           canvas: "canvas"
         });
@@ -77,27 +77,6 @@ define(function(require){
         $('.component-root').trigger("request-brushProperties");
         expect(spiedEvent).toHaveBeenTriggeredOn('.component-root');
 
-      });
-
-    });
-
-    describe("Brush Event Request", function(){
-
-      beforeEach(function(){
-        this.component.attr.canvas = new fabric.Canvas();
-      });
-
-      async.it("Should publish a response when a brush is requested", function(done){
-
-        $(".component-root").on("brush-served", function(e, data){
-          expect(data.brush).toBeInstanceOf(CircleBrush);
-          done();
-        });
-
-        $(".component-root").trigger("request-brush", {
-          id: "circle"
-        });
-        
       });
 
     });

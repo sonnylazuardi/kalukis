@@ -39,7 +39,7 @@ define(function(require){
     };
 
     this.attachEventListeners = function() {
-      this.on("canvas-served", function( e, data ) {
+      this.on("canvas-ready", function( e, data ) {
         this.setCanvas(data.canvas);
       }.bind(this));
 

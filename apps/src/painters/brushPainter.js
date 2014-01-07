@@ -36,7 +36,7 @@ define(function(require){
         this.requestBrush(data.brushes[0].id);
       });
 
-      this.on("canvas-served", function( e, data ) {
+      this.on("canvas-ready", function( e, data ) {
         this.setupCanvas(data.canvas);
       }.bind(this));
 

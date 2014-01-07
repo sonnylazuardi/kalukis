@@ -29,10 +29,18 @@ define(function(require){
     this.after("initialize", function(){
       this.setCanvas();
       this.on("request-canvas", this.respondCanvasRequest);
+      this.publishCanvas();
     });
 
     this.setCanvas = function(){
       this.attr.canvas = new fabric.Canvas(this.attr.id, this.attr.canvasAttrs);
+    };
+
+    this.publishCanvas = function() {
+      this.trigger('canvas-ready', {
+        id: this.attr.id,
+        canvas: this.attr.canvas
+      });
     };
 
     this.respondCanvasRequest = function(){

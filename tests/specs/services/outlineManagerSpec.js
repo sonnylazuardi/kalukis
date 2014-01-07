@@ -13,7 +13,7 @@ define(function(require){
 
       it("Should setup the canvas", function(){
         setupComponent();
-        $('.component-root').trigger("canvas-served", {
+        $('.component-root').trigger("canvas-ready", {
           id: "lukis",
           canvas: "canvas"
         });

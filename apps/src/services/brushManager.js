@@ -64,7 +64,7 @@ define(function(require){
      * @return {[type]} [description]
      */
     this.attachEventListeners = function(){
-      this.on("canvas-served", function(e, data){
+      this.on("canvas-ready", function(e, data){
         this.setCanvas(data.id, data.canvas);
       }.bind(this));
 
