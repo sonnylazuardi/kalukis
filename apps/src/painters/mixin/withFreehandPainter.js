@@ -3,9 +3,9 @@
  */
 define(function(require){
 
-  var fabric = require("fabric"),
-      brushDistance = require("extBrushes/fabric.BrushDistance"),
-      brushSensitivity = require("extBrushes/fabric.BrushSensitivity");
+  var fabric = require('fabric'),
+      brushDistance = require('extBrushes/fabric.BrushDistance'),
+      brushSensitivity = require('extBrushes/fabric.BrushSensitivity');
 
   return withFreeHandPainter;
 
@@ -26,22 +26,22 @@ define(function(require){
 
     });
 
-    this.after("initialize", function() {
+    this.after('initialize', function() {
       // a brush is served
-      this.on("brush-served", function(e, data) {
+      this.on('brush-served', function(e, data) {
         this.setBrush(data.brush);
       }.bind(this));
 
       // brush property has been updated by the brush manager
-      this.on("brushProperty-updated", function(e, data) {
+      this.on('brushProperty-updated', function(e, data) {
         // TODO I'm not sure if this is a good approach
-        if (data.key === "width") {
+        if (data.key === 'width') {
           this.setBrushWidth(data.newValue);  
-        } else if (data.key === "fillColor" || data.key === "strokeColor") {
+        } else if (data.key === 'fillColor' || data.key === 'strokeColor') {
           this.setBrushColor(data.newValue);
-        } else if (data.key === "distance") {
+        } else if (data.key === 'distance') {
           this.setBrushDistance(data.newValue);
-        } else if (data.key === "sensitivity") {
+        } else if (data.key === 'sensitivity') {
           this.setSensitivity(data.newValue);
         }
       }.bind(this));
@@ -72,8 +72,8 @@ define(function(require){
     this.setupFreehandPaintingProperty = function( brush ) {
       var freeDrawingBrush = brush.getBrush();
       // setting the property for this painting session
-      freeDrawingBrush.color = brush.get("fillColor");
-      freeDrawingBrush.width = brush.get("width");
+      freeDrawingBrush.color = brush.get('fillColor');
+      freeDrawingBrush.width = brush.get('width');
       // set this brush to the canvas' freeDrawingBrush property
       // this brush will be used by the canvas to draw freehand
       this.attr.mixinCanvas.freeDrawingBrush = freeDrawingBrush;
@@ -114,7 +114,7 @@ define(function(require){
      * @param {Integer} width Width
      */
     this.setBrushWidth = function( width ) {
-      this.attr.activeBrush.set("width", width);
+      this.attr.activeBrush.set('width', width);
 
       // if we are in drawing mode, we need to update the width property
       // of the currently active brush
@@ -128,7 +128,7 @@ define(function(require){
      * @param {String} color Color
      */
     this.setBrushColor = function( color ) {
-      this.attr.activeBrush.set("fillColor", color);
+      this.attr.activeBrush.set('fillColor', color);
 
       // if we are in drawing mode, we need to update the color property
       // of the currently active brush

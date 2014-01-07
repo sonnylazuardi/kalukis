@@ -3,8 +3,8 @@
  */
 define(function(require){
 
-  var defineComponent = require("flight/lib/component"),
-      withFreehandPainter = require("painters/mixin/withFreehandPainter");
+  var defineComponent = require('flight/lib/component'),
+      withFreehandPainter = require('painters/mixin/withFreehandPainter');
 
   /**
    * withFreehandPainter is used to do the freehand painting
@@ -21,7 +21,7 @@ define(function(require){
       canvas: undefined
     });
 
-    this.after("initialize", function() {
+    this.after('initialize', function() {
       this.attachEventListeners();
     });
 
@@ -34,18 +34,18 @@ define(function(require){
     };
 
     this.attachEventListeners = function() {
-      this.on("canvas-ready", function( e, data ) {
+      this.on('canvas-ready', function( e, data ) {
         this.setCanvas(data.canvas);
       }.bind(this));
 
-      this.on("cancel-painting", function( e, data ) {
-        if (data.active !== "freehand") {
+      this.on('cancel-painting', function( e, data ) {
+        if (data.active !== 'freehand') {
           // from withFreehandPainter
           this.stopFreehandPainting();
         }
       }.bind(this));
 
-      this.on("request-freehandPainting", function( e, data ) {
+      this.on('request-freehandPainting', function( e, data ) {
         this.cancelCurrentPainting();
         this.initFreehandPainting();
       }.bind(this));
@@ -55,8 +55,8 @@ define(function(require){
      * Cancel current freehand painting
      */
     this.cancelCurrentPainting = function() {
-      this.trigger("cancel-painting", {
-        active: "freehand"
+      this.trigger('cancel-painting', {
+        active: 'freehand'
       });
     };
 
@@ -64,9 +64,9 @@ define(function(require){
      * Start painting
      */
     this.initFreehandPainting = function() {
-      this.trigger("notify", {
-        type: "info",
-        message: "Press [ESC] to cancel any painting"
+      this.trigger('notify', {
+        type: 'info',
+        message: 'Press [ESC] to cancel any painting'
       });
       // from withFreehandPainter
       this.startFreehandPainting(this.attr.canvas);

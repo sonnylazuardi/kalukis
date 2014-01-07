@@ -1,18 +1,22 @@
 define(function(require){
 
-  var fabric = require("fabric"),
+  var fabric = require('fabric'),
       getRandomInt = fabric.util.getRandomInt;
 
   var RectBrushClass = fabric.util.createClass(fabric.BaseBrush, {
 
     width: 10,
 
-    initialize: function(canvas){
+    initialize: function(canvas) {
       this.canvas = canvas;
       this.points = [];
     },
 
-    drawRect: function( pointer ) {
+    /**
+     * Invoked inside on mouse down and mouse move
+     * @param {Object} pointer
+     */
+    drawRect: function(pointer) {
       var point = this.addPoint(pointer),
           ctx = this.canvas.contextTop;
 
@@ -20,17 +24,17 @@ define(function(require){
       ctx.fillRect(point.x - point.width/2, point.y - point.height/2, point.width, point.height);
     },
 
-    onMouseDown: function( pointer ){
+    onMouseDown: function(pointer) {
       this.points.length = 0;
       this.canvas.clearContext(this.canvas.contextTop);
       this.drawRect(pointer);
     },
 
-    onMouseMove: function( pointer ){
+    onMouseMove: function(pointer) {
       this.drawRect(pointer);
     },
 
-    onMouseUp: function(){
+    onMouseUp: function() {
       var originalRenderOnAddition = this.canvas.renderOnAddition;
       this.canvas.renderOnAddition = false;
 
@@ -43,6 +47,8 @@ define(function(require){
           height: point.height,
           top: point.y,
           left: point.x,
+          originX: 'center',
+          originY: 'center',
           fill: point.fill
         }));
       }
