@@ -39,6 +39,8 @@ define(function(require){
       height: outline.height,
       top: outline.y + outline.height / 2,
       left: outline.x + outline.width / 2,
+      originX: 'center',
+      originY: 'center',
       fill: null,
       stroke: this.cfg.strokeColor,
       strokeWidth: this.cfg.width || 10
@@ -51,6 +53,8 @@ define(function(require){
       radius: outline.radius,
       left: outline.x,
       top: outline.y,
+      originX: 'center',
+      originY: 'center',
       fill: null,
       stroke: this.cfg.strokeColor,
       strokeWidth: this.cfg.width || 10
@@ -64,7 +68,9 @@ define(function(require){
       outline.x2, outline.y2
     ], {
       stroke: this.cfg.strokeColor,
-      strokeWidth: this.cfg.width || 10
+      strokeWidth: this.cfg.width || 10,
+      originX: 'center',
+      originY: 'center'
     }));
     this.canvas.renderAll();
   };
