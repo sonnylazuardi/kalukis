@@ -76,11 +76,11 @@ define(function(require){
 
       this.on("request-brushProperties", function(){
         this.publishBrushProperties();
-      });
+      }.bind(this));
 
       this.on("request-brush", function(e, data){
         this.requestBrush(data.id);
-      });
+      }.bind(this));
       
     };
 
