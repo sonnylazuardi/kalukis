@@ -84,7 +84,12 @@ define(function(require){
     brushList.attachTo(document);
     paintWidgetList.attachTo(document);
     canvasManipulationList.attachTo(document);
-    
+
+    /**
+     * The canvas service is setup down here. After it has
+     * been initialized, it'll publish canvas-ready event,
+     * which also publishes canvas instance and it's ID
+     */
     canvas.attachTo(document, {
       id: "lukis",
       canvasAttrs: {
