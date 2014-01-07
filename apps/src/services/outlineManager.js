@@ -61,7 +61,9 @@ define(function(require){
         this.requestOutlineShape(data.id);
       }.bind(this));
 
-      this.on("brushProperty-updated", this.updateOutlineProperties);
+      this.on("brushProperty-updated", function(e, data) {
+        this.updateOutlineProperties(data);
+      }.bind(this));
     };
 
     /**
@@ -115,10 +117,9 @@ define(function(require){
 
     /**
      * Set outline properties
-     * @param {String} e    Event
-     * @param {Object} data Event Data
+     * @param {Object} data Outline Properties
      */
-    this.updateOutlineProperties = function(e, data){
+    this.updateOutlineProperties = function(data){
       if (data.hasOwnProperty("key") && data.hasOwnProperty("newValue")) {
         var oldValue = this.attr.prop[data.key];
         this.attr.prop[data.key] = data.newValue;
