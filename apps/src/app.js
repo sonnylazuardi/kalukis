@@ -27,8 +27,6 @@ define(function(require){
 
       cleaningService = require("services/canvasServices/cleaner"),
 
-      imageCanvas = require("images/imageCanvas"),
-
       brushList = require("data/brushList"),
       paintWidgetList = require("data/paintWidgetList"),
       canvasManipulationList = require("data/canvasManipulationList");
@@ -65,8 +63,6 @@ define(function(require){
     outlineManager.attachTo(document);
 
     cleaningService.attachTo(document);
-
-    imageCanvas.attachTo(document);
 
     /**
      * The lukis component will publish the canvas instance

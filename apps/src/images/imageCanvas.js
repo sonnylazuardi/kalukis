@@ -14,6 +14,7 @@ define(function(require){
     });
 
     this.after("initialize", function(){
+      console.log("oimage");
       this.attachEventListeners();
     });
 

@@ -9,6 +9,10 @@ define(function(require){
       withCanvasEvents = require("painters/mixin/withCanvasEvents"),
       RectOutline = require("outlineShapes/rectOutline");
 
+  // withImagePainter: the one responsible for uploading the selected picture
+  // to the canvas
+  // withCanvasEvents: helps us to listen to interesting events from canvas
+  // withOutlinePainter: the one responsible for drawing the outline shape
   return defineComponent(imagePainter, withImagePainter, withCanvasEvents, withOutlinePainter);
 
   function imagePainter(){
@@ -47,6 +51,7 @@ define(function(require){
         this.setCanvas(data.canvas);
       }.bind(this));
 
+      // the user has selected an image to upload
       this.on("imageCanvas-clicked", function(e, data){
         // ask for other painting activity to stop
         this.trigger("cancel-painting", {
@@ -94,7 +99,9 @@ define(function(require){
         // once the outineShape painting has finished, we
         // should load the images
         this.on("outlineShape-painting-finished", this.onOutlineShapePaintingFinished);
-
+        // but first, we need to know where to draw the selected image.
+        // the user will draw a reactangular-shaped outline. the selected
+        // image will be drawn there
         this.startOutlineShapePainting(
           this.attr.canvas,
           activeOutlineShape,

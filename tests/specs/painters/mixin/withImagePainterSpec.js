@@ -19,12 +19,12 @@ define(function(require){
         unregisterExistingListeners: function(){}
       };
 
-      it("Publish addingImageInitted after outlineShapePainting is finisihed", function(){
-        var spiedEvent = spyOnEvent(".component-root", "add-images");
+      // it("Publish addingImageInitted after outlineShapePainting is finisihed", function(){
+      //   var spiedEvent = spyOnEvent(".component-root", "add-images");
 
-        this.component.loadImages([], new RectOutline(canvas, {}));
-        expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
-      });
+      //   this.component.loadImages([], new RectOutline(canvas, {}));
+      //   expect(spiedEvent).toHaveBeenTriggeredOn(".component-root");
+      // });
 
 
     });
