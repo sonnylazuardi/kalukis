@@ -2,7 +2,7 @@
 
 ALPHA - I'm currently doing a rewrite
 
-![](pics/lukis-pure.jpeg)
+![](pics/lukis.png)
 
 Lukis is an experimental Painting Apps. Lukis is built on top of [flight](http://twitter.github.io/flight/) and [fabricjs](fabricjs.com).
 
