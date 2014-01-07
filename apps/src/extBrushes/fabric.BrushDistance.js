@@ -1,4 +1,4 @@
-define(function( require ) {
+define(function(require) {
 
   var fabric = require("fabric"),
       brushDistanceUtil = require("canvasUtils/brushDistance");
@@ -8,14 +8,14 @@ define(function( require ) {
 
   var _distance = 0;
 
-  function _hijack( brush ) {
+  function _hijack(brush) {
     if (brush.hasBeenHijacked) {
       return brush;
     }
 
     var brushOnMouseMove = brush.onMouseMove;
 
-    brush.onMouseMove = function( pointer ) {
+    brush.onMouseMove = function(pointer) {
       var length = brush.points.length,
           lastPoint = brush.points[length - 1];
 
@@ -30,11 +30,11 @@ define(function( require ) {
   }
 
   return {
-    hijack: function( brush ) {
+    hijack: function(brush) {
       return _hijack(brush);
     },
 
-    setDistance: function( distance ) {
+    setDistance: function(distance) {
       _distance = distance;
     },
 
