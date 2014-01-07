@@ -14,6 +14,8 @@ define(function(require) {
     }
 
     var brushOnMouseMove = brush.onMouseMove,
+        // TODO spraybrush uses spraychunks. maybe we should provide
+        // an API on these brushes to give us their 'points'?
         points = brush.points ? brush.points : brush._points;
 
     brush.onMouseMove = function(pointer) {
