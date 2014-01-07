@@ -82,6 +82,7 @@ define(function(require){
     this.requestOutlineShape = function(id) {
       id += "Outline";
 
+      // the outline shape has been loaded before
       if (this.attr.outlineShapes.hasOwnProperty(id)) {
         var outlineShape = this.attr.outlineShapes[id];
         this.setOutlineShapeProperties(outlineShape);

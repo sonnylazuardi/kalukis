@@ -13,6 +13,11 @@ define(function(require){
       withActiveBrush = require("painters/mixin/withActiveBrush"),
       withActiveOutlineShape = require("painters/mixin/withActiveOutlineShape");
 
+  // withCanvasEvents: manage events that are published by canvas
+  // withBrushPainter: the one responsible for painting a brush
+  // withOutlinePainter: the one responsible for painting the outline shape
+  // withActiveBrush: manages the currently active brush used by the user
+  // withActiveOutlineShape: manages the currently active outline shape
   return defineComponent(brushPainter, withCanvasEvents, withBrushPainter, withOutlinePainter, withActiveBrush, withActiveOutlineShape);
 
   function brushPainter() {

@@ -137,6 +137,7 @@ define(function(require){
      * @param  {String} id Brush ID
      */
     this.requestBrush = function(id) {
+      // the brush has been loaded before
       if (this.attr.brushes.hasOwnProperty(id)) {
         var brush = this.attr.brushes[id];
         // update the brush properties
@@ -144,6 +145,7 @@ define(function(require){
 
         this.publishRequestedBrush(brush);
       } else {
+        // the brush has not been loaded before
         // TODO what if the brush requested cannot be found?
         require(["brushes/" + id], function(BrushProto){
           var brush = new BrushProto(this.attr.canvas, this.attr.prop);
