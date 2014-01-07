@@ -2,7 +2,7 @@ require.config({
   baseUrl: "../apps/src",
 
   paths: {
-    fabric: "../libs/fabric.1.3.7.custom",
+    fabric: "../libs/fabric.1.4.0",
     text: "../../vendor/requirejs-text/text",
     mustache: "../../vendor/mustache/mustache"
   },

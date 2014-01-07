@@ -1,11 +1,14 @@
 /**
- * I know how to execute free hand painting
+ * I manage freehand painting.
  */
 define(function(require){
 
   var defineComponent = require("flight/lib/component"),
       withFreehandPainter = require("painters/mixin/withFreehandPainter");
 
+  /**
+   * withFreehandPainter is used to do the freehand painting
+   */
   return defineComponent(freehandPainter, withFreehandPainter);
 
   function freehandPainter() {
@@ -37,6 +40,7 @@ define(function(require){
 
       this.on("cancel-painting", function( e, data ) {
         if (data.active !== "freehand") {
+          // from withFreehandPainter
           this.stopFreehandPainting();
         }
       }.bind(this));
@@ -64,6 +68,7 @@ define(function(require){
         type: "info",
         message: "Press [ESC] to cancel any painting"
       });
+      // from withFreehandPainter
       this.startFreehandPainting(this.attr.canvas);
     };
   }

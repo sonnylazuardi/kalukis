@@ -13,9 +13,9 @@ define(function(require){
       withActiveBrush = require("painters/mixin/withActiveBrush"),
       withActiveOutlineShape = require("painters/mixin/withActiveOutlineShape");
 
-  return defineComponent(Lukis, withCanvasEvents, withBrushPainter, withOutlinePainter, withActiveBrush, withActiveOutlineShape);
+  return defineComponent(brushPainter, withCanvasEvents, withBrushPainter, withOutlinePainter, withActiveBrush, withActiveOutlineShape);
 
-  function Lukis() {
+  function brushPainter() {
 
     this.defaultAttrs({
 
