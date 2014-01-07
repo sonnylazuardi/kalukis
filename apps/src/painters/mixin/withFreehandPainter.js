@@ -34,7 +34,7 @@ define(function(require){
 
       // brush property has been updated by the brush manager
       this.on('brushProperty-updated', function(e, data) {
-        // TODO I'm not sure if this is a good approach
+        // TODO find a better way for this property assignments
         if (data.key === 'width') {
           this.setBrushWidth(data.newValue);  
         } else if (data.key === 'fillColor' || data.key === 'strokeColor') {
@@ -58,6 +58,7 @@ define(function(require){
       var usedBrush = brush || this.attr.activeBrush;
 
       if (usedBrush) {
+        // the canvas
         this.attr.mixinCanvas = canvas;
         // state that we are in drawing mode
         this.attr.mixinCanvas.isDrawingMode = true;
@@ -70,6 +71,7 @@ define(function(require){
      * @param  {Object} brush The brush
      */
     this.setupFreehandPaintingProperty = function( brush ) {
+      // getting the brush that's going to be used
       var freeDrawingBrush = brush.getBrush();
       // setting the property for this painting session
       freeDrawingBrush.color = brush.get('fillColor');
@@ -77,7 +79,7 @@ define(function(require){
       // set this brush to the canvas' freeDrawingBrush property
       // this brush will be used by the canvas to draw freehand
       this.attr.mixinCanvas.freeDrawingBrush = freeDrawingBrush;
-      // TODO if there's time, we should think of a better way
+      // TODO we should think of a better way
       // to change canvas' default painting behaviour
       // 
       // Do some hijaking. this is manipulating canvas' original

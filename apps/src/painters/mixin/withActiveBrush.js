@@ -24,14 +24,24 @@ define(function(require){
      * @param  {String} id The brush id
      */
     this.requestBrushInstance = function(id){
+      // we need to attach this event handler here, so that
+      // once the brush has been served, we can process
+      // it correctly
       this.on("brush-served", this.onBrushServed);
-      
+      // requesting the brush      
       this.trigger("request-brush", {
         id: id
       });
     };
 
+    /**
+     * The brush has been served
+     * @param  {Object} e    Event Object
+     * @param  {Object} data Event Data
+     */
     this.onBrushServed = function(e, data) {
+      // don't need to listen to this event anymore, the
+      // brush has been served
       this.off("brush-served", this.onBrushServed);
       this.setActiveBrushInstance(data.brush);
     };

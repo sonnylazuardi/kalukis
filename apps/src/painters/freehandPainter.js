@@ -1,5 +1,12 @@
 /**
  * I manage freehand painting.
+ *
+ * The steps:
+ *
+ * 1. 'request-freehandPainting' will be triggered
+ * 2. prepare for this painting
+ * 3. start painting. The painting itself is ran from
+ * withFreehandPainter
  */
 define(function(require){
 
@@ -68,7 +75,7 @@ define(function(require){
         type: 'info',
         message: 'Press [ESC] to cancel any painting'
       });
-      // from withFreehandPainter
+      // `startFreehandPainting`, a method from withFreehandPainter
       this.startFreehandPainting(this.attr.canvas);
     };
   }

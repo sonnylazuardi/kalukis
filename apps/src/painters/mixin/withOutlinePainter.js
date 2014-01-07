@@ -59,6 +59,7 @@ define(function(require){
       
       canvasEventsService.unregisterExistingListeners(canvas);
       canvasEventsService.registerEventListeners(canvas, listeners);
+      // start painting the outline shape
       outlineShape.start();
     };
 

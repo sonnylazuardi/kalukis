@@ -25,8 +25,11 @@ define(function(require){
      * @param  {String} id OutlineShape ID
      */
     this.requestOutlineShapeInstance = function(id){
+      // we need to attach this event handler here, so that
+      // once the ourline shape has been served, we can process
+      // it correctly
       this.on("outlineShape-served", this.onOutlineShapeServed);
-
+      // requesting for this outline shape
       this.trigger("request-outlineShape", {
         id: id
       });
