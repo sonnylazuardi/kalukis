@@ -1,6 +1,6 @@
 define(function(require){
 
-  describeMixin("painters/withFreehandPainter", function(){
+  describeMixin("painters/mixin/withFreehandPainter", function(){
 
     beforeEach(function(){
       setupComponent();

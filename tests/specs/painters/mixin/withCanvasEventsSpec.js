@@ -17,7 +17,7 @@ define(function(require){
         }
       };
 
-  describeMixin("painters/withCanvasEvents", function(){
+  describeMixin("painters/mixin/withCanvasEvents", function(){
 
     beforeEach(function(){
       setupComponent();

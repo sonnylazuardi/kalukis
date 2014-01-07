@@ -4,7 +4,7 @@ define(function(require){
       canvas = new fabric.Canvas(),
       CircleOutline = require("outlineShapes/circleOutline");
 
-  describeMixin("painters/withActiveOutlineShape", function(){
+  describeMixin("painters/mixin/withActiveOutlineShape", function(){
 
     beforeEach(function(){
       setupComponent();

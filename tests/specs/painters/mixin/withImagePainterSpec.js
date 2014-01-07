@@ -4,7 +4,7 @@ define(function(require){
       canvas = new fabric.Canvas(),
       RectOutline = require("outlineShapes/rectOutline");
 
-  describeMixin("painters/withImagePainter", function(){
+  describeMixin("painters/mixin/withImagePainter", function(){
 
     beforeEach(function(){
       setupComponent({

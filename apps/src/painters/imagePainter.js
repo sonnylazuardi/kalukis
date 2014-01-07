@@ -4,9 +4,9 @@
 define(function(require){
 
   var defineComponent = require("flight/lib/component"),
-      withImagePainter = require("painters/withImagePainter"),
-      withOutlinePainter = require("painters/withOutlinePainter"),
-      withCanvasEvents = require("painters/withCanvasEvents"),
+      withImagePainter = require("painters/mixin/withImagePainter"),
+      withOutlinePainter = require("painters/mixin/withOutlinePainter"),
+      withCanvasEvents = require("painters/mixin/withCanvasEvents"),
       RectOutline = require("outlineShapes/rectOutline");
 
   return defineComponent(imagePainter, withImagePainter, withCanvasEvents, withOutlinePainter);

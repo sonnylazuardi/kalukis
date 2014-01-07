@@ -4,7 +4,7 @@
 define(function(require){
 
   var defineComponent = require("flight/lib/component"),
-      withFreehandPainter = require("painters/withFreehandPainter");
+      withFreehandPainter = require("painters/mixin/withFreehandPainter");
 
   return defineComponent(freehandPainter, withFreehandPainter);
 

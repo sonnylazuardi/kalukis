@@ -3,7 +3,7 @@ define(function(require){
   var fabric = require("fabric"),
       canvas = new fabric.Canvas(),
       RectOutline = require("outlineShapes/rectOutline"),
-      withCanvas = require("painters/withCanvasEvents"),
+      withCanvas = require("painters/mixin/withCanvasEvents"),
       compose = require("flight/lib/compose"),
       canvasEventsService = {},
       listener = {
@@ -16,7 +16,7 @@ define(function(require){
 
   compose.mixin(canvasEventsService, [withCanvas]);
 
-  describeMixin("painters/withOutlinePainter", function(){
+  describeMixin("painters/mixin/withOutlinePainter", function(){
 
     beforeEach(function(){
       setupComponent();

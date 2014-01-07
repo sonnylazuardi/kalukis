@@ -4,7 +4,7 @@ define(function(require){
       canvas = new fabric.Canvas(),
       CircleBrush = require("brushes/circle");
 
-  describeMixin("painters/withActiveBrush", function(){
+  describeMixin("painters/mixin/withActiveBrush", function(){
 
     beforeEach(function(){
       setupComponent();

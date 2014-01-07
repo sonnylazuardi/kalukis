@@ -7,11 +7,11 @@
 define(function(require){
   var fabric = require("fabric"),
       defineComponent = require("flight/lib/component"),
-      withCanvasEvents = require("painters/withCanvasEvents"),
-      withBrushPainter = require("painters/withBrushPainter"),
-      withOutlinePainter = require("painters/withOutlinePainter"),
-      withActiveBrush = require("painters/withActiveBrush"),
-      withActiveOutlineShape = require("painters/withActiveOutlineShape");
+      withCanvasEvents = require("painters/mixin/withCanvasEvents"),
+      withBrushPainter = require("painters/mixin/withBrushPainter"),
+      withOutlinePainter = require("painters/mixin/withOutlinePainter"),
+      withActiveBrush = require("painters/mixin/withActiveBrush"),
+      withActiveOutlineShape = require("painters/mixin/withActiveOutlineShape");
 
   return defineComponent(Lukis, withCanvasEvents, withBrushPainter, withOutlinePainter, withActiveBrush, withActiveOutlineShape);
 
