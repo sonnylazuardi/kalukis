@@ -137,10 +137,14 @@ define(function(require){
       }
     };
 
+    // TODO find a way to inject plugin that changes canvas' default
+    // painting behaviour
     this.setBrushDistance = function( distance ) {
       brushDistance.setDistance(distance);
     };
 
+    // TODO find a way to inject plugin that changes canvas' default
+    // painting behaviour
     this.setSensitivity = function( sensitivity ) {
       brushSensitivity.setSensitivity(sensitivity);
     };
