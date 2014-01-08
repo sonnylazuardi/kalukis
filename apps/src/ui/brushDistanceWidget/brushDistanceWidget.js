@@ -4,9 +4,9 @@
  */
 define(function(require){
 
-  var defineComponent = require("flight/lib/component"),
-      mustache = require("mustache"),
-      tmpl = require("text!./template.html");
+  var defineComponent = require('flight/lib/component'),
+      mustache = require('mustache'),
+      tmpl = require('text!./template.html');
 
   return defineComponent(brushDistanceWidget);
 
@@ -14,17 +14,17 @@ define(function(require){
 
     this.defaultAttrs({
       width: 0,
-      brushDistanceWidgetEl: "#brushdistance-widget",
-      brushDistanceInfoEl: ".brushdistance-info"
+      brushDistanceWidgetEl: '#brushdistance-widget',
+      brushDistanceInfoEl: '.brushdistance-info'
     });
 
-    this.after("initialize", function(){
+    this.after('initialize', function(){
       this.renderWidget({value: this.attr.width});
       this.attachEventListeners();
     });
 
     this.attachEventListeners = function(){
-      this.on("change", {
+      this.on('change', {
         brushDistanceWidgetEl: this.brushDistanceChanged
       });
     };
@@ -42,8 +42,8 @@ define(function(require){
     this.brushDistanceChanged = function(e, data){
       var distance = parseInt(e.target.value, 10);
 
-      this.select("brushDistanceInfoEl").html(distance);
-      this.trigger(document, "change-brushProperty", {
+      this.select('brushDistanceInfoEl').html(distance);
+      this.trigger(document, 'change-brushProperty', {
         distance: distance
       });
     };

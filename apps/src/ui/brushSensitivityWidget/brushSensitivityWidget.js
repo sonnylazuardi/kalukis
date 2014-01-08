@@ -4,9 +4,9 @@
  */
 define(function(require){
 
-  var defineComponent = require("flight/lib/component"),
-      mustache = require("mustache"),
-      tmpl = require("text!./template.html");
+  var defineComponent = require('flight/lib/component'),
+      mustache = require('mustache'),
+      tmpl = require('text!./template.html');
 
   return defineComponent(brushSensitivityWidget);
 
@@ -14,17 +14,17 @@ define(function(require){
 
     this.defaultAttrs({
       sensitivity: 1,
-      brushSensitivityEl: "#brushsensitivity-widget",
-      brushSensitivityInfoEl: ".brushsensitivity-info"
+      brushSensitivityEl: '#brushsensitivity-widget',
+      brushSensitivityInfoEl: '.brushsensitivity-info'
     });
 
-    this.after("initialize", function(){
+    this.after('initialize', function(){
       this.renderWidget({value: this.attr.sensitivity});
       this.attachEventListeners();
     });
 
     this.attachEventListeners = function(){
-      this.on("change", {
+      this.on('change', {
         brushSensitivityEl: this.brushsensitivityChanged
       });
     };
@@ -42,8 +42,8 @@ define(function(require){
     this.brushsensitivityChanged = function(e, data){
       var sensitivity = parseInt(e.target.value, 10);
 
-      this.select("brushSensitivityInfoEl").html(sensitivity);
-      this.trigger(document, "change-brushProperty", {
+      this.select('brushSensitivityInfoEl').html(sensitivity);
+      this.trigger(document, 'change-brushProperty', {
         sensitivity: sensitivity
       });
     };

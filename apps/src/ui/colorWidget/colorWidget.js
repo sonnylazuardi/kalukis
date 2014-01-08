@@ -1,25 +1,25 @@
 define(function(require){
 
-  var defineComponent = require("flight/lib/component"),
-      tmpl = require("text!ui/colorWidget/template.html");
+  var defineComponent = require('flight/lib/component'),
+      tmpl = require('text!ui/colorWidget/template.html');
 
   return defineComponent(ColorWidget);
 
   function ColorWidget(){
 
     this.defaultAttrs({
-      colorWidgetEl: "#colorpicker"
+      colorWidgetEl: '#colorpicker'
     });
 
-    this.after("initialize", function(){
+    this.after('initialize', function(){
       this.renderTemplate(tmpl);
     });
 
     this.publishColorChange = function(color){
-      this.trigger(document, "change-brushProperty", {
+      this.trigger(document, 'change-brushProperty', {
         fillColor: color.toHexString()
       });
-      this.trigger(document, "change-brushProperty", {
+      this.trigger(document, 'change-brushProperty', {
         strokeColor: color.toHexString()
       });
     };
@@ -27,7 +27,7 @@ define(function(require){
     this.renderTemplate = function(tmpl){
       this.$node.append(tmpl);
 
-      this.select("colorWidgetEl").spectrum({
+      this.select('colorWidgetEl').spectrum({
         flat: true,
         showInput: true,
         clickoutFiresChange: true,

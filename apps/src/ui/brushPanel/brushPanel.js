@@ -1,29 +1,29 @@
 define(function(require){
 
-  var defineComponent = require("flight/lib/component"),
-      tmpl = require("text!./template.html"),
-      mustache = require("mustache");
+  var defineComponent = require('flight/lib/component'),
+      tmpl = require('text!./template.html'),
+      mustache = require('mustache');
 
   return defineComponent(brushPanel);
 
   function brushPanel() {
 
     this.defaultAttrs({
-      widgetEl: "#brushpanel-widget",
-      brushItem: ".brush-box-item",
-      selectedBrushInfoEl: "#brushpanel-info .info"
+      widgetEl: '#brushpanel-widget',
+      brushItem: '.brush-box-item',
+      selectedBrushInfoEl: '#brushpanel-info .info'
     });
 
-    this.after("initialize", function(){
+    this.after('initialize', function(){
       this.attachEventListeners();
     });
 
     this.attachEventListeners = function() {
-      this.on(document, "brushes-loaded", function(e, data) {
+      this.on(document, 'brushes-loaded', function(e, data) {
         this.renderTemplate(data);
       }.bind(this));
 
-      this.on("click", {
+      this.on('click', {
         brushItem: function(e, data) {
           this.brushSelected(data.el);
         }
@@ -31,10 +31,10 @@ define(function(require){
     };
 
     this.brushSelected = function(el) {
-      this.select("widgetEl").find(".brush-box").removeClass("active");
-      $(el).parent().toggleClass("active");
-      this.trigger(document, "activeBrush-changed", {
-        activeBrushId: $(el).data("brushId")
+      this.select('widgetEl').find('.brush-box').removeClass('active');
+      $(el).parent().toggleClass('active');
+      this.trigger(document, 'activeBrush-changed', {
+        activeBrushId: $(el).data('brushId')
       });
     };
 

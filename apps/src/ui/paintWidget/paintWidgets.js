@@ -4,19 +4,19 @@
  */
 define(function(require){
 
-  var defineComponent = require("flight/lib/component"),
-      mustache = require("mustache"),
-      tmpl = require("text!ui/paintWidget/template.html");
+  var defineComponent = require('flight/lib/component'),
+      mustache = require('mustache'),
+      tmpl = require('text!ui/paintWidget/template.html');
 
   return defineComponent(paintWidgets);
 
   function paintWidgets(){
 
     this.defaultAttrs({
-      paintWidgetListEl: "#paintwidget-list"
+      paintWidgetListEl: '#paintwidget-list'
     });
 
-    this.after("initialize", function(){
+    this.after('initialize', function(){
       this.attachEventListeners();
     });
 
@@ -24,11 +24,11 @@ define(function(require){
      * Listen to events
      */
     this.attachEventListeners = function(){
-      this.on("click", {
-        "paintWidgetListEl": this.publishClickedPaintWidget
+      this.on('click', {
+        'paintWidgetListEl': this.publishClickedPaintWidget
       });
 
-      this.on(document, "paintWidgets-loaded", this.renderTemplate);
+      this.on(document, 'paintWidgets-loaded', this.renderTemplate);
     };
 
     /**
@@ -36,7 +36,7 @@ define(function(require){
      */
     this.publishClickedPaintWidget = function(e){
       if (e.target.id) {
-        this.trigger(document, "paintWidget-clicked", {
+        this.trigger(document, 'paintWidget-clicked', {
           paintWidgetId: e.target.id
         });
       }
@@ -50,8 +50,8 @@ define(function(require){
     this.renderTemplate = function(e, data){
       var widgetList = mustache.render(tmpl, data);
 
-      if (this.select("paintWidgetListEl").length){
-        this.select("paintWidgetListEl").replaceWith(widgetList);
+      if (this.select('paintWidgetListEl').length){
+        this.select('paintWidgetListEl').replaceWith(widgetList);
       } else {
         this.$node.append(widgetList);
       }

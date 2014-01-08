@@ -1,31 +1,31 @@
 define(function(require){
 
-  var defineComponent = require("flight/lib/component");
+  var defineComponent = require('flight/lib/component');
 
   return defineComponent(notification);
 
   function notification(){
 
     this.defaultAttrs({
-      alert: ".alert"
+      alert: '.alert'
     });
 
-    this.after("initialize", function(){
+    this.after('initialize', function(){
       this.attachEventListeners();
     });
 
     this.attachEventListeners = function(){
 
-      this.on(document, "notify", function(e, data){
+      this.on(document, 'notify', function(e, data){
         var options = {
           message: data.message
         };
 
-        if (data.type === "error") {
+        if (data.type === 'error') {
           this.alertError(options);
-        } else if (data.type === "warning") {
+        } else if (data.type === 'warning') {
           this.alertWarning(options);
-        } else if (data.type === "info") {
+        } else if (data.type === 'info') {
           this.alertInfo(options);
         }
       }.bind(this));
@@ -42,7 +42,7 @@ define(function(require){
      * @param  {Object} options The options
      */
     this.alertError = function(options) {
-      this.addAlertUi("error", options.message);
+      this.addAlertUi('error', options.message);
     };
     
     /**
@@ -55,7 +55,7 @@ define(function(require){
      * @param  {Object} options The options
      */
     this.alertWarning = function(options) {
-      this.addAlertUi("warning", options.message);
+      this.addAlertUi('warning', options.message);
     };
 
     /**
@@ -68,12 +68,12 @@ define(function(require){
      * @param  {Object} options The options
      */
     this.alertInfo = function(options) {
-      this.addAlertUi("info", options.message);
+      this.addAlertUi('info', options.message);
     };
 
     this.addAlertUi = function(type, message) {
       this.$node.empty();
-      this.$node.append("<div class='alert alert-" + type + "'>" + message + "</div>");
+      this.$node.append('<div class="alert alert-' + type + '">' + message + '</div>');
     };
 
   }

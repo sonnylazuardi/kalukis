@@ -1,17 +1,17 @@
 define(function(require){
 
-  var defineComponent = require("flight/lib/component"),
-      tmpl = require("text!ui/freehandWidget/template.html");
+  var defineComponent = require('flight/lib/component'),
+      tmpl = require('text!ui/freehandWidget/template.html');
 
   return defineComponent(FreehandWidget);
 
   function FreehandWidget() {
 
     this.defaultAttrs({
-      freehandWidgetEl: "#freehandwidget"
+      freehandWidgetEl: '#freehandwidget'
     });
 
-    this.after("initialize", function(){
+    this.after('initialize', function(){
       this.renderTemplate();
       this.attachEventListeners();
     });
@@ -21,13 +21,13 @@ define(function(require){
     };
 
     this.attachEventListeners = function(){
-      this.on("click", {
+      this.on('click', {
         freehandWidgetEl: this.initFreehandPainting
       });
     };
 
     this.initFreehandPainting = function(){
-      this.trigger(document, "request-freehandPainting");
+      this.trigger(document, 'request-freehandPainting');
     };
 
   }

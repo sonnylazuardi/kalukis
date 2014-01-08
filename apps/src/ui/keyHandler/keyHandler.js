@@ -3,18 +3,18 @@
  */
 define(function(require){
 
-  var defineComponent = require("flight/lib/component");
+  var defineComponent = require('flight/lib/component');
 
   return defineComponent(keyHandler);
 
   function keyHandler(){
 
-    this.after("initialize", function(){
+    this.after('initialize', function(){
       this.attachEventListeners();
     });
 
     this.attachEventListeners = function(){
-      this.on("keydown", function(e, data){
+      this.on('keydown', function(e, data){
         if (e.keyCode === 27) {
           this.cancelActivePainting();
         }
@@ -26,8 +26,8 @@ define(function(require){
      * @return {[type]} [description]
      */
     this.cancelActivePainting = function(){
-      this.trigger("cancel-painting", {
-        active: "key"
+      this.trigger('cancel-painting', {
+        active: 'key'
       });
     };
   }

@@ -4,9 +4,9 @@
  */
 define(function(require){
 
-  var defineComponent = require("flight/lib/component"),
-      mustache = require("mustache"),
-      tmpl = require("text!ui/brushSizeWidget/template.html");
+  var defineComponent = require('flight/lib/component'),
+      mustache = require('mustache'),
+      tmpl = require('text!ui/brushSizeWidget/template.html');
 
   return defineComponent(brushSizeWidget);
 
@@ -14,17 +14,17 @@ define(function(require){
 
     this.defaultAttrs({
       width: 10,
-      brushSizeWidgetEl: "#brushsize-widget",
-      brushSizeInfoEl: ".brushsize-info"
+      brushSizeWidgetEl: '#brushsize-widget',
+      brushSizeInfoEl: '.brushsize-info'
     });
 
-    this.after("initialize", function(){
+    this.after('initialize', function(){
       this.renderWidget({value: this.attr.width});
       this.attachEventListeners();
     });
 
     this.attachEventListeners = function(){
-      this.on("change", {
+      this.on('change', {
         brushSizeWidgetEl: this.brushSizeChanged
       });
     };
@@ -42,8 +42,8 @@ define(function(require){
     this.brushSizeChanged = function(e, data){
       var size = parseInt(e.target.value, 10);
 
-      this.select("brushSizeInfoEl").html(size)
-      this.trigger(document, "change-brushProperty", {
+      this.select('brushSizeInfoEl').html(size)
+      this.trigger(document, 'change-brushProperty', {
         width: size
       });
     };
