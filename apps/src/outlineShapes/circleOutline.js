@@ -4,7 +4,7 @@
  */
 define(function( require ){
 
-  var asOutlineShape = require("./asOutlineShape");
+  var asOutlineShape = require('./asOutlineShape');
 
   function getCircularPoint( iter, point, radius ) {
     if (iter === 0) {

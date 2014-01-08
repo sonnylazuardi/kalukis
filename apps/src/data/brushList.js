@@ -3,8 +3,8 @@
  */
 define(function(require){
 
-  var defineComponent = require("flight/lib/component"),
-      brushes = require("text!data/brushes.json")
+  var defineComponent = require('flight/lib/component'),
+      brushes = require('text!data/brushes.json')
 
   return defineComponent(brushlist);
 
@@ -16,13 +16,13 @@ define(function(require){
 
     });
 
-    this.after("initialize", function(){
+    this.after('initialize', function(){
       this.attachBrushes();
     });
 
     this.attachBrushes = function(){
       this.attr.brushes = JSON.parse(brushes);
-      this.trigger("brushes-loaded", {
+      this.trigger('brushes-loaded', {
         brushes: this.attr.brushes
       });
     };

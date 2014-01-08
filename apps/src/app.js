@@ -3,33 +3,33 @@
  */
 define(function(require){
 
-  var canvas = require("services/canvas"),
+  var canvas = require('services/canvas'),
   
-      brushPainter = require("painters/brushPainter"),
-      freehandPainter = require("painters/freehandPainter"),
-      imagePainter = require("painters/imagePainter"),
+      brushPainter = require('painters/brushPainter'),
+      freehandPainter = require('painters/freehandPainter'),
+      imagePainter = require('painters/imagePainter'),
 
-      paintWidgets = require("ui/paintWidget/paintWidgets"),
-      canvasManipulationWidget = require("ui/canvasManipulationWidget/canvasManipulationWidget"),
-      brushSizeWidget = require("ui/brushSizeWidget/brushSizeWidget"),
-      brushDistanceWidget = require("ui/brushDistanceWidget/brushDistanceWidget"),
-      brushSensitivityWidget = require("ui/brushSensitivityWidget/brushSensitivityWidget"),
-      imageCanvasWidget = require("ui/imageCanvasWidget/imageCanvasWidget"),
-      freehandWidget = require("ui/freehandWidget/freehandWidget"),
-      colorWidget = require("ui/colorWidget/colorWidget"),
-      brushPanelWidget = require("ui/brushPanel/brushPanel"),
+      paintWidgets = require('ui/paintWidget/paintWidgets'),
+      canvasManipulationWidget = require('ui/canvasManipulationWidget/canvasManipulationWidget'),
+      brushSizeWidget = require('ui/brushSizeWidget/brushSizeWidget'),
+      brushDistanceWidget = require('ui/brushDistanceWidget/brushDistanceWidget'),
+      brushSensitivityWidget = require('ui/brushSensitivityWidget/brushSensitivityWidget'),
+      imageCanvasWidget = require('ui/imageCanvasWidget/imageCanvasWidget'),
+      freehandWidget = require('ui/freehandWidget/freehandWidget'),
+      colorWidget = require('ui/colorWidget/colorWidget'),
+      brushPanelWidget = require('ui/brushPanel/brushPanel'),
 
-      notification = require("ui/notification/notification"),
-      keyHandler = require("ui/keyHandler/keyHandler"),
+      notification = require('ui/notification/notification'),
+      keyHandler = require('ui/keyHandler/keyHandler'),
 
-      brushManager = require("services/brushManager"),
-      outlineManager = require("services/outlineManager"),
+      brushManager = require('services/brushManager'),
+      outlineManager = require('services/outlineManager'),
 
-      cleaningService = require("services/canvasServices/cleaner"),
+      cleaningService = require('services/canvasServices/cleaner'),
 
-      brushList = require("data/brushList"),
-      paintWidgetList = require("data/paintWidgetList"),
-      canvasManipulationList = require("data/canvasManipulationList");
+      brushList = require('data/brushList'),
+      paintWidgetList = require('data/paintWidgetList'),
+      canvasManipulationList = require('data/canvasManipulationList');
 
   function Application(){
     // application wide error handling
@@ -45,17 +45,17 @@ define(function(require){
      * placed in this upper block, before the `lukis`
      * component is instantiated
      */
-    freehandWidget.attachTo(".left-navigation");
-    paintWidgets.attachTo(".left-navigation");
-    imageCanvasWidget.attachTo(".left-navigation");
-    canvasManipulationWidget.attachTo(".left-navigation");
+    freehandWidget.attachTo('.left-navigation');
+    paintWidgets.attachTo('.left-navigation');
+    imageCanvasWidget.attachTo('.left-navigation');
+    canvasManipulationWidget.attachTo('.left-navigation');
 
-    brushSizeWidget.attachTo("#sizerange");
-    brushDistanceWidget.attachTo("#brushdistance");
-    brushSensitivityWidget.attachTo("#brushsensitivity");
-    colorWidget.attachTo("#colorpicker");
-    brushPanelWidget.attachTo("#brushes");
-    notification.attachTo("#status-bar");
+    brushSizeWidget.attachTo('#sizerange');
+    brushDistanceWidget.attachTo('#brushdistance');
+    brushSensitivityWidget.attachTo('#brushsensitivity');
+    colorWidget.attachTo('#colorpicker');
+    brushPanelWidget.attachTo('#brushes');
+    notification.attachTo('#status-bar');
     
     keyHandler.attachTo(document);
 
@@ -87,9 +87,9 @@ define(function(require){
      * which also publishes canvas instance and it's ID
      */
     canvas.attachTo(document, {
-      id: "lukis",
+      id: 'lukis',
       canvasAttrs: {
-        backgroundColor: "#ECF0F1",
+        backgroundColor: '#ECF0F1',
         interactive: true,
         selection: true  
       }

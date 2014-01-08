@@ -1,7 +1,7 @@
 define(function(require){
 
-  var fabric = require("fabric"),
-      asBrush = require("./asBrush");
+  var fabric = require('fabric'),
+      asBrush = require('./asBrush');
 
   function PencilBrush(canvas, cfg){
     this.initialize(canvas, cfg);
@@ -12,7 +12,7 @@ define(function(require){
   };
 
   PencilBrush.prototype.get = function(key) {
-    if (key === "width") {
+    if (key === 'width') {
       return -1;
     }
 
@@ -24,11 +24,11 @@ define(function(require){
    * @param  {Object} points The drawing configuration
    */
   PencilBrush.prototype.drawAtPoints = function(outline) {
-    if (outline.hasOwnProperty("radius")) {
+    if (outline.hasOwnProperty('radius')) {
       this.drawCircle(outline);
-    } else if (outline.hasOwnProperty("width") && outline.hasOwnProperty("height")) {
+    } else if (outline.hasOwnProperty('width') && outline.hasOwnProperty('height')) {
       this.drawRect(outline);
-    } else if (outline.hasOwnProperty("x1")) {
+    } else if (outline.hasOwnProperty('x1')) {
       this.drawLine(outline);
     }
   };

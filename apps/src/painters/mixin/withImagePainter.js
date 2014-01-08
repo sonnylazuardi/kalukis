@@ -4,10 +4,10 @@
  */
 define(function(require){
 
-  var defineComponent = require("flight/lib/component"),
-      compose = require("flight/lib/compose"),
-      advice = require("flight/lib/advice"),
-      RectOutline = require("outlineShapes/rectOutline");
+  var defineComponent = require('flight/lib/component'),
+      compose = require('flight/lib/compose'),
+      advice = require('flight/lib/advice'),
+      RectOutline = require('outlineShapes/rectOutline');
 
   return withImagePainter;
 
@@ -56,18 +56,18 @@ define(function(require){
 
           canvas.add(image).renderAll();
 
-          me.trigger("notify", {
-            type: "info",
-            message: "Image loaded"
+          me.trigger('notify', {
+            type: 'info',
+            message: 'Image loaded'
           });
         };
 
         img.src = e.target.result;    
       };
 
-      this.trigger("notify", {
-        type: "info",
-        message: "Loading image"
+      this.trigger('notify', {
+        type: 'info',
+        message: 'Loading image'
       });
 
       reader.readAsDataURL(image);
@@ -86,7 +86,7 @@ define(function(require){
         this.addImageToCanvas(canvas, images[i], cfg);
       }
 
-      this.trigger("images-added");
+      this.trigger('images-added');
     };
   }
 

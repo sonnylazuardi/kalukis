@@ -28,15 +28,15 @@ define(function(require){
         mixinListeners = listeners;
 
         if (mixinListeners.onMouseDown) {
-          canvas.on("mouse:down", mixinListeners.onMouseDown);
+          canvas.on('mouse:down', mixinListeners.onMouseDown);
         }
 
         if (mixinListeners.onMouseUp) {
-          canvas.on("mouse:up", mixinListeners.onMouseUp);
+          canvas.on('mouse:up', mixinListeners.onMouseUp);
         }
 
         if (mixinListeners.onMouseMove) {
-          canvas.on("mouse:move", mixinListeners.onMouseMove);
+          canvas.on('mouse:move', mixinListeners.onMouseMove);
         }
       }
     };
@@ -47,15 +47,15 @@ define(function(require){
     this.unregisterExistingListeners = function(canvas){
       if (canvas) {
         if (mixinListeners.onMouseDown) {
-          canvas.off("mouse:down", mixinListeners.onMouseDown);
+          canvas.off('mouse:down', mixinListeners.onMouseDown);
         }
 
         if (mixinListeners.onMouseUp) {
-          canvas.off("mouse:up", mixinListeners.onMouseUp);
+          canvas.off('mouse:up', mixinListeners.onMouseUp);
         }
 
         if (mixinListeners.onMouseMove) {
-          canvas.off("mouse:move", mixinListeners.onMouseMove);
+          canvas.off('mouse:move', mixinListeners.onMouseMove);
         }
 
         mixinListeners = {};  

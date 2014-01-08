@@ -1,6 +1,6 @@
 define(function( require ) {
 
-  var fabric = require("fabric"),
+  var fabric = require('fabric'),
       getRandomInt = fabric.util.getRandomInt;
 
   var HollowCircleBrushClass = fabric.util.createClass(fabric.BaseBrush, {

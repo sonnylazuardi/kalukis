@@ -9,12 +9,12 @@ define(function(require){
 
     var activeBrush;
 
-    this.after("initialize", function(){
-      this.on("activeBrush-changed", function(e, data){
+    this.after('initialize', function(){
+      this.on('activeBrush-changed', function(e, data){
         this.requestBrushInstance(data.activeBrushId);
       }.bind(this));
 
-      this.on("brushProperty-updated", function(e, data){
+      this.on('brushProperty-updated', function(e, data){
         this.updateBrushProperty(data.key, data.newValue);
       }.bind(this));
     });
@@ -27,9 +27,9 @@ define(function(require){
       // we need to attach this event handler here, so that
       // once the brush has been served, we can process
       // it correctly
-      this.on("brush-served", this.onBrushServed);
+      this.on('brush-served', this.onBrushServed);
       // requesting the brush      
-      this.trigger("request-brush", {
+      this.trigger('request-brush', {
         id: id
       });
     };
@@ -42,7 +42,7 @@ define(function(require){
     this.onBrushServed = function(e, data) {
       // don't need to listen to this event anymore, the
       // brush has been served
-      this.off("brush-served", this.onBrushServed);
+      this.off('brush-served', this.onBrushServed);
       this.setActiveBrushInstance(data.brush);
     };
 
@@ -52,7 +52,7 @@ define(function(require){
      */
     this.setActiveBrushInstance = function(brush) {
       activeBrush = brush;
-      this.trigger("activeBrush-ready", {
+      this.trigger('activeBrush-ready', {
         activeBrush: brush
       });
     };

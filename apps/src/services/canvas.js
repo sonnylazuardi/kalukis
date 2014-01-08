@@ -2,8 +2,8 @@
  * I instantiate the canvas instance and respond to anyone asking for it
  */
 define(function(require){
-  var defineComponent = require("flight/lib/component"),
-      fabric = require("fabric");
+  var defineComponent = require('flight/lib/component'),
+      fabric = require('fabric');
 
   return defineComponent(Canvas);
 
@@ -19,9 +19,9 @@ define(function(require){
 
     });
 
-    this.after("initialize", function(){
+    this.after('initialize', function(){
       this.setCanvas();
-      this.on("request-canvas", this.respondCanvasRequest);
+      this.on('request-canvas', this.respondCanvasRequest);
       this.publishCanvas();
     });
 
@@ -37,7 +37,7 @@ define(function(require){
     };
 
     this.respondCanvasRequest = function(){
-      this.trigger("canvas-served", {
+      this.trigger('canvas-served', {
         id: this.attr.id,
         canvas: this.attr.canvas
       });

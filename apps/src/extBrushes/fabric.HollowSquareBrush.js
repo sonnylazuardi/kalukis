@@ -1,7 +1,7 @@
 define(function(require){
 
-  var fabric = require("fabric"),
-      RectBrushClass = require("extBrushes/fabric.RectBrush"),
+  var fabric = require('fabric'),
+      RectBrushClass = require('extBrushes/fabric.RectBrush'),
       getRandomInt = fabric.util.getRandomInt;
 
 

@@ -23,7 +23,7 @@ define(function(require){
      * The final steps after object has been drawn
      */
     this.finalizePainting = function(brush){
-      this.trigger("brushPainting-finished", {
+      this.trigger('brushPainting-finished', {
         brush: brush
       });
     };

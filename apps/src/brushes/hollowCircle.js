@@ -1,9 +1,9 @@
 define(function(require){
 
-  var fabric = require("fabric"),
+  var fabric = require('fabric'),
       getRandomInt = fabric.util.getRandomInt,
-      HollowCircleBrushClass = require("extBrushes/fabric.HollowCircleBrush"),
-      asBrush = require("./asBrush");
+      HollowCircleBrushClass = require('extBrushes/fabric.HollowCircleBrush'),
+      asBrush = require('./asBrush');
 
   function HollowCircleBrush(canvas, cfg) {
     this.initialize(canvas, cfg);

@@ -1,7 +1,7 @@
 define(function( require ) {
 
-  var fabric = require("fabric"),
-      brushSensitivity = require("canvasUtils/brushSensitivity");
+  var fabric = require('fabric'),
+      brushSensitivity = require('canvasUtils/brushSensitivity');
 
   var _sensitivity = 1;
 
@@ -10,9 +10,9 @@ define(function( require ) {
       return brush;
     }
 
-    var brushAddPoint = brush["addPoint"];
+    var brushAddPoint = brush['addPoint'];
 
-    brush["addPoint"] = function( point ) {      
+    brush['addPoint'] = function( point ) {      
       var length = brush.points.length,
           lastPoint = brush.points[length - 1];
 

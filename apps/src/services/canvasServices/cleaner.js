@@ -3,8 +3,8 @@
  */
 define(function(require){
 
-  var defineComponent = require("flight/lib/component"),
-      fabric = require("fabric");
+  var defineComponent = require('flight/lib/component'),
+      fabric = require('fabric');
 
   return defineComponent(cleaner);
 
@@ -14,18 +14,18 @@ define(function(require){
       canvas: undefined
     });
 
-    this.after("initialize", function(){
+    this.after('initialize', function(){
       this.attachEventListener();
     });
 
     this.attachEventListener = function(){
-      this.on("canvasManipulation-clicked", function(e, data){
-        if (this[data.manipulationId + "Handler"]) {
-          this[data.manipulationId + "Handler"].apply(this, data);
+      this.on('canvasManipulation-clicked', function(e, data){
+        if (this[data.manipulationId + 'Handler']) {
+          this[data.manipulationId + 'Handler'].apply(this, data);
         }
       });
 
-      this.on("canvas-ready", function(e, data){
+      this.on('canvas-ready', function(e, data){
         this.setCanvas(data.canvas);
       }.bind(this));
     };

@@ -10,8 +10,8 @@ define(function(require) {
 
       cfg = cfg || {};
 
-      cfg.fillColor = cfg.fillColor || "#000000";
-      cfg.strokeColor = cfg.strokeColor || "#000000";
+      cfg.fillColor = cfg.fillColor || '#000000';
+      cfg.strokeColor = cfg.strokeColor || '#000000';
 
       cfg.width = cfg.width || 10;
       cfg.offset = cfg.offset || 0;

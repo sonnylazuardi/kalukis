@@ -3,8 +3,8 @@
  */
 define(function(require){
 
-  var defineComponent = require("flight/lib/component"),
-      paintWidgets = require("text!data/paintWidgets.json");
+  var defineComponent = require('flight/lib/component'),
+      paintWidgets = require('text!data/paintWidgets.json');
 
   return defineComponent(paintWidgetList);
 
@@ -16,13 +16,13 @@ define(function(require){
 
     });
 
-    this.after("initialize", function(){
+    this.after('initialize', function(){
       this.attachPaintWidgets();
     });
 
     this.attachPaintWidgets = function(){
       this.attr.paintWidgets = JSON.parse(paintWidgets);
-      this.trigger("paintWidgets-loaded", {
+      this.trigger('paintWidgets-loaded', {
         paintWidgets: this.attr.paintWidgets
       });
     };

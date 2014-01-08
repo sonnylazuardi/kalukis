@@ -4,7 +4,7 @@
  */
 define(function( require ) {
 
-  var asOutlineShape = require("./asOutlineShape");
+  var asOutlineShape = require('./asOutlineShape');
 
   function getBoundaryPoint( point, xLength, yHeight, distance ) {
     var x = point.x,

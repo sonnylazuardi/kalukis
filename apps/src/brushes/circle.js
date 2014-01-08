@@ -4,9 +4,9 @@
  */
 define(function(require){
   
-  var fabric = require("fabric"),
+  var fabric = require('fabric'),
       getRandomInt = fabric.util.getRandomInt,
-      asBrush = require("./asBrush");
+      asBrush = require('./asBrush');
 
   function CircleBrush(canvas, cfg){
     this.initialize(canvas, cfg);

@@ -3,11 +3,11 @@
  */
 define(function(require){
 
-  var defineComponent = require("flight/lib/component"),
-      withImagePainter = require("painters/mixin/withImagePainter"),
-      withOutlinePainter = require("painters/mixin/withOutlinePainter"),
-      withCanvasEvents = require("painters/mixin/withCanvasEvents"),
-      RectOutline = require("outlineShapes/rectOutline");
+  var defineComponent = require('flight/lib/component'),
+      withImagePainter = require('painters/mixin/withImagePainter'),
+      withOutlinePainter = require('painters/mixin/withOutlinePainter'),
+      withCanvasEvents = require('painters/mixin/withCanvasEvents'),
+      RectOutline = require('outlineShapes/rectOutline');
 
   // withImagePainter: the one responsible for uploading the selected picture
   // to the canvas
@@ -30,7 +30,7 @@ define(function(require){
       files: []
     });
 
-    this.after("initialize", function(){
+    this.after('initialize', function(){
       this.attachEventListener();
     });
 
@@ -47,27 +47,27 @@ define(function(require){
      * Add event handlers for interesting events
      */
     this.attachEventListener = function(){
-      this.on("canvas-ready", function(e, data){
+      this.on('canvas-ready', function(e, data){
         this.setCanvas(data.canvas);
       }.bind(this));
 
       // the user has selected an image to upload
-      this.on("imageCanvas-clicked", function(e, data){
+      this.on('imageCanvas-clicked', function(e, data){
         // ask for other painting activity to stop
-        this.trigger("cancel-painting", {
-          active: "image"
+        this.trigger('cancel-painting', {
+          active: 'image'
         });
 
         this.initImagePainting(data.files);
       }.bind(this));
 
-      this.on("cancel-painting", function(e, data){
-        if (data.active !== "image") {
+      this.on('cancel-painting', function(e, data){
+        if (data.active !== 'image') {
           this.stopCurrentPainting();
         }
       }.bind(this));
 
-      this.on("images-added", function(){
+      this.on('images-added', function(){
         this.stopCurrentPainting();
       }.bind(this));
     };
@@ -76,7 +76,7 @@ define(function(require){
      * Cancel current image painting
      */
     this.stopCurrentPainting = function(){
-      this.off("outlineShape-painting-finished", this.onOutlineShapePaintingFinished);
+      this.off('outlineShape-painting-finished', this.onOutlineShapePaintingFinished);
       this.unregisterExistingListeners(this.attr.canvas);
       this.attr.files.length = 0;
     };
@@ -91,14 +91,14 @@ define(function(require){
       this.attr.files = files;
 
       if (activeOutlineShape) {
-        this.trigger("notify", {
-          type: "info",
-          message: "Press [ESC] to cancel any painting"
+        this.trigger('notify', {
+          type: 'info',
+          message: 'Press [ESC] to cancel any painting'
         });
 
         // once the outineShape painting has finished, we
         // should load the images
-        this.on("outlineShape-painting-finished", this.onOutlineShapePaintingFinished);
+        this.on('outlineShape-painting-finished', this.onOutlineShapePaintingFinished);
         // but first, we need to know where to draw the selected image.
         // the user will draw a reactangular-shaped outline. the selected
         // image will be drawn there
@@ -115,7 +115,7 @@ define(function(require){
     };
 
     this.onOutlineShapePaintingFinished = function(e, data){
-      this.off("outlineShape-painting-finished", this.onOutlineShapePaintingFinished);
+      this.off('outlineShape-painting-finished', this.onOutlineShapePaintingFinished);
       this.loadImages(this.attr.files, this.attr.rectOutline);
     };
 

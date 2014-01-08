@@ -1,15 +1,15 @@
 define(function(require){
 
-  var fabric = require("fabric"),
+  var fabric = require('fabric'),
       getRandomInt = fabric.util.getRandomInt;
 
   var hLine = fabric.util.createClass(fabric.PatternBrush, {
     getPatternSrc: function(){
         // create a canvas for the pattern
-      var patternCanvas = fabric.document.createElement("canvas");
+      var patternCanvas = fabric.document.createElement('canvas');
       patternCanvas.width = patternCanvas.height = 10;
 
-      var ctx = patternCanvas.getContext("2d");
+      var ctx = patternCanvas.getContext('2d');
       // create the pattern
       ctx.strokeStyle = this.color;
       ctx.lineWidth = 5;
@@ -28,8 +28,8 @@ define(function(require){
 
     cfg = cfg || {};
 
-    cfg.fillColor = cfg.fillColor || "#000000";
-    cfg.strokeColor = cfg.strokeColor || "#000000";
+    cfg.fillColor = cfg.fillColor || '#000000';
+    cfg.strokeColor = cfg.strokeColor || '#000000';
 
     cfg.width = cfg.width || 10;
     cfg.offset = cfg.offset || 0;

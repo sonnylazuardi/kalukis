@@ -8,13 +8,13 @@ define(function(require){
   function withActiveOutlineShape(){
     var activeOutlineShape;
 
-    this.after("initialize", function(){
+    this.after('initialize', function(){
 
-      this.on("activeOutlineShape-changed", function(e, data){
+      this.on('activeOutlineShape-changed', function(e, data){
         this.requestOutlineShapeInstance(data.id);
       }.bind(this));
 
-      this.on("brushProperty-updated", function(e, data){
+      this.on('brushProperty-updated', function(e, data){
         this.updateActiveOutlineShapeProperty(data.key, data.newValue);
       }.bind(this));
 
@@ -28,15 +28,15 @@ define(function(require){
       // we need to attach this event handler here, so that
       // once the ourline shape has been served, we can process
       // it correctly
-      this.on("outlineShape-served", this.onOutlineShapeServed);
+      this.on('outlineShape-served', this.onOutlineShapeServed);
       // requesting for this outline shape
-      this.trigger("request-outlineShape", {
+      this.trigger('request-outlineShape', {
         id: id
       });
     };
 
     this.onOutlineShapeServed = function(e, data) {
-      this.off("outlineShape-served", this.onOutlineShapeServed);
+      this.off('outlineShape-served', this.onOutlineShapeServed);
       this.setActiveOutlineShapeInstance(data.outlineShape);
     };
 
@@ -46,7 +46,7 @@ define(function(require){
      */
     this.setActiveOutlineShapeInstance = function(outlineShape) {
       activeOutlineShape = outlineShape;
-      this.trigger("activeOutlineShape-ready", {
+      this.trigger('activeOutlineShape-ready', {
         activeOutlineShape: outlineShape
       });
     };

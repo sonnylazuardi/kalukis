@@ -1,8 +1,8 @@
 define(function(require){
 
-  var fabric = require("fabric"),
+  var fabric = require('fabric'),
       getRandomInt = fabric.util.getRandomInt,
-      asBrush = require("./asBrush");
+      asBrush = require('./asBrush');
 
   function createSprayChunk( pointer, width, brush ) {
     var sprayChunkPoints = [ ];
