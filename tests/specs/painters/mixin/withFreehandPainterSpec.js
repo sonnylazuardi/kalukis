@@ -13,7 +13,7 @@ define(function(require){
           brush: "brush"
         });
 
-        expect(this.component.attr.activeBrush).toEqual("brush");
+        expect(this.component.getBrush()).toEqual("brush");
       });
 
     });

@@ -13,7 +13,7 @@ define(function(require){
 
       beforeEach(function(){
         this.component.attr.canvas = canvas;
-        this.component.attr.mixinCanvas = canvas;
+        this.component.setFreehandCanvas(canvas);
       });
 
       it("Should start painting when request-freehandPainting is triggered", function(){
@@ -31,12 +31,13 @@ define(function(require){
       });
 
       it("Should stop any painting when cancel-painting", function(){
-        this.component.attr.mixinCanvas.isDrawingMode = true;
+        canvas.isDrawingMode = true;
+        this.component.setFreehandCanvas(canvas);
 
         $(".component-root").trigger("cancel-painting", {
           active: "paint"
         });
-        expect(this.component.attr.mixinCanvas.isDrawingMode).toEqual(false);
+        expect(this.component.getFreehandCanvas().isDrawingMode).toEqual(false);
       });
 
     });

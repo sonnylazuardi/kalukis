@@ -11,20 +11,8 @@ define(function(require){
 
   function withFreeHandPainter() {
 
-    this.defaultAttrs({
-      /**
-       * Canvas instance hold by this mixin
-       * @type {Object}
-       */
-      mixinCanvas: undefined,
-
-      /**
-       * The brush to use for painting
-       * @type {Object}
-       */
-      activeBrush: undefined,
-
-    });
+    var freehandCanvas,
+        activeBrush;
 
     this.after('initialize', function() {
       // a brush is served
@@ -55,13 +43,13 @@ define(function(require){
      */
     this.startFreehandPainting = function(canvas, brush) {
       // brush that will be used for this painting session
-      var usedBrush = brush || this.attr.activeBrush;
+      var usedBrush = brush || activeBrush;
 
       if (usedBrush) {
         // the canvas
-        this.attr.mixinCanvas = canvas;
+        freehandCanvas = canvas;
         // state that we are in drawing mode
-        this.attr.mixinCanvas.isDrawingMode = true;
+        freehandCanvas.isDrawingMode = true;
         this.setupFreehandPaintingProperty(usedBrush);  
       }
     };
@@ -78,7 +66,7 @@ define(function(require){
       freeDrawingBrush.width = brush.get('width');
       // set this brush to the canvas' freeDrawingBrush property
       // this brush will be used by the canvas to draw freehand
-      this.attr.mixinCanvas.freeDrawingBrush = freeDrawingBrush;
+      freehandCanvas.freeDrawingBrush = freeDrawingBrush;
       // TODO we should think of a better way
       // to change canvas' default painting behaviour
       // 
@@ -92,8 +80,8 @@ define(function(require){
      * Stop painting
      */
     this.stopFreehandPainting = function() {
-      if (this.attr.mixinCanvas) {
-        this.attr.mixinCanvas.isDrawingMode = false;  
+      if (freehandCanvas) {
+        freehandCanvas.isDrawingMode = false;  
       }
     };
 
@@ -102,13 +90,17 @@ define(function(require){
      * @param {Object} brush The brush
      */
     this.setBrush = function(brush) {
-      this.attr.activeBrush = brush;
+      activeBrush = brush;
 
       // if we are currently in drawing mode, we need to update
       // the brush that is used by the canvas
-      if (this.attr.mixinCanvas && this.attr.mixinCanvas.isDrawingMode) {
+      if (freehandCanvas && freehandCanvas.isDrawingMode) {
         this.setupFreehandPaintingProperty(brush);
       }
+    };
+
+    this.getBrush = function() {
+      return activeBrush;
     };
 
     /**
@@ -116,12 +108,12 @@ define(function(require){
      * @param {Integer} width Width
      */
     this.setBrushWidth = function(width) {
-      this.attr.activeBrush.set('width', width);
+      activeBrush.set('width', width);
 
       // if we are in drawing mode, we need to update the width property
       // of the currently active brush
-      if (this.attr.mixinCanvas && this.attr.mixinCanvas.isDrawingMode) {
-        this.attr.mixinCanvas.freeDrawingBrush.width = width;
+      if (freehandCanvas && freehandCanvas.isDrawingMode) {
+        freehandCanvas.freeDrawingBrush.width = width;
       }
     };
 
@@ -130,12 +122,12 @@ define(function(require){
      * @param {String} color Color
      */
     this.setBrushColor = function(color) {
-      this.attr.activeBrush.set('fillColor', color);
+      activeBrush.set('fillColor', color);
 
       // if we are in drawing mode, we need to update the color property
       // of the currently active brush
-      if (this.attr.mixinCanvas && this.attr.mixinCanvas.isDrawingMode) {
-        this.attr.mixinCanvas.freeDrawingBrush.color = color;
+      if (freehandCanvas && freehandCanvas.isDrawingMode) {
+        freehandCanvas.freeDrawingBrush.color = color;
       }
     };
 
@@ -149,6 +141,14 @@ define(function(require){
     // painting behaviour
     this.setSensitivity = function(sensitivity) {
       brushSensitivity.setSensitivity(sensitivity);
+    };
+
+    this.setFreehandCanvas = function(canvas) {
+      freehandCanvas = canvas;
+    };
+
+    this.getFreehandCanvas = function() {
+      return freehandCanvas;
     };
 
   }
