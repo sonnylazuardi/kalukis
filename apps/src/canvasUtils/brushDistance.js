@@ -1,6 +1,11 @@
 define(function(require) {
 
   function getDistance(from, to) {
+    // is this an array?
+    if (Object.prototype.toString.call(from) === "[object Array]") {
+      from = from[0];
+    }
+
     var dx = from.x - to.x,
         dy = from.y - to.y;
 
