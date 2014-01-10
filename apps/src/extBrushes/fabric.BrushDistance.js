@@ -20,6 +20,11 @@ define(function(require) {
           brush._points : brush.sprayChunks;
 
     brush.onMouseMove = function(pointer) {
+      if (_distance <= 1) {
+        // shortcut
+        return brushOnMouseMove.call(brush, pointer);
+      }
+
       var length = points.length,
           lastPoint = points[length - 1];
 
