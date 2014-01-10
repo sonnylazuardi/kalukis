@@ -10,7 +10,7 @@ define(function(require){
     var activeBrush;
 
     this.after('initialize', function(){
-      this.on('activeBrush-changed', function(e, data){
+      this.on('change-activeBrush', function(e, data){
         this.requestBrushInstance(data.activeBrushId);
       }.bind(this));
 

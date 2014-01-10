@@ -36,7 +36,7 @@ define(function(require){
     this.brushSelected = function(e, data){
       var selectedBrush = $('#' + e.target.id).val();
 
-      this.trigger(document, 'activeBrush-changed', {
+      this.trigger(document, 'change-activeBrush', {
         activeBrushId: selectedBrush
       });
     };

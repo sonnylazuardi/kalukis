@@ -13,7 +13,7 @@ define(function(require){
     describe("Active Brush Handling", function(){
 
       it("Should have reference to a brush instance when a new brush is clicked", function(){
-        $(".component-root").trigger("activeBrush-changed", {
+        $(".component-root").trigger("change-activeBrush", {
           activeBrushId: "circle"
         });
         $(".component-root").trigger("brush-served", {

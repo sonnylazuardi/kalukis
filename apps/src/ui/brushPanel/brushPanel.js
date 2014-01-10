@@ -33,7 +33,7 @@ define(function(require){
     this.brushSelected = function(el) {
       this.select('widgetEl').find('.brush-box').removeClass('active');
       $(el).parent().toggleClass('active');
-      this.trigger(document, 'activeBrush-changed', {
+      this.trigger(document, 'change-activeBrush', {
         activeBrushId: $(el).data('brushId')
       });
     };

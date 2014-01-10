@@ -53,7 +53,7 @@ define(function(require){
      * @param  {Object} brush  The custom brush to use. If not provided, then
      *                         we use the one saved by this mixin
      */
-    this.startFreehandPainting = function( canvas, brush ) {
+    this.startFreehandPainting = function(canvas, brush) {
       // brush that will be used for this painting session
       var usedBrush = brush || this.attr.activeBrush;
 
@@ -70,7 +70,7 @@ define(function(require){
      * Setting up freehand brush properties for painting
      * @param  {Object} brush The brush
      */
-    this.setupFreehandPaintingProperty = function( brush ) {
+    this.setupFreehandPaintingProperty = function(brush) {
       // getting the brush that's going to be used
       var freeDrawingBrush = brush.getBrush();
       // setting the property for this painting session
@@ -101,7 +101,7 @@ define(function(require){
      * Setting brush instance to use for painting
      * @param {Object} brush The brush
      */
-    this.setBrush = function( brush ) {
+    this.setBrush = function(brush) {
       this.attr.activeBrush = brush;
 
       // if we are currently in drawing mode, we need to update
@@ -115,7 +115,7 @@ define(function(require){
      * Update brush width
      * @param {Integer} width Width
      */
-    this.setBrushWidth = function( width ) {
+    this.setBrushWidth = function(width) {
       this.attr.activeBrush.set('width', width);
 
       // if we are in drawing mode, we need to update the width property
@@ -129,7 +129,7 @@ define(function(require){
      * Setting brush color
      * @param {String} color Color
      */
-    this.setBrushColor = function( color ) {
+    this.setBrushColor = function(color) {
       this.attr.activeBrush.set('fillColor', color);
 
       // if we are in drawing mode, we need to update the color property
@@ -141,13 +141,13 @@ define(function(require){
 
     // TODO find a way to inject plugin that changes canvas' default
     // painting behaviour
-    this.setBrushDistance = function( distance ) {
+    this.setBrushDistance = function(distance) {
       brushDistance.setDistance(distance);
     };
 
     // TODO find a way to inject plugin that changes canvas' default
     // painting behaviour
-    this.setSensitivity = function( sensitivity ) {
+    this.setSensitivity = function(sensitivity) {
       brushSensitivity.setSensitivity(sensitivity);
     };
 
