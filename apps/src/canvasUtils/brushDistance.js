@@ -1,3 +1,4 @@
+// TODO review for performance
 define(function(require) {
 
   /**
@@ -21,6 +22,10 @@ define(function(require) {
      * Is from far enough from to according to distance?
      */
     isFarEnough: function(from, to, distance) {
+      if (distance <= 1) {
+        return true;
+      }
+
       if (!from || !to) {
         return false;
       }
@@ -29,7 +34,7 @@ define(function(require) {
     },
 
     getClosestPoint: function(from, to, distance) {
-      if (distance <= 0) {
+      if (distance <= 1) {
         return to;
       }
 
