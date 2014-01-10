@@ -24,6 +24,7 @@ define(function(require) {
           lastPoint = points[length - 1];
 
       if (isFarEnough(lastPoint, pointer, _distance)) {
+        // TODO this causes problem for spray brush
         return brushOnMouseMove.call(brush, getClosestPoint(lastPoint, pointer, _distance));
       }
     };
