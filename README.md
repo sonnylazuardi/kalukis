@@ -36,6 +36,37 @@ To run the test, just type the command below on your console:
 
 > karma start
 
+## About folder structure
+
+The sources are placed inside `apps`.
+
+- icon: where some of the icons used by apps are placed
+
+  **TODO**: I've forgotten how I generated the icons here :(
+
+- libs: fabricJS file
+
+  **TODO**: used fabric from bower or npm
+
+- src: Lukis main source code placed here
+    
+  - brushes: modules that provides brush painting functionality
+  - canvasUtils: extends fabricjs functionality
+
+    **TODO**: export this to bower/npm
+
+  - data: files that hold data for Lukis, such as the list of available brush to show to the user.
+  - extBrushes: FabricJS plugins that provide new brush functionality
+
+    **TODO**: export this to bower/npm
+
+  - outlineShapes: modules that provides outline painting functionality
+  - painters: modules that provides painting functionality
+  - services: global services that helps Lukis manage it's resources
+  - ui: widgets
+
+- styles: css
+
 ## TODO
 
 This application is still at it's early stage. So, ofcourse there are a lot of things to do.
