@@ -1,13 +1,13 @@
 /**
  * I instantiate the canvas instance and respond to anyone asking for it
  */
-define(function(require){
+define(function(require) {
   var defineComponent = require('flight/lib/component'),
       fabric = require('fabric');
 
   return defineComponent(Canvas);
 
-  function Canvas(){
+  function Canvas() {
 
     this.defaultAttrs({
 
@@ -19,13 +19,13 @@ define(function(require){
 
     });
 
-    this.after('initialize', function(){
+    this.after('initialize', function() {
       this.setCanvas();
       this.on('request-canvas', this.respondCanvasRequest);
       this.publishCanvas();
     });
 
-    this.setCanvas = function(){
+    this.setCanvas = function() {
       this.attr.canvas = new fabric.Canvas(this.attr.id, this.attr.canvasAttrs);
     };
 
@@ -36,7 +36,7 @@ define(function(require){
       });
     };
 
-    this.respondCanvasRequest = function(){
+    this.respondCanvasRequest = function() {
       this.trigger('canvas-served', {
         id: this.attr.id,
         canvas: this.attr.canvas

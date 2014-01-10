@@ -2,13 +2,13 @@
  * I know how to manage the lifecycle of a brush. I also provide these
  * brushes when someone request them.
  */
-define(function(require){
+define(function(require) {
 
   var defineComponent = require('flight/lib/component');
 
   return defineComponent(brushManager);
 
-  function brushManager(){
+  function brushManager() {
 
     this.defaultAttrs({
       /**
@@ -54,7 +54,7 @@ define(function(require){
       }
     });
 
-    this.after('initialize', function(){
+    this.after('initialize', function() {
       this.attachEventListeners();
     });
 
@@ -62,22 +62,22 @@ define(function(require){
      * The events to listen to
      * @return {[type]} [description]
      */
-    this.attachEventListeners = function(){
+    this.attachEventListeners = function() {
       this.on('canvas-ready', function(e, data){
         this.setCanvas(data.id, data.canvas);
       }.bind(this));
 
-      this.on('change-brushProperty', function(e, data){
+      this.on('change-brushProperty', function(e, data) {
         var key = Object.keys(data)[0],
             value = data[key];
         this.updateBrushProperty(key, value);
       }.bind(this));
 
-      this.on('request-brushProperties', function(){
+      this.on('request-brushProperties', function() {
         this.publishBrushProperties();
       }.bind(this));
 
-      this.on('request-brush', function(e, data){
+      this.on('request-brush', function(e, data) {
         this.requestBrush(data.id);
       }.bind(this));
       
@@ -88,7 +88,7 @@ define(function(require){
      * @param {String} id     Canvas element id
      * @param {Object} canvas Canvas Object
      */
-    this.setCanvas = function(id, canvas){
+    this.setCanvas = function(id, canvas) {
       this.attr.canvas = canvas;
       this.attr.canvasId = id;
     };
@@ -96,7 +96,7 @@ define(function(require){
     /**
      * Publish the recorded brush properties
      */
-    this.publishBrushProperties = function(){
+    this.publishBrushProperties = function() {
       this.trigger('brushProperties-served', {
         properties: this.attr.prop
       });
@@ -107,7 +107,7 @@ define(function(require){
      * 
      * @param  {Object} data Event Data
      */
-    this.updateBrushProperty = function(key, value){
+    this.updateBrushProperty = function(key, value) {
       if (!key) {
         return;
       }
@@ -126,8 +126,8 @@ define(function(require){
     /**
      * Set the properties of an active brush
      */
-    this.setBrushProperties = function(brush){
-      Object.keys(this.attr.prop || {}).forEach(function(key){
+    this.setBrushProperties = function(brush) {
+      Object.keys(this.attr.prop || {}).forEach(function(key) {
         brush.set(key, this.attr.prop[key]);
       }, this);
     };
@@ -147,7 +147,7 @@ define(function(require){
       } else {
         // the brush has not been loaded before
         // TODO what if the brush requested cannot be found?
-        require(['brushes/' + id], function(BrushProto){
+        require(['brushes/' + id], function(BrushProto) {
           var brush = new BrushProto(this.attr.canvas, this.attr.prop);
           // remember this brush
           this.attr.brushes[id] = brush;
@@ -161,7 +161,7 @@ define(function(require){
      * Publish the requested brush
      * @param  {Object} brush The brush to publish
      */
-    this.publishRequestedBrush = function(brush){
+    this.publishRequestedBrush = function(brush) {
       this.trigger('brush-served', {
         brush: brush
       });

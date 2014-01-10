@@ -2,7 +2,7 @@
  * I know whats needed in order for painting image to run properly. I
  * also process the painting events.
  */
-define(function(require){
+define(function(require) {
 
   var defineComponent = require('flight/lib/component'),
       compose = require('flight/lib/compose'),
@@ -11,13 +11,13 @@ define(function(require){
 
   return withImagePainter;
 
-  function withImagePainter(){
+  function withImagePainter() {
 
     /**
      * Load the images for the canvas
      * @param  {HTMLFileList} images The images
      */
-    this.loadImages = function(images, outlineShape){
+    this.loadImages = function(images, outlineShape) {
       var outline = outlineShape.getOutline(),
           cfg = {
             x: outline.x,
@@ -35,14 +35,14 @@ define(function(require){
      * @param {HTMLFile} image  The File representation of the image
      * @param {Object} cfg    The configuration
      */
-    this.addImageToCanvas = function(canvas, image, cfg){
+    this.addImageToCanvas = function(canvas, image, cfg) {
       var reader = new FileReader(),
           me = this;
 
-      reader.onload = function(e){
+      reader.onload = function(e) {
         var img = new Image();
 
-        img.onload = function(){
+        img.onload = function() {
           var image = new fabric.Image(img);
           
           image.set({
@@ -79,7 +79,7 @@ define(function(require){
      * @param {HTMLFileList} images The images file list
      * @param {Object} cfg    The configuration
      */
-    this.addImages = function(canvas, images, cfg){
+    this.addImages = function(canvas, images, cfg) {
       this.attr.canvas = canvas;
 
       for (var i = 0; i < images.length; i++) {

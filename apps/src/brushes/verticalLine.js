@@ -1,10 +1,10 @@
-define(function(require){
+define(function(require) {
 
   var fabric = require('fabric'),
       getRandomInt = fabric.util.getRandomInt;
 
   var vLine = fabric.util.createClass(fabric.PatternBrush, {
-    getPatternSrc: function(){
+    getPatternSrc: function() {
       // create a canvas for the pattern
       var patternCanvas = fabric.document.createElement('canvas');
       patternCanvas.width = patternCanvas.height = 10;
@@ -23,7 +23,7 @@ define(function(require){
     }
   });
   
-  function VerticalLine(canvas, cfg){
+  function VerticalLine(canvas, cfg) {
     this.canvas = canvas;
 
     cfg = cfg || {};
@@ -64,7 +64,7 @@ define(function(require){
     this.brush.width = this.cfg.width;
     this.brush.color = this.cfg.fillColor;
     
-    points.forEach(function(p){
+    points.forEach(function(p) {
       this.brush._points.push(new fabric.Point(p.x, p.y));
     }, this);
 

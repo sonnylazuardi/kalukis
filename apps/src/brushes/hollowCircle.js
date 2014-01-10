@@ -1,4 +1,4 @@
-define(function(require){
+define(function(require) {
 
   var fabric = require('fabric'),
       getRandomInt = fabric.util.getRandomInt,
@@ -13,7 +13,7 @@ define(function(require){
     this.brush = new HollowCircleBrushClass(this.canvas);
   };
 
-  HollowCircleBrush.prototype.drawOne = function( point ) {
+  HollowCircleBrush.prototype.drawOne = function(point) {
     return new fabric.Circle({
       radius: getRandomInt(0, this.cfg.width),
       left: point.x,
@@ -26,7 +26,7 @@ define(function(require){
     });
   };
 
-  HollowCircleBrush.prototype.drawAtPoints = function( points ) {
+  HollowCircleBrush.prototype.drawAtPoints = function(points) {
     var originalRenderOnAddition = this.canvas.renderOnAddition;
         this.canvas.renderOnAddition = false;
 

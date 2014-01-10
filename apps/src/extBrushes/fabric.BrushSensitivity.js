@@ -1,18 +1,18 @@
-define(function( require ) {
+define(function(require) {
 
   var fabric = require('fabric'),
       brushSensitivity = require('canvasUtils/brushSensitivity');
 
   var _sensitivity = 1;
 
-  function _hijack( brush ) {
+  function _hijack(brush) {
     if (brush.isSensitive) {
       return brush;
     }
 
     var brushAddPoint = brush['addPoint'];
 
-    brush['addPoint'] = function( point ) {      
+    brush['addPoint'] = function(point) {      
       var length = brush.points.length,
           lastPoint = brush.points[length - 1];
 
@@ -28,11 +28,11 @@ define(function( require ) {
 
   return {
 
-    hijack: function( brush ) {
+    hijack: function(brush) {
       return _hijack(brush);
     },
 
-    setSensitivity: function( sensitivity ) {
+    setSensitivity: function(sensitivity) {
       _sensitivity = sensitivity;
     },
 

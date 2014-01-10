@@ -2,13 +2,13 @@
  * A module that is able to draw a circle brush on top of
  * fabric's canvas
  */
-define(function(require){
+define(function(require) {
   
   var fabric = require('fabric'),
       getRandomInt = fabric.util.getRandomInt,
       asBrush = require('./asBrush');
 
-  function CircleBrush(canvas, cfg){
+  function CircleBrush(canvas, cfg) {
     this.initialize(canvas, cfg);
   }
 

@@ -1,14 +1,14 @@
 /**
  * Holds the list of paintWidgets available to choose from
  */
-define(function(require){
+define(function(require) {
 
   var defineComponent = require('flight/lib/component'),
       paintWidgets = require('text!data/paintWidgets.json');
 
   return defineComponent(paintWidgetList);
 
-  function paintWidgetList(){
+  function paintWidgetList() {
 
     this.defaultAttrs({
 
@@ -16,11 +16,11 @@ define(function(require){
 
     });
 
-    this.after('initialize', function(){
+    this.after('initialize', function() {
       this.attachPaintWidgets();
     });
 
-    this.attachPaintWidgets = function(){
+    this.attachPaintWidgets = function() {
       this.attr.paintWidgets = JSON.parse(paintWidgets);
       this.trigger('paintWidgets-loaded', {
         paintWidgets: this.attr.paintWidgets

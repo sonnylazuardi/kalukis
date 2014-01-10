@@ -1,14 +1,14 @@
 /**
  * Holds the list of brushes available to choose from
  */
-define(function(require){
+define(function(require) {
 
   var defineComponent = require('flight/lib/component'),
       brushes = require('text!data/brushes.json')
 
   return defineComponent(brushlist);
 
-  function brushlist(){
+  function brushlist() {
 
   this.defaultAttrs({
 
@@ -16,11 +16,11 @@ define(function(require){
 
     });
 
-    this.after('initialize', function(){
+    this.after('initialize', function() {
       this.attachBrushes();
     });
 
-    this.attachBrushes = function(){
+    this.attachBrushes = function() {
       this.attr.brushes = JSON.parse(brushes);
       this.trigger('brushes-loaded', {
         brushes: this.attr.brushes

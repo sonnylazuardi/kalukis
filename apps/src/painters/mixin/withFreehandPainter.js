@@ -1,7 +1,7 @@
 /**
  * I know whats needed to draw a free hand
  */
-define(function(require){
+define(function(require) {
 
   var fabric = require('fabric'),
       brushDistance = require('extBrushes/fabric.BrushDistance'),

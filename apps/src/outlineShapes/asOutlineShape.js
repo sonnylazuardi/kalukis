@@ -1,8 +1,8 @@
-define(function( require ) {
+define(function(require) {
 
-  var asOutlineShape = (function(){
+  var asOutlineShape = (function() {
 
-    function initialize ( canvas, cfg ) {
+    function initialize (canvas, cfg) {
       this.canvas = canvas;
       this.canvas.selection = false;
 
@@ -18,11 +18,11 @@ define(function( require ) {
       this.canvas.defaultCursor = 'crosshair';
     }
 
-    function set( key, value ) {
+    function set(key, value) {
       this.cfg[key] = value;
     }
 
-    function get( key ) {
+    function get(key) {
       return this.cfg[key];
     }
 

@@ -1,14 +1,14 @@
 /**
  * Holds the list of canvasManipulationOperations
  */
-define(function(require){
+define(function(require) {
 
   var defineComponent = require('flight/lib/component'),
       canvasManipulationOperations = require('text!data/canvasManipulationOperations.json');
 
   return defineComponent(paintWidgetList);
 
-  function paintWidgetList(){
+  function paintWidgetList() {
 
     this.defaultAttrs({
 
@@ -16,11 +16,11 @@ define(function(require){
 
     });
 
-    this.after('initialize', function(){
+    this.after('initialize', function() {
       this.attachCanvasManipulationOperations();
     });
 
-    this.attachCanvasManipulationOperations = function(){
+    this.attachCanvasManipulationOperations = function() {
       this.attr.canvasManipulationOperations = JSON.parse(canvasManipulationOperations);
       this.trigger('canvasManipulationOperations-loaded', {
         canvasManipulationOperations: this.attr.canvasManipulationOperations

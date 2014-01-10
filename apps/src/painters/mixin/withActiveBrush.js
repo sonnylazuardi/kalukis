@@ -1,20 +1,20 @@
 /**
  * I know what the current active brush is
  */
-define(function(require){
+define(function(require) {
 
   return withActiveBrush;
 
-  function withActiveBrush(){
+  function withActiveBrush() {
 
     var activeBrush;
 
-    this.after('initialize', function(){
-      this.on('change-activeBrush', function(e, data){
+    this.after('initialize', function() {
+      this.on('change-activeBrush', function(e, data) {
         this.requestBrushInstance(data.activeBrushId);
       }.bind(this));
 
-      this.on('brushProperty-updated', function(e, data){
+      this.on('brushProperty-updated', function(e, data) {
         this.updateBrushProperty(data.key, data.newValue);
       }.bind(this));
     });
@@ -23,7 +23,7 @@ define(function(require){
      * Request an brush instance
      * @param  {String} id The brush id
      */
-    this.requestBrushInstance = function(id){
+    this.requestBrushInstance = function(id) {
       // we need to attach this event handler here, so that
       // once the brush has been served, we can process
       // it correctly

@@ -1,7 +1,7 @@
 /**
  * I manage the steps taken to paint an image
  */
-define(function(require){
+define(function(require) {
 
   var defineComponent = require('flight/lib/component'),
       withImagePainter = require('painters/mixin/withImagePainter'),
@@ -15,7 +15,7 @@ define(function(require){
   // withOutlinePainter: the one responsible for drawing the outline shape
   return defineComponent(imagePainter, withImagePainter, withCanvasEvents, withOutlinePainter);
 
-  function imagePainter(){
+  function imagePainter() {
 
     this.defaultAttrs({
 
@@ -30,7 +30,7 @@ define(function(require){
       files: []
     });
 
-    this.after('initialize', function(){
+    this.after('initialize', function() {
       this.attachEventListener();
     });
 
@@ -46,13 +46,13 @@ define(function(require){
     /**
      * Add event handlers for interesting events
      */
-    this.attachEventListener = function(){
-      this.on('canvas-ready', function(e, data){
+    this.attachEventListener = function() {
+      this.on('canvas-ready', function(e, data) {
         this.setCanvas(data.canvas);
       }.bind(this));
 
       // the user has selected an image to upload
-      this.on('imageCanvas-clicked', function(e, data){
+      this.on('imageCanvas-clicked', function(e, data) {
         // ask for other painting activity to stop
         this.trigger('cancel-painting', {
           active: 'image'
@@ -61,13 +61,13 @@ define(function(require){
         this.initImagePainting(data.files);
       }.bind(this));
 
-      this.on('cancel-painting', function(e, data){
+      this.on('cancel-painting', function(e, data) {
         if (data.active !== 'image') {
           this.stopCurrentPainting();
         }
       }.bind(this));
 
-      this.on('images-added', function(){
+      this.on('images-added', function() {
         this.stopCurrentPainting();
       }.bind(this));
     };
@@ -75,7 +75,7 @@ define(function(require){
     /**
      * Cancel current image painting
      */
-    this.stopCurrentPainting = function(){
+    this.stopCurrentPainting = function() {
       this.off('outlineShape-painting-finished', this.onOutlineShapePaintingFinished);
       this.unregisterExistingListeners(this.attr.canvas);
       this.attr.files.length = 0;
@@ -85,7 +85,7 @@ define(function(require){
      * Begins image painting
      * @param  {HTMLFileList} files Images to paint
      */
-    this.initImagePainting = function(files){
+    this.initImagePainting = function(files) {
       var activeOutlineShape = this.attr.rectOutline;
 
       this.attr.files = files;
@@ -114,7 +114,7 @@ define(function(require){
       
     };
 
-    this.onOutlineShapePaintingFinished = function(e, data){
+    this.onOutlineShapePaintingFinished = function(e, data) {
       this.off('outlineShape-painting-finished', this.onOutlineShapePaintingFinished);
       this.loadImages(this.attr.files, this.attr.rectOutline);
     };

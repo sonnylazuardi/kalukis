@@ -1,6 +1,6 @@
-define(function( require ) {
+define(function(require) {
 
-  function getDistance( from, to ) {
+  function getDistance(from, to) {
     var dx = from.x - to.x,
         dy = from.y - to.y;
 
@@ -9,7 +9,7 @@ define(function( require ) {
 
   return {
 
-    getNormalizedPoint: function( from, to, sensitivity ) {
+    getNormalizedPoint: function(from, to, sensitivity) {
       if (!from || !to) {
         return;
       }

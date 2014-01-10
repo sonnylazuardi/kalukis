@@ -2,18 +2,18 @@
  * Draw a circular outline as the user is drawing on
  * top of the canvas
  */
-define(function( require ){
+define(function(require) {
 
   var asOutlineShape = require('./asOutlineShape');
 
-  function getCircularPoint( iter, point, radius ) {
+  function getCircularPoint(iter, point, radius) {
     if (iter === 0) {
       return {x: point.x, y: point.y - radius};
-    } else if (iter === 90){
+    } else if (iter === 90) {
       return {x: point.x + radius, y: point.y};
-    } else if (iter === 180){
+    } else if (iter === 180) {
       return {x: point.x, y: point.y + radius};
-    } else if (iter === 270){
+    } else if (iter === 270) {
       return {x: point.x - radius, y: point.y};
     } else {
       return {
@@ -23,7 +23,7 @@ define(function( require ){
     }
   }
 
-  function CircleOutline(canvas, cfg){
+  function CircleOutline(canvas, cfg) {
     this.initialize(canvas, cfg) ;
   }
 
@@ -34,7 +34,7 @@ define(function( require ){
         y = this.outline.y,
         radius = this.outline.radius;
 
-    for (var i = 0; i < 360; i += w){
+    for (var i = 0; i < 360; i += w) {
       points.push(getCircularPoint(i, {x: x, y: y}, radius));
     }
 
@@ -43,7 +43,7 @@ define(function( require ){
     // please see `pencil.js` `drawAtPoints` method
     points[0].type = 'Circle';
     points[0].outline = this.outline;
-    
+
     return points;
   };
 

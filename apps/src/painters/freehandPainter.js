@@ -8,7 +8,7 @@
  * 3. start painting. The painting itself is ran from
  * withFreehandPainter
  */
-define(function(require){
+define(function(require) {
 
   var defineComponent = require('flight/lib/component'),
       withFreehandPainter = require('painters/mixin/withFreehandPainter');

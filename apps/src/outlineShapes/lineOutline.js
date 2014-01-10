@@ -2,11 +2,11 @@
  * Draw a line outline as the user is drawing on top
  * of the canvas
  */
-define(function( require ){
+define(function(require) {
 
   var asOutlineShape = require('./asOutlineShape');
 
-  function LineOutline(canvas, cfg){
+  function LineOutline(canvas, cfg) {
     this.initialize(canvas, cfg);
   }
 
@@ -17,12 +17,12 @@ define(function( require ){
   LineOutline.prototype.getLineEquation = function(p1, p2) {
     var slope = this.getSlope(p1, p2);
 
-    return function(x){
+    return function(x) {
       return p1.y + slope*(x - p1.x);
     };
   };
 
-  LineOutline.prototype.getOutlinePoints = function(pointDistance){
+  LineOutline.prototype.getOutlinePoints = function(pointDistance) {
     var points = [],
         distance = Math.abs(this.outline.x1 - this.outline.x2),
         lineEq = this.getLineEquation({
@@ -35,7 +35,7 @@ define(function( require ){
         xAng = this.outline.x1 > this.outline.x2 ? -1 : 1,
         bWidth = xAng * pointDistance;
 
-    for (var i = 0, x = this.outline.x1; i <= distance; i += pointDistance, x += bWidth){
+    for (var i = 0, x = this.outline.x1; i <= distance; i += pointDistance, x += bWidth) {
       points.push({
         x: x,
         y: lineEq(x)
@@ -46,7 +46,7 @@ define(function( require ){
     // please see `pencil.js` `drawAtPoints` method
     points[0].type = 'Line';
     points[0].outline = this.outline;
-    
+
     return points;
   };
 

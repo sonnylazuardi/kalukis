@@ -1,4 +1,4 @@
-define(function( require ) {
+define(function(require) {
 
   var fabric = require('fabric'),
       getRandomInt = fabric.util.getRandomInt;
@@ -29,7 +29,7 @@ define(function( require ) {
      * @param  {Object} pointer pointer location
      * @return {fabric.Point}         Point
      */
-    addPoint: function(pointer){
+    addPoint: function(pointer) {
       var pointerPoint = new fabric.Point(pointer.x, pointer.y);
 
       // generate random circle's radius
@@ -49,7 +49,7 @@ define(function( require ) {
       return pointerPoint;
     },
 
-    drawCircle: function ( pointer ) {
+    drawCircle: function (pointer) {
       var point = this.addPoint(pointer);
       var ctx = this.canvas.contextTop;
 
@@ -70,11 +70,11 @@ define(function( require ) {
       this.drawCircle(pointer);
     },
 
-    onMouseMove: function( pointer ) {
+    onMouseMove: function(pointer) {
       this.drawCircle(pointer);
     },
 
-    onMouseUp: function(){
+    onMouseUp: function() {
       var originalRenderOnAddition = this.canvas.renderOnAddition;
       this.canvas.renderOnAddition = false;
 

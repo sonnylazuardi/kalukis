@@ -15,7 +15,7 @@
  * the shape with the chosen brush. The brushPainter uses the outline points
  * that has been drawn on top of the canvas.
  */
-define(function(require){
+define(function(require) {
   var fabric = require('fabric'),
       defineComponent = require('flight/lib/component'),
       withCanvasEvents = require('painters/mixin/withCanvasEvents'),

@@ -1,4 +1,4 @@
-define(function(require){
+define(function(require) {
 
   var fabric = require('fabric'),
       getRandomInt = fabric.util.getRandomInt,
@@ -30,7 +30,7 @@ define(function(require){
     return sprayChunkPoints;
   }
 
-  function SprayBrush(canvas, cfg){
+  function SprayBrush(canvas, cfg) {
     this.initialize(canvas, cfg);
   }
 
