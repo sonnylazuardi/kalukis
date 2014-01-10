@@ -1,5 +1,8 @@
 define(function(require) {
 
+  /**
+   * Get the distance between from and to
+   */
   function getDistance(from, to) {
     // is this an array?
     if (Object.prototype.toString.call(from) === "[object Array]") {
@@ -14,6 +17,9 @@ define(function(require) {
 
   return {
 
+    /**
+     * Is from far enough from to according to distance?
+     */
     isFarEnough: function(from, to, distance) {
       if (!from || !to) {
         return false;
