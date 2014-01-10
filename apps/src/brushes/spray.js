@@ -36,6 +36,7 @@ define(function(require) {
 
   SprayBrush.prototype.initBrush = function() {
     this.brush = new fabric.SprayBrush(this.canvas);
+    this.brush.density = 10;
   };
 
   SprayBrush.prototype.drawOne = function( chunk ) {

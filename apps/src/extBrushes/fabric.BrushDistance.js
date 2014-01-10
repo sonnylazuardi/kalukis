@@ -14,8 +14,7 @@ define(function(require) {
     }
 
     var brushOnMouseMove = brush.onMouseMove,
-        // TODO spraybrush uses spraychunks. maybe we should provide
-        // an API on these brushes to give us their 'points'?
+        // TODO ugly
         points = brush.points ? brush.points : brush._points ?
           brush._points : brush.sprayChunks;
 
@@ -27,7 +26,7 @@ define(function(require) {
 
       var length = points.length,
           lastPoint = points[length - 1];
-
+      console.log(lastPoint);
       if (isFarEnough(lastPoint, pointer, _distance)) {
         // TODO this causes problem for spray brush
         return brushOnMouseMove.call(brush, getClosestPoint(lastPoint, pointer, _distance));
