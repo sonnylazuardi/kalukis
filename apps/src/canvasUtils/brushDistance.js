@@ -1,6 +1,6 @@
-define(function( require ) {
+define(function(require) {
 
-  function getDistance( from, to ) {
+  function getDistance(from, to) {
     var dx = from.x - to.x,
         dy = from.y - to.y;
 
@@ -9,7 +9,7 @@ define(function( require ) {
 
   return {
 
-    isFarEnough: function( from, to, distance ) {
+    isFarEnough: function(from, to, distance) {
       if (!from || !to) {
         return false;
       }
@@ -17,7 +17,7 @@ define(function( require ) {
       return getDistance(from, to) > distance;
     },
 
-    getClosestPoint: function( from, to, distance ) {
+    getClosestPoint: function(from, to, distance) {
       if (distance <= 0) {
         return to;
       }
