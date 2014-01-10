@@ -23,10 +23,6 @@ define(function( require ){
   };
 
   LineOutline.prototype.getOutlinePoints = function(pointDistance){
-    if (pointDistance < 0) {
-      return this.outline;
-    }
-    
     var points = [],
         distance = Math.abs(this.outline.x1 - this.outline.x2),
         lineEq = this.getLineEquation({
@@ -45,7 +41,12 @@ define(function( require ){
         y: lineEq(x)
       });
     }
-
+    // this is a need hack (at the moment), so that we can draw
+    // a shape for pencil brush
+    // please see `pencil.js` `drawAtPoints` method
+    points[0].type = 'Line';
+    points[0].outline = this.outline;
+    
     return points;
   };
 

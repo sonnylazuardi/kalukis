@@ -28,10 +28,6 @@ define(function( require ){
   }
 
   CircleOutline.prototype.getOutlinePoints = function(pointDistance) {
-    if (pointDistance < 0) {
-      return this.outline;
-    }
-    
     var points = [],
         w = pointDistance - 5,
         x = this.outline.x,
@@ -42,6 +38,12 @@ define(function( require ){
       points.push(getCircularPoint(i, {x: x, y: y}, radius));
     }
 
+    // this is a need hack (at the moment), so that we can draw
+    // a shape for pencil brush
+    // please see `pencil.js` `drawAtPoints` method
+    points[0].type = 'Circle';
+    points[0].outline = this.outline;
+    
     return points;
   };
 

@@ -25,9 +25,10 @@ define(function(require){
       it("Should have calculated correctly", function(){
 
         var points = outline.getOutlinePoints(5);
-        expect(points.length).toEqual(16);
+        expect(points.length).toEqual(15);
         // top
-        expect(points[0]).toEqual({x: 10, y: 10});
+        expect(points[0].x).toEqual(10);
+        expect(points[0].y).toEqual(10);
         expect(points[1]).toEqual({x: 15, y: 10});
         expect(points[2]).toEqual({x: 20, y: 10});
         // left
@@ -45,7 +46,6 @@ define(function(require){
         expect(points[12]).toEqual({x: 25, y: 25});
         expect(points[13]).toEqual({x: 25, y: 20});
         expect(points[14]).toEqual({x: 25, y: 15});
-        expect(points[15]).toEqual({x: 25, y: 10});
       });
 
     });

@@ -6,12 +6,12 @@ define(function( require ) {
 
   var asOutlineShape = require('./asOutlineShape');
 
-  function getBoundaryPoint( point, xLength, yHeight, distance ) {
+  function getBoundaryPoint(point, xLength, yHeight, distance) {
     var x = point.x,
         y = point.y,
         points = [];
     // top
-    for (var iter = x + distance; iter < xLength; iter+= distance){
+    for (var iter = x + distance; iter < xLength; iter += distance){
       points.push({x: iter, y: y});
     }
 
@@ -26,7 +26,7 @@ define(function( require ) {
     }
 
     // get right
-    for (iter = yHeight; iter >= y; iter -= distance){
+    for (iter = yHeight; iter > y; iter -= distance){
       points.push({x: xLength, y: iter});
     }
 
@@ -38,16 +38,19 @@ define(function( require ) {
   }
 
   RectOutline.prototype.getOutlinePoints = function(pointDistance){
-    if (pointDistance < 0) {
-      return this.outline;
-    }
-    
     var xLength = this.outline.x + this.outline.width,
         yHeight = this.outline.y + this.outline.height,
         x = this.outline.x,
         y = this.outline.y;
     
-    return getBoundaryPoint({x: x, y: y}, xLength, yHeight, pointDistance);
+    var points = getBoundaryPoint({x: x, y: y}, xLength, yHeight, pointDistance);
+    // this is a need hack (at the moment), so that we can draw
+    // a shape for pencil brush
+    // please see `pencil.js` `drawAtPoints` method
+    points[0].type = 'Rect';
+    points[0].outline = this.outline;
+
+    return points;
   };
 
   RectOutline.prototype.onMouseDown = function(e) {
@@ -77,7 +80,8 @@ define(function( require ) {
     return this;
   };
 
-  RectOutline.prototype.updateOutline = function( point ) {
+  // TODO can we improve this?
+  RectOutline.prototype.updateOutline = function(point) {
     this.outline.height = point.y - this.outline.y;
     this.outline.width = point.x - this.outline.x;
 
