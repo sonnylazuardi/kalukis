@@ -67,6 +67,12 @@ The sources are placed inside `apps`.
 
 - styles: css
 
+## Some Inspirations:
+
+1. [Exploring Canvas Drawing Techniques](http://perfectionkills.com/exploring-canvas-drawing-techniques/)
+2. [Harmony](http://www.mrdoob.com/projects/harmony/index.html)
+3. [Krita](http://krita.org/)
+
 ## TODO
 
 This application is still at it's early stage. So, ofcourse there are a lot of things to do.
