@@ -1,0 +1,26 @@
+[
+  {
+    "id": "circle",
+    "name": "Circle"
+  },
+  {
+    "id": "rect",
+    "name": "Rectangular"
+  },
+  {
+    "id": "pencil",
+    "name": "Pencil"
+  },
+  {
+    "id": "spray",
+    "name": "Spray"
+  },
+  {
+    "id": "hollowCircle",
+    "name": "Hollow Circle"
+  },
+  {
+    "id": "hollowSquare",
+    "name": "Hollow Square"    
+  }
+]
