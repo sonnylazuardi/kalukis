@@ -1,1 +1,0 @@
-define(["require"],function(){function n(n,r){var t=n.x-r.x,e=n.y-r.y;return Math.sqrt(t*t+e*e)}return{getNormalizedPoint:function(r,t,e){return r&&t?1===e?t:n(r,t)<e?r:t:void 0}}});
