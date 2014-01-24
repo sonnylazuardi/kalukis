@@ -3,7 +3,6 @@
   <title>Lukis</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="styles/main.css">
-  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 </head>
 <body>
   <div class="header">
@@ -14,34 +13,31 @@
       </a>
     </div>    
   </div>
-  <div class="container pure-g">
-    <div class="pure-u-1-12">
+  <div class="container pure-g-r">
+    <div class="pure-u-1-24">
       <div class="left-navigation pure-menu pure-menu-open no-border dark-background">
       </div>
     </div>
-    <div class="pure-u-11-12">
-      <div class="pure-g">
-        <div class="pure-u-3-4">
-          <canvas id="lukis" width="800px" height="600px" style="border:1px solid #aaa"></canvas>
+    <div class="pure-u-17-24">
+      <canvas id="lukis" width="800px" height="600px" style="border:1px solid #aaa"></canvas>
+    </div>
+    <div class="pure-u-1-4">
+      <div class="right-navigation page-g-r">
+        <div class="pure-form">
+          <fieldset>
+            <div id="sizerange" class="brush-control"></div>
+            <div id="brushdistance" class="brush-control"></div>
+            <div id="brushsensitivity" class="brush-control"></div>
+            <div id="colorpicker" class="brush-control"></div>
+            <div id="brushes" class="brush-control"></div>
+          </fieldset>
         </div>
-        <div class="pure-u-1-4">
-          <div class="right-navigation page-g">
-            <div class="pure-form">
-              <fieldset>
-                <div id="sizerange"></div>
-                <div id="brushdistance"></div>
-                <div id="colorpicker"></div>
-                <div id="brushes"></div>
-              </fieldset>
-            </div>
-          </div>
-        </div>    
       </div>
     </div>
   </div>
   <div id="status-bar">
     <div class="alert"></div>
   </div>
-  <script src="src/main.js"></script>
+  <script src="../vendor/requirejs/require.js" data-main="src/main"></script>
 </body>
 </html>
