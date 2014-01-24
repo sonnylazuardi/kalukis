@@ -1,1 +1,0 @@
-define(["require","flight/lib/component"],function(i){i("flight/lib/component")});

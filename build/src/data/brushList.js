@@ -1,1 +1,0 @@
-define(["require","flight/lib/component","text!data/brushes.json"],function(t){function s(){this.defaultAttrs({brushes:[]}),this.after("initialize",function(){this.attachBrushes()}),this.attachBrushes=function(){this.attr.brushes=JSON.parse(i),this.trigger("brushes-loaded",{brushes:this.attr.brushes})}}var e=t("flight/lib/component"),i=t("text!data/brushes.json");return e(s)});

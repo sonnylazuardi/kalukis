@@ -1,1 +1,0 @@
-define(["require"],function(){function t(t,r){"[object Array]"===Object.prototype.toString.call(t)&&(t=t[0]);var n=t.x-r.x,e=t.y-r.y;return Math.sqrt(n*n+e*e)}return{isFarEnough:function(r,n,e){return r&&n?t(r,n)>e:!1},getClosestPoint:function(t,r,n){var e=r.x-t.x,o=r.y-t.y,u=Math.sqrt(e*e+o*o),i=u-n,y=i/u;return{x:y*e+t.x,y:y*o+t.y}}}});
