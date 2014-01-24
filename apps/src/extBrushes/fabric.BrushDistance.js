@@ -18,11 +18,15 @@ define(function(require) {
         points = brush.points ? brush.points : brush._points ?
           brush._points : brush.sprayChunks;
 
-    brush.onMouseMove = function(pointer) {
+    brush.onMouseMove = function(pointer, issocket) {
       if (_distance <= 1) {
         // shortcut
+        issocket = typeof issocket !== 'undefined' ? issocket : false;
+        if (!issocket)
+          socket.emit('action', pointer);
         return brushOnMouseMove.call(brush, pointer);
       }
+      
 
       var length = points.length,
           lastPoint = points[length - 1];

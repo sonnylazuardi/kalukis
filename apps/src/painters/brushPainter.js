@@ -97,6 +97,7 @@ define(function(require) {
         
       // make sure no other painting other than 'paint'
       // is active
+      console.log('cancel');
       this.trigger('cancel-painting', {
         active: 'paint'
       });

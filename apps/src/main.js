@@ -8,7 +8,8 @@ require.config({
     mustache: '../../vendor/mustache/mustache',
     spectrum: '../../vendor/spectrum/spectrum',
     'es5-shim': '../../vendor/es5-shim/es5-shim',
-    'es5-sham': '../../vendor/es5-shim/es5-sham'
+    'es5-sham': '../../vendor/es5-shim/es5-sham',
+    socketio: '../../vendor/socket.io/socket.io'
   },
 
   shim:{
@@ -17,6 +18,9 @@ require.config({
     },
     jquery: {
       exports: '$'
+    },
+    'socketio': {
+      exports: 'io'
     },
     spectrum: ['jquery'],
     app: {
@@ -31,15 +35,21 @@ require.config({
   }
 });
 
+var socket;
+function sendAction(data) {
+  socket.emit('action', data);
+}
+
 require(
 
 [
-  'app'
+  'app',
+  'socketio'
 ],
 
-function(Application){
+function(Application, io){
   // kickstart the application
-  var app = new Application();
-
+  socket = io.connect('http://sonnylazuardi.kd.io:8001/');
+  var app = new Application(socket);
   app.start();
 });

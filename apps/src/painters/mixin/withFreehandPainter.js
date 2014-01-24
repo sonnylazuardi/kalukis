@@ -33,6 +33,8 @@ define(function(require) {
           this.setSensitivity(data.newValue);
         }
       }.bind(this));
+
+
     });
 
     /**
@@ -50,6 +52,7 @@ define(function(require) {
         freehandCanvas = canvas;
         // state that we are in drawing mode
         freehandCanvas.isDrawingMode = true;
+
         this.setupFreehandPaintingProperty(usedBrush);  
       }
     };
@@ -73,6 +76,8 @@ define(function(require) {
       // Do some hijaking. this is manipulating canvas' original
       // behaviour
       brushDistance.hijack(freeDrawingBrush);
+      // console.log(brush.brush.);
+      // brush.brush.onMouseMove({x: 292.71875, y: 239});
       brushSensitivity.hijack(freeDrawingBrush);
     };
 

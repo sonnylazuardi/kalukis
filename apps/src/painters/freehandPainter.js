@@ -25,11 +25,18 @@ define(function(require) {
        * Canvas instance
        * @type {Object}
        */
-      canvas: undefined
+      canvas: undefined, 
+      _socket: undefined,
     });
 
     this.after('initialize', function() {
       this.attachEventListeners();
+      var self = this;
+      this.attr._socket.on('action', function(data) {
+        self.startFreehandPainting(self.attr.canvas);
+        var brush = self.getBrush().brush;
+        brush.onMouseMove(data, true);
+      });
     });
 
     /**
@@ -56,6 +63,7 @@ define(function(require) {
         this.cancelCurrentPainting();
         this.initFreehandPainting();
       }.bind(this));
+
     };
 
     /**

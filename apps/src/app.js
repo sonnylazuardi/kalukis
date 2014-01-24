@@ -29,13 +29,15 @@ define(function(require){
 
       brushList = require('data/brushList'),
       paintWidgetList = require('data/paintWidgetList'),
-      canvasManipulationList = require('data/canvasManipulationList');
+      canvasManipulationList = require('data/canvasManipulationList'), 
+      _socket;
 
-  function Application(){
+  function Application(socket){
     // application wide error handling
     requirejs.onError = function(err) {
       console.log(err);
     };
+    _socket = socket;
   }
 
   Application.prototype.start = function() {
@@ -69,7 +71,7 @@ define(function(require){
      * and its DOM element with an event name of `canvasConstructed`.
      */
     brushPainter.attachTo(document);
-    freehandPainter.attachTo(document);
+    freehandPainter.attachTo(document, {_socket: _socket});
     imagePainter.attachTo(document);
 
     /**
