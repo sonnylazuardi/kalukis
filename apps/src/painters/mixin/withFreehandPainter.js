@@ -63,7 +63,9 @@ define(function(require) {
      */
     this.setupFreehandPaintingProperty = function(brush) {
       // getting the brush that's going to be used
+      console.log(brush);
       var freeDrawingBrush = brush.getBrush();
+      console.log(freeDrawingBrush);
       // setting the property for this painting session
       freeDrawingBrush.color = brush.get('fillColor');
       freeDrawingBrush.width = brush.get('width');
@@ -86,6 +88,10 @@ define(function(require) {
      */
     this.stopFreehandPainting = function() {
       if (freehandCanvas) {
+        this.trigger('notify', {
+          type: 'info',
+          message: ''
+        });
         freehandCanvas.isDrawingMode = false;  
       }
     };

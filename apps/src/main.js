@@ -49,7 +49,8 @@ require(
 
 function(Application, io){
   // kickstart the application
-  socket = io.connect('http://sonnylazuardi.kd.io:8001/');
+  // socket = io.connect('http://sonnylazuardi.kd.io:8001/');
+  socket = io.connect('http://localhost:8001/');
   var app = new Application(socket);
   app.start();
 });

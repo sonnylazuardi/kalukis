@@ -12,21 +12,36 @@ define(function(require) {
     if (brush.hasBeenHijacked) {
       return brush;
     }
-
     var brushOnMouseMove = brush.onMouseMove,
+        brushDrawDot = brush.drawDot,
+        brushOnMouseUp = brush.onMouseUp,
+        brushOnMouseDown = brush.onMouseDown,
         // TODO ugly
         points = brush.points ? brush.points : brush._points ?
           brush._points : brush.sprayChunks;
-
+    brush.drawDot = function(pointer) {
+      // if (issocket)
+      return brushDrawDot.call(brush, pointer);
+    }
+    brush.onMouseUp = function(issocket) {
+      if (!issocket)
+        socket.emit('brushup');
+      // if (issocket)
+        return brushOnMouseUp.call(brush);
+    }
+    brush.onMouseDown = function(pointer, issocket) {
+      if (!issocket)
+        socket.emit('brushdown', pointer);
+      // if (issocket)
+        return brushOnMouseDown.call(brush, pointer);
+    }
     brush.onMouseMove = function(pointer, issocket) {
       if (_distance <= 1) {
         // shortcut
-        issocket = typeof issocket !== 'undefined' ? issocket : false;
         if (!issocket)
-          socket.emit('action', pointer);
+          socket.emit('brushmove', pointer);
         return brushOnMouseMove.call(brush, pointer);
       }
-      
 
       var length = points.length,
           lastPoint = points[length - 1];
@@ -36,9 +51,7 @@ define(function(require) {
         return brushOnMouseMove.call(brush, getClosestPoint(lastPoint, pointer, _distance));
       }
     };
-
     brush.hasBeenHijacked = true;
-
     return brush;
   }
 
