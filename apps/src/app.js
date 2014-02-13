@@ -17,6 +17,7 @@ define(function(require){
       imageCanvasWidget = require('ui/imageCanvasWidget/imageCanvasWidget'),
       freehandWidget = require('ui/freehandWidget/freehandWidget'),
       testWidget = require('ui/testWidget/testWidget'),
+      saveWidget = require('ui/saveWidget/saveWidget'),
       colorWidget = require('ui/colorWidget/colorWidget'),
       brushPanelWidget = require('ui/brushPanel/brushPanel'),
 
@@ -54,6 +55,7 @@ define(function(require){
     paintWidgets.attachTo('.left-navigation');
     imageCanvasWidget.attachTo('.left-navigation');
     canvasManipulationWidget.attachTo('.left-navigation');
+    saveWidget.attachTo('.left-navigation');
 
     brushSizeWidget.attachTo('#sizerange');
     brushDistanceWidget.attachTo('#brushdistance');
