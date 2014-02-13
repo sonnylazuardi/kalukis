@@ -9,6 +9,7 @@ require.config({
     spectrum: '../../vendor/spectrum/spectrum',
     'es5-shim': '../../vendor/es5-shim/es5-shim',
     'es5-sham': '../../vendor/es5-shim/es5-sham',
+    'facebook': '//connect.facebook.net/en_US/all',
     socketio: '../../vendor/socket.io/socket.io'
   },
 
@@ -21,6 +22,9 @@ require.config({
     },
     'socketio': {
       exports: 'io'
+    },
+    'facebook' :{
+      exports: 'FB'
     },
     spectrum: ['jquery'],
     app: {
