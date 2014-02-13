@@ -16,6 +16,7 @@ define(function(require){
       brushSensitivityWidget = require('ui/brushSensitivityWidget/brushSensitivityWidget'),
       imageCanvasWidget = require('ui/imageCanvasWidget/imageCanvasWidget'),
       freehandWidget = require('ui/freehandWidget/freehandWidget'),
+      testWidget = require('ui/testWidget/testWidget'),
       colorWidget = require('ui/colorWidget/colorWidget'),
       brushPanelWidget = require('ui/brushPanel/brushPanel'),
 
@@ -32,12 +33,13 @@ define(function(require){
       canvasManipulationList = require('data/canvasManipulationList'), 
       _socket;
 
-  function Application(socket){
+  // function Application(socket){
+  function Application(){
     // application wide error handling
     requirejs.onError = function(err) {
       console.log(err);
     };
-    _socket = socket;
+    // _socket = socket;
   }
 
   Application.prototype.start = function() {
@@ -48,6 +50,7 @@ define(function(require){
      * component is instantiated
      */
     freehandWidget.attachTo('.left-navigation');
+    testWidget.attachTo('.left-navigation');
     paintWidgets.attachTo('.left-navigation');
     imageCanvasWidget.attachTo('.left-navigation');
     canvasManipulationWidget.attachTo('.left-navigation');
