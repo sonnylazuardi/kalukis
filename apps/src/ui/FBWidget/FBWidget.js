@@ -22,9 +22,9 @@ define(function(require){
     };
 
     this.attachEventListeners = function(){
-      this.on('click', function() {
-        alert("INI WIDGET FB")
-      });
+      // this.on('click', function() {
+      //   alert("INI WIDGET FB")
+      // });
     };
 
     //Added by fawwaz from below from pupunzi
