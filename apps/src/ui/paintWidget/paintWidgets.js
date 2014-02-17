@@ -35,7 +35,9 @@ define(function(require){
      * We need to publish paint widget clicked event
      */
     this.publishClickedPaintWidget = function(e){
+      console.log(e);
       if (e.target.id) {
+        console.log(e.target.id);
         this.trigger(document, 'paintWidget-clicked', {
           paintWidgetId: e.target.id
         });
