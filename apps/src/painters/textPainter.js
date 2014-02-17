@@ -27,8 +27,14 @@ define(function(require) {
 
       // mapping paintWidget-clicked event to activeOutlineShape-changed
       this.on('textWidget-clicked', function(e, data) {
-        var text = new fabric.Text('hello world', { left: 100, top: 100 });
-        this.attr.canvas.add(text);
+        var x;
+        var text = prompt("Please Write a Text : ","Hello World");
+        if (text!=null)
+        {
+            var textCanvas = new fabric.Text(text, { left: 100, top: 100 });
+            this.attr.canvas.add(textCanvas);  
+        }
+        
         // console.log(fabric);
       }.bind(this));
 
