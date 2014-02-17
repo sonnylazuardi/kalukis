@@ -21,9 +21,9 @@ define(function(require){
     };
 
     this.attachEventListeners = function(){
-      this.on('click', function() {
-        alert("testing");
-      });
+      // this.on('click', function() {
+      //   alert("testing");
+      // });
     };
 
     this.initFreehandPainting = function(){
