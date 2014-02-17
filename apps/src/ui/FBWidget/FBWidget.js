@@ -1,7 +1,7 @@
-define(['facebook'],function(require,FB){
+define(function(require){
 
-
-  var defineComponent = require('flight/lib/component'),
+  var FB = require('facebook'),
+      defineComponent = require('flight/lib/component'),
       tmpl = require('text!ui/FBWidget/template.html');
 
   return defineComponent(FBWidget);
@@ -46,9 +46,8 @@ define(['facebook'],function(require,FB){
        var encodedPng=imgD.substring(start, strLength);
        imgD = Base64Binary.decode(encodedPng);
        var boundary = '--ThisIsTheBoundary1234567890';
-       var formData = '--' + boundary; formData += 'Content-Disposition: form-data; name="source";
-       filename="picMood_' + new Date().getTime();
-       formData += 'Content-Type: ' + mimeType ';
+       var formData = '--' + boundary; formData += 'Content-Disposition: form-data; name="source"; filename="picMood_' + new Date().getTime();
+       formData += 'Content-Type: ' + mimeType;
        for (var i = 0; i < imgD.length; ++i) formData += String.fromCharCode(imgD[ i ] & 0xff);
        formData += '--' + boundary; var xhr = new XMLHttpRequest();
        xhr.open('POST', 'https://graph.facebook.com/' + picMood.fb_album_id + '/photos?access_token=' + token + '&place=' + placeID + "&message=" + encodeURIComponent(msg), true);
