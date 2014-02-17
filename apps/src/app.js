@@ -7,6 +7,7 @@ define(function(require){
   
       brushPainter = require('painters/brushPainter'),
       freehandPainter = require('painters/freehandPainter'),
+      textPainter = require('painters/textPainter'),
       imagePainter = require('painters/imagePainter'),
 
       paintWidgets = require('ui/paintWidget/paintWidgets'),
@@ -21,6 +22,8 @@ define(function(require){
       fbWidget = require('ui/FBWidget/FBWidget'),
       colorWidget = require('ui/colorWidget/colorWidget'),
       brushPanelWidget = require('ui/brushPanel/brushPanel'),
+      //David widget 
+      textWidget = require('ui/textWidget/textWidget'),
 
       notification = require('ui/notification/notification'),
       keyHandler = require('ui/keyHandler/keyHandler'),
@@ -58,6 +61,8 @@ define(function(require){
     canvasManipulationWidget.attachTo('.left-navigation');
     saveWidget.attachTo('.left-navigation');
     fbWidget.attachTo('.left-navigation');
+    //David widget
+    textWidget.attachTo('.left-navigation');
 
     brushSizeWidget.attachTo('#sizerange');
     brushDistanceWidget.attachTo('#brushdistance');
@@ -73,12 +78,14 @@ define(function(require){
 
     cleaningService.attachTo(document);
 
+
     /**
      * The lukis component will publish the canvas instance
      * and its DOM element with an event name of `canvasConstructed`.
      */
     brushPainter.attachTo(document);
     freehandPainter.attachTo(document, {_socket: _socket});
+    textPainter.attachTo(document);
     imagePainter.attachTo(document);
 
     /**

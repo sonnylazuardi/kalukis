@@ -1,4 +1,4 @@
-/* build: `node build.js modules=text,easing,freedrawing,interaction,image_filters,gradient,pattern,shadow minifier=uglifyjs` */
+/* build: `node build.js modules=freedrawing,interaction,serialization,pattern minifier=uglifyjs` */
 /*! Fabric.js Copyright 2008-2013, Printio (Juriy Zaytsev, Maxim Chernyak) */
 
 var fabric = fabric || { version: "1.4.0" };
@@ -44,1233 +44,497 @@ fabric.SHARED_ATTRIBUTES = [
   "stroke-linejoin", "stroke-miterlimit",
   "stroke-opacity", "stroke-width"
 ];
-/*!
- * Copyright (c) 2009 Simo Kinnunen.
- * Licensed under the MIT license.
- */
-
-var Cufon = (function() {
-
-  /** @ignore */
-  var api = function() {
-    return api.replace.apply(null, arguments);
-  };
+/*
+    json2.js
+    2011-10-19
 
-  /** @ignore */
-  var DOM = api.DOM = {
-
-    ready: (function() {
+    Public Domain.
 
-      var complete = false, readyStatus = { loaded: 1, complete: 1 };
+    NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
 
-      var queue = [], /** @ignore */ perform = function() {
-        if (complete) return;
-        complete = true;
-        for (var fn; fn = queue.shift(); fn());
-      };
+    See http://www.JSON.org/js.html
 
-      // Gecko, Opera, WebKit r26101+
-
-      if (fabric.document.addEventListener) {
-        fabric.document.addEventListener('DOMContentLoaded', perform, false);
-        fabric.window.addEventListener('pageshow', perform, false); // For cached Gecko pages
-      }
-
-      // Old WebKit, Internet Explorer
-
-      if (!fabric.window.opera && fabric.document.readyState) (function() {
-        readyStatus[fabric.document.readyState] ? perform() : setTimeout(arguments.callee, 10);
-      })();
-
-      // Internet Explorer
-
-      if (fabric.document.readyState && fabric.document.createStyleSheet) (function() {
-        try {
-          fabric.document.body.doScroll('left');
-          perform();
-        }
-        catch (e) {
-          setTimeout(arguments.callee, 1);
-        }
-      })();
-
-      addEvent(fabric.window, 'load', perform); // Fallback
-
-      return function(listener) {
-        if (!arguments.length) perform();
-        else complete ? listener() : queue.push(listener);
-      };
-
-    })()
-
-  };
-
-  /** @ignore */
-  var CSS = api.CSS = /** @ignore */ {
-
-    /** @ignore */
-    Size: function(value, base) {
-
-      this.value = parseFloat(value);
-      this.unit = String(value).match(/[a-z%]*$/)[0] || 'px';
-
-      /** @ignore */
-      this.convert = function(value) {
-        return value / base * this.value;
-      };
-
-      /** @ignore */
-      this.convertFrom = function(value) {
-        return value / this.value * base;
-      };
-
-      /** @ignore */
-      this.toString = function() {
-        return this.value + this.unit;
-      };
-
-    },
-
-    /** @ignore */
-    getStyle: function(el) {
-      return new Style(el.style);
-      /*
-      var view = document.defaultView;
-      if (view && view.getComputedStyle) return new Style(view.getComputedStyle(el, null));
-      if (el.currentStyle) return new Style(el.currentStyle);
-      return new Style(el.style);
-      */
-    },
-
-    quotedList: cached(function(value) {
-      // doesn't work properly with empty quoted strings (""), but
-      // it's not worth the extra code.
-      var list = [], re = /\s*((["'])([\s\S]*?[^\\])\2|[^,]+)\s*/g, match;
-      while (match = re.exec(value)) list.push(match[3] || match[1]);
-      return list;
-    }),
-
-    ready: (function() {
-
-      var complete = false;
-
-      var queue = [], perform = function() {
-        complete = true;
-        for (var fn; fn = queue.shift(); fn());
-      };
-
-      // Safari 2 does not include <style> elements in document.styleSheets.
-      // Safari 2 also does not support Object.prototype.propertyIsEnumerable.
-
-      var styleElements = Object.prototype.propertyIsEnumerable ? elementsByTagName('style') : { length: 0 };
-      var linkElements = elementsByTagName('link');
-
-      DOM.ready(function() {
-        // These checks are actually only needed for WebKit-based browsers, but don't really hurt other browsers.
-        var linkStyles = 0, link;
-        for (var i = 0, l = linkElements.length; link = linkElements[i], i < l; ++i) {
-          // WebKit does not load alternate stylesheets.
-          if (!link.disabled && link.rel.toLowerCase() == 'stylesheet') ++linkStyles;
-        }
-        if (fabric.document.styleSheets.length >= styleElements.length + linkStyles) perform();
-        else setTimeout(arguments.callee, 10);
-      });
-
-      return function(listener) {
-        if (complete) listener();
-        else queue.push(listener);
-      };
-
-    })(),
-
-    /** @ignore */
-    supports: function(property, value) {
-      var checker = fabric.document.createElement('span').style;
-      if (checker[property] === undefined) return false;
-      checker[property] = value;
-      return checker[property] === value;
-    },
-
-    /** @ignore */
-    textAlign: function(word, style, position, wordCount) {
-      if (style.get('textAlign') == 'right') {
-        if (position > 0) word = ' ' + word;
-      }
-      else if (position < wordCount - 1) word += ' ';
-      return word;
-    },
-
-    /** @ignore */
-    textDecoration: function(el, style) {
-      if (!style) style = this.getStyle(el);
-      var types = {
-        underline: null,
-        overline: null,
-        'line-through': null
-      };
-      for (var search = el; search.parentNode && search.parentNode.nodeType == 1; ) {
-        var foundAll = true;
-        for (var type in types) {
-          if (types[type]) continue;
-          if (style.get('textDecoration').indexOf(type) != -1) types[type] = style.get('color');
-          foundAll = false;
-        }
-        if (foundAll) break; // this is rather unlikely to happen
-        style = this.getStyle(search = search.parentNode);
-      }
-      return types;
-    },
-
-    textShadow: cached(function(value) {
-      if (value == 'none') return null;
-      var shadows = [], currentShadow = {}, result, offCount = 0;
-      var re = /(#[a-f0-9]+|[a-z]+\(.*?\)|[a-z]+)|(-?[\d.]+[a-z%]*)|,/ig;
-      while (result = re.exec(value)) {
-        if (result[0] == ',') {
-          shadows.push(currentShadow);
-          currentShadow = {}, offCount = 0;
-        }
-        else if (result[1]) {
-          currentShadow.color = result[1];
-        }
-        else {
-          currentShadow[[ 'offX', 'offY', 'blur' ][offCount++]] = result[2];
-        }
-      }
-      shadows.push(currentShadow);
-      return shadows;
-    }),
-
-    color: cached(function(value) {
-      var parsed = {};
-      parsed.color = value.replace(/^rgba\((.*?),\s*([\d.]+)\)/, function($0, $1, $2) {
-        parsed.opacity = parseFloat($2);
-        return 'rgb(' + $1 + ')';
-      });
-      return parsed;
-    }),
-
-    /** @ignore */
-    textTransform: function(text, style) {
-      return text[{
-        uppercase: 'toUpperCase',
-        lowercase: 'toLowerCase'
-      }[style.get('textTransform')] || 'toString']();
-    }
-
-  };
-
-  function Font(data) {
-
-    var face = this.face = data.face;
-    this.glyphs = data.glyphs;
-    this.w = data.w;
-    this.baseSize = parseInt(face['units-per-em'], 10);
-
-    this.family = face['font-family'].toLowerCase();
-    this.weight = face['font-weight'];
-    this.style = face['font-style'] || 'normal';
-
-    this.viewBox = (function () {
-      var parts = face.bbox.split(/\s+/);
-      var box = {
-        minX: parseInt(parts[0], 10),
-        minY: parseInt(parts[1], 10),
-        maxX: parseInt(parts[2], 10),
-        maxY: parseInt(parts[3], 10)
-      };
-      box.width = box.maxX - box.minX,
-      box.height = box.maxY - box.minY;
-      /** @ignore */
-      box.toString = function() {
-        return [ this.minX, this.minY, this.width, this.height ].join(' ');
-      };
-      return box;
-    })();
-
-    this.ascent = -parseInt(face.ascent, 10);
-    this.descent = -parseInt(face.descent, 10);
-
-    this.height = -this.ascent + this.descent;
-
-  }
-
-  function FontFamily() {
-
-    var styles = {}, mapping = {
-      oblique: 'italic',
-      italic: 'oblique'
-    };
-
-    this.add = function(font) {
-      (styles[font.style] || (styles[font.style] = {}))[font.weight] = font;
-    };
-
-    /** @ignore */
-    this.get = function(style, weight) {
-      var weights = styles[style] || styles[mapping[style]]
-        || styles.normal || styles.italic || styles.oblique;
-      if (!weights) return null;
-      // we don't have to worry about "bolder" and "lighter"
-      // because IE's currentStyle returns a numeric value for it,
-      // and other browsers use the computed value anyway
-      weight = {
-        normal: 400,
-        bold: 700
-      }[weight] || parseInt(weight, 10);
-      if (weights[weight]) return weights[weight];
-      // http://www.w3.org/TR/CSS21/fonts.html#propdef-font-weight
-      // Gecko uses x99/x01 for lighter/bolder
-      var up = {
-        1: 1,
-        99: 0
-      }[weight % 100], alts = [], min, max;
-      if (up === undefined) up = weight > 400;
-      if (weight == 500) weight = 400;
-      for (var alt in weights) {
-        alt = parseInt(alt, 10);
-        if (!min || alt < min) min = alt;
-        if (!max || alt > max) max = alt;
-        alts.push(alt);
-      }
-      if (weight < min) weight = min;
-      if (weight > max) weight = max;
-      alts.sort(function(a, b) {
-        return (up
-          ? (a > weight && b > weight) ? a < b : a > b
-          : (a < weight && b < weight) ? a > b : a < b) ? -1 : 1;
-      });
-      return weights[alts[0]];
-    };
-
-  }
-
-  function HoverHandler() {
-
-    function contains(node, anotherNode) {
-      if (node.contains) return node.contains(anotherNode);
-      return node.compareDocumentPosition(anotherNode) & 16;
-    }
-
-    function onOverOut(e) {
-      var related = e.relatedTarget;
-      if (!related || contains(this, related)) return;
-      trigger(this);
-    }
-
-    function onEnterLeave(e) {
-      trigger(this);
-    }
-
-    function trigger(el) {
-      // A timeout is needed so that the event can actually "happen"
-      // before replace is triggered. This ensures that styles are up
-      // to date.
-      setTimeout(function() {
-        api.replace(el, sharedStorage.get(el).options, true);
-      }, 10);
-    }
-
-    this.attach = function(el) {
-      if (el.onmouseenter === undefined) {
-        addEvent(el, 'mouseover', onOverOut);
-        addEvent(el, 'mouseout', onOverOut);
-      }
-      else {
-        addEvent(el, 'mouseenter', onEnterLeave);
-        addEvent(el, 'mouseleave', onEnterLeave);
-      }
-    };
-
-  }
-
-  function Storage() {
-
-    var map = {}, at = 0;
-
-    function identify(el) {
-      return el.cufid || (el.cufid = ++at);
-    }
-
-    /** @ignore */
-    this.get = function(el) {
-      var id = identify(el);
-      return map[id] || (map[id] = {});
-    };
-
-  }
-
-  function Style(style) {
-
-    var custom = {}, sizes = {};
-
-    this.get = function(property) {
-      return custom[property] != undefined ? custom[property] : style[property];
-    };
-
-    this.getSize = function(property, base) {
-      return sizes[property] || (sizes[property] = new CSS.Size(this.get(property), base));
-    };
-
-    this.extend = function(styles) {
-      for (var property in styles) custom[property] = styles[property];
-      return this;
-    };
-
-  }
-
-  function addEvent(el, type, listener) {
-    if (el.addEventListener) {
-      el.addEventListener(type, listener, false);
-    }
-    else if (el.attachEvent) {
-      el.attachEvent('on' + type, function() {
-        return listener.call(el, fabric.window.event);
-      });
-    }
-  }
-
-  function attach(el, options) {
-    var storage = sharedStorage.get(el);
-    if (storage.options) return el;
-    if (options.hover && options.hoverables[el.nodeName.toLowerCase()]) {
-      hoverHandler.attach(el);
-    }
-    storage.options = options;
-    return el;
-  }
-
-  function cached(fun) {
-    var cache = {};
-    return function(key) {
-      if (!cache.hasOwnProperty(key)) cache[key] = fun.apply(null, arguments);
-      return cache[key];
-    };
-  }
-
-  function getFont(el, style) {
-    if (!style) style = CSS.getStyle(el);
-    var families = CSS.quotedList(style.get('fontFamily').toLowerCase()), family;
-    for (var i = 0, l = families.length; i < l; ++i) {
-      family = families[i];
-      if (fonts[family]) return fonts[family].get(style.get('fontStyle'), style.get('fontWeight'));
-    }
-    return null;
-  }
-
-  function elementsByTagName(query) {
-    return fabric.document.getElementsByTagName(query);
-  }
-
-  function merge() {
-    var merged = {}, key;
-    for (var i = 0, l = arguments.length; i < l; ++i) {
-      for (key in arguments[i]) merged[key] = arguments[i][key];
-    }
-    return merged;
-  }
-
-  function process(font, text, style, options, node, el) {
-
-    var separate = options.separate;
-    if (separate == 'none') return engines[options.engine].apply(null, arguments);
-    var fragment = fabric.document.createDocumentFragment(), processed;
-    var parts = text.split(separators[separate]), needsAligning = (separate == 'words');
-    if (needsAligning && HAS_BROKEN_REGEXP) {
-      // @todo figure out a better way to do this
-      if (/^\s/.test(text)) parts.unshift('');
-      if (/\s$/.test(text)) parts.push('');
-    }
-    for (var i = 0, l = parts.length; i < l; ++i) {
-      processed = engines[options.engine](font,
-        needsAligning ? CSS.textAlign(parts[i], style, i, l) : parts[i],
-        style, options, node, el, i < l - 1);
-      if (processed) fragment.appendChild(processed);
-    }
-    return fragment;
-  }
-
-  /** @ignore */
-  function replaceElement(el, options) {
-    var font, style, nextNode, redraw;
-    for (var node = attach(el, options).firstChild; node; node = nextNode) {
-      nextNode = node.nextSibling;
-      redraw = false;
-      if (node.nodeType == 1) {
-        if (!node.firstChild) continue;
-        if (!/cufon/.test(node.className)) {
-          arguments.callee(node, options);
-          continue;
-        }
-        else redraw = true;
-      }
-      if (!style) style = CSS.getStyle(el).extend(options);
-      if (!font) font = getFont(el, style);
-
-      if (!font) continue;
-      if (redraw) {
-        engines[options.engine](font, null, style, options, node, el);
-        continue;
-      }
-      var text = node.data;
-      //for some reason, the carriage return is not stripped by IE but "\n" is, so let's keep \r as a new line marker...
-      if (typeof G_vmlCanvasManager != 'undefined') {
-          text = text.replace(/\r/g, "\n");
-      }
-      if (text === '') continue;
-      var processed = process(font, text, style, options, node, el);
-      if (processed) node.parentNode.replaceChild(processed, node);
-      else node.parentNode.removeChild(node);
-    }
-  }
-
-  var HAS_BROKEN_REGEXP = ' '.split(/\s+/).length == 0;
-
-  var sharedStorage = new Storage();
-  var hoverHandler = new HoverHandler();
-  var replaceHistory = [];
-
-  var engines = {}, fonts = {}, defaultOptions = {
-    engine: null,
-    //fontScale: 1,
-    //fontScaling: false,
-    hover: false,
-    hoverables: {
-      a: true
-    },
-    printable: true,
-    //rotation: 0,
-    //selectable: false,
-    selector: (
-        fabric.window.Sizzle
-      ||  (fabric.window.jQuery && function(query) { return jQuery(query); }) // avoid noConflict issues
-      ||  (fabric.window.dojo && dojo.query)
-      ||  (fabric.window.$$ && function(query) { return $$(query); })
-      ||  (fabric.window.$ && function(query) { return $(query); })
-      ||  (fabric.document.querySelectorAll && function(query) { return fabric.document.querySelectorAll(query); })
-      ||  elementsByTagName
-    ),
-    separate: 'words', // 'none' and 'characters' are also accepted
-    textShadow: 'none'
-  };
-
-  var separators = {
-    words: /\s+/,
-    characters: ''
-  };
-
-  /** @ignore */
-  api.now = function() {
-    DOM.ready();
-    return api;
-  };
-
-  /** @ignore */
-  api.refresh = function() {
-    var currentHistory = replaceHistory.splice(0, replaceHistory.length);
-    for (var i = 0, l = currentHistory.length; i < l; ++i) {
-      api.replace.apply(null, currentHistory[i]);
-    }
-    return api;
-  };
-
-  /** @ignore */
-  api.registerEngine = function(id, engine) {
-    if (!engine) return api;
-    engines[id] = engine;
-    return api.set('engine', id);
-  };
-
-  /** @ignore */
-  api.registerFont = function(data) {
-    var font = new Font(data), family = font.family;
-    if (!fonts[family]) fonts[family] = new FontFamily();
-    fonts[family].add(font);
-    return api.set('fontFamily', '"' + family + '"');
-  };
-
-  /** @ignore */
-  api.replace = function(elements, options, ignoreHistory) {
-    options = merge(defaultOptions, options);
-    if (!options.engine) return api; // there's no browser support so we'll just stop here
-    if (typeof options.textShadow == 'string' && options.textShadow)
-      options.textShadow = CSS.textShadow(options.textShadow);
-    if (!ignoreHistory) replaceHistory.push(arguments);
-    if (elements.nodeType || typeof elements == 'string') elements = [ elements ];
-    CSS.ready(function() {
-      for (var i = 0, l = elements.length; i < l; ++i) {
-        var el = elements[i];
-        if (typeof el == 'string') api.replace(options.selector(el), options, true);
-        else replaceElement(el, options);
-      }
-    });
-    return api;
-  };
-
-  /** @ignore */
-  api.replaceElement = function(el, options) {
-    options = merge(defaultOptions, options);
-    if (typeof options.textShadow == 'string' && options.textShadow)
-      options.textShadow = CSS.textShadow(options.textShadow);
-    return replaceElement(el, options);
-  };
-
-  api.engines = engines;
-  api.fonts = fonts;
-  /** @ignore */
-  api.getOptions = function() {
-    return merge(defaultOptions);
-  };
-
-  /** @ignore */
-  api.set = function(option, value) {
-    defaultOptions[option] = value;
-    return api;
-  };
-
-  return api;
-
-})();
-
-Cufon.registerEngine('canvas', (function() {
-
-  // Safari 2 doesn't support .apply() on native methods
-  var HAS_INLINE_BLOCK = Cufon.CSS.supports('display', 'inline-block');
-
-  // Firefox 2 w/ non-strict doctype (almost standards mode)
-  var HAS_BROKEN_LINEHEIGHT = !HAS_INLINE_BLOCK && (fabric.document.compatMode == 'BackCompat' || /frameset|transitional/i.test(fabric.document.doctype.publicId));
-
-  var styleSheet = fabric.document.createElement('style');
-  styleSheet.type = 'text/css';
-
-    var textNode = fabric.document.createTextNode(
-        '.cufon-canvas{text-indent:0}' +
-        '@media screen,projection{' +
-          '.cufon-canvas{display:inline;display:inline-block;position:relative;vertical-align:middle' +
-          (HAS_BROKEN_LINEHEIGHT
-            ? ''
-            : ';font-size:1px;line-height:1px') +
-          '}.cufon-canvas .cufon-alt{display:-moz-inline-box;display:inline-block;width:0;height:0;overflow:hidden}' +
-          (HAS_INLINE_BLOCK
-            ? '.cufon-canvas canvas{position:relative}'
-            : '.cufon-canvas canvas{position:absolute}') +
-        '}' +
-        '@media print{' +
-          '.cufon-canvas{padding:0 !important}' +
-          '.cufon-canvas canvas{display:none}' +
-          '.cufon-canvas .cufon-alt{display:inline}' +
-        '}'
-      )
-
-  try {
-      styleSheet.appendChild(textNode);
-  } catch(e) {
-      //IE8- can't do this...
-      styleSheet.setAttribute("type", "text/css");
-      styleSheet.styleSheet.cssText = textNode.data;
-  }
-  fabric.document.getElementsByTagName('head')[0].appendChild(styleSheet);
-
-  function generateFromVML(path, context) {
-    var atX = 0, atY = 0;
-    var code = [], re = /([mrvxe])([^a-z]*)/g, match;
-    generate: for (var i = 0; match = re.exec(path); ++i) {
-      var c = match[2].split(',');
-      switch (match[1]) {
-        case 'v':
-          code[i] = { m: 'bezierCurveTo', a: [ atX + ~~c[0], atY + ~~c[1], atX + ~~c[2], atY + ~~c[3], atX += ~~c[4], atY += ~~c[5] ] };
-          break;
-        case 'r':
-          code[i] = { m: 'lineTo', a: [ atX += ~~c[0], atY += ~~c[1] ] };
-          break;
-        case 'm':
-          code[i] = { m: 'moveTo', a: [ atX = ~~c[0], atY = ~~c[1] ] };
-          break;
-        case 'x':
-          code[i] = { m: 'closePath', a: [] };
-          break;
-        case 'e':
-          break generate;
-      }
-      context[code[i].m].apply(context, code[i].a);
-    }
-    return code;
-  }
-
-  function interpret(code, context) {
-    for (var i = 0, l = code.length; i < l; ++i) {
-      var line = code[i];
-      context[line.m].apply(context, line.a);
-    }
-  }
-
-  return function(font, text, style, options, node, el) {
-
-    var redraw = (text === null);
-
-    var viewBox = font.viewBox;
-
-    var size = style.getSize('fontSize', font.baseSize);
-
-    var letterSpacing = style.get('letterSpacing');
-    letterSpacing = (letterSpacing == 'normal') ? 0 : size.convertFrom(parseInt(letterSpacing, 10));
-
-    var expandTop = 0, expandRight = 0, expandBottom = 0, expandLeft = 0;
-    var shadows = options.textShadow, shadowOffsets = [];
-
-    Cufon.textOptions.shadowOffsets = [ ];
-    Cufon.textOptions.shadows = null;
-
-    if (shadows) {
-      Cufon.textOptions.shadows = shadows;
-      for (var i = 0, l = shadows.length; i < l; ++i) {
-        var shadow = shadows[i];
-        var x = size.convertFrom(parseFloat(shadow.offX));
-        var y = size.convertFrom(parseFloat(shadow.offY));
-        shadowOffsets[i] = [ x, y ];
-        //if (y < expandTop) expandTop = y;
-        //if (x > expandRight) expandRight = x;
-        //if (y > expandBottom) expandBottom = y;
-        //if (x < expandLeft) expandLeft = x;
-      }
-    }
-
-    var chars = Cufon.CSS.textTransform(redraw ? node.alt : text, style).split('');
-
-    var width = 0, lastWidth = null;
-
-    var maxWidth = 0, lines = 1, lineWidths = [ ];
-    for (var i = 0, l = chars.length; i < l; ++i) {
-      if (chars[i] === '\n') {
-        lines++;
-        if (width > maxWidth) {
-          maxWidth = width;
-        }
-        lineWidths.push(width);
-        width = 0;
-        continue;
-      }
-      var glyph = font.glyphs[chars[i]] || font.missingGlyph;
-      if (!glyph) continue;
-      width += lastWidth = Number(glyph.w || font.w) + letterSpacing;
-    }
-    lineWidths.push(width);
-
-    width = Math.max(maxWidth, width);
-
-    var lineOffsets = [ ];
-    for (var i = lineWidths.length; i--; ) {
-      lineOffsets[i] = width - lineWidths[i];
-    }
-
-    if (lastWidth === null) return null; // there's nothing to render
-
-    expandRight += (viewBox.width - lastWidth);
-    expandLeft += viewBox.minX;
-
-    var wrapper, canvas;
-
-    if (redraw) {
-      wrapper = node;
-      canvas = node.firstChild;
-    }
-    else {
-      wrapper = fabric.document.createElement('span');
-      wrapper.className = 'cufon cufon-canvas';
-      wrapper.alt = text;
-
-      canvas = fabric.document.createElement('canvas');
-      wrapper.appendChild(canvas);
-
-      if (options.printable) {
-        var print = fabric.document.createElement('span');
-        print.className = 'cufon-alt';
-        print.appendChild(fabric.document.createTextNode(text));
-        wrapper.appendChild(print);
-      }
-    }
-
-    var wStyle = wrapper.style;
-    var cStyle = canvas.style || { };
-
-    var height = size.convert(viewBox.height - expandTop + expandBottom);
-    var roundedHeight = Math.ceil(height);
-    var roundingFactor = roundedHeight / height;
-
-    canvas.width = Math.ceil(size.convert(width + expandRight - expandLeft) * roundingFactor);
-    canvas.height = roundedHeight;
-
-    expandTop += viewBox.minY;
-
-    cStyle.top = Math.round(size.convert(expandTop - font.ascent)) + 'px';
-    cStyle.left = Math.round(size.convert(expandLeft)) + 'px';
-
-    var _width = Math.ceil(size.convert(width * roundingFactor));
-    var wrapperWidth = _width + 'px';
-    var _height = size.convert(font.height);
-    var totalLineHeight = (options.lineHeight - 1) * size.convert(-font.ascent / 5) * (lines - 1);
-
-    Cufon.textOptions.width = _width;
-    Cufon.textOptions.height = (_height * lines) + totalLineHeight;
-    Cufon.textOptions.lines = lines;
-    Cufon.textOptions.totalLineHeight = totalLineHeight;
-
-    if (HAS_INLINE_BLOCK) {
-      wStyle.width = wrapperWidth;
-      wStyle.height = _height + 'px';
-    }
-    else {
-      wStyle.paddingLeft = wrapperWidth;
-      wStyle.paddingBottom = (_height - 1) + 'px';
-    }
-
-    var g = Cufon.textOptions.context || canvas.getContext('2d'),
-        scale = roundedHeight / viewBox.height;
-
-    Cufon.textOptions.fontAscent = font.ascent * scale;
-    Cufon.textOptions.boundaries = null;
-
-    for (var offsets = Cufon.textOptions.shadowOffsets, i = shadowOffsets.length; i--; ) {
-      offsets[i] = [ shadowOffsets[i][0] * scale, shadowOffsets[i][1] * scale ];
-    }
-
-    g.save();
-    g.scale(scale, scale);
-
-    g.translate(
-      // we're at the center of an object and need to jump to the top left corner
-      // where first character is to be drawn
-      -expandLeft - ((1/scale * canvas.width) / 2) + (Cufon.fonts[font.family].offsetLeft || 0),
-      -expandTop - ((Cufon.textOptions.height / scale) / 2) + (Cufon.fonts[font.family].offsetTop || 0)
-    );
-
-    g.lineWidth = font.face['underline-thickness'];
-
-    g.save();
-
-    function line(y, color) {
-      g.strokeStyle = color;
-
-      g.beginPath();
-
-      g.moveTo(0, y);
-      g.lineTo(width, y);
-
-      g.stroke();
-    }
-
-    var textDecoration = Cufon.getTextDecoration(options),
-        isItalic = options.fontStyle === 'italic';
-
-    function renderBackground() {
-      g.save();
-
-      var left = 0, lineNum = 0, boundaries = [{ left: 0 }];
-
-      if (options.backgroundColor) {
-        g.save();
-        g.fillStyle = options.backgroundColor;
-        g.translate(0, font.ascent);
-        g.fillRect(0, 0, width + 10, (-font.ascent + font.descent) * lines);
-        g.restore();
-      }
-
-      if (options.textAlign === 'right') {
-        g.translate(lineOffsets[lineNum], 0);
-        boundaries[0].left = lineOffsets[lineNum] * scale;
-      }
-      else if (options.textAlign === 'center') {
-        g.translate(lineOffsets[lineNum] / 2, 0);
-        boundaries[0].left = lineOffsets[lineNum] / 2 * scale;
-      }
-
-      for (var i = 0, l = chars.length; i < l; ++i) {
-        if (chars[i] === '\n') {
-
-          lineNum++;
-
-          var topOffset = -font.ascent - ((font.ascent / 5) * options.lineHeight);
-          var boundary = boundaries[boundaries.length - 1];
-          var nextBoundary = { left: 0 };
-
-          boundary.width = left * scale;
-          boundary.height = (-font.ascent + font.descent) * scale;
-
-          if (options.textAlign === 'right') {
-            g.translate(-width, topOffset);
-            g.translate(lineOffsets[lineNum], 0);
-            nextBoundary.left = lineOffsets[lineNum] * scale;
-          }
-          else if (options.textAlign === 'center') {
-            // offset to the start of text in previous line AND half of its offset
-            // (essentially moving caret to the left edge of bounding box)
-            g.translate(-left - (lineOffsets[lineNum - 1] / 2), topOffset);
-            g.translate(lineOffsets[lineNum] / 2, 0);
-            nextBoundary.left = lineOffsets[lineNum] / 2 * scale;
-          }
-          else {
-            g.translate(-left, topOffset);
-          }
-
-          /* push next boundary (for the next line) */
-          boundaries.push(nextBoundary);
-
-          left = 0;
-
-          continue;
-        }
-        var glyph = font.glyphs[chars[i]] || font.missingGlyph;
-        if (!glyph) continue;
-
-        var charWidth = Number(glyph.w || font.w) + letterSpacing;
-
-        // only draw text-background when there's some kind of value
-        if (options.textBackgroundColor) {
-          g.save();
-          g.fillStyle = options.textBackgroundColor;
-          g.translate(0, font.ascent);
-          g.fillRect(0, 0, charWidth + 10, -font.ascent + font.descent);
-          g.restore();
-        }
-
-        g.translate(charWidth, 0);
-        left += charWidth;
-
-        if (i == l-1) {
-          boundaries[boundaries.length - 1].width = left * scale;
-          boundaries[boundaries.length - 1].height = (-font.ascent + font.descent) * scale;
-        }
-      }
-      g.restore();
-
-      Cufon.textOptions.boundaries = boundaries;
-    }
-
-    function renderText(color) {
-      g.fillStyle = color || Cufon.textOptions.color || style.get('color');
-
-      var left = 0, lineNum = 0;
-
-      if (options.textAlign === 'right') {
-        g.translate(lineOffsets[lineNum], 0);
-      }
-      else if (options.textAlign === 'center') {
-        g.translate(lineOffsets[lineNum] / 2, 0);
-      }
-
-      for (var i = 0, l = chars.length; i < l; ++i) {
-        if (chars[i] === '\n') {
-
-          lineNum++;
-
-          var topOffset = -font.ascent - ((font.ascent / 5) * options.lineHeight);
-
-          if (options.textAlign === 'right') {
-            g.translate(-width, topOffset);
-            g.translate(lineOffsets[lineNum], 0);
-          }
-          else if (options.textAlign === 'center') {
-            // offset to the start of text in previous line AND half of its offset
-            // (essentially moving caret to the left edge of bounding box)
-            g.translate(-left - (lineOffsets[lineNum - 1] / 2), topOffset);
-            g.translate(lineOffsets[lineNum] / 2, 0);
-          }
-          else {
-            g.translate(-left, topOffset);
-          }
-
-          left = 0;
-
-          continue;
-        }
-        var glyph = font.glyphs[chars[i]] || font.missingGlyph;
-        if (!glyph) continue;
-
-        var charWidth = Number(glyph.w || font.w) + letterSpacing;
-
-        if (textDecoration) {
-          g.save();
-          g.strokeStyle = g.fillStyle;
-
-          // add 2x more thickness — closer to SVG rendering
-          g.lineWidth += g.lineWidth;
-
-          g.beginPath();
-          if (textDecoration.underline) {
-            g.moveTo(0, -font.face['underline-position'] + 0.5);
-            g.lineTo(charWidth, -font.face['underline-position'] + 0.5);
-          }
-          if (textDecoration.overline) {
-            g.moveTo(0, font.ascent + 0.5);
-            g.lineTo(charWidth, font.ascent + 0.5);
-          }
-          if (textDecoration['line-through']) {
-            g.moveTo(0, -font.descent + 0.5);
-            g.lineTo(charWidth, -font.descent + 0.5);
-          }
-          g.stroke();
-          g.restore();
-        }
-
-        if (isItalic) {
-          g.save();
-          g.transform(1, 0, -0.25, 1, 0, 0);
-        }
-
-        g.beginPath();
-        if (glyph.d) {
-          if (glyph.code) interpret(glyph.code, g);
-          else glyph.code = generateFromVML('m' + glyph.d, g);
-        }
-
-        g.fill();
-
-        if (options.strokeStyle) {
-          g.closePath();
-          g.save();
-          g.lineWidth = options.strokeWidth;
-          g.strokeStyle = options.strokeStyle;
-          g.stroke();
-          g.restore();
-        }
-
-        if (isItalic) {
-          g.restore();
-        }
-
-        g.translate(charWidth, 0);
-        left += charWidth;
-      }
-    }
-
-    g.save();
-    renderBackground();
-    if (shadows) {
-      for (var i = 0, l = shadows.length; i < l; ++i) {
-        var shadow = shadows[i];
-        g.save();
-        g.translate.apply(g, shadowOffsets[i]);
-        renderText(shadow.color);
-        g.restore();
-      }
-    }
-    renderText();
-    g.restore();
-    g.restore();
-    g.restore();
-
-    return wrapper;
-
-  };
-
-})());
-
-Cufon.registerEngine('vml', (function() {
-
-  if (!fabric.document.namespaces) return;
-
-  var canvasEl = fabric.document.createElement('canvas');
-  if (canvasEl && canvasEl.getContext && canvasEl.getContext.apply) return;
-
-  if (fabric.document.namespaces.cvml == null) {
-    fabric.document.namespaces.add('cvml', 'urn:schemas-microsoft-com:vml');
-  }
-
-  var check = fabric.document.createElement('cvml:shape');
-  check.style.behavior = 'url(#default#VML)';
-  if (!check.coordsize) return; // VML isn't supported
-  check = null;
-
-  fabric.document.write('<style type="text/css">' +
-    '.cufon-vml-canvas{text-indent:0}' +
-    '@media screen{' +
-      'cvml\\:shape,cvml\\:shadow{behavior:url(#default#VML);display:block;antialias:true;position:absolute}' +
-      '.cufon-vml-canvas{position:absolute;text-align:left}' +
-      '.cufon-vml{display:inline-block;position:relative;vertical-align:middle}' +
-      '.cufon-vml .cufon-alt{position:absolute;left:-10000in;font-size:1px}' +
-      'a .cufon-vml{cursor:pointer}' +
-    '}' +
-    '@media print{' +
-      '.cufon-vml *{display:none}' +
-      '.cufon-vml .cufon-alt{display:inline}' +
-    '}' +
-  '</style>');
-
-  function getFontSizeInPixels(el, value) {
-    return getSizeInPixels(el, /(?:em|ex|%)$/i.test(value) ? '1em' : value);
-  }
-
-  // Original by Dead Edwards.
-  // Combined with getFontSizeInPixels it also works with relative units.
-  function getSizeInPixels(el, value) {
-    if (/px$/i.test(value)) return parseFloat(value);
-    var style = el.style.left, runtimeStyle = el.runtimeStyle.left;
-    el.runtimeStyle.left = el.currentStyle.left;
-    el.style.left = value;
-    var result = el.style.pixelLeft;
-    el.style.left = style;
-    el.runtimeStyle.left = runtimeStyle;
-    return result;
-  }
-
-  return function(font, text, style, options, node, el, hasNext) {
-    var redraw = (text === null);
-
-    if (redraw) text = node.alt;
-
-    // @todo word-spacing, text-decoration
-
-    var viewBox = font.viewBox;
-
-    var size = style.computedFontSize ||
-      (style.computedFontSize = new Cufon.CSS.Size(getFontSizeInPixels(el, style.get('fontSize')) + 'px', font.baseSize));
-
-    var letterSpacing = style.computedLSpacing;
-
-    if (letterSpacing == undefined) {
-      letterSpacing = style.get('letterSpacing');
-      style.computedLSpacing = letterSpacing =
-        (letterSpacing == 'normal') ? 0 : ~~size.convertFrom(getSizeInPixels(el, letterSpacing));
-    }
-
-    var wrapper, canvas;
-
-    if (redraw) {
-      wrapper = node;
-      canvas = node.firstChild;
-    }
-    else {
-      wrapper = fabric.document.createElement('span');
-      wrapper.className = 'cufon cufon-vml';
-      wrapper.alt = text;
-
-      canvas = fabric.document.createElement('span');
-      canvas.className = 'cufon-vml-canvas';
-      wrapper.appendChild(canvas);
-
-      if (options.printable) {
-        var print = fabric.document.createElement('span');
-        print.className = 'cufon-alt';
-        print.appendChild(fabric.document.createTextNode(text));
-        wrapper.appendChild(print);
-      }
-
-      // ie6, for some reason, has trouble rendering the last VML element in the document.
-      // we can work around this by injecting a dummy element where needed.
-      // @todo find a better solution
-      if (!hasNext) wrapper.appendChild(fabric.document.createElement('cvml:shape'));
-    }
-
-    var wStyle = wrapper.style;
-    var cStyle = canvas.style;
-
-    var height = size.convert(viewBox.height), roundedHeight = Math.ceil(height);
-    var roundingFactor = roundedHeight / height;
-    var minX = viewBox.minX, minY = viewBox.minY;
-
-    cStyle.height = roundedHeight;
-    cStyle.top = Math.round(size.convert(minY - font.ascent));
-    cStyle.left = Math.round(size.convert(minX));
-
-    wStyle.height = size.convert(font.height) + 'px';
-
-    var textDecoration = Cufon.getTextDecoration(options);
-
-    var color = style.get('color');
-
-    var chars = Cufon.CSS.textTransform(text, style).split('');
-
-    var width = 0, offsetX = 0, advance = null;
-
-    var glyph, shape, shadows = options.textShadow;
-
-    // pre-calculate width
-    for (var i = 0, k = 0, l = chars.length; i < l; ++i) {
-      glyph = font.glyphs[chars[i]] || font.missingGlyph;
-      if (glyph) width += advance = ~~(glyph.w || font.w) + letterSpacing;
-    }
-
-    if (advance === null) return null;
-
-    var fullWidth = -minX + width + (viewBox.width - advance);
-
-    var shapeWidth = size.convert(fullWidth * roundingFactor), roundedShapeWidth = Math.round(shapeWidth);
-
-    var coordSize = fullWidth + ',' + viewBox.height, coordOrigin;
-    var stretch = 'r' + coordSize + 'nsnf';
-
-    for (i = 0; i < l; ++i) {
-
-      glyph = font.glyphs[chars[i]] || font.missingGlyph;
-      if (!glyph) continue;
-
-      if (redraw) {
-        // some glyphs may be missing so we can't use i
-        shape = canvas.childNodes[k];
-        if (shape.firstChild) shape.removeChild(shape.firstChild); // shadow
-      }
-      else {
-        shape = fabric.document.createElement('cvml:shape');
-        canvas.appendChild(shape);
-      }
-
-      shape.stroked = 'f';
-      shape.coordsize = coordSize;
-      shape.coordorigin = coordOrigin = (minX - offsetX) + ',' + minY;
-      shape.path = (glyph.d ? 'm' + glyph.d + 'xe' : '') + 'm' + coordOrigin + stretch;
-      shape.fillcolor = color;
-
-      // it's important to not set top/left or IE8 will grind to a halt
-      var sStyle = shape.style;
-      sStyle.width = roundedShapeWidth;
-      sStyle.height = roundedHeight;
-
-      if (shadows) {
-        // due to the limitations of the VML shadow element there
-        // can only be two visible shadows. opacity is shared
-        // for all shadows.
-        var shadow1 = shadows[0], shadow2 = shadows[1];
-        var color1 = Cufon.CSS.color(shadow1.color), color2;
-        var shadow = fabric.document.createElement('cvml:shadow');
-        shadow.on = 't';
-        shadow.color = color1.color;
-        shadow.offset = shadow1.offX + ',' + shadow1.offY;
-        if (shadow2) {
-          color2 = Cufon.CSS.color(shadow2.color);
-          shadow.type = 'double';
-          shadow.color2 = color2.color;
-          shadow.offset2 = shadow2.offX + ',' + shadow2.offY;
-        }
-        shadow.opacity = color1.opacity || (color2 && color2.opacity) || 1;
-        shape.appendChild(shadow);
-      }
-
-      offsetX += ~~(glyph.w || font.w) + letterSpacing;
-
-      ++k;
-
-    }
-
-    wStyle.width = Math.max(Math.ceil(size.convert(width * roundingFactor)), 0);
-
-    return wrapper;
-
-  };
-
-})());
-
-Cufon.getTextDecoration = function(options) {
-  return {
-    underline: options.textDecoration === 'underline',
-    overline: options.textDecoration === 'overline',
-    'line-through': options.textDecoration === 'line-through'
-  };
-};
-
-if (typeof exports != 'undefined') {
-  exports.Cufon = Cufon;
+
+    This code should be minified before deployment.
+    See http://javascript.crockford.com/jsmin.html
+
+    USE YOUR OWN COPY. IT IS EXTREMELY UNWISE TO LOAD CODE FROM SERVERS YOU DO
+    NOT CONTROL.
+
+
+    This file creates a global JSON object containing two methods: stringify
+    and parse.
+
+        JSON.stringify(value, replacer, space)
+            value       any JavaScript value, usually an object or array.
+
+            replacer    an optional parameter that determines how object
+                        values are stringified for objects. It can be a
+                        function or an array of strings.
+
+            space       an optional parameter that specifies the indentation
+                        of nested structures. If it is omitted, the text will
+                        be packed without extra whitespace. If it is a number,
+                        it will specify the number of spaces to indent at each
+                        level. If it is a string (such as '\t' or '&nbsp;'),
+                        it contains the characters used to indent at each level.
+
+            This method produces a JSON text from a JavaScript value.
+
+            When an object value is found, if the object contains a toJSON
+            method, its toJSON method will be called and the result will be
+            stringified. A toJSON method does not serialize: it returns the
+            value represented by the name/value pair that should be serialized,
+            or undefined if nothing should be serialized. The toJSON method
+            will be passed the key associated with the value, and this will be
+            bound to the value
+
+            For example, this would serialize Dates as ISO strings.
+
+                Date.prototype.toJSON = function (key) {
+                    function f(n) {
+                        // Format integers to have at least two digits.
+                        return n < 10 ? '0' + n : n;
+                    }
+
+                    return this.getUTCFullYear()   + '-' +
+                         f(this.getUTCMonth() + 1) + '-' +
+                         f(this.getUTCDate())      + 'T' +
+                         f(this.getUTCHours())     + ':' +
+                         f(this.getUTCMinutes())   + ':' +
+                         f(this.getUTCSeconds())   + 'Z';
+                };
+
+            You can provide an optional replacer method. It will be passed the
+            key and value of each member, with this bound to the containing
+            object. The value that is returned from your method will be
+            serialized. If your method returns undefined, then the member will
+            be excluded from the serialization.
+
+            If the replacer parameter is an array of strings, then it will be
+            used to select the members to be serialized. It filters the results
+            such that only members with keys listed in the replacer array are
+            stringified.
+
+            Values that do not have JSON representations, such as undefined or
+            functions, will not be serialized. Such values in objects will be
+            dropped; in arrays they will be replaced with null. You can use
+            a replacer function to replace those with JSON values.
+            JSON.stringify(undefined) returns undefined.
+
+            The optional space parameter produces a stringification of the
+            value that is filled with line breaks and indentation to make it
+            easier to read.
+
+            If the space parameter is a non-empty string, then that string will
+            be used for indentation. If the space parameter is a number, then
+            the indentation will be that many spaces.
+
+            Example:
+
+            text = JSON.stringify(['e', {pluribus: 'unum'}]);
+            // text is '["e",{"pluribus":"unum"}]'
+
+
+            text = JSON.stringify(['e', {pluribus: 'unum'}], null, '\t');
+            // text is '[\n\t"e",\n\t{\n\t\t"pluribus": "unum"\n\t}\n]'
+
+            text = JSON.stringify([new Date()], function (key, value) {
+                return this[key] instanceof Date ?
+                    'Date(' + this[key] + ')' : value;
+            });
+            // text is '["Date(---current time---)"]'
+
+
+        JSON.parse(text, reviver)
+            This method parses a JSON text to produce an object or array.
+            It can throw a SyntaxError exception.
+
+            The optional reviver parameter is a function that can filter and
+            transform the results. It receives each of the keys and values,
+            and its return value is used instead of the original value.
+            If it returns what it received, then the structure is not modified.
+            If it returns undefined then the member is deleted.
+
+            Example:
+
+            // Parse the text. Values that look like ISO date strings will
+            // be converted to Date objects.
+
+            myData = JSON.parse(text, function (key, value) {
+                var a;
+                if (typeof value === 'string') {
+                    a =
+/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)Z$/.exec(value);
+                    if (a) {
+                        return new Date(Date.UTC(+a[1], +a[2] - 1, +a[3], +a[4],
+                            +a[5], +a[6]));
+                    }
+                }
+                return value;
+            });
+
+            myData = JSON.parse('["Date(09/09/2001)"]', function (key, value) {
+                var d;
+                if (typeof value === 'string' &&
+                        value.slice(0, 5) === 'Date(' &&
+                        value.slice(-1) === ')') {
+                    d = new Date(value.slice(5, -1));
+                    if (d) {
+                        return d;
+                    }
+                }
+                return value;
+            });
+
+
+    This is a reference implementation. You are free to copy, modify, or
+    redistribute.
+*/
+
+/*jslint evil: true, regexp: true */
+
+/*members "", "\b", "\t", "\n", "\f", "\r", "\"", JSON, "\\", apply,
+    call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
+    getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join,
+    lastIndex, length, parse, prototype, push, replace, slice, stringify,
+    test, toJSON, toString, valueOf
+*/
+
+
+// Create a JSON object only if one does not already exist. We create the
+// methods in a closure to avoid creating global variables.
+
+var JSON;
+if (!JSON) {
+    JSON = {};
 }
-(function(){
+
+(function () {
+    'use strict';
+
+    function f(n) {
+        // Format integers to have at least two digits.
+        return n < 10 ? '0' + n : n;
+    }
+
+    if (typeof Date.prototype.toJSON !== 'function') {
+
+        /** @ignore */
+        Date.prototype.toJSON = function (key) {
+
+            return isFinite(this.valueOf())
+                ? this.getUTCFullYear()     + '-' +
+                    f(this.getUTCMonth() + 1) + '-' +
+                    f(this.getUTCDate())      + 'T' +
+                    f(this.getUTCHours())     + ':' +
+                    f(this.getUTCMinutes())   + ':' +
+                    f(this.getUTCSeconds())   + 'Z'
+                : null;
+        };
+
+        String.prototype.toJSON      =
+            Number.prototype.toJSON  =
+            /** @ignore */
+            Boolean.prototype.toJSON = function (key) {
+                return this.valueOf();
+            };
+    }
+
+    var cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
+        escapable = /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
+        gap,
+        indent,
+        meta = {    // table of character substitutions
+            '\b': '\\b',
+            '\t': '\\t',
+            '\n': '\\n',
+            '\f': '\\f',
+            '\r': '\\r',
+            '"' : '\\"',
+            '\\': '\\\\'
+        },
+        rep;
+
+
+    function quote(string) {
+
+// If the string contains no control characters, no quote characters, and no
+// backslash characters, then we can safely slap some quotes around it.
+// Otherwise we must also replace the offending characters with safe escape
+// sequences.
+
+        escapable.lastIndex = 0;
+        return escapable.test(string) ? '"' + string.replace(escapable, function (a) {
+            var c = meta[a];
+            return typeof c === 'string'
+                ? c
+                : '\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
+        }) + '"' : '"' + string + '"';
+    }
+
+
+    function str(key, holder) {
+
+// Produce a string from holder[key].
+
+        var i,          // The loop counter.
+            k,          // The member key.
+            v,          // The member value.
+            length,
+            mind = gap,
+            partial,
+            value = holder[key];
+
+// If the value has a toJSON method, call it to obtain a replacement value.
+
+        if (value && typeof value === 'object' &&
+                typeof value.toJSON === 'function') {
+            value = value.toJSON(key);
+        }
+
+// If we were called with a replacer function, then call the replacer to
+// obtain a replacement value.
+
+        if (typeof rep === 'function') {
+            value = rep.call(holder, key, value);
+        }
+
+// What happens next depends on the value's type.
+
+        switch (typeof value) {
+        case 'string':
+            return quote(value);
+
+        case 'number':
+
+// JSON numbers must be finite. Encode non-finite numbers as null.
+
+            return isFinite(value) ? String(value) : 'null';
+
+        case 'boolean':
+        case 'null':
+
+// If the value is a boolean or null, convert it to a string. Note:
+// typeof null does not produce 'null'. The case is included here in
+// the remote chance that this gets fixed someday.
+
+            return String(value);
+
+// If the type is 'object', we might be dealing with an object or an array or
+// null.
+
+        case 'object':
+
+// Due to a specification blunder in ECMAScript, typeof null is 'object',
+// so watch out for that case.
+
+            if (!value) {
+                return 'null';
+            }
+
+// Make an array to hold the partial results of stringifying this object value.
+
+            gap += indent;
+            partial = [];
+
+// Is the value an array?
+
+            if (Object.prototype.toString.apply(value) === '[object Array]') {
+
+// The value is an array. Stringify every element. Use null as a placeholder
+// for non-JSON values.
+
+                length = value.length;
+                for (i = 0; i < length; i += 1) {
+                    partial[i] = str(i, value) || 'null';
+                }
+
+// Join all of the elements together, separated with commas, and wrap them in
+// brackets.
+
+                v = partial.length === 0
+                    ? '[]'
+                    : gap
+                    ? '[\n' + gap + partial.join(',\n' + gap) + '\n' + mind + ']'
+                    : '[' + partial.join(',') + ']';
+                gap = mind;
+                return v;
+            }
+
+// If the replacer is an array, use it to select the members to be stringified.
+
+            if (rep && typeof rep === 'object') {
+                length = rep.length;
+                for (i = 0; i < length; i += 1) {
+                    if (typeof rep[i] === 'string') {
+                        k = rep[i];
+                        v = str(k, value);
+                        if (v) {
+                            partial.push(quote(k) + (gap ? ': ' : ':') + v);
+                        }
+                    }
+                }
+            } else {
+
+// Otherwise, iterate through all of the keys in the object.
+
+                for (k in value) {
+                    if (Object.prototype.hasOwnProperty.call(value, k)) {
+                        v = str(k, value);
+                        if (v) {
+                            partial.push(quote(k) + (gap ? ': ' : ':') + v);
+                        }
+                    }
+                }
+            }
+
+// Join all of the member texts together, separated with commas,
+// and wrap them in braces.
+
+            v = partial.length === 0
+                ? '{}'
+                : gap
+                ? '{\n' + gap + partial.join(',\n' + gap) + '\n' + mind + '}'
+                : '{' + partial.join(',') + '}';
+            gap = mind;
+            return v;
+        }
+    }
+
+// If the JSON object does not yet have a stringify method, give it one.
+
+    if (typeof JSON.stringify !== 'function') {
+        /** @ignore */
+        JSON.stringify = function (value, replacer, space) {
+
+// The stringify method takes a value and an optional replacer, and an optional
+// space parameter, and returns a JSON text. The replacer can be a function
+// that can replace values, or an array of strings that will select the keys.
+// A default replacer method can be provided. Use of the space parameter can
+// produce text that is more easily readable.
+
+            var i;
+            gap = '';
+            indent = '';
+
+// If the space parameter is a number, make an indent string containing that
+// many spaces.
+
+            if (typeof space === 'number') {
+                for (i = 0; i < space; i += 1) {
+                    indent += ' ';
+                }
+
+// If the space parameter is a string, it will be used as the indent string.
+
+            } else if (typeof space === 'string') {
+                indent = space;
+            }
+
+// If there is a replacer, it must be a function or an array.
+// Otherwise, throw an error.
+
+            rep = replacer;
+            if (replacer && typeof replacer !== 'function' &&
+                    (typeof replacer !== 'object' ||
+                    typeof replacer.length !== 'number')) {
+                throw new Error('JSON.stringify');
+            }
+
+// Make a fake root object containing our value under the key of ''.
+// Return the result of stringifying the value.
+
+            return str('', {'': value});
+        };
+    }
+
+
+// If the JSON object does not yet have a parse method, give it one.
+
+    if (typeof JSON.parse !== 'function') {
+        /** @ignore */
+        JSON.parse = function (text, reviver) {
+
+// The parse method takes a text and an optional reviver function, and returns
+// a JavaScript value if the text is a valid JSON text.
+
+            var j;
+
+            function walk(holder, key) {
+
+// The walk method is used to recursively walk the resulting structure so
+// that modifications can be made.
+
+                var k, v, value = holder[key];
+                if (value && typeof value === 'object') {
+                    for (k in value) {
+                        if (Object.prototype.hasOwnProperty.call(value, k)) {
+                            v = walk(value, k);
+                            if (v !== undefined) {
+                                value[k] = v;
+                            } else {
+                                delete value[k];
+                            }
+                        }
+                    }
+                }
+                return reviver.call(holder, key, value);
+            }
+
+
+// Parsing happens in four stages. In the first stage, we replace certain
+// Unicode characters with escape sequences. JavaScript handles many characters
+// incorrectly, either silently deleting them, or treating them as line endings.
+
+            text = String(text);
+            cx.lastIndex = 0;
+            if (cx.test(text)) {
+                text = text.replace(cx, function (a) {
+                    return '\\u' +
+                        ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
+                });
+            }
+
+// In the second stage, we run the text against regular expressions that look
+// for non-JSON patterns. We are especially concerned with '()' and 'new'
+// because they can cause invocation, and '=' because it can cause mutation.
+// But just to be safe, we want to reject all unexpected forms.
+
+// We split the second stage into 4 regexp operations in order to work around
+// crippling inefficiencies in IE's and Safari's regexp engines. First we
+// replace the JSON backslash pairs with '@' (a non-JSON character). Second, we
+// replace all simple value tokens with ']' characters. Third, we delete all
+// open brackets that follow a colon or comma or that begin the text. Finally,
+// we look to see that the remaining characters are only whitespace or ']' or
+// ',' or ':' or '{' or '}'. If that is so, then the text is safe for eval.
+
+            if (/^[\],:{}\s]*$/
+                    .test(text.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g, '@')
+                        .replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']')
+                        .replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
+
+// In the third stage we use the eval function to compile the text into a
+// JavaScript structure. The '{' operator is subject to a syntactic ambiguity
+// in JavaScript: it can begin a block or an object literal. We wrap the text
+// in parens to eliminate the ambiguity.
+
+                j = eval('(' + text + ')');
+
+// In the optional fourth stage, we recursively walk the new structure, passing
+// each name/value pair to a reviver function for possible transformation.
+
+                return typeof reviver === 'function'
+                    ? walk({'': j}, '')
+                    : j;
+            }
+
+// If the text is not JSON parseable, then a SyntaxError is thrown.
+
+            throw new SyntaxError('JSON.parse');
+        };
+    }
+}());(function(){
 
   /**
    * @private
@@ -3325,343 +2589,6 @@ if (typeof console !== 'undefined') {
     }
   });
 }
-(function() {
-
-  function normalize(a, c, p, s) {
-    if (a < Math.abs(c)) { a=c; s=p/4; }
-    else s = p/(2*Math.PI) * Math.asin (c/a);
-    return { a: a, c: c, p: p, s: s };
-  }
-
-  function elastic(opts, t, d) {
-    return opts.a *
-      Math.pow(2, 10 * (t -= 1)) *
-      Math.sin( (t * d - opts.s) * (2 * Math.PI) / opts.p );
-  }
-
-  /**
-   * Cubic easing out
-   * @memberOf fabric.util.ease
-   */
-  function easeOutCubic(t, b, c, d) {
-    return c*((t=t/d-1)*t*t + 1) + b;
-  }
-
-  /**
-   * Cubic easing in and out
-   * @memberOf fabric.util.ease
-   */
-  function easeInOutCubic(t, b, c, d) {
-    t /= d/2;
-    if (t < 1) return c/2*t*t*t + b;
-    return c/2*((t-=2)*t*t + 2) + b;
-  }
-
-  /**
-   * Quartic easing in
-   * @memberOf fabric.util.ease
-   */
-  function easeInQuart(t, b, c, d) {
-    return c*(t/=d)*t*t*t + b;
-  }
-
-  /**
-   * Quartic easing out
-   * @memberOf fabric.util.ease
-   */
-  function easeOutQuart(t, b, c, d) {
-    return -c * ((t=t/d-1)*t*t*t - 1) + b;
-  }
-
-  /**
-   * Quartic easing in and out
-   * @memberOf fabric.util.ease
-   */
-  function easeInOutQuart(t, b, c, d) {
-    t /= d/2;
-    if (t < 1) return c/2*t*t*t*t + b;
-    return -c/2 * ((t-=2)*t*t*t - 2) + b;
-  }
-
-  /**
-   * Quintic easing in
-   * @memberOf fabric.util.ease
-   */
-  function easeInQuint(t, b, c, d) {
-    return c*(t/=d)*t*t*t*t + b;
-  }
-
-  /**
-   * Quintic easing out
-   * @memberOf fabric.util.ease
-   */
-  function easeOutQuint(t, b, c, d) {
-    return c*((t=t/d-1)*t*t*t*t + 1) + b;
-  }
-
-  /**
-   * Quintic easing in and out
-   * @memberOf fabric.util.ease
-   */
-  function easeInOutQuint(t, b, c, d) {
-    t /= d/2;
-    if (t < 1) return c/2*t*t*t*t*t + b;
-    return c/2*((t-=2)*t*t*t*t + 2) + b;
-  }
-
-  /**
-   * Sinusoidal easing in
-   * @memberOf fabric.util.ease
-   */
-  function easeInSine(t, b, c, d) {
-    return -c * Math.cos(t/d * (Math.PI/2)) + c + b;
-  }
-
-  /**
-   * Sinusoidal easing out
-   * @memberOf fabric.util.ease
-   */
-  function easeOutSine(t, b, c, d) {
-    return c * Math.sin(t/d * (Math.PI/2)) + b;
-  }
-
-  /**
-   * Sinusoidal easing in and out
-   * @memberOf fabric.util.ease
-   */
-  function easeInOutSine(t, b, c, d) {
-    return -c/2 * (Math.cos(Math.PI*t/d) - 1) + b;
-  }
-
-  /**
-   * Exponential easing in
-   * @memberOf fabric.util.ease
-   */
-  function easeInExpo(t, b, c, d) {
-    return (t===0) ? b : c * Math.pow(2, 10 * (t/d - 1)) + b;
-  }
-
-  /**
-   * Exponential easing out
-   * @memberOf fabric.util.ease
-   */
-  function easeOutExpo(t, b, c, d) {
-    return (t===d) ? b+c : c * (-Math.pow(2, -10 * t/d) + 1) + b;
-  }
-
-  /**
-   * Exponential easing in and out
-   * @memberOf fabric.util.ease
-   */
-  function easeInOutExpo(t, b, c, d) {
-    if (t===0) return b;
-    if (t===d) return b+c;
-    t /= d/2;
-    if (t < 1) return c/2 * Math.pow(2, 10 * (t - 1)) + b;
-    return c/2 * (-Math.pow(2, -10 * --t) + 2) + b;
-  }
-
-  /**
-   * Circular easing in
-   * @memberOf fabric.util.ease
-   */
-  function easeInCirc(t, b, c, d) {
-    return -c * (Math.sqrt(1 - (t/=d)*t) - 1) + b;
-  }
-
-  /**
-   * Circular easing out
-   * @memberOf fabric.util.ease
-   */
-  function easeOutCirc(t, b, c, d) {
-    return c * Math.sqrt(1 - (t=t/d-1)*t) + b;
-  }
-
-  /**
-   * Circular easing in and out
-   * @memberOf fabric.util.ease
-   */
-  function easeInOutCirc(t, b, c, d) {
-    t /= d/2;
-    if (t < 1) return -c/2 * (Math.sqrt(1 - t*t) - 1) + b;
-    return c/2 * (Math.sqrt(1 - (t-=2)*t) + 1) + b;
-  }
-
-  /**
-   * Elastic easing in
-   * @memberOf fabric.util.ease
-   */
-  function easeInElastic(t, b, c, d) {
-    var s=1.70158;var p=0;var a=c;
-    if (t===0) return b;
-    t /= d;
-    if (t===1) return b+c;
-    if (!p) p=d*0.3;
-    var opts = normalize(a, c, p, s);
-    return -elastic(opts, t, d) + b;
-  }
-
-  /**
-   * Elastic easing out
-   * @memberOf fabric.util.ease
-   */
-  function easeOutElastic(t, b, c, d) {
-    var s=1.70158;var p=0;var a=c;
-    if (t===0) return b;
-    t /= d;
-    if (t===1) return b+c;
-    if (!p) p=d*0.3;
-    var opts = normalize(a, c, p, s);
-    return opts.a*Math.pow(2,-10*t) * Math.sin( (t*d-opts.s)*(2*Math.PI)/opts.p ) + opts.c + b;
-  }
-
-  /**
-   * Elastic easing in and out
-   * @memberOf fabric.util.ease
-   */
-  function easeInOutElastic(t, b, c, d) {
-    var s=1.70158;var p=0;var a=c;
-    if (t===0) return b;
-    t /= d/2;
-    if (t===2) return b+c;
-    if (!p) p=d*(0.3*1.5);
-    var opts = normalize(a, c, p, s);
-    if (t < 1) return -0.5 * elastic(opts, t, d) + b;
-    return opts.a*Math.pow(2,-10*(t-=1)) * Math.sin( (t*d-opts.s)*(2*Math.PI)/opts.p )*0.5 + opts.c + b;
-  }
-
-  /**
-   * Backwards easing in
-   * @memberOf fabric.util.ease
-   */
-  function easeInBack(t, b, c, d, s) {
-    if (s === undefined) s = 1.70158;
-    return c*(t/=d)*t*((s+1)*t - s) + b;
-  }
-
-  /**
-   * Backwards easing out
-   * @memberOf fabric.util.ease
-   */
-  function easeOutBack(t, b, c, d, s) {
-    if (s === undefined) s = 1.70158;
-    return c*((t=t/d-1)*t*((s+1)*t + s) + 1) + b;
-  }
-
-  /**
-   * Backwards easing in and out
-   * @memberOf fabric.util.ease
-   */
-  function easeInOutBack(t, b, c, d, s) {
-    if (s === undefined) s = 1.70158;
-    t /= d/2;
-    if (t < 1) return c/2*(t*t*(((s*=(1.525))+1)*t - s)) + b;
-    return c/2*((t-=2)*t*(((s*=(1.525))+1)*t + s) + 2) + b;
-  }
-
-  /**
-   * Bouncing easing in
-   * @memberOf fabric.util.ease
-   */
-  function easeInBounce(t, b, c, d) {
-    return c - easeOutBounce (d-t, 0, c, d) + b;
-  }
-
-  /**
-   * Bouncing easing out
-   * @memberOf fabric.util.ease
-   */
-  function easeOutBounce(t, b, c, d) {
-    if ((t/=d) < (1/2.75)) {
-      return c*(7.5625*t*t) + b;
-    } else if (t < (2/2.75)) {
-      return c*(7.5625*(t-=(1.5/2.75))*t + 0.75) + b;
-    } else if (t < (2.5/2.75)) {
-      return c*(7.5625*(t-=(2.25/2.75))*t + 0.9375) + b;
-    } else {
-      return c*(7.5625*(t-=(2.625/2.75))*t + 0.984375) + b;
-    }
-  }
-
-  /**
-   * Bouncing easing in and out
-   * @memberOf fabric.util.ease
-   */
-  function easeInOutBounce(t, b, c, d) {
-    if (t < d/2) return easeInBounce (t*2, 0, c, d) * 0.5 + b;
-    return easeOutBounce (t*2-d, 0, c, d) * 0.5 + c*0.5 + b;
-  }
-
-  /**
-   * Easing functions
-   * See <a href="http://gizma.com/easing/">Easing Equations by Robert Penner</a>
-   * @namespace fabric.util.ease
-   */
-  fabric.util.ease = {
-
-    /**
-     * Quadratic easing in
-     * @memberOf fabric.util.ease
-     */
-    easeInQuad: function(t, b, c, d) {
-      return c*(t/=d)*t + b;
-    },
-
-    /**
-     * Quadratic easing out
-     * @memberOf fabric.util.ease
-     */
-    easeOutQuad: function(t, b, c, d) {
-      return -c *(t/=d)*(t-2) + b;
-    },
-
-    /**
-     * Quadratic easing in and out
-     * @memberOf fabric.util.ease
-     */
-    easeInOutQuad: function(t, b, c, d) {
-      t /= (d/2);
-      if (t < 1) return c/2*t*t + b;
-      return -c/2 * ((--t)*(t-2) - 1) + b;
-    },
-
-    /**
-     * Cubic easing in
-     * @memberOf fabric.util.ease
-     */
-    easeInCubic: function(t, b, c, d) {
-      return c*(t/=d)*t*t + b;
-    },
-
-    easeOutCubic: easeOutCubic,
-    easeInOutCubic: easeInOutCubic,
-    easeInQuart: easeInQuart,
-    easeOutQuart: easeOutQuart,
-    easeInOutQuart: easeInOutQuart,
-    easeInQuint: easeInQuint,
-    easeOutQuint: easeOutQuint,
-    easeInOutQuint: easeInOutQuint,
-    easeInSine: easeInSine,
-    easeOutSine: easeOutSine,
-    easeInOutSine: easeInOutSine,
-    easeInExpo: easeInExpo,
-    easeOutExpo: easeOutExpo,
-    easeInOutExpo: easeInOutExpo,
-    easeInCirc: easeInCirc,
-    easeOutCirc: easeOutCirc,
-    easeInOutCirc: easeInOutCirc,
-    easeInElastic: easeInElastic,
-    easeOutElastic: easeOutElastic,
-    easeInOutElastic: easeInOutElastic,
-    easeInBack: easeInBack,
-    easeOutBack: easeOutBack,
-    easeInOutBack: easeInOutBack,
-    easeInBounce: easeInBounce,
-    easeOutBounce: easeOutBounce,
-    easeInOutBounce: easeInOutBounce
-  };
-
-}());
 (function(global) {
 
   "use strict";
@@ -4579,382 +3506,6 @@ if (typeof console !== 'undefined') {
   };
 
 })(typeof exports !== 'undefined' ? exports : this);
-(function() {
-
-  /* _FROM_SVG_START_ */
-  function getColorStop(el) {
-    var style = el.getAttribute('style'),
-        offset = el.getAttribute('offset'),
-        color, opacity;
-
-    // convert percents to absolute values
-    offset = parseFloat(offset) / (/%$/.test(offset) ? 100 : 1);
-
-    if (style) {
-      var keyValuePairs = style.split(/\s*;\s*/);
-
-      if (keyValuePairs[keyValuePairs.length-1] === '') {
-        keyValuePairs.pop();
-      }
-
-      for (var i = keyValuePairs.length; i--; ) {
-
-        var split = keyValuePairs[i].split(/\s*:\s*/),
-            key = split[0].trim(),
-            value = split[1].trim();
-
-        if (key === 'stop-color') {
-          color = value;
-        }
-        else if (key === 'stop-opacity') {
-          opacity = value;
-        }
-      }
-    }
-
-    if (!color) {
-      color = el.getAttribute('stop-color') || 'rgb(0,0,0)';
-    }
-    if (!opacity) {
-      opacity = el.getAttribute('stop-opacity');
-    }
-
-    // convert rgba color to rgb color - alpha value has no affect in svg
-    color = new fabric.Color(color).toRgb();
-
-    return {
-      offset: offset,
-      color: color,
-      opacity: isNaN(parseFloat(opacity)) ? 1 : parseFloat(opacity)
-    };
-  }
-
-  function getLinearCoords(el) {
-    return {
-      x1: el.getAttribute('x1') || 0,
-      y1: el.getAttribute('y1') || 0,
-      x2: el.getAttribute('x2') || '100%',
-      y2: el.getAttribute('y2') || 0
-    };
-  }
-
-  function getRadialCoords(el) {
-    return {
-      x1: el.getAttribute('fx') || el.getAttribute('cx') || '50%',
-      y1: el.getAttribute('fy') || el.getAttribute('cy') || '50%',
-      r1: 0,
-      x2: el.getAttribute('cx') || '50%',
-      y2: el.getAttribute('cy') || '50%',
-      r2: el.getAttribute('r') || '50%'
-    };
-  }
-  /* _FROM_SVG_END_ */
-
-  /**
-   * Gradient class
-   * @class fabric.Gradient
-   * @tutorial {@link http://fabricjs.com/fabric-intro-part-2/#gradients}
-   * @see {@link fabric.Gradient#initialize} for constructor definition
-   */
-  fabric.Gradient = fabric.util.createClass(/** @lends fabric.Gradient.prototype */ {
-
-    /**
-     * Constructor
-     * @param {Object} [options] Options object with type, coords, gradientUnits and colorStops
-     * @return {fabric.Gradient} thisArg
-     */
-    initialize: function(options) {
-      options || (options = { });
-
-      var coords = { };
-
-      this.id = fabric.Object.__uid++;
-      this.type = options.type || 'linear';
-
-      coords = {
-        x1: options.coords.x1 || 0,
-        y1: options.coords.y1 || 0,
-        x2: options.coords.x2 || 0,
-        y2: options.coords.y2 || 0
-      };
-
-      if (this.type === 'radial') {
-        coords.r1 = options.coords.r1 || 0;
-        coords.r2 = options.coords.r2 || 0;
-      }
-
-      this.coords = coords;
-      this.gradientUnits = options.gradientUnits || 'objectBoundingBox';
-      this.colorStops = options.colorStops.slice();
-    },
-
-    /**
-     * Adds another colorStop
-     * @param {Object} colorStop Object with offset and color
-     * @return {fabric.Gradient} thisArg
-     */
-    addColorStop: function(colorStop) {
-      for (var position in colorStop) {
-        var color = new fabric.Color(colorStop[position]);
-        this.colorStops.push({offset: position, color: color.toRgb(), opacity: color.getAlpha()});
-      }
-      return this;
-    },
-
-    /**
-     * Returns object representation of a gradient
-     * @return {Object}
-     */
-    toObject: function() {
-      return {
-        type: this.type,
-        coords: this.coords,
-        gradientUnits: this.gradientUnits,
-        colorStops: this.colorStops
-      };
-    },
-
-    /* _TO_SVG_START_ */
-    /**
-     * Returns SVG representation of an gradient
-     * @param {Object} object Object to create a gradient for
-     * @param {Boolean} normalize Whether coords should be normalized
-     * @return {String} SVG representation of an gradient (linear/radial)
-     */
-    toSVG: function(object, normalize) {
-      var coords = fabric.util.object.clone(this.coords),
-          markup;
-
-      // colorStops must be sorted ascending
-      this.colorStops.sort(function(a, b) {
-        return a.offset - b.offset;
-      });
-
-      if (normalize && this.gradientUnits === 'userSpaceOnUse') {
-        coords.x1 += object.width / 2;
-        coords.y1 += object.height / 2;
-        coords.x2 += object.width / 2;
-        coords.y2 += object.height / 2;
-      }
-      else if (this.gradientUnits === 'objectBoundingBox') {
-        _convertValuesToPercentUnits(object, coords);
-      }
-
-      if (this.type === 'linear') {
-        markup = [
-          '<linearGradient ',
-            'id="SVGID_', this.id,
-            '" gradientUnits="', this.gradientUnits,
-            '" x1="', coords.x1,
-            '" y1="', coords.y1,
-            '" x2="', coords.x2,
-            '" y2="', coords.y2,
-          '">'
-        ];
-      }
-      else if (this.type === 'radial') {
-        markup = [
-          '<radialGradient ',
-            'id="SVGID_', this.id,
-            '" gradientUnits="', this.gradientUnits,
-            '" cx="', coords.x2,
-            '" cy="', coords.y2,
-            '" r="', coords.r2,
-            '" fx="', coords.x1,
-            '" fy="', coords.y1,
-          '">'
-        ];
-      }
-
-      for (var i = 0; i < this.colorStops.length; i++) {
-        markup.push(
-          '<stop ',
-            'offset="', (this.colorStops[i].offset * 100) + '%',
-            '" style="stop-color:', this.colorStops[i].color,
-            (this.colorStops[i].opacity ? ';stop-opacity: ' + this.colorStops[i].opacity : ';'),
-          '"/>'
-        );
-      }
-
-      markup.push((this.type === 'linear' ? '</linearGradient>' : '</radialGradient>'));
-
-      return markup.join('');
-    },
-    /* _TO_SVG_END_ */
-
-    /**
-     * Returns an instance of CanvasGradient
-     * @param {CanvasRenderingContext2D} ctx Context to render on
-     * @return {CanvasGradient}
-     */
-    toLive: function(ctx) {
-      var gradient;
-
-      if (!this.type) return;
-
-      if (this.type === 'linear') {
-        gradient = ctx.createLinearGradient(
-          this.coords.x1, this.coords.y1, this.coords.x2, this.coords.y2);
-      }
-      else if (this.type === 'radial') {
-        gradient = ctx.createRadialGradient(
-          this.coords.x1, this.coords.y1, this.coords.r1, this.coords.x2, this.coords.y2, this.coords.r2);
-      }
-
-      for (var i = 0, len = this.colorStops.length; i < len; i++) {
-        var color = this.colorStops[i].color,
-            opacity = this.colorStops[i].opacity,
-            offset = this.colorStops[i].offset;
-
-        if (typeof opacity !== 'undefined') {
-          color = new fabric.Color(color).setAlpha(opacity).toRgba();
-        }
-        gradient.addColorStop(parseFloat(offset), color);
-      }
-
-      return gradient;
-    }
-  });
-
-  fabric.util.object.extend(fabric.Gradient, {
-
-    /* _FROM_SVG_START_ */
-    /**
-     * Returns {@link fabric.Gradient} instance from an SVG element
-     * @static
-     * @memberof fabric.Gradient
-     * @param {SVGGradientElement} el SVG gradient element
-     * @param {fabric.Object} instance
-     * @return {fabric.Gradient} Gradient instance
-     * @see http://www.w3.org/TR/SVG/pservers.html#LinearGradientElement
-     * @see http://www.w3.org/TR/SVG/pservers.html#RadialGradientElement
-     */
-    fromElement: function(el, instance) {
-
-      /**
-       *  @example:
-       *
-       *  <linearGradient id="linearGrad1">
-       *    <stop offset="0%" stop-color="white"/>
-       *    <stop offset="100%" stop-color="black"/>
-       *  </linearGradient>
-       *
-       *  OR
-       *
-       *  <linearGradient id="linearGrad2">
-       *    <stop offset="0" style="stop-color:rgb(255,255,255)"/>
-       *    <stop offset="1" style="stop-color:rgb(0,0,0)"/>
-       *  </linearGradient>
-       *
-       *  OR
-       *
-       *  <radialGradient id="radialGrad1">
-       *    <stop offset="0%" stop-color="white" stop-opacity="1" />
-       *    <stop offset="50%" stop-color="black" stop-opacity="0.5" />
-       *    <stop offset="100%" stop-color="white" stop-opacity="1" />
-       *  </radialGradient>
-       *
-       *  OR
-       *
-       *  <radialGradient id="radialGrad2">
-       *    <stop offset="0" stop-color="rgb(255,255,255)" />
-       *    <stop offset="0.5" stop-color="rgb(0,0,0)" />
-       *    <stop offset="1" stop-color="rgb(255,255,255)" />
-       *  </radialGradient>
-       *
-       */
-
-      var colorStopEls = el.getElementsByTagName('stop'),
-          type = (el.nodeName === 'linearGradient' ? 'linear' : 'radial'),
-          gradientUnits = el.getAttribute('gradientUnits') || 'objectBoundingBox',
-          colorStops = [],
-          coords = { };
-
-      if (type === 'linear') {
-        coords = getLinearCoords(el);
-      }
-      else if (type === 'radial') {
-        coords = getRadialCoords(el);
-      }
-
-      for (var i = colorStopEls.length; i--; ) {
-        colorStops.push(getColorStop(colorStopEls[i]));
-      }
-
-      _convertPercentUnitsToValues(instance, coords);
-
-      return new fabric.Gradient({
-        type: type,
-        coords: coords,
-        gradientUnits: gradientUnits,
-        colorStops: colorStops
-      });
-    },
-    /* _FROM_SVG_END_ */
-
-    /**
-     * Returns {@link fabric.Gradient} instance from its object representation
-     * @static
-     * @memberof fabric.Gradient
-     * @param {Object} obj
-     * @param {Object} [options] Options object
-     */
-    forObject: function(obj, options) {
-      options || (options = { });
-      _convertPercentUnitsToValues(obj, options);
-      return new fabric.Gradient(options);
-    }
-  });
-
-  /**
-   * @private
-   */
-  function _convertPercentUnitsToValues(object, options) {
-    for (var prop in options) {
-      if (typeof options[prop] === 'string' && /^\d+%$/.test(options[prop])) {
-        var percents = parseFloat(options[prop], 10);
-        if (prop === 'x1' || prop === 'x2' || prop === 'r2') {
-          options[prop] = fabric.util.toFixed(object.width * percents / 100, 2);
-        }
-        else if (prop === 'y1' || prop === 'y2') {
-          options[prop] = fabric.util.toFixed(object.height * percents / 100, 2);
-        }
-      }
-      normalize(options, prop, object);
-    }
-  }
-
-  // normalize rendering point (should be from top/left corner rather than center of the shape)
-  function normalize(options, prop, object) {
-    if (prop === 'x1' || prop === 'x2') {
-      options[prop] -= fabric.util.toFixed(object.width / 2, 2);
-    }
-    else if (prop === 'y1' || prop === 'y2') {
-      options[prop] -= fabric.util.toFixed(object.height / 2, 2);
-    }
-  }
-
-  /* _TO_SVG_START_ */
-  /**
-   * @private
-   */
-  function _convertValuesToPercentUnits(object, options) {
-    for (var prop in options) {
-
-      normalize(options, prop, object);
-
-      // convert to percent units
-      if (prop === 'x1' || prop === 'x2' || prop === 'r2') {
-        options[prop] = fabric.util.toFixed(options[prop] / object.width * 100, 2) + '%';
-      }
-      else if (prop === 'y1' || prop === 'y2') {
-        options[prop] = fabric.util.toFixed(options[prop] / object.height * 100, 2) + '%';
-      }
-    }
-  }
-  /* _TO_SVG_END_ */
-
-})();
 /**
  * Pattern class
  * @class fabric.Pattern
@@ -5099,177 +3650,6 @@ fabric.Pattern = fabric.util.createClass(/** @lends fabric.Pattern.prototype */ 
     return ctx.createPattern(source, this.repeat);
   }
 });
-(function(global) {
-
-  "use strict";
-
-  var fabric = global.fabric || (global.fabric = { });
-
-  if (fabric.Shadow) {
-    fabric.warn('fabric.Shadow is already defined.');
-    return;
-  }
-
-  /**
-   * Shadow class
-   * @class fabric.Shadow
-   * @see {@link http://fabricjs.com/shadows/|Shadow demo}
-   * @see {@link fabric.Shadow#initialize} for constructor definition
-   */
-  fabric.Shadow = fabric.util.createClass(/** @lends fabric.Shadow.prototype */ {
-
-    /**
-     * Shadow color
-     * @type String
-     * @default
-     */
-    color: 'rgb(0,0,0)',
-
-    /**
-     * Shadow blur
-     * @type Number
-     */
-    blur: 0,
-
-    /**
-     * Shadow horizontal offset
-     * @type Number
-     * @default
-     */
-    offsetX: 0,
-
-    /**
-     * Shadow vertical offset
-     * @type Number
-     * @default
-     */
-    offsetY: 0,
-
-    /**
-     * Whether the shadow should affect stroke operations
-     * @type Boolean
-     * @default
-     */
-    affectStroke: false,
-
-    /**
-     * Indicates whether toObject should include default values
-     * @type Boolean
-     * @default
-     */
-    includeDefaultValues: true,
-
-    /**
-     * Constructor
-     * @param {Object|String} [options] Options object with any of color, blur, offsetX, offsetX properties or string (e.g. "rgba(0,0,0,0.2) 2px 2px 10px, "2px 2px 10px rgba(0,0,0,0.2)")
-     * @return {fabric.Shadow} thisArg
-     */
-    initialize: function(options) {
-      if (typeof options === 'string') {
-        options = this._parseShadow(options);
-      }
-
-      for (var prop in options) {
-        this[prop] = options[prop];
-      }
-
-      this.id = fabric.Object.__uid++;
-    },
-
-    /**
-     * @private
-     * @param {String} shadow Shadow value to parse
-     * @return {Object} Shadow object with color, offsetX, offsetY and blur
-     */
-    _parseShadow: function(shadow) {
-      var shadowStr = shadow.trim();
-
-      var offsetsAndBlur = fabric.Shadow.reOffsetsAndBlur.exec(shadowStr) || [ ],
-          color = shadowStr.replace(fabric.Shadow.reOffsetsAndBlur, '') || 'rgb(0,0,0)';
-
-      return {
-        color: color.trim(),
-        offsetX: parseInt(offsetsAndBlur[1], 10) || 0,
-        offsetY: parseInt(offsetsAndBlur[2], 10) || 0,
-        blur: parseInt(offsetsAndBlur[3], 10) || 0
-      };
-    },
-
-    /**
-     * Returns a string representation of an instance
-     * @see http://www.w3.org/TR/css-text-decor-3/#text-shadow
-     * @return {String} Returns CSS3 text-shadow declaration
-     */
-    toString: function() {
-      return [this.offsetX, this.offsetY, this.blur, this.color].join('px ');
-    },
-
-    /* _TO_SVG_START_ */
-    /**
-     * Returns SVG representation of a shadow
-     * @param {fabric.Object} object
-     * @return {String} SVG representation of a shadow
-     */
-    toSVG: function(object) {
-      var mode = 'SourceAlpha';
-
-      if (object && (object.fill === this.color || object.stroke === this.color)) {
-        mode = 'SourceGraphic';
-      }
-
-      return (
-        '<filter id="SVGID_' + this.id + '" y="-40%" height="180%">' +
-          '<feGaussianBlur in="' + mode + '" stdDeviation="' +
-            (this.blur ? this.blur / 3 : 0) +
-          '"></feGaussianBlur>' +
-          '<feOffset dx="' + this.offsetX + '" dy="' + this.offsetY + '"></feOffset>' +
-          '<feMerge>' +
-            '<feMergeNode></feMergeNode>' +
-            '<feMergeNode in="SourceGraphic"></feMergeNode>' +
-          '</feMerge>' +
-        '</filter>');
-    },
-    /* _TO_SVG_END_ */
-
-    /**
-     * Returns object representation of a shadow
-     * @return {Object} Object representation of a shadow instance
-     */
-    toObject: function() {
-      if (this.includeDefaultValues) {
-        return {
-          color: this.color,
-          blur: this.blur,
-          offsetX: this.offsetX,
-          offsetY: this.offsetY
-        };
-      }
-      var obj = { }, proto = fabric.Shadow.prototype;
-      if (this.color !== proto.color) {
-        obj.color = this.color;
-      }
-      if (this.blur !== proto.blur) {
-        obj.blur = this.blur;
-      }
-      if (this.offsetX !== proto.offsetX) {
-        obj.offsetX = this.offsetX;
-      }
-      if (this.offsetY !== proto.offsetY) {
-        obj.offsetY = this.offsetY;
-      }
-      return obj;
-    }
-  });
-
-  /**
-   * Regex matching shadow offsetX, offsetY and blur (ex: "2px 2px 10px rgba(0,0,0,0.2)", "rgb(0,255,0) 2px 2px")
-   * @static
-   * @field
-   * @memberOf fabric.Shadow
-   */
-  fabric.Shadow.reOffsetsAndBlur = /(?:\s|^)(-?\d+(?:px)?(?:\s?|$))?(-?\d+(?:px)?(?:\s?|$))?(\d+(?:px)?)?(?:\s?|$)(?:$|\s)/;
-
-})(typeof exports !== 'undefined' ? exports : this);
 (function () {
 
   "use strict";
@@ -9523,6 +7903,218 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
       o.borderColor = o.origBorderColor;
       delete o.origBorderColor;
     });
+  }
+});
+fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.StaticCanvas.prototype */ {
+
+  /**
+   * Populates canvas with data from the specified dataless JSON.
+   * JSON format must conform to the one of {@link fabric.Canvas#toDatalessJSON}
+   * @deprecated since 1.2.2
+   * @param {String|Object} json JSON string or object
+   * @param {Function} callback Callback, invoked when json is parsed
+   *                            and corresponding objects (e.g: {@link fabric.Image})
+   *                            are initialized
+   * @param {Function} [reviver] Method for further parsing of JSON elements, called after each fabric object created.
+   * @return {fabric.Canvas} instance
+   * @chainable
+   * @tutorial {@link http://fabricjs.com/fabric-intro-part-3/#deserialization}
+   */
+  loadFromDatalessJSON: function (json, callback, reviver) {
+    return this.loadFromJSON(json, callback, reviver);
+  },
+
+  /**
+   * Populates canvas with data from the specified JSON.
+   * JSON format must conform to the one of {@link fabric.Canvas#toJSON}
+   * @param {String|Object} json JSON string or object
+   * @param {Function} callback Callback, invoked when json is parsed
+   *                            and corresponding objects (e.g: {@link fabric.Image})
+   *                            are initialized
+   * @param {Function} [reviver] Method for further parsing of JSON elements, called after each fabric object created.
+   * @return {fabric.Canvas} instance
+   * @chainable
+   * @tutorial {@link http://fabricjs.com/fabric-intro-part-3/#deserialization}
+   * @see {@link http://jsfiddle.net/fabricjs/fmgXt/|jsFiddle demo}
+   * @example <caption>loadFromJSON</caption>
+   * canvas.loadFromJSON(json, canvas.renderAll.bind(canvas));
+   * @example <caption>loadFromJSON with reviver</caption>
+   * canvas.loadFromJSON(json, canvas.renderAll.bind(canvas), function(o, object) {
+   *   // `o` = json object
+   *   // `object` = fabric.Object instance
+   *   // ... do some stuff ...
+   * });
+   */
+  loadFromJSON: function (json, callback, reviver) {
+    if (!json) return;
+
+    // serialize if it wasn't already
+    var serialized = (typeof json === 'string')
+      ? JSON.parse(json)
+      : json;
+
+    this.clear();
+
+    var _this = this;
+    this._enlivenObjects(serialized.objects, function () {
+      _this._setBgOverlay(serialized, callback);
+    }, reviver);
+
+    return this;
+  },
+
+  /**
+   * @private
+   * @param {Object} serialized Object with background and overlay information
+   * @param {Function} callback Invoked after all background and overlay images/patterns loaded
+   */
+  _setBgOverlay: function(serialized, callback) {
+    var _this = this,
+        loaded = {
+          backgroundColor: false,
+          overlayColor: false,
+          backgroundImage: false,
+          overlayImage: false
+        };
+
+    if (!serialized.backgroundImage && !serialized.overlayImage && !serialized.background && !serialized.overlay) {
+      callback && callback();
+      return;
+    }
+
+    var cbIfLoaded = function () {
+      if (loaded.backgroundImage && loaded.overlayImage && loaded.backgroundColor && loaded.overlayColor) {
+        _this.renderAll();
+        callback && callback();
+      }
+    };
+
+    this.__setBgOverlay('backgroundImage', serialized.backgroundImage, loaded, cbIfLoaded);
+    this.__setBgOverlay('overlayImage', serialized.overlayImage, loaded, cbIfLoaded);
+    this.__setBgOverlay('backgroundColor', serialized.background, loaded, cbIfLoaded);
+    this.__setBgOverlay('overlayColor', serialized.overlay, loaded, cbIfLoaded);
+
+    cbIfLoaded();
+  },
+
+  /**
+   * @private
+   * @param {String} property Property to set (backgroundImage, overlayImage, backgroundColor, overlayColor)
+   * @param {(Object|String)} value Value to set
+   * @param {Object} loaded Set loaded property to true if property is set
+   * @param {Object} callback Callback function to invoke after property is set
+   */
+  __setBgOverlay: function(property, value, loaded, callback) {
+    var _this = this;
+
+    if (!value) {
+      loaded[property] = true;
+      return;
+    }
+
+    if (property === 'backgroundImage' || property === 'overlayImage') {
+      fabric.Image.fromObject(value, function(img) {
+        _this[property] = img;
+        loaded[property] = true;
+        callback && callback();
+      });
+    }
+    else {
+      this['set' + fabric.util.string.capitalize(property, true)](value, function() {
+        loaded[property] = true;
+        callback && callback();
+      });
+    }
+  },
+
+  /**
+   * @private
+   * @param {Array} objects
+   * @param {Function} callback
+   * @param {Function} [reviver]
+   */
+  _enlivenObjects: function (objects, callback, reviver) {
+    var _this = this;
+
+    if (objects.length === 0) {
+      callback && callback();
+    }
+
+    var renderOnAddRemove = this.renderOnAddRemove;
+    this.renderOnAddRemove = false;
+
+    fabric.util.enlivenObjects(objects, function(enlivenedObjects) {
+      enlivenedObjects.forEach(function(obj, index) {
+        _this.insertAt(obj, index, true);
+      });
+
+      _this.renderOnAddRemove = renderOnAddRemove;
+      callback && callback();
+    }, null, reviver);
+  },
+
+  /**
+   * @private
+   * @param {String} format
+   * @param {Function} callback
+   */
+  _toDataURL: function (format, callback) {
+    this.clone(function (clone) {
+      callback(clone.toDataURL(format));
+    });
+  },
+
+  /**
+   * @private
+   * @param {String} format
+   * @param {Number} multiplier
+   * @param {Function} callback
+   */
+  _toDataURLWithMultiplier: function (format, multiplier, callback) {
+    this.clone(function (clone) {
+      callback(clone.toDataURLWithMultiplier(format, multiplier));
+    });
+  },
+
+  /**
+   * Clones canvas instance
+   * @param {Object} [callback] Receives cloned instance as a first argument
+   * @param {Array} [properties] Array of properties to include in the cloned canvas and children
+   */
+  clone: function (callback, properties) {
+    var data = JSON.stringify(this.toJSON(properties));
+    this.cloneWithoutData(function(clone) {
+      clone.loadFromJSON(data, function() {
+        callback && callback(clone);
+      });
+    });
+  },
+
+  /**
+   * Clones canvas instance without cloning existing data.
+   * This essentially copies canvas dimensions, clipping properties, etc.
+   * but leaves data empty (so that you can populate it with your own)
+   * @param {Object} [callback] Receives cloned instance as a first argument
+   */
+  cloneWithoutData: function(callback) {
+    var el = fabric.document.createElement('canvas');
+
+    el.width = this.getWidth();
+    el.height = this.getHeight();
+
+    var clone = new fabric.Canvas(el);
+    clone.clipTo = this.clipTo;
+    if (this.backgroundImage) {
+      clone.setBackgroundImage(this.backgroundImage.src, function() {
+        clone.renderAll();
+        callback && callback(clone);
+      });
+      clone.backgroundImageOpacity = this.backgroundImageOpacity;
+      clone.backgroundImageStretch = this.backgroundImageStretch;
+    }
+    else {
+      callback && callback(clone);
+    }
   }
 });
 (function(global) {
@@ -15612,2224 +14204,5 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
    * @default
    */
   fabric.Image.pngCompression = 1;
-
-})(typeof exports !== 'undefined' ? exports : this);
-/**
- * @namespace fabric.Image.filters
- * @memberOf fabric.Image
- * @tutorial {@link http://fabricjs.com/fabric-intro-part-2/#image_filters}
- * @see {@link http://fabricjs.com/image-filters/|ImageFilters demo}
- */
-fabric.Image.filters = fabric.Image.filters || { };
-
-
-/**
- * Root filter class from which all filter classes inherit from
- * @class fabric.Image.filters.BaseFilter
- * @memberOf fabric.Image.filters
- */
-fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Image.filters.BaseFilter.prototype */ {
-
-  /**
-   * Filter type
-   * @param {String} type
-   * @default
-   */
-  type: 'BaseFilter',
-
-  /**
-   * Returns object representation of an instance
-   * @return {Object} Object representation of an instance
-   */
-  toObject: function() {
-    return { type: this.type };
-  },
-
-  /**
-   * Returns a JSON representation of an instance
-   * @return {Object} JSON
-   */
-  toJSON: function() {
-    // delegate, not alias
-    return this.toObject();
-  }
-});
-(function(global) {
-
-  "use strict";
-
-  var fabric  = global.fabric || (global.fabric = { }),
-      extend = fabric.util.object.extend;
-
-  /**
-   * Brightness filter class
-   * @class fabric.Image.filters.Brightness
-   * @memberOf fabric.Image.filters
-   * @extends fabric.Image.filters.BaseFilter
-   * @see {@link fabric.Image.filters.Brightness#initialize} for constructor definition
-   * @see {@link http://fabricjs.com/image-filters/|ImageFilters demo}
-   * @example
-   * var filter = new fabric.Image.filters.Brightness({
-   *   brightness: 200
-   * });
-   * object.filters.push(filter);
-   * object.applyFilters(canvas.renderAll.bind(canvas));
-   */
-  fabric.Image.filters.Brightness = fabric.util.createClass(fabric.Image.filters.BaseFilter, /** @lends fabric.Image.filters.Brightness.prototype */ {
-
-    /**
-     * Filter type
-     * @param {String} type
-     * @default
-     */
-    type: 'Brightness',
-
-    /**
-     * Constructor
-     * @memberOf fabric.Image.filters.Brightness.prototype
-     * @param {Object} [options] Options object
-     * @param {Number} [options.brightness=100] Value to brighten the image up (0..255)
-     */
-    initialize: function(options) {
-      options = options || { };
-      this.brightness = options.brightness || 100;
-    },
-
-    /**
-     * Applies filter to canvas element
-     * @param {Object} canvasEl Canvas element to apply filter to
-     */
-    applyTo: function(canvasEl) {
-      var context = canvasEl.getContext('2d'),
-          imageData = context.getImageData(0, 0, canvasEl.width, canvasEl.height),
-          data = imageData.data,
-          brightness = this.brightness;
-
-      for (var i = 0, len = data.length; i < len; i += 4) {
-        data[i] += brightness;
-        data[i + 1] += brightness;
-        data[i + 2] += brightness;
-      }
-
-      context.putImageData(imageData, 0, 0);
-    },
-
-    /**
-     * Returns object representation of an instance
-     * @return {Object} Object representation of an instance
-     */
-    toObject: function() {
-      return extend(this.callSuper('toObject'), {
-        brightness: this.brightness
-      });
-    }
-  });
-
-  /**
-   * Returns filter instance from an object representation
-   * @static
-   * @param {Object} object Object to create an instance from
-   * @return {fabric.Image.filters.Brightness} Instance of fabric.Image.filters.Brightness
-   */
-  fabric.Image.filters.Brightness.fromObject = function(object) {
-    return new fabric.Image.filters.Brightness(object);
-  };
-
-})(typeof exports !== 'undefined' ? exports : this);
-(function(global) {
-
-  "use strict";
-
-  var fabric  = global.fabric || (global.fabric = { }),
-      extend = fabric.util.object.extend;
-
-  /**
-   * Adapted from <a href="http://www.html5rocks.com/en/tutorials/canvas/imagefilters/">html5rocks article</a>
-   * @class fabric.Image.filters.Convolute
-   * @memberOf fabric.Image.filters
-   * @extends fabric.Image.filters.BaseFilter
-   * @see {@link fabric.Image.filters.Convolute#initialize} for constructor definition
-   * @see {@link http://fabricjs.com/image-filters/|ImageFilters demo}
-   * @example <caption>Sharpen filter</caption>
-   * var filter = new fabric.Image.filters.Convolute({
-   *   matrix: [ 0, -1,  0,
-   *            -1,  5, -1,
-   *             0, -1,  0 ]
-   * });
-   * object.filters.push(filter);
-   * object.applyFilters(canvas.renderAll.bind(canvas));
-   * @example <caption>Blur filter</caption>
-   * var filter = new fabric.Image.filters.Convolute({
-   *   matrix: [ 1/9, 1/9, 1/9,
-   *             1/9, 1/9, 1/9,
-   *             1/9, 1/9, 1/9 ]
-   * });
-   * object.filters.push(filter);
-   * object.applyFilters(canvas.renderAll.bind(canvas));
-   * @example <caption>Emboss filter</caption>
-   * var filter = new fabric.Image.filters.Convolute({
-   *   matrix: [ 1,   1,  1,
-   *             1, 0.7, -1,
-   *            -1,  -1, -1 ]
-   * });
-   * object.filters.push(filter);
-   * object.applyFilters(canvas.renderAll.bind(canvas));
-   * @example <caption>Emboss filter with opaqueness</caption>
-   * var filter = new fabric.Image.filters.Convolute({
-   *   opaque: true,
-   *   matrix: [ 1,   1,  1,
-   *             1, 0.7, -1,
-   *            -1,  -1, -1 ]
-   * });
-   * object.filters.push(filter);
-   * object.applyFilters(canvas.renderAll.bind(canvas));
-   */
-  fabric.Image.filters.Convolute = fabric.util.createClass(fabric.Image.filters.BaseFilter, /** @lends fabric.Image.filters.Convolute.prototype */ {
-
-    /**
-     * Filter type
-     * @param {String} type
-     * @default
-     */
-    type: 'Convolute',
-
-    /**
-     * Constructor
-     * @memberOf fabric.Image.filters.Convolute.prototype
-     * @param {Object} [options] Options object
-     * @param {Boolean} [options.opaque=false] Opaque value (true/false)
-     * @param {Array} [options.matrix] Filter matrix
-     */
-    initialize: function(options) {
-      options = options || { };
-
-      this.opaque = options.opaque;
-      this.matrix = options.matrix || [ 0, 0, 0,
-        0, 1, 0,
-        0, 0, 0 ];
-
-      var canvasEl = fabric.util.createCanvasElement();
-      this.tmpCtx = canvasEl.getContext('2d');
-    },
-
-    /**
-     * @private
-     */
-    _createImageData: function(w, h) {
-      return this.tmpCtx.createImageData(w, h);
-    },
-
-    /**
-     * Applies filter to canvas element
-     * @param {Object} canvasEl Canvas element to apply filter to
-     */
-    applyTo: function(canvasEl) {
-
-      var weights = this.matrix,
-          context = canvasEl.getContext('2d'),
-          pixels = context.getImageData(0, 0, canvasEl.width, canvasEl.height),
-
-          side = Math.round(Math.sqrt(weights.length)),
-          halfSide = Math.floor(side/2),
-          src = pixels.data,
-          sw = pixels.width,
-          sh = pixels.height;
-
-      // pad output by the convolution matrix
-      var w = sw;
-      var h = sh;
-      var output = this._createImageData(w, h);
-
-      var dst = output.data;
-
-      // go through the destination image pixels
-      var alphaFac = this.opaque ? 1 : 0;
-
-      for (var y=0; y<h; y++) {
-        for (var x=0; x<w; x++) {
-          var sy = y;
-          var sx = x;
-          var dstOff = (y*w+x)*4;
-          // calculate the weighed sum of the source image pixels that
-          // fall under the convolution matrix
-          var r=0, g=0, b=0, a=0;
-
-          for (var cy=0; cy<side; cy++) {
-            for (var cx=0; cx<side; cx++) {
-
-              var scy = sy + cy - halfSide;
-              var scx = sx + cx - halfSide;
-
-              /* jshint maxdepth:5 */
-              if (scy < 0 || scy > sh || scx < 0 || scx > sw) continue;
-
-              var srcOff = (scy*sw+scx)*4;
-              var wt = weights[cy*side+cx];
-
-              r += src[srcOff] * wt;
-              g += src[srcOff+1] * wt;
-              b += src[srcOff+2] * wt;
-              a += src[srcOff+3] * wt;
-            }
-          }
-          dst[dstOff] = r;
-          dst[dstOff+1] = g;
-          dst[dstOff+2] = b;
-          dst[dstOff+3] = a + alphaFac*(255-a);
-        }
-      }
-
-      context.putImageData(output, 0, 0);
-    },
-
-    /**
-     * Returns object representation of an instance
-     * @return {Object} Object representation of an instance
-     */
-    toObject: function() {
-      return extend(this.callSuper('toObject'), {
-        opaque: this.opaque,
-        matrix: this.matrix
-      });
-    }
-  });
-
-  /**
-   * Returns filter instance from an object representation
-   * @static
-   * @param {Object} object Object to create an instance from
-   * @return {fabric.Image.filters.Convolute} Instance of fabric.Image.filters.Convolute
-   */
-  fabric.Image.filters.Convolute.fromObject = function(object) {
-      return new fabric.Image.filters.Convolute(object);
-  };
-
-})(typeof exports !== 'undefined' ? exports : this);
-(function(global) {
-
-  "use strict";
-
-  var fabric  = global.fabric || (global.fabric = { }),
-      extend = fabric.util.object.extend;
-
-  /**
-   * GradientTransparency filter class
-   * @class fabric.Image.filters.GradientTransparency
-   * @memberOf fabric.Image.filters
-   * @extends fabric.Image.filters.BaseFilter
-   * @see {@link fabric.Image.filters.GradientTransparency#initialize} for constructor definition
-   * @see {@link http://fabricjs.com/image-filters/|ImageFilters demo}
-   * @example
-   * var filter = new fabric.Image.filters.GradientTransparency({
-   *   threshold: 200
-   * });
-   * object.filters.push(filter);
-   * object.applyFilters(canvas.renderAll.bind(canvas));
-   */
-  fabric.Image.filters.GradientTransparency = fabric.util.createClass(fabric.Image.filters.BaseFilter, /** @lends fabric.Image.filters.GradientTransparency.prototype */ {
-
-    /**
-     * Filter type
-     * @param {String} type
-     * @default
-     */
-    type: 'GradientTransparency',
-
-    /**
-     * Constructor
-     * @memberOf fabric.Image.filters.GradientTransparency.prototype
-     * @param {Object} [options] Options object
-     * @param {Number} [options.threshold=100] Threshold value
-     */
-    initialize: function(options) {
-      options = options || { };
-      this.threshold = options.threshold || 100;
-    },
-
-    /**
-     * Applies filter to canvas element
-     * @param {Object} canvasEl Canvas element to apply filter to
-     */
-    applyTo: function(canvasEl) {
-      var context = canvasEl.getContext('2d'),
-          imageData = context.getImageData(0, 0, canvasEl.width, canvasEl.height),
-          data = imageData.data,
-          threshold = this.threshold,
-          total = data.length;
-
-      for (var i = 0, len = data.length; i < len; i += 4) {
-        data[i + 3] = threshold + 255 * (total - i) / total;
-      }
-
-      context.putImageData(imageData, 0, 0);
-    },
-
-    /**
-     * Returns object representation of an instance
-     * @return {Object} Object representation of an instance
-     */
-    toObject: function() {
-      return extend(this.callSuper('toObject'), {
-        threshold: this.threshold
-      });
-    }
-  });
-
-  /**
-   * Returns filter instance from an object representation
-   * @static
-   * @param {Object} object Object to create an instance from
-   * @return {fabric.Image.filters.GradientTransparency} Instance of fabric.Image.filters.GradientTransparency
-   */
-  fabric.Image.filters.GradientTransparency.fromObject = function(object) {
-    return new fabric.Image.filters.GradientTransparency(object);
-  };
-
-})(typeof exports !== 'undefined' ? exports : this);
-(function(global) {
-
-  "use strict";
-
-  var fabric  = global.fabric || (global.fabric = { });
-
-  /**
-   * Grayscale image filter class
-   * @class fabric.Image.filters.Grayscale
-   * @memberOf fabric.Image.filters
-   * @extends fabric.Image.filters.BaseFilter
-   * @see {@link http://fabricjs.com/image-filters/|ImageFilters demo}
-   * @example
-   * var filter = new fabric.Image.filters.Grayscale();
-   * object.filters.push(filter);
-   * object.applyFilters(canvas.renderAll.bind(canvas));
-   */
-  fabric.Image.filters.Grayscale = fabric.util.createClass(fabric.Image.filters.BaseFilter, /** @lends fabric.Image.filters.Grayscale.prototype */ {
-
-    /**
-     * Filter type
-     * @param {String} type
-     * @default
-     */
-    type: 'Grayscale',
-
-    /**
-     * Applies filter to canvas element
-     * @memberOf fabric.Image.filters.Grayscale.prototype
-     * @param {Object} canvasEl Canvas element to apply filter to
-     */
-    applyTo: function(canvasEl) {
-      var context = canvasEl.getContext('2d'),
-          imageData = context.getImageData(0, 0, canvasEl.width, canvasEl.height),
-          data = imageData.data,
-          len = imageData.width * imageData.height * 4,
-          index = 0,
-          average;
-
-      while (index < len) {
-        average = (data[index] + data[index + 1] + data[index + 2]) / 3;
-        data[index]     = average;
-        data[index + 1] = average;
-        data[index + 2] = average;
-        index += 4;
-      }
-
-      context.putImageData(imageData, 0, 0);
-    }
-  });
-
-  /**
-   * Returns filter instance from an object representation
-   * @static
-   * @return {fabric.Image.filters.Grayscale} Instance of fabric.Image.filters.Grayscale
-   */
-  fabric.Image.filters.Grayscale.fromObject = function() {
-    return new fabric.Image.filters.Grayscale();
-  };
-
-})(typeof exports !== 'undefined' ? exports : this);
-(function(global) {
-
-  "use strict";
-
-  var fabric  = global.fabric || (global.fabric = { });
-
-  /**
-   * Invert filter class
-   * @class fabric.Image.filters.Invert
-   * @memberOf fabric.Image.filters
-   * @extends fabric.Image.filters.BaseFilter
-   * @see {@link http://fabricjs.com/image-filters/|ImageFilters demo}
-   * @example
-   * var filter = new fabric.Image.filters.Invert();
-   * object.filters.push(filter);
-   * object.applyFilters(canvas.renderAll.bind(canvas));
-   */
-  fabric.Image.filters.Invert = fabric.util.createClass(fabric.Image.filters.BaseFilter, /** @lends fabric.Image.filters.Invert.prototype */ {
-
-    /**
-     * Filter type
-     * @param {String} type
-     * @default
-     */
-    type: 'Invert',
-
-    /**
-     * Applies filter to canvas element
-     * @memberOf fabric.Image.filters.Invert.prototype
-     * @param {Object} canvasEl Canvas element to apply filter to
-     */
-    applyTo: function(canvasEl) {
-      var context = canvasEl.getContext('2d'),
-          imageData = context.getImageData(0, 0, canvasEl.width, canvasEl.height),
-          data = imageData.data,
-          iLen = data.length, i;
-
-      for (i = 0; i < iLen; i+=4) {
-        data[i] = 255 - data[i];
-        data[i + 1] = 255 - data[i + 1];
-        data[i + 2] = 255 - data[i + 2];
-      }
-
-      context.putImageData(imageData, 0, 0);
-    }
-  });
-
-  /**
-   * Returns filter instance from an object representation
-   * @static
-   * @return {fabric.Image.filters.Invert} Instance of fabric.Image.filters.Invert
-   */
-  fabric.Image.filters.Invert.fromObject = function() {
-    return new fabric.Image.filters.Invert();
-  };
-
-})(typeof exports !== 'undefined' ? exports : this);
-(function(global) {
-
-  "use strict";
-
-  var fabric  = global.fabric || (global.fabric = { }),
-      extend = fabric.util.object.extend;
-
-  /**
-   * Mask filter class
-   * See http://resources.aleph-1.com/mask/
-   * @class fabric.Image.filters.Mask
-   * @memberOf fabric.Image.filters
-   * @extends fabric.Image.filters.BaseFilter
-   * @see {@link fabric.Image.filters.Mask#initialize} for constructor definition
-   */
-  fabric.Image.filters.Mask = fabric.util.createClass(fabric.Image.filters.BaseFilter, /** @lends fabric.Image.filters.Mask.prototype */ {
-
-    /**
-     * Filter type
-     * @param {String} type
-     * @default
-     */
-    type: 'Mask',
-
-    /**
-     * Constructor
-     * @memberOf fabric.Image.filters.Mask.prototype
-     * @param {Object} [options] Options object
-     * @param {fabric.Image} [options.mask] Mask image object
-     * @param {Number} [options.channel=0] Rgb channel (0, 1, 2 or 3)
-     */
-    initialize: function(options) {
-      options = options || { };
-
-      this.mask = options.mask;
-      this.channel = [ 0, 1, 2, 3 ].indexOf(options.channel) > -1 ? options.channel : 0;
-    },
-
-    /**
-     * Applies filter to canvas element
-     * @param {Object} canvasEl Canvas element to apply filter to
-     */
-    applyTo: function(canvasEl) {
-      if (!this.mask) return;
-
-      var context = canvasEl.getContext('2d'),
-          imageData = context.getImageData(0, 0, canvasEl.width, canvasEl.height),
-          data = imageData.data,
-          maskEl = this.mask.getElement(),
-          maskCanvasEl = fabric.util.createCanvasElement(),
-          channel = this.channel,
-          i,
-          iLen = imageData.width * imageData.height * 4;
-
-      maskCanvasEl.width = maskEl.width;
-      maskCanvasEl.height = maskEl.height;
-
-      maskCanvasEl.getContext('2d').drawImage(maskEl, 0, 0, maskEl.width, maskEl.height);
-
-      var maskImageData = maskCanvasEl.getContext('2d').getImageData(0, 0, maskEl.width, maskEl.height),
-          maskData = maskImageData.data;
-
-      for (i = 0; i < iLen; i += 4) {
-        data[i + 3] = maskData[i + channel];
-      }
-
-      context.putImageData(imageData, 0, 0);
-    },
-
-    /**
-     * Returns object representation of an instance
-     * @return {Object} Object representation of an instance
-     */
-    toObject: function() {
-      return extend(this.callSuper('toObject'), {
-        mask: this.mask.toObject(),
-        channel: this.channel
-      });
-    }
-  });
-
-  /**
-   * Returns filter instance from an object representation
-   * @static
-   * @param {Object} object Object to create an instance from
-   * @param {Function} [callback] Callback to invoke when a mask filter instance is created
-   */
-  fabric.Image.filters.Mask.fromObject = function(object, callback) {
-    fabric.util.loadImage(object.mask.src, function(img) {
-      object.mask = new fabric.Image(img, object.mask);
-      callback && callback(new fabric.Image.filters.Mask(object));
-    });
-  };
-
-  /**
-   * Indicates that instances of this type are async
-   * @static
-   * @type Boolean
-   * @default
-   */
-  fabric.Image.filters.Mask.async = true;
-
-})(typeof exports !== 'undefined' ? exports : this);
-(function(global) {
-
-  "use strict";
-
-  var fabric  = global.fabric || (global.fabric = { }),
-      extend = fabric.util.object.extend;
-
-  /**
-   * Noise filter class
-   * @class fabric.Image.filters.Noise
-   * @memberOf fabric.Image.filters
-   * @extends fabric.Image.filters.BaseFilter
-   * @see {@link fabric.Image.filters.Noise#initialize} for constructor definition
-   * @see {@link http://fabricjs.com/image-filters/|ImageFilters demo}
-   * @example
-   * var filter = new fabric.Image.filters.Noise({
-   *   noise: 700
-   * });
-   * object.filters.push(filter);
-   * object.applyFilters(canvas.renderAll.bind(canvas));
-   */
-  fabric.Image.filters.Noise = fabric.util.createClass(fabric.Image.filters.BaseFilter, /** @lends fabric.Image.filters.Noise.prototype */ {
-
-    /**
-     * Filter type
-     * @param {String} type
-     * @default
-     */
-    type: 'Noise',
-
-    /**
-     * Constructor
-     * @memberOf fabric.Image.filters.Noise.prototype
-     * @param {Object} [options] Options object
-     * @param {Number} [options.noise=100] Noise value
-     */
-    initialize: function(options) {
-      options = options || { };
-      this.noise = options.noise || 100;
-    },
-
-    /**
-     * Applies filter to canvas element
-     * @param {Object} canvasEl Canvas element to apply filter to
-     */
-    applyTo: function(canvasEl) {
-      var context = canvasEl.getContext('2d'),
-          imageData = context.getImageData(0, 0, canvasEl.width, canvasEl.height),
-          data = imageData.data,
-          noise = this.noise, rand;
-
-      for (var i = 0, len = data.length; i < len; i += 4) {
-
-        rand = (0.5 - Math.random()) * noise;
-
-        data[i] += rand;
-        data[i + 1] += rand;
-        data[i + 2] += rand;
-      }
-
-      context.putImageData(imageData, 0, 0);
-    },
-
-    /**
-     * Returns object representation of an instance
-     * @return {Object} Object representation of an instance
-     */
-    toObject: function() {
-      return extend(this.callSuper('toObject'), {
-        noise: this.noise
-      });
-    }
-  });
-
-  /**
-   * Returns filter instance from an object representation
-   * @static
-   * @param {Object} object Object to create an instance from
-   * @return {fabric.Image.filters.Noise} Instance of fabric.Image.filters.Noise
-   */
-  fabric.Image.filters.Noise.fromObject = function(object) {
-    return new fabric.Image.filters.Noise(object);
-  };
-
-})(typeof exports !== 'undefined' ? exports : this);
-(function(global) {
-
-  "use strict";
-
-  var fabric  = global.fabric || (global.fabric = { }),
-      extend = fabric.util.object.extend;
-
-  /**
-   * Pixelate filter class
-   * @class fabric.Image.filters.Pixelate
-   * @memberOf fabric.Image.filters
-   * @extends fabric.Image.filters.BaseFilter
-   * @see {@link fabric.Image.filters.Pixelate#initialize} for constructor definition
-   * @see {@link http://fabricjs.com/image-filters/|ImageFilters demo}
-   * @example
-   * var filter = new fabric.Image.filters.Pixelate({
-   *   blocksize: 8
-   * });
-   * object.filters.push(filter);
-   * object.applyFilters(canvas.renderAll.bind(canvas));
-   */
-  fabric.Image.filters.Pixelate = fabric.util.createClass(fabric.Image.filters.BaseFilter, /** @lends fabric.Image.filters.Pixelate.prototype */ {
-
-    /**
-     * Filter type
-     * @param {String} type
-     * @default
-     */
-    type: 'Pixelate',
-
-    /**
-     * Constructor
-     * @memberOf fabric.Image.filters.Pixelate.prototype
-     * @param {Object} [options] Options object
-     * @param {Number} [options.blocksize=4] Blocksize for pixelate
-     */
-    initialize: function(options) {
-      options = options || { };
-      this.blocksize = options.blocksize || 4;
-    },
-
-    /**
-     * Applies filter to canvas element
-     * @param {Object} canvasEl Canvas element to apply filter to
-     */
-    applyTo: function(canvasEl) {
-      var context = canvasEl.getContext('2d'),
-          imageData = context.getImageData(0, 0, canvasEl.width, canvasEl.height),
-          data = imageData.data,
-          iLen = imageData.height,
-          jLen = imageData.width,
-          index, i, j, r, g, b, a;
-
-      for (i = 0; i < iLen; i += this.blocksize) {
-        for (j = 0; j < jLen; j += this.blocksize) {
-
-          index = (i * 4) * jLen + (j * 4);
-
-          r = data[index];
-          g = data[index+1];
-          b = data[index+2];
-          a = data[index+3];
-
-          /*
-           blocksize: 4
-
-           [1,x,x,x,1]
-           [x,x,x,x,1]
-           [x,x,x,x,1]
-           [x,x,x,x,1]
-           [1,1,1,1,1]
-           */
-
-          for (var _i = i, _ilen = i + this.blocksize; _i < _ilen; _i++) {
-            for (var _j = j, _jlen = j + this.blocksize; _j < _jlen; _j++) {
-              index = (_i * 4) * jLen + (_j * 4);
-              data[index] = r;
-              data[index + 1] = g;
-              data[index + 2] = b;
-              data[index + 3] = a;
-            }
-          }
-        }
-      }
-
-      context.putImageData(imageData, 0, 0);
-    },
-
-    /**
-     * Returns object representation of an instance
-     * @return {Object} Object representation of an instance
-     */
-    toObject: function() {
-      return extend(this.callSuper('toObject'), {
-        blocksize: this.blocksize
-      });
-    }
-  });
-
-  /**
-   * Returns filter instance from an object representation
-   * @static
-   * @param {Object} object Object to create an instance from
-   * @return {fabric.Image.filters.Pixelate} Instance of fabric.Image.filters.Pixelate
-   */
-  fabric.Image.filters.Pixelate.fromObject = function(object) {
-    return new fabric.Image.filters.Pixelate(object);
-  };
-
-})(typeof exports !== 'undefined' ? exports : this);
-(function(global) {
-
-  "use strict";
-
-  var fabric  = global.fabric || (global.fabric = { }),
-      extend = fabric.util.object.extend;
-
-  /**
-   * Remove white filter class
-   * @class fabric.Image.filters.RemoveWhite
-   * @memberOf fabric.Image.filters
-   * @extends fabric.Image.filters.BaseFilter
-   * @see {@link fabric.Image.filters.RemoveWhite#initialize} for constructor definition
-   * @see {@link http://fabricjs.com/image-filters/|ImageFilters demo}
-   * @example
-   * var filter = new fabric.Image.filters.RemoveWhite({
-   *   threshold: 40,
-   *   distance: 140
-   * });
-   * object.filters.push(filter);
-   * object.applyFilters(canvas.renderAll.bind(canvas));
-   */
-  fabric.Image.filters.RemoveWhite = fabric.util.createClass(fabric.Image.filters.BaseFilter, /** @lends fabric.Image.filters.RemoveWhite.prototype */ {
-
-    /**
-     * Filter type
-     * @param {String} type
-     * @default
-     */
-    type: 'RemoveWhite',
-
-    /**
-     * Constructor
-     * @memberOf fabric.Image.filters.RemoveWhite.prototype
-     * @param {Object} [options] Options object
-     * @param {Number} [options.threshold=30] Threshold value
-     * @param {Number} [options.distance=20] Distance value
-     */
-    initialize: function(options) {
-      options = options || { };
-      this.threshold = options.threshold || 30;
-      this.distance = options.distance || 20;
-    },
-
-    /**
-     * Applies filter to canvas element
-     * @param {Object} canvasEl Canvas element to apply filter to
-     */
-    applyTo: function(canvasEl) {
-      var context = canvasEl.getContext('2d'),
-          imageData = context.getImageData(0, 0, canvasEl.width, canvasEl.height),
-          data = imageData.data,
-          threshold = this.threshold,
-          distance = this.distance,
-          limit = 255 - threshold,
-          abs = Math.abs,
-          r, g, b;
-
-      for (var i = 0, len = data.length; i < len; i += 4) {
-        r = data[i];
-        g = data[i+1];
-        b = data[i+2];
-
-        if (r > limit &&
-            g > limit &&
-            b > limit &&
-            abs(r-g) < distance &&
-            abs(r-b) < distance &&
-            abs(g-b) < distance
-        ) {
-          data[i+3] = 1;
-        }
-      }
-
-      context.putImageData(imageData, 0, 0);
-    },
-
-    /**
-     * Returns object representation of an instance
-     * @return {Object} Object representation of an instance
-     */
-    toObject: function() {
-      return extend(this.callSuper('toObject'), {
-        threshold: this.threshold,
-        distance: this.distance
-      });
-    }
-  });
-
-  /**
-   * Returns filter instance from an object representation
-   * @static
-   * @param {Object} object Object to create an instance from
-   * @return {fabric.Image.filters.RemoveWhite} Instance of fabric.Image.filters.RemoveWhite
-   */
-  fabric.Image.filters.RemoveWhite.fromObject = function(object) {
-    return new fabric.Image.filters.RemoveWhite(object);
-  };
-
-})(typeof exports !== 'undefined' ? exports : this);
-(function(global) {
-
-  "use strict";
-
-  var fabric  = global.fabric || (global.fabric = { });
-
-  /**
-   * Sepia filter class
-   * @class fabric.Image.filters.Sepia
-   * @memberOf fabric.Image.filters
-   * @extends fabric.Image.filters.BaseFilter
-   * @see {@link http://fabricjs.com/image-filters/|ImageFilters demo}
-   * @example
-   * var filter = new fabric.Image.filters.Sepia();
-   * object.filters.push(filter);
-   * object.applyFilters(canvas.renderAll.bind(canvas));
-   */
-  fabric.Image.filters.Sepia = fabric.util.createClass(fabric.Image.filters.BaseFilter, /** @lends fabric.Image.filters.Sepia.prototype */ {
-
-    /**
-     * Filter type
-     * @param {String} type
-     * @default
-     */
-    type: 'Sepia',
-
-    /**
-     * Applies filter to canvas element
-     * @memberOf fabric.Image.filters.Sepia.prototype
-     * @param {Object} canvasEl Canvas element to apply filter to
-     */
-    applyTo: function(canvasEl) {
-      var context = canvasEl.getContext('2d'),
-          imageData = context.getImageData(0, 0, canvasEl.width, canvasEl.height),
-          data = imageData.data,
-          iLen = data.length, i, avg;
-
-      for (i = 0; i < iLen; i+=4) {
-        avg = 0.3  * data[i] + 0.59 * data[i + 1] + 0.11 * data[i + 2];
-        data[i] = avg + 100;
-        data[i + 1] = avg + 50;
-        data[i + 2] = avg + 255;
-      }
-
-      context.putImageData(imageData, 0, 0);
-    }
-  });
-
-  /**
-   * Returns filter instance from an object representation
-   * @static
-   * @return {fabric.Image.filters.Sepia} Instance of fabric.Image.filters.Sepia
-   */
-  fabric.Image.filters.Sepia.fromObject = function() {
-    return new fabric.Image.filters.Sepia();
-  };
-
-})(typeof exports !== 'undefined' ? exports : this);
-(function(global) {
-
-  "use strict";
-
-  var fabric  = global.fabric || (global.fabric = { });
-
-  /**
-   * Sepia2 filter class
-   * @class fabric.Image.filters.Sepia2
-   * @memberOf fabric.Image.filters
-   * @extends fabric.Image.filters.BaseFilter
-   * @see {@link http://fabricjs.com/image-filters/|ImageFilters demo}
-   * @example
-   * var filter = new fabric.Image.filters.Sepia2();
-   * object.filters.push(filter);
-   * object.applyFilters(canvas.renderAll.bind(canvas));
-   */
-  fabric.Image.filters.Sepia2 = fabric.util.createClass(fabric.Image.filters.BaseFilter, /** @lends fabric.Image.filters.Sepia2.prototype */ {
-
-    /**
-     * Filter type
-     * @param {String} type
-     * @default
-     */
-    type: 'Sepia2',
-
-    /**
-     * Applies filter to canvas element
-     * @memberOf fabric.Image.filters.Sepia.prototype
-     * @param {Object} canvasEl Canvas element to apply filter to
-     */
-    applyTo: function(canvasEl) {
-      var context = canvasEl.getContext('2d'),
-          imageData = context.getImageData(0, 0, canvasEl.width, canvasEl.height),
-          data = imageData.data,
-          iLen = data.length, i, r, g, b;
-
-      for (i = 0; i < iLen; i+=4) {
-        r = data[i];
-        g = data[i + 1];
-        b = data[i + 2];
-
-        data[i] = (r * 0.393 + g * 0.769 + b * 0.189 ) / 1.351;
-        data[i + 1] = (r * 0.349 + g * 0.686 + b * 0.168 ) / 1.203;
-        data[i + 2] = (r * 0.272 + g * 0.534 + b * 0.131 ) / 2.140;
-      }
-
-      context.putImageData(imageData, 0, 0);
-    }
-  });
-
-  /**
-   * Returns filter instance from an object representation
-   * @static
-   * @return {fabric.Image.filters.Sepia2} Instance of fabric.Image.filters.Sepia2
-   */
-  fabric.Image.filters.Sepia2.fromObject = function() {
-    return new fabric.Image.filters.Sepia2();
-  };
-
-})(typeof exports !== 'undefined' ? exports : this);
-(function(global) {
-
-  "use strict";
-
-  var fabric  = global.fabric || (global.fabric = { }),
-      extend = fabric.util.object.extend;
-
-  /**
-   * Tint filter class
-   * Adapted from <a href="https://github.com/mezzoblue/PaintbrushJS">https://github.com/mezzoblue/PaintbrushJS</a>
-   * @class fabric.Image.filters.Tint
-   * @memberOf fabric.Image.filters
-   * @extends fabric.Image.filters.BaseFilter
-   * @see {@link fabric.Image.filters.Tint#initialize} for constructor definition
-   * @see {@link http://fabricjs.com/image-filters/|ImageFilters demo}
-   * @example <caption>Tint filter with hex color and opacity</caption>
-   * var filter = new fabric.Image.filters.Tint({
-   *   color: '#3513B0',
-   *   opacity: 0.5
-   * });
-   * object.filters.push(filter);
-   * object.applyFilters(canvas.renderAll.bind(canvas));
-   * @example <caption>Tint filter with rgba color</caption>
-   * var filter = new fabric.Image.filters.Tint({
-   *   color: 'rgba(53, 21, 176, 0.5)'
-   * });
-   * object.filters.push(filter);
-   * object.applyFilters(canvas.renderAll.bind(canvas));
-   */
-  fabric.Image.filters.Tint = fabric.util.createClass(fabric.Image.filters.BaseFilter, /** @lends fabric.Image.filters.Tint.prototype */ {
-
-    /**
-     * Filter type
-     * @param {String} type
-     * @default
-     */
-    type: 'Tint',
-
-    /**
-     * Constructor
-     * @memberOf fabric.Image.filters.Tint.prototype
-     * @param {Object} [options] Options object
-     * @param {String} [options.color=#000000] Color to tint the image with
-     * @param {Number} [options.opacity] Opacity value that controls the tint effect's transparency (0..1)
-     */
-    initialize: function(options) {
-      options = options || { };
-
-      this.color = options.color || '#000000';
-      this.opacity = typeof options.opacity !== 'undefined'
-                      ? options.opacity
-                      : new fabric.Color(this.color).getAlpha();
-    },
-
-    /**
-     * Applies filter to canvas element
-     * @param {Object} canvasEl Canvas element to apply filter to
-     */
-    applyTo: function(canvasEl) {
-      var context = canvasEl.getContext('2d'),
-          imageData = context.getImageData(0, 0, canvasEl.width, canvasEl.height),
-          data = imageData.data,
-          iLen = data.length, i,
-          tintR, tintG, tintB,
-          r, g, b, alpha1,
-          source;
-
-      source = new fabric.Color(this.color).getSource();
-
-      tintR = source[0] * this.opacity;
-      tintG = source[1] * this.opacity;
-      tintB = source[2] * this.opacity;
-
-      alpha1 = 1 - this.opacity;
-
-      for (i = 0; i < iLen; i+=4) {
-        r = data[i];
-        g = data[i + 1];
-        b = data[i + 2];
-
-        // alpha compositing
-        data[i] = tintR + r * alpha1;
-        data[i + 1] = tintG + g * alpha1;
-        data[i + 2] = tintB + b * alpha1;
-      }
-
-      context.putImageData(imageData, 0, 0);
-    },
-
-    /**
-     * Returns object representation of an instance
-     * @return {Object} Object representation of an instance
-     */
-    toObject: function() {
-      return extend(this.callSuper('toObject'), {
-        color: this.color,
-        opacity: this.opacity
-      });
-    }
-  });
-
-  /**
-   * Returns filter instance from an object representation
-   * @static
-   * @param {Object} object Object to create an instance from
-   * @return {fabric.Image.filters.Tint} Instance of fabric.Image.filters.Tint
-   */
-  fabric.Image.filters.Tint.fromObject = function(object) {
-    return new fabric.Image.filters.Tint(object);
-  };
-
-})(typeof exports !== 'undefined' ? exports : this);
-(function(global) {
-
-  "use strict";
-
-  var fabric = global.fabric || (global.fabric = { }),
-      extend = fabric.util.object.extend,
-      clone = fabric.util.object.clone,
-      toFixed = fabric.util.toFixed,
-      supportsLineDash = fabric.StaticCanvas.supports('setLineDash');
-
-  if (fabric.Text) {
-    fabric.warn('fabric.Text is already defined');
-    return;
-  }
-
-  var stateProperties = fabric.Object.prototype.stateProperties.concat();
-  stateProperties.push(
-    'fontFamily',
-    'fontWeight',
-    'fontSize',
-    'text',
-    'textDecoration',
-    'textAlign',
-    'fontStyle',
-    'lineHeight',
-    'textBackgroundColor',
-    'useNative',
-    'path'
-  );
-
-  /**
-   * Text class
-   * @class fabric.Text
-   * @extends fabric.Object
-   * @return {fabric.Text} thisArg
-   * @tutorial {@link http://fabricjs.com/fabric-intro-part-2/#text}
-   * @see {@link fabric.Text#initialize} for constructor definition
-   */
-  fabric.Text = fabric.util.createClass(fabric.Object, /** @lends fabric.Text.prototype */ {
-
-    /**
-     * Properties which when set cause object to change dimensions
-     * @type Object
-     * @private
-     */
-    _dimensionAffectingProps: {
-      fontSize: true,
-      fontWeight: true,
-      fontFamily: true,
-      textDecoration: true,
-      fontStyle: true,
-      lineHeight: true,
-      stroke: true,
-      strokeWidth: true,
-      text: true
-    },
-
-    /**
-     * @private
-     */
-    _reNewline: /\r?\n/,
-
-    /**
-     * Retrieves object's fontSize
-     * @method getFontSize
-     * @memberOf fabric.Text.prototype
-     * @return {String} Font size (in pixels)
-     */
-
-    /**
-     * Sets object's fontSize
-     * @method setFontSize
-     * @memberOf fabric.Text.prototype
-     * @param {Number} fontSize Font size (in pixels)
-     * @return {fabric.Text}
-     * @chainable
-     */
-
-    /**
-     * Retrieves object's fontWeight
-     * @method getFontWeight
-     * @memberOf fabric.Text.prototype
-     * @return {(String|Number)} Font weight
-     */
-
-    /**
-     * Sets object's fontWeight
-     * @method setFontWeight
-     * @memberOf fabric.Text.prototype
-     * @param {(Number|String)} fontWeight Font weight
-     * @return {fabric.Text}
-     * @chainable
-     */
-
-    /**
-     * Retrieves object's fontFamily
-     * @method getFontFamily
-     * @memberOf fabric.Text.prototype
-     * @return {String} Font family
-     */
-
-    /**
-     * Sets object's fontFamily
-     * @method setFontFamily
-     * @memberOf fabric.Text.prototype
-     * @param {String} fontFamily Font family
-     * @return {fabric.Text}
-     * @chainable
-     */
-
-    /**
-     * Retrieves object's text
-     * @method getText
-     * @memberOf fabric.Text.prototype
-     * @return {String} text
-     */
-
-    /**
-     * Sets object's text
-     * @method setText
-     * @memberOf fabric.Text.prototype
-     * @param {String} text Text
-     * @return {fabric.Text}
-     * @chainable
-     */
-
-    /**
-     * Retrieves object's textDecoration
-     * @method getTextDecoration
-     * @memberOf fabric.Text.prototype
-     * @return {String} Text decoration
-     */
-
-    /**
-     * Sets object's textDecoration
-     * @method setTextDecoration
-     * @memberOf fabric.Text.prototype
-     * @param {String} textDecoration Text decoration
-     * @return {fabric.Text}
-     * @chainable
-     */
-
-    /**
-     * Retrieves object's fontStyle
-     * @method getFontStyle
-     * @memberOf fabric.Text.prototype
-     * @return {String} Font style
-     */
-
-    /**
-     * Sets object's fontStyle
-     * @method setFontStyle
-     * @memberOf fabric.Text.prototype
-     * @param {String} fontStyle Font style
-     * @return {fabric.Text}
-     * @chainable
-     */
-
-    /**
-     * Retrieves object's lineHeight
-     * @method getLineHeight
-     * @memberOf fabric.Text.prototype
-     * @return {Number} Line height
-     */
-
-    /**
-     * Sets object's lineHeight
-     * @method setLineHeight
-     * @memberOf fabric.Text.prototype
-     * @param {Number} lineHeight Line height
-     * @return {fabric.Text}
-     * @chainable
-     */
-
-    /**
-     * Retrieves object's textAlign
-     * @method getTextAlign
-     * @memberOf fabric.Text.prototype
-     * @return {String} Text alignment
-     */
-
-    /**
-     * Sets object's textAlign
-     * @method setTextAlign
-     * @memberOf fabric.Text.prototype
-     * @param {String} textAlign Text alignment
-     * @return {fabric.Text}
-     * @chainable
-     */
-
-    /**
-     * Retrieves object's textBackgroundColor
-     * @method getTextBackgroundColor
-     * @memberOf fabric.Text.prototype
-     * @return {String} Text background color
-     */
-
-    /**
-     * Sets object's textBackgroundColor
-     * @method setTextBackgroundColor
-     * @memberOf fabric.Text.prototype
-     * @param {String} textBackgroundColor Text background color
-     * @return {fabric.Text}
-     * @chainable
-     */
-
-    /**
-     * Type of an object
-     * @type String
-     * @default
-     */
-    type:                 'text',
-
-    /**
-     * Font size (in pixels)
-     * @type Number
-     * @default
-     */
-    fontSize:             40,
-
-    /**
-     * Font weight (e.g. bold, normal, 400, 600, 800)
-     * @type {(Number|String)}
-     * @default
-     */
-    fontWeight:           'normal',
-
-    /**
-     * Font family
-     * @type String
-     * @default
-     */
-    fontFamily:           'Times New Roman',
-
-    /**
-     * Text decoration Possible values: "", "underline", "overline" or "line-through".
-     * @type String
-     * @default
-     */
-    textDecoration:       '',
-
-    /**
-     * Text alignment. Possible values: "left", "center", or "right".
-     * @type String
-     * @default
-     */
-    textAlign:            'left',
-
-    /**
-     * Font style . Possible values: "", "normal", "italic" or "oblique".
-     * @type String
-     * @default
-     */
-    fontStyle:            '',
-
-    /**
-     * Line height
-     * @type Number
-     * @default
-     */
-    lineHeight:           1.3,
-
-    /**
-     * Background color of text lines
-     * @type String
-     * @default
-     */
-    textBackgroundColor:  '',
-
-    /**
-     * URL of a font file, when using Cufon
-     * @type String | null
-     * @default
-     */
-    path:                 null,
-
-    /**
-     * Indicates whether canvas native text methods should be used to render text (otherwise, Cufon is used)
-     * @type Boolean
-     * @default
-     */
-    useNative:            true,
-
-    /**
-     * List of properties to consider when checking if
-     * state of an object is changed ({@link fabric.Object#hasStateChanged})
-     * as well as for history (undo/redo) purposes
-     * @type Array
-     */
-    stateProperties:      stateProperties,
-
-    /**
-     * When defined, an object is rendered via stroke and this property specifies its color.
-     * <b>Backwards incompatibility note:</b> This property was named "strokeStyle" until v1.1.6
-     * @type String
-     * @default
-     */
-    stroke:               null,
-
-    /**
-     * Shadow object representing shadow of this shape.
-     * <b>Backwards incompatibility note:</b> This property was named "textShadow" (String) until v1.2.11
-     * @type fabric.Shadow
-     * @default
-     */
-    shadow:               null,
-
-    /**
-     * Constructor
-     * @param {String} text Text string
-     * @param {Object} [options] Options object
-     * @return {fabric.Text} thisArg
-     */
-    initialize: function(text, options) {
-      options = options || { };
-
-      this.text = text;
-      this.__skipDimension = true;
-      this.setOptions(options);
-      this.__skipDimension = false;
-      this._initDimensions();
-      this.setCoords();
-    },
-
-    /**
-     * Renders text object on offscreen canvas, so that it would get dimensions
-     * @private
-     */
-    _initDimensions: function() {
-      if (this.__skipDimension) return;
-      var canvasEl = fabric.util.createCanvasElement();
-      this._render(canvasEl.getContext('2d'));
-    },
-
-    /**
-     * Returns string representation of an instance
-     * @return {String} String representation of text object
-     */
-    toString: function() {
-      return '#<fabric.Text (' + this.complexity() +
-        '): { "text": "' + this.text + '", "fontFamily": "' + this.fontFamily + '" }>';
-    },
-
-    /**
-     * @private
-     * @param {CanvasRenderingContext2D} ctx Context to render on
-     */
-    _render: function(ctx) {
-
-      var isInPathGroup = this.group && this.group.type === 'path-group';
-      if (isInPathGroup && !this.transformMatrix) {
-        ctx.translate(-this.group.width/2 + this.left, -this.group.height / 2 + this.top);
-      }
-      else if (isInPathGroup && this.transformMatrix) {
-        ctx.translate(-this.group.width/2, -this.group.height/2);
-      }
-
-      if (typeof Cufon === 'undefined' || this.useNative === true) {
-        this._renderViaNative(ctx);
-      }
-      else {
-        this._renderViaCufon(ctx);
-      }
-    },
-
-    /**
-     * @private
-     * @param {CanvasRenderingContext2D} ctx Context to render on
-     */
-    _renderViaNative: function(ctx) {
-      var textLines = this.text.split(this._reNewline);
-
-      this.transform(ctx, fabric.isLikelyNode);
-
-      this._setTextStyles(ctx);
-
-      this.width = this._getTextWidth(ctx, textLines);
-      this.height = this._getTextHeight(ctx, textLines);
-
-      this.clipTo && fabric.util.clipContext(this, ctx);
-
-      this._renderTextBackground(ctx, textLines);
-      this._translateForTextAlign(ctx);
-      this._renderText(ctx, textLines);
-
-      if (this.textAlign !== 'left' && this.textAlign !== 'justify') {
-        ctx.restore();
-      }
-
-      this._renderTextDecoration(ctx, textLines);
-      this.clipTo && ctx.restore();
-
-      this._setBoundaries(ctx, textLines);
-      this._totalLineHeight = 0;
-    },
-
-    /**
-     * @private
-     * @param {CanvasRenderingContext2D} ctx Context to render on
-     */
-    _renderText: function(ctx, textLines) {
-      ctx.save();
-      this._setShadow(ctx);
-      this._renderTextFill(ctx, textLines);
-      this._renderTextStroke(ctx, textLines);
-      this._removeShadow(ctx);
-      ctx.restore();
-    },
-
-    /**
-     * @private
-     * @param {CanvasRenderingContext2D} ctx Context to render on
-     */
-    _translateForTextAlign: function(ctx) {
-      if (this.textAlign !== 'left' && this.textAlign !== 'justify') {
-        ctx.save();
-        ctx.translate(this.textAlign === 'center' ? (this.width / 2) : this.width, 0);
-      }
-    },
-
-    /**
-     * @private
-     * @param {CanvasRenderingContext2D} ctx Context to render on
-     * @param {Array} textLines Array of all text lines
-     */
-    _setBoundaries: function(ctx, textLines) {
-      this._boundaries = [ ];
-
-      for (var i = 0, len = textLines.length; i < len; i++) {
-
-        var lineWidth = this._getLineWidth(ctx, textLines[i]);
-        var lineLeftOffset = this._getLineLeftOffset(lineWidth);
-
-        this._boundaries.push({
-          height: this.fontSize * this.lineHeight,
-          width: lineWidth,
-          left: lineLeftOffset
-        });
-      }
-    },
-
-    /**
-     * @private
-     * @param {CanvasRenderingContext2D} ctx Context to render on
-     */
-    _setTextStyles: function(ctx) {
-      this._setFillStyles(ctx);
-      this._setStrokeStyles(ctx);
-      ctx.textBaseline = 'alphabetic';
-      if (!this.skipTextAlign) {
-        ctx.textAlign = this.textAlign;
-      }
-      ctx.font = this._getFontDeclaration();
-    },
-
-    /**
-     * @private
-     * @param {CanvasRenderingContext2D} ctx Context to render on
-     * @param {Array} textLines Array of all text lines
-     * @return {Number} Height of fabric.Text object
-     */
-    _getTextHeight: function(ctx, textLines) {
-      return this.fontSize * textLines.length * this.lineHeight;
-    },
-
-    /**
-     * @private
-     * @param {CanvasRenderingContext2D} ctx Context to render on
-     * @param {Array} textLines Array of all text lines
-     * @return {Number} Maximum width of fabric.Text object
-     */
-    _getTextWidth: function(ctx, textLines) {
-      var maxWidth = ctx.measureText(textLines[0] || '|').width;
-
-      for (var i = 1, len = textLines.length; i < len; i++) {
-        var currentLineWidth = ctx.measureText(textLines[i]).width;
-        if (currentLineWidth > maxWidth) {
-          maxWidth = currentLineWidth;
-        }
-      }
-      return maxWidth;
-    },
-
-    /**
-     * @private
-     * @param {String} method Method name ("fillText" or "strokeText")
-     * @param {CanvasRenderingContext2D} ctx Context to render on
-     * @param {String} line Chars to render
-     * @param {Number} left Left position of text
-     * @param {Number} top Top position of text
-     */
-    _renderChars: function(method, ctx, chars, left, top) {
-      ctx[method](chars, left, top);
-    },
-
-    /**
-     * @private
-     * @param {String} method Method name ("fillText" or "strokeText")
-     * @param {CanvasRenderingContext2D} ctx Context to render on
-     * @param {String} line Text to render
-     * @param {Number} left Left position of text
-     * @param {Number} top Top position of text
-     * @param {Number} lineIndex Index of a line in a text
-     */
-    _renderTextLine: function(method, ctx, line, left, top, lineIndex) {
-      // lift the line by quarter of fontSize
-      top -= this.fontSize / 4;
-
-      // short-circuit
-      if (this.textAlign !== 'justify') {
-        this._renderChars(method, ctx, line, left, top, lineIndex);
-        return;
-      }
-
-      var lineWidth = ctx.measureText(line).width;
-      var totalWidth = this.width;
-
-      if (totalWidth > lineWidth) {
-        // stretch the line
-        var words = line.split(/\s+/);
-        var wordsWidth = ctx.measureText(line.replace(/\s+/g, '')).width;
-        var widthDiff = totalWidth - wordsWidth;
-        var numSpaces = words.length - 1;
-        var spaceWidth = widthDiff / numSpaces;
-
-        var leftOffset = 0;
-        for (var i = 0, len = words.length; i < len; i++) {
-          this._renderChars(method, ctx, words[i], left + leftOffset, top, lineIndex);
-          leftOffset += ctx.measureText(words[i]).width + spaceWidth;
-        }
-      }
-      else {
-        this._renderChars(method, ctx, line, left, top, lineIndex);
-      }
-    },
-
-    /**
-     * @private
-     * @return {Number} Left offset
-     */
-    _getLeftOffset: function() {
-      if (fabric.isLikelyNode) {
-        return 0;
-      }
-      return -this.width / 2;
-    },
-
-    /**
-     * @private
-     * @return {Number} Top offset
-     */
-    _getTopOffset: function() {
-      return -this.height / 2;
-    },
-
-    /**
-     * @private
-     * @param {CanvasRenderingContext2D} ctx Context to render on
-     * @param {Array} textLines Array of all text lines
-     */
-    _renderTextFill: function(ctx, textLines) {
-      if (!this.fill && !this._skipFillStrokeCheck) return;
-
-      this._boundaries = [ ];
-      var lineHeights = 0;
-
-      for (var i = 0, len = textLines.length; i < len; i++) {
-        var heightOfLine = this._getHeightOfLine(ctx, i, textLines);
-        lineHeights += heightOfLine;
-
-        this._renderTextLine(
-          'fillText',
-          ctx,
-          textLines[i],
-          this._getLeftOffset(),
-          this._getTopOffset() + lineHeights,
-          i
-        );
-      }
-    },
-
-    /**
-     * @private
-     * @param {CanvasRenderingContext2D} ctx Context to render on
-     * @param {Array} textLines Array of all text lines
-     */
-    _renderTextStroke: function(ctx, textLines) {
-      if (!this.stroke && !this._skipFillStrokeCheck) return;
-
-      var lineHeights = 0;
-
-      ctx.save();
-      if (this.strokeDashArray) {
-        // Spec requires the concatenation of two copies the dash list when the number of elements is odd
-        if (1 & this.strokeDashArray.length) {
-          this.strokeDashArray.push.apply(this.strokeDashArray, this.strokeDashArray);
-        }
-        supportsLineDash && ctx.setLineDash(this.strokeDashArray);
-      }
-
-      ctx.beginPath();
-      for (var i = 0, len = textLines.length; i < len; i++) {
-        var heightOfLine = this._getHeightOfLine(ctx, i, textLines);
-        lineHeights += heightOfLine;
-
-        this._renderTextLine(
-          'strokeText',
-          ctx,
-          textLines[i],
-          this._getLeftOffset(),
-          this._getTopOffset() + lineHeights,
-          i
-        );
-      }
-      ctx.closePath();
-      ctx.restore();
-    },
-
-    _getHeightOfLine: function() {
-      return this.fontSize * this.lineHeight;
-    },
-
-    /**
-     * @private
-     * @param {CanvasRenderingContext2D} ctx Context to render on
-     * @param {Array} textLines Array of all text lines
-     */
-    _renderTextBackground: function(ctx, textLines) {
-      this._renderTextBoxBackground(ctx);
-      this._renderTextLinesBackground(ctx, textLines);
-    },
-
-    /**
-     * @private
-     * @param {CanvasRenderingContext2D} ctx Context to render on
-     */
-    _renderTextBoxBackground: function(ctx) {
-      if (!this.backgroundColor) return;
-
-      ctx.save();
-      ctx.fillStyle = this.backgroundColor;
-
-      ctx.fillRect(
-        this._getLeftOffset(),
-        this._getTopOffset(),
-        this.width,
-        this.height
-      );
-
-      ctx.restore();
-    },
-
-    /**
-     * @private
-     * @param {CanvasRenderingContext2D} ctx Context to render on
-     * @param {Array} textLines Array of all text lines
-     */
-    _renderTextLinesBackground: function(ctx, textLines) {
-      if (!this.textBackgroundColor) return;
-
-      ctx.save();
-      ctx.fillStyle = this.textBackgroundColor;
-
-      for (var i = 0, len = textLines.length; i < len; i++) {
-
-        if (textLines[i] !== '') {
-
-          var lineWidth = this._getLineWidth(ctx, textLines[i]);
-          var lineLeftOffset = this._getLineLeftOffset(lineWidth);
-
-          ctx.fillRect(
-            this._getLeftOffset() + lineLeftOffset,
-            this._getTopOffset() + (i * this.fontSize * this.lineHeight),
-            lineWidth,
-            this.fontSize * this.lineHeight
-          );
-        }
-      }
-      ctx.restore();
-    },
-
-    /**
-     * @private
-     * @param {Number} lineWidth Width of text line
-     * @return {Number} Line left offset
-     */
-    _getLineLeftOffset: function(lineWidth) {
-      if (this.textAlign === 'center') {
-        return (this.width - lineWidth) / 2;
-      }
-      if (this.textAlign === 'right') {
-        return this.width - lineWidth;
-      }
-      return 0;
-    },
-
-    /**
-     * @private
-     * @param {CanvasRenderingContext2D} ctx Context to render on
-     * @param {String} line Text line
-     * @return {Number} Line width
-     */
-    _getLineWidth: function(ctx, line) {
-      return this.textAlign === 'justify'
-        ? this.width
-        : ctx.measureText(line).width;
-    },
-
-    /**
-     * @private
-     * @param {CanvasRenderingContext2D} ctx Context to render on
-     * @param {Array} textLines Array of all text lines
-     */
-    _renderTextDecoration: function(ctx, textLines) {
-      if (!this.textDecoration) return;
-
-      // var halfOfVerticalBox = this.originY === 'top' ? 0 : this._getTextHeight(ctx, textLines) / 2;
-      var halfOfVerticalBox = this._getTextHeight(ctx, textLines) / 2;
-      var _this = this;
-
-      /** @ignore */
-      function renderLinesAtOffset(offset) {
-        for (var i = 0, len = textLines.length; i < len; i++) {
-
-          var lineWidth = _this._getLineWidth(ctx, textLines[i]);
-          var lineLeftOffset = _this._getLineLeftOffset(lineWidth);
-
-          ctx.fillRect(
-            _this._getLeftOffset() + lineLeftOffset,
-            ~~((offset + (i * _this._getHeightOfLine(ctx, i, textLines))) - halfOfVerticalBox),
-            lineWidth,
-            1);
-        }
-      }
-
-      if (this.textDecoration.indexOf('underline') > -1) {
-        renderLinesAtOffset(this.fontSize * this.lineHeight);
-      }
-      if (this.textDecoration.indexOf('line-through') > -1) {
-        renderLinesAtOffset(this.fontSize * this.lineHeight - this.fontSize / 2);
-      }
-      if (this.textDecoration.indexOf('overline') > -1) {
-        renderLinesAtOffset(this.fontSize * this.lineHeight - this.fontSize);
-      }
-    },
-
-    /**
-     * @private
-     */
-    _getFontDeclaration: function() {
-      return [
-        // node-canvas needs "weight style", while browsers need "style weight"
-        (fabric.isLikelyNode ? this.fontWeight : this.fontStyle),
-        (fabric.isLikelyNode ? this.fontStyle : this.fontWeight),
-        this.fontSize + 'px',
-        (fabric.isLikelyNode ? ('"' + this.fontFamily + '"') : this.fontFamily)
-      ].join(' ');
-    },
-
-    /**
-     * Renders text instance on a specified context
-     * @param {CanvasRenderingContext2D} ctx Context to render on
-     * @param {Boolean} [noTransform] When true, context is not transformed
-     */
-    render: function(ctx, noTransform) {
-      // do not render if object is not visible
-      if (!this.visible) return;
-
-      ctx.save();
-      this._render(ctx);
-      if (!noTransform && this.active) {
-        this.drawBorders(ctx);
-        this.drawControls(ctx);
-      }
-      ctx.restore();
-    },
-
-    /**
-     * Returns object representation of an instance
-     * @param {Array} [propertiesToInclude] Any properties that you might want to additionally include in the output
-     * @return {Object} Object representation of an instance
-     */
-    toObject: function(propertiesToInclude) {
-      var object = extend(this.callSuper('toObject', propertiesToInclude), {
-        text:                 this.text,
-        fontSize:             this.fontSize,
-        fontWeight:           this.fontWeight,
-        fontFamily:           this.fontFamily,
-        fontStyle:            this.fontStyle,
-        lineHeight:           this.lineHeight,
-        textDecoration:       this.textDecoration,
-        textAlign:            this.textAlign,
-        path:                 this.path,
-        textBackgroundColor:  this.textBackgroundColor,
-        useNative:            this.useNative
-      });
-      if (!this.includeDefaultValues) {
-        this._removeDefaultValues(object);
-      }
-      return object;
-    },
-
-    /* _TO_SVG_START_ */
-    /**
-     * Returns SVG representation of an instance
-     * @param {Function} [reviver] Method for further parsing of svg representation.
-     * @return {String} svg representation of an instance
-     */
-    toSVG: function(reviver) {
-      var markup = [ ],
-          textLines = this.text.split(this._reNewline),
-          offsets = this._getSVGLeftTopOffsets(textLines),
-          textAndBg = this._getSVGTextAndBg(offsets.lineTop, offsets.textLeft, textLines),
-          shadowSpans = this._getSVGShadows(offsets.lineTop, textLines);
-
-      // move top offset by an ascent
-      offsets.textTop += (this._fontAscent ? ((this._fontAscent / 5) * this.lineHeight) : 0);
-
-      this._wrapSVGTextAndBg(markup, textAndBg, shadowSpans, offsets);
-
-      return reviver ? reviver(markup.join('')) : markup.join('');
-    },
-
-    /**
-     * @private
-     */
-    _getSVGLeftTopOffsets: function(textLines) {
-      var lineTop = this.useNative
-            ? this.fontSize * this.lineHeight
-            : (-this._fontAscent - ((this._fontAscent / 5) * this.lineHeight)),
-
-          textLeft = -(this.width/2),
-          textTop = this.useNative
-            ? this.fontSize - 1
-            : (this.height/2) - (textLines.length * this.fontSize) - this._totalLineHeight;
-
-      return {
-        textLeft: textLeft,
-        textTop: textTop,
-        lineTop: lineTop
-      };
-    },
-
-    /**
-     * @private
-     */
-    _wrapSVGTextAndBg: function(markup, textAndBg, shadowSpans, offsets) {
-      markup.push(
-        '<g transform="', this.getSvgTransform(), '">',
-          textAndBg.textBgRects.join(''),
-          '<text ',
-            (this.fontFamily ? 'font-family="' + this.fontFamily.replace(/"/g,'\'') + '" ': ''),
-            (this.fontSize ? 'font-size="' + this.fontSize + '" ': ''),
-            (this.fontStyle ? 'font-style="' + this.fontStyle + '" ': ''),
-            (this.fontWeight ? 'font-weight="' + this.fontWeight + '" ': ''),
-            (this.textDecoration ? 'text-decoration="' + this.textDecoration + '" ': ''),
-            'style="', this.getSvgStyles(), '" ',
-            /* svg starts from left/bottom corner so we normalize height */
-            'transform="translate(', toFixed(offsets.textLeft, 2), ' ', toFixed(offsets.textTop, 2), ')">',
-            shadowSpans.join(''),
-            textAndBg.textSpans.join(''),
-          '</text>',
-        '</g>'
-      );
-    },
-
-    /**
-     * @private
-     * @param {Number} lineHeight
-     * @param {Array} textLines Array of all text lines
-     * @return {Array}
-     */
-    _getSVGShadows: function(lineHeight, textLines) {
-      var shadowSpans = [],
-          i, len,
-          lineTopOffsetMultiplier = 1;
-
-      if (!this.shadow || !this._boundaries) {
-        return shadowSpans;
-      }
-
-      for (i = 0, len = textLines.length; i < len; i++) {
-        if (textLines[i] !== '') {
-          var lineLeftOffset = (this._boundaries && this._boundaries[i]) ? this._boundaries[i].left : 0;
-          shadowSpans.push(
-            '<tspan x="',
-            toFixed((lineLeftOffset + lineTopOffsetMultiplier) + this.shadow.offsetX, 2),
-            ((i === 0 || this.useNative) ? '" y' : '" dy'), '="',
-            toFixed(this.useNative
-              ? ((lineHeight * i) - this.height / 2 + this.shadow.offsetY)
-              : (lineHeight + (i === 0 ? this.shadow.offsetY : 0)), 2),
-            '" ',
-            this._getFillAttributes(this.shadow.color), '>',
-            fabric.util.string.escapeXml(textLines[i]),
-          '</tspan>');
-          lineTopOffsetMultiplier = 1;
-        }
-        else {
-          // in some environments (e.g. IE 7 & 8) empty tspans are completely ignored, using a lineTopOffsetMultiplier
-          // prevents empty tspans
-          lineTopOffsetMultiplier++;
-        }
-      }
-
-      return shadowSpans;
-    },
-
-    /**
-     * @private
-     * @param {Number} lineHeight
-     * @param {Number} textLeftOffset Text left offset
-     * @param {Array} textLines Array of all text lines
-     * @return {Object}
-     */
-    _getSVGTextAndBg: function(lineHeight, textLeftOffset, textLines) {
-      var textSpans = [ ],
-          textBgRects = [ ],
-          lineTopOffsetMultiplier = 1;
-
-      // bounding-box background
-      this._setSVGBg(textBgRects);
-
-      // text and text-background
-      for (var i = 0, len = textLines.length; i < len; i++) {
-        if (textLines[i] !== '') {
-          this._setSVGTextLineText(textLines[i], i, textSpans, lineHeight, lineTopOffsetMultiplier, textBgRects);
-          lineTopOffsetMultiplier = 1;
-        }
-        else {
-          // in some environments (e.g. IE 7 & 8) empty tspans are completely ignored, using a lineTopOffsetMultiplier
-          // prevents empty tspans
-          lineTopOffsetMultiplier++;
-        }
-
-        if (!this.textBackgroundColor || !this._boundaries) continue;
-
-        this._setSVGTextLineBg(textBgRects, i, textLeftOffset, lineHeight);
-      }
-
-      return {
-        textSpans: textSpans,
-        textBgRects: textBgRects
-      };
-    },
-
-    _setSVGTextLineText: function(textLine, i, textSpans, lineHeight, lineTopOffsetMultiplier) {
-      var lineLeftOffset = (this._boundaries && this._boundaries[i])
-        ? toFixed(this._boundaries[i].left, 2)
-        : 0;
-
-      textSpans.push(
-        '<tspan x="',
-          lineLeftOffset, '" ',
-          (i === 0 || this.useNative ? 'y' : 'dy'), '="',
-          toFixed(this.useNative
-            ? ((lineHeight * i) - this.height / 2)
-            : (lineHeight * lineTopOffsetMultiplier), 2) , '" ',
-          // doing this on <tspan> elements since setting opacity
-          // on containing <text> one doesn't work in Illustrator
-          this._getFillAttributes(this.fill), '>',
-          fabric.util.string.escapeXml(textLine),
-        '</tspan>'
-      );
-    },
-
-    _setSVGTextLineBg: function(textBgRects, i, textLeftOffset, lineHeight) {
-      textBgRects.push(
-        '<rect ',
-          this._getFillAttributes(this.textBackgroundColor),
-          ' x="',
-          toFixed(textLeftOffset + this._boundaries[i].left, 2),
-          '" y="',
-          /* an offset that seems to straighten things out */
-          toFixed((lineHeight * i) - this.height / 2, 2),
-          '" width="',
-          toFixed(this._boundaries[i].width, 2),
-          '" height="',
-          toFixed(this._boundaries[i].height, 2),
-        '"></rect>');
-    },
-
-    _setSVGBg: function(textBgRects) {
-      if (this.backgroundColor && this._boundaries) {
-        textBgRects.push(
-          '<rect ',
-            this._getFillAttributes(this.backgroundColor),
-            ' x="',
-            toFixed(-this.width / 2, 2),
-            '" y="',
-            toFixed(-this.height / 2, 2),
-            '" width="',
-            toFixed(this.width, 2),
-            '" height="',
-            toFixed(this.height, 2),
-          '"></rect>');
-      }
-    },
-
-    /**
-     * Adobe Illustrator (at least CS5) is unable to render rgba()-based fill values
-     * we work around it by "moving" alpha channel into opacity attribute and setting fill's alpha to 1
-     *
-     * @private
-     * @param {Any} value
-     * @return {String}
-     */
-    _getFillAttributes: function(value) {
-      var fillColor = (value && typeof value === 'string') ? new fabric.Color(value) : '';
-      if (!fillColor || !fillColor.getSource() || fillColor.getAlpha() === 1) {
-        return 'fill="' + value + '"';
-      }
-      return 'opacity="' + fillColor.getAlpha() + '" fill="' + fillColor.setAlpha(1).toRgb() + '"';
-    },
-    /* _TO_SVG_END_ */
-
-    /**
-     * Sets specified property to a specified value
-     * @param {String} key
-     * @param {Any} value
-     * @return {fabric.Text} thisArg
-     * @chainable
-     */
-    _set: function(key, value) {
-      if (key === 'fontFamily' && this.path) {
-        this.path = this.path.replace(/(.*?)([^\/]*)(\.font\.js)/, '$1' + value + '$3');
-      }
-      this.callSuper('_set', key, value);
-
-      if (key in this._dimensionAffectingProps) {
-        this._initDimensions();
-        this.setCoords();
-      }
-    },
-
-    /**
-     * Returns complexity of an instance
-     * @return {Number} complexity
-     */
-    complexity: function() {
-      return 1;
-    }
-  });
-
-  /* _FROM_SVG_START_ */
-  /**
-   * List of attribute names to account for when parsing SVG element (used by {@link fabric.Text.fromElement})
-   * @static
-   * @memberOf fabric.Text
-   * @see: http://www.w3.org/TR/SVG/text.html#TextElement
-   */
-  fabric.Text.ATTRIBUTE_NAMES = fabric.SHARED_ATTRIBUTES.concat(
-    'x y font-family font-style font-weight font-size text-decoration'.split(' '));
-
-  /**
-   * Returns fabric.Text instance from an SVG element (<b>not yet implemented</b>)
-   * @static
-   * @memberOf fabric.Text
-   * @param {SVGElement} element Element to parse
-   * @param {Object} [options] Options object
-   * @return {fabric.Text} Instance of fabric.Text
-   */
-  fabric.Text.fromElement = function(element, options) {
-    if (!element) {
-      return null;
-    }
-
-    var parsedAttributes = fabric.parseAttributes(element, fabric.Text.ATTRIBUTE_NAMES);
-    options = fabric.util.object.extend((options ? fabric.util.object.clone(options) : { }), parsedAttributes);
-
-    var text = new fabric.Text(element.textContent, options);
-
-    /*
-      Adjust positioning:
-        x/y attributes in SVG correspond to the bottom-left corner of text bounding box
-        top/left properties in Fabric correspond to center point of text bounding box
-    */
-
-    text.set({
-      left: text.getLeft() + text.getWidth() / 2,
-      top: text.getTop() - text.getHeight() / 2
-    });
-
-    return text;
-  };
-  /* _FROM_SVG_END_ */
-
-  /**
-   * Returns fabric.Text instance from an object representation
-   * @static
-   * @memberOf fabric.Text
-   * @param object {Object} object Object to create an instance from
-   * @return {fabric.Text} Instance of fabric.Text
-   */
-  fabric.Text.fromObject = function(object) {
-    return new fabric.Text(object.text, clone(object));
-  };
-
-  fabric.util.createAccessors(fabric.Text);
 
 })(typeof exports !== 'undefined' ? exports : this);
