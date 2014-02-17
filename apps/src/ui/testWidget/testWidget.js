@@ -21,10 +21,14 @@ define(function(require){
     };
 
     this.attachEventListeners = function(){
-      // this.on('click', function() {
-      //   alert("testing");
-      // });
+      this.on('click', {
+        testWidgetEl: this.aksiTesting,
+      });
     };
+
+    this.aksiTesting = function() {
+      alert('ini widget testing');
+    }
 
     this.initFreehandPainting = function(){
     };

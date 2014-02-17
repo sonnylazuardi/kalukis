@@ -22,9 +22,13 @@ define(function(require){
     };
 
     this.attachEventListeners = function(){
-      this.on('click', function() {
-        alert("INI WIDGET FB")
+      this.on('click', {
+        FBWidgetEl: this.aksiFB,
       });
+    };
+
+    this.aksiFB = function() { 
+      alert('ini widget FB');
     };
 
     //Added by fawwaz from below from pupunzi
