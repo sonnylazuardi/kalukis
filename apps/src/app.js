@@ -9,6 +9,7 @@ define(function(require){
       freehandPainter = require('painters/freehandPainter'),
       textPainter = require('painters/textPainter'),
       imagePainter = require('painters/imagePainter'),
+      shirtPainter = require('painters/shirtPainter'),
 
       paintWidgets = require('ui/paintWidget/paintWidgets'),
       canvasManipulationWidget = require('ui/canvasManipulationWidget/canvasManipulationWidget'),
@@ -24,6 +25,8 @@ define(function(require){
       brushPanelWidget = require('ui/brushPanel/brushPanel'),
       //David widget 
       textWidget = require('ui/textWidget/textWidget'),
+
+      shirtWidget = require('ui/shirtWidget/shirtWidget'),
 
       notification = require('ui/notification/notification'),
       keyHandler = require('ui/keyHandler/keyHandler'),
@@ -64,6 +67,8 @@ define(function(require){
     //David widget
     textWidget.attachTo('.left-navigation');
 
+    shirtWidget.attachTo('.left-navigation');
+
     brushSizeWidget.attachTo('#sizerange');
     brushDistanceWidget.attachTo('#brushdistance');
     brushSensitivityWidget.attachTo('#brushsensitivity');
@@ -87,6 +92,7 @@ define(function(require){
     freehandPainter.attachTo(document, {_socket: _socket});
     textPainter.attachTo(document);
     imagePainter.attachTo(document);
+    shirtPainter.attachTo(document);
 
     /**
      * Components that hold data should be instantiated here.

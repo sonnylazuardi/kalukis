@@ -39,6 +39,7 @@ define(function(require){
       this.trigger(document, 'imageCanvas-clicked', {
         files: e.target.files
       });
+      console.log(e.target.files);
     };
 
   }
