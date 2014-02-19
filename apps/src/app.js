@@ -18,7 +18,7 @@ define(function(require){
       freehandWidget = require('ui/freehandWidget/freehandWidget'),
       testWidget = require('ui/testWidget/testWidget'),
       saveWidget = require('ui/saveWidget/saveWidget'),
-      fbWidget = require('ui/FBWidget/FBWidget'),
+      // fbWidget = require('ui/FBWidget/FBWidget'),
       colorWidget = require('ui/colorWidget/colorWidget'),
       brushPanelWidget = require('ui/brushPanel/brushPanel'),
 
@@ -57,7 +57,7 @@ define(function(require){
     imageCanvasWidget.attachTo('.left-navigation');
     canvasManipulationWidget.attachTo('.left-navigation');
     saveWidget.attachTo('.left-navigation');
-    fbWidget.attachTo('.left-navigation');
+    // fbWidget.attachTo('.left-navigation');
 
     brushSizeWidget.attachTo('#sizerange');
     brushDistanceWidget.attachTo('#brushdistance');
