@@ -21,13 +21,17 @@ define(function(require){
     };
 
     this.attachEventListeners = function(){
-      this.on('click', function() {
-        var canvas = document.getElementById('lukis');
-        var context = canvas.getContext('2d');
-
-        window.open(canvas.toDataURL('image/png'));
+      this.on('click', {
+        saveWidgetEl: this.aksiSave,
       });
     };
+
+    this.aksiSave = function() {
+      var canvas = document.getElementById('lukis');
+      var context = canvas.getContext('2d');
+
+      window.open(canvas.toDataURL('image/png'));
+    }
   }
 
 });
