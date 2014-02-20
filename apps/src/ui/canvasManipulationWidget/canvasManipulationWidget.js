@@ -25,6 +25,7 @@ define(function(require){
     };
 
     this.publishClickedWidget = function(e){
+      console.log(e.target);
       if (e.target.id){
         this.trigger(document, 'canvasManipulation-clicked', {
           manipulationId: e.target.id
