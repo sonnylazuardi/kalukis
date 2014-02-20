@@ -41,13 +41,13 @@ define(function(require){
       canvasManipulationList = require('data/canvasManipulationList'), 
       _socket;
 
-  // function Application(socket){
-  function Application(){
+  function Application(socket){
+  // function Application(){
     // application wide error handling
     requirejs.onError = function(err) {
       console.log(err);
     };
-    // _socket = socket;
+    _socket = socket;
   }
 
   Application.prototype.start = function() {

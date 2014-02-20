@@ -32,29 +32,29 @@ define(function(require) {
     this.after('initialize', function() {
       this.attachEventListeners();
       var self = this;
-      // this.attr._socket.on('brushdown', function(data) {
-      //   var brush = self.attr.canvas.freeDrawingBrush;
-      //   console.log('mouse down');
-      //   console.log(data);
-      //   brush.onMouseDown(data, true);
-      // });
-      // this.attr._socket.on('brushmove', function(data) {
-      //   var brush = self.attr.canvas.freeDrawingBrush;
-      //   // self.initFreehandPainting();
-      //   console.log('mouse move');
-      //   // console.log(brush);
-      //   // brush.drawDot(data);
-      //   brush.onMouseMove(data, true);
-      //   // brush.onMouseUp();
-      //   // console.log(brush);
-      //   // self.stopFreehandPainting();
-      //   // brush.hasBeenHijacked = false;
-      // });
-      // this.attr._socket.on('brushup', function() {
-      //   var brush = self.attr.canvas.freeDrawingBrush;
-      //   console.log('mouse up');
-      //   brush.onMouseUp(true);
-      // });
+      this.attr._socket.on('brushdown', function(data) {
+        var brush = self.attr.canvas.freeDrawingBrush;
+        console.log('mouse down');
+        console.log(data);
+        brush.onMouseDown(data, true);
+      });
+      this.attr._socket.on('brushmove', function(data) {
+        var brush = self.attr.canvas.freeDrawingBrush;
+        // self.initFreehandPainting();
+        console.log('mouse move');
+        // console.log(brush);
+        // brush.drawDot(data);
+        brush.onMouseMove(data, true);
+        // brush.onMouseUp();
+        // console.log(brush);
+        // self.stopFreehandPainting();
+        // brush.hasBeenHijacked = false;
+      });
+      this.attr._socket.on('brushup', function() {
+        var brush = self.attr.canvas.freeDrawingBrush;
+        console.log('mouse up');
+        brush.onMouseUp(true);
+      });
     });
 
     /**
