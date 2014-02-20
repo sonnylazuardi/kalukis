@@ -48,7 +48,7 @@ define(['facebook'],function(require,FB){
        var boundary = '--ThisIsTheBoundary1234567890';
        var formData = '--' + boundary; formData += 'Content-Disposition: form-data; name="source";
        filename="picMood_' + new Date().getTime();
-       formData += 'Content-Type: ' + mimeType ';
+       formData += 'Content-Type: ' + mimeType;
        for (var i = 0; i < imgD.length; ++i) formData += String.fromCharCode(imgD[ i ] & 0xff);
        formData += '--' + boundary; var xhr = new XMLHttpRequest();
        xhr.open('POST', 'https://graph.facebook.com/' + picMood.fb_album_id + '/photos?access_token=' + token + '&place=' + placeID + "&message=" + encodeURIComponent(msg), true);

@@ -48,6 +48,7 @@ define(function(require){
         } else {
           FB.login();
         }
+      });
     };
 
     //Added by fawwaz from below from pupunzi
