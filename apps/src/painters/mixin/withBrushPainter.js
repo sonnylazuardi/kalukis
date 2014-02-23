@@ -15,6 +15,7 @@ define(function(require) {
      * @param  {Array} points Points
      */
     this.startBrushPainting = function(canvas, brush, points) {
+      // console.log(points);
       brush.drawAtPoints(points);
       this.finalizePainting(brush);
     };

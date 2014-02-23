@@ -30,7 +30,7 @@ define(function(require) {
   // withActiveBrush: manages the currently active brush used by the user
   // withActiveOutlineShape: manages the currently active outline shape
   return defineComponent(brushPainter, withCanvasEvents, withBrushPainter, withOutlinePainter, withActiveBrush, withActiveOutlineShape);
-
+  var self;
   function brushPainter() {
 
     this.defaultAttrs({
@@ -40,10 +40,29 @@ define(function(require) {
        * @type {Object}
        */
       canvas: undefined,
+      _socket: undefined,
+      activeOutline: undefined
     });
 
     this.after('initialize', function() {
       this.attachEventListeners();
+      self = this;
+      self.attr._socket.on('outlineBrush', function(data) {
+        // console.log(data);
+        // {outlineShape: data, activeOutline: }
+        self.initOutlineShapePainting(data.a);
+        // var activeBrush = self.getActiveBrush();
+
+        // if (activeBrush && data.b.outlineShape) {
+          // `startBrushPainting`, a method from withBrushPainter
+          self.startBrushPainting(
+            self.attr.canvas,
+            self.getActiveBrush(),
+            data.c
+          );  
+        // }
+        self.cancelCurrentPainting();
+      });
     });
 
     this.attachEventListeners = function() {
@@ -125,6 +144,9 @@ define(function(require) {
      * @param  {Object} data Data need to paint
      */
     this.initOutlineShapePainting = function(data) {
+      console.log("outline shape painting");
+      console.log(data);
+      self.activeOutline = data;
       if (data.activeOutlineShape) {
         this.trigger('notify', {
           type: 'info',
@@ -177,6 +199,9 @@ define(function(require) {
      * @param  {Object} data Data need to paint
      */
     this.initBrushPainting = function(data) {
+      console.log("brush painting");
+      console.log(data);
+      
       // `getActiveBrush`, a method from withActiveBrush
       var activeBrush = this.getActiveBrush();
 
@@ -187,6 +212,7 @@ define(function(require) {
           this.getActiveBrush(),
           data.outlineShape.getOutlinePoints(activeBrush.get('width'))
         );  
+        this.attr._socket.emit('outlineBrush', {a: data, b: self.activeOutline, c:data.outlineShape.getOutlinePoints(activeBrush.get('width'))});
       }
     };
 

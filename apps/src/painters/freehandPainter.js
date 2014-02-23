@@ -37,23 +37,20 @@ define(function(require) {
         console.log('mouse down');
         console.log(data);
         brush.onMouseDown(data, true);
+        self.cancelCurrentPainting();
+        self.initFreehandPainting();
       });
       this.attr._socket.on('brushmove', function(data) {
         var brush = self.attr.canvas.freeDrawingBrush;
-        // self.initFreehandPainting();
         console.log('mouse move');
-        // console.log(brush);
-        // brush.drawDot(data);
         brush.onMouseMove(data, true);
-        // brush.onMouseUp();
-        // console.log(brush);
-        // self.stopFreehandPainting();
-        // brush.hasBeenHijacked = false;
       });
       this.attr._socket.on('brushup', function() {
         var brush = self.attr.canvas.freeDrawingBrush;
         console.log('mouse up');
         brush.onMouseUp(true);
+        self.cancelCurrentPainting();
+        self.stopFreehandPainting();
       });
     });
 

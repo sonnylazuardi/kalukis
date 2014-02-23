@@ -3,7 +3,8 @@
  */
 define(function(require) {
 
-  var defineComponent = require('flight/lib/component'),
+  var fabric = require('fabric'),
+      defineComponent = require('flight/lib/component'),
       withImagePainter = require('painters/mixin/withImagePainter'),
       withOutlinePainter = require('painters/mixin/withOutlinePainter'),
       withCanvasEvents = require('painters/mixin/withCanvasEvents'),
@@ -14,7 +15,7 @@ define(function(require) {
   // withCanvasEvents: helps us to listen to interesting events from canvas
   // withOutlinePainter: the one responsible for drawing the outline shape
   return defineComponent(imagePainter, withImagePainter, withCanvasEvents, withOutlinePainter);
-
+  var self;
   function imagePainter() {
 
     this.defaultAttrs({
@@ -27,11 +28,13 @@ define(function(require) {
 
       rectOutline: undefined,
 
-      files: []
+      files: [],
+      _socket: undefined
     });
 
     this.after('initialize', function() {
       this.attachEventListener();
+      
     });
 
     /**

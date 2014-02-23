@@ -10,9 +10,33 @@ define(function(require) {
       RectOutline = require('outlineShapes/rectOutline');
 
   return withImagePainter;
-
+  var self;
   function withImagePainter() {
 
+    this.after('initialize', function() {
+      self = this;
+      self.attr._socket.on('imagePainter', function (data) {
+        var canvas = self.attr.canvas;
+        var img = new Image();
+
+        img.onload = function() {
+          var image = new fabric.Image(img);
+          
+          image.set({
+            top: data.cfg.y + data.cfg.height / 2,
+            left: data.cfg.x + data.cfg.width / 2,
+            originX: 'center',
+            originY: 'center',
+            width: data.cfg.width,
+            height: data.cfg.height
+          });
+
+          canvas.add(image).renderAll();
+        };
+
+        img.src = data.img;
+      });
+    });
     /**
      * Load the images for the canvas
      * @param  {HTMLFileList} images The images
@@ -63,6 +87,8 @@ define(function(require) {
         };
 
         img.src = e.target.result;    
+        // console.log(img.src);
+        self.attr._socket.emit('imagePainter', {img: img.src, cfg: cfg});
       };
 
       this.trigger('notify', {

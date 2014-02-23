@@ -77,21 +77,21 @@ define(function(require){
     
     keyHandler.attachTo(document);
 
-    brushManager.attachTo(document);
+    brushManager.attachTo(document, {_socket: _socket});
     outlineManager.attachTo(document);
 
-    cleaningService.attachTo(document);
+    cleaningService.attachTo(document, {_socket: _socket});
 
 
     /**
      * The lukis component will publish the canvas instance
      * and its DOM element with an event name of `canvasConstructed`.
      */
-    brushPainter.attachTo(document);
+    brushPainter.attachTo(document, {_socket: _socket});
     freehandPainter.attachTo(document, {_socket: _socket});
-    textPainter.attachTo(document);
-    imagePainter.attachTo(document);
-    shirtPainter.attachTo(document);
+    textPainter.attachTo(document, {_socket: _socket});
+    imagePainter.attachTo(document, {_socket: _socket});
+    shirtPainter.attachTo(document, {_socket: _socket});
 
     /**
      * Components that hold data should be instantiated here.

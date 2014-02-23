@@ -7,7 +7,7 @@ define(function(require) {
   var defineComponent = require('flight/lib/component');
 
   return defineComponent(brushManager);
-
+  var self;
   function brushManager() {
 
     this.defaultAttrs({
@@ -28,6 +28,8 @@ define(function(require) {
        * @type {Object}
        */
       brushes: {},
+
+      _socket: undefined,
 
       /**
        * Global brush properties
@@ -56,6 +58,11 @@ define(function(require) {
 
     this.after('initialize', function() {
       this.attachEventListeners();
+      self = this;
+      this.attr._socket.on('brushProperties', function(data) {
+        console.log("brush properties");
+        self.brushProperties(data);
+      });
     });
 
     /**
@@ -68,9 +75,9 @@ define(function(require) {
       }.bind(this));
 
       this.on('change-brushProperty', function(e, data) {
-        var key = Object.keys(data)[0],
-            value = data[key];
-        this.updateBrushProperty(key, value);
+        console.log("brush properties");
+        this.brushProperties(data);
+        self.attr._socket.emit('brushProperties', data);
       }.bind(this));
 
       this.on('request-brushProperties', function() {
@@ -83,6 +90,11 @@ define(function(require) {
       
     };
 
+    this.brushProperties = function(data) {
+      var key = Object.keys(data)[0],
+          value = data[key];
+      this.updateBrushProperty(key, value);
+    }
     /**
      * Setup canvas attributes
      * @param {String} id     Canvas element id

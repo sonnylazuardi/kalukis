@@ -4,13 +4,19 @@
 define(function(require) {
 
   return withActiveBrush;
-
+  var self;
   function withActiveBrush() {
 
     var activeBrush;
 
     this.after('initialize', function() {
+      self = this;
+      self.attr._socket.on('brushActive', function(data) {
+        console.log('brush active ' + data);
+        self.requestBrushInstance(data);
+      });
       this.on('change-activeBrush', function(e, data) {
+        self.attr._socket.emit('brushActive', data.activeBrushId);
         this.requestBrushInstance(data.activeBrushId);
       }.bind(this));
 
