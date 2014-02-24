@@ -9,7 +9,7 @@ require.config({
     spectrum: '../../vendor/spectrum/spectrum',
     'es5-shim': '../../vendor/es5-shim/es5-shim',
     'es5-sham': '../../vendor/es5-shim/es5-sham',
-    // 'facebook': 'http://connect.facebook.net/en_US/all',
+    'facebook': 'http://connect.facebook.net/en_US/all',
     socketio: '../../vendor/socket.io/socket.io'
   },
 
