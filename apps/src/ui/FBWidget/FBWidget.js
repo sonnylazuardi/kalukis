@@ -35,10 +35,10 @@ define(function(require){
         xfbml      : true  // parse XFBML
       });
       // alert("test");
-      FB.getLoginStatus(function(response) {
-          console.log(response);
-      });
-      FB.login();
+      // FB.getLoginStatus(function(response) {
+      //     console.log(response);
+      // });
+      // FB.login();
 
       FB.Event.subscribe('auth.authResponseChange', function(response) {
         if (response.status === 'connected') {
