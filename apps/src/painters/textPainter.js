@@ -49,7 +49,7 @@ define(function(require) {
       // mapping paintWidget-clicked event to activeOutlineShape-changed
       this.on('textWidget-clicked', function(e, data) {
 
-        var newWindow = window.open('textWidget.html',"_blank","width=400,height=300");
+        var newWindow = window.open('textWidget.html',"_blank","width=450,height=350");
         newWindow.addText = function(text, font, size, bold, italic, underlined){
 
           self.addText(text,font,size,bold,italic,underlined);
