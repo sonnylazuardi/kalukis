@@ -16,5 +16,11 @@
     "title": "Circle Brush",
     "icon": "icon-circle-blank",
     "position": 2
+  },
+  {
+    "id": "triangle",
+    "title": "Triangle Brush",
+    "icon": "icon-play",
+    "position": 3
   }
 ]

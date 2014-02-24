@@ -1,6 +1,6 @@
 define(function(require){
 
-  var FB = require('facebook'),
+  var //FB = require('facebook'),
       defineComponent = require('flight/lib/component'),
       tmpl = require('text!ui/FBWidget/template.html');
 
@@ -28,27 +28,28 @@ define(function(require){
     };
 
     this.aksiFB = function() { 
-       FB.init({
-        appId      : '1466692173543778',
-        status     : true, // check login status
-        cookie     : true, // enable cookies to allow the server to access the session
-        xfbml      : true  // parse XFBML
-      });
+      //  FB.init({
+      //   appId      : '1466692173543778',
+      //   status     : true, // check login status
+      //   cookie     : true, // enable cookies to allow the server to access the session
+      //   xfbml      : true  // parse XFBML
+      // });
       // FB.getLoginStatus(function(response) {
       //     alert(response);
       // });
       // FB.login();
 
-      FB.Event.subscribe('auth.authResponseChange', function(response) {
-        if (response.status === 'connected') {
+      // FB.Event.subscribe('auth.authResponseChange', function(response) {
+      //   if (response.status === 'connected') {
             
-          // testAPI();
-        } else if (response.status === 'not_authorized') {
-          FB.login();
-        } else {
-          FB.login();
-        }
-      });
+      //     // testAPI();
+      //   } else if (response.status === 'not_authorized') {
+      //     FB.login();
+      //   } else {
+      //     FB.login();
+      //   }
+      // });
+      alert('testing');
     };
 
     //Added by fawwaz from below from pupunzi
