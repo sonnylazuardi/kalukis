@@ -106,6 +106,7 @@ define(function(require){
               success: function (data) {
                   console.log("success " + data);
                   $("#poster").html("Posted Canvas Successfully");
+                  alert("Gambar telah diunggah ke facebook");
               },
               error: function (shr, status, data) {
                   console.log("error " + data + " Status " + shr.status);
