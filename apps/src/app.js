@@ -1,13 +1,15 @@
 /**
  * I'm alive
  */
-define(function(require){
+var context_new;
 
+define(function(require){
+  var textPainter = require('painters/textPainter');
   var canvas = require('services/canvas'),
   
       brushPainter = require('painters/brushPainter'),
       freehandPainter = require('painters/freehandPainter'),
-      textPainter = require('painters/textPainter'),
+      
       imagePainter = require('painters/imagePainter'),
       shirtPainter = require('painters/shirtPainter'),
 
@@ -25,7 +27,7 @@ define(function(require){
       brushPanelWidget = require('ui/brushPanel/brushPanel'),
       //David widget 
       textWidget = require('ui/textWidget/textWidget'),
-
+      
       shirtWidget = require('ui/shirtWidget/shirtWidget'),
 
       notification = require('ui/notification/notification'),
@@ -74,6 +76,7 @@ define(function(require){
     colorWidget.attachTo('#colorpicker');
     brushPanelWidget.attachTo('#brushes');
     notification.attachTo('#status-bar');
+
     
     keyHandler.attachTo(document);
 
@@ -89,7 +92,7 @@ define(function(require){
      */
     brushPainter.attachTo(document, {_socket: _socket});
     freehandPainter.attachTo(document, {_socket: _socket});
-    textPainter.attachTo(document, {_socket: _socket});
+    textPainter.attachTo(document, {_socket: _socket, context: context_new});
     imagePainter.attachTo(document, {_socket: _socket});
     shirtPainter.attachTo(document, {_socket: _socket});
 

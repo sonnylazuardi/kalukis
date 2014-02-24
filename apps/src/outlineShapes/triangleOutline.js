@@ -12,9 +12,9 @@ define(function(require) {
         points = [];
 
     // get left
-    for (iter = y; iter < yHeight; iter += distance) {
-      points.push({x: x + distance, y: iter});
-    }
+    //for (iter = y; iter < yHeight; iter += distance) {
+    //  points.push({x: x + distance, y: iter});
+    //}
 
     // get bottom
     for (iter = x; iter < xLength; iter += distance) {
@@ -51,8 +51,6 @@ define(function(require) {
         x = this.outline.x,
         y = this.outline.y;
     
-    
-    
     var points = getBoundaryPoint({x: x, y: y}, xLength, yHeight, pointDistance);
     // this is a need hack (at the moment), so that we can draw
     // a shape for pencil brush
@@ -60,7 +58,7 @@ define(function(require) {
     points[0].type = 'Triangle';
     points[0].outline = this.outline;
 
-    var distance = Math.abs(this.outline.x1 - this.outline.x2),
+  var distance = Math.abs(this.outline.x1 - this.outline.x2),
         lineEq = this.getLineEquation({
           x: this.outline.x1,
           y: this.outline.y1
@@ -77,7 +75,28 @@ define(function(require) {
         y: lineEq(x)
       });
     }
-    
+  
+  if (this.outline.x2 > this.outline.x1 && this.outline.y2 < this.outline.y1) {
+  
+    for (iter = y; iter < yHeight; iter += pointDistance) {
+        points.push({x: x, y: iter});
+      }
+  } else if (this.outline.x2 < this.outline.x1 && this.outline.y2 < this.outline.y1) {
+  
+    for (iter = y; iter < yHeight; iter += pointDistance) {
+        points.push({x: this.outline.x2, y: iter});
+      }
+  } else if (this.outline.x2 < this.outline.x1 && this.outline.y2 > this.outline.y1) {
+  
+    for (iter = y; iter < yHeight; iter += pointDistance) {
+        points.push({x: this.outline.x1, y: iter});
+      }
+  } else if (this.outline.x2 > this.outline.x1 && this.outline.y2 > this.outline.y1) {
+  
+    for (iter = y; iter < yHeight; iter += pointDistance) {
+        points.push({x: this.outline.x1, y: iter});
+      }
+  }
     return points;
   };
 
@@ -90,11 +109,11 @@ define(function(require) {
       y: point.y,
       width: 1,
       height: 1,
-      x1: point.x,
+    x1: point.x,
       y1: point.y,
       x2: point.x + 1,
       y2: point.y + 1,
-      x3: point.x - 1,
+    x3: point.x - 1,
       y3: point.y + 1
     };
 
@@ -107,7 +126,7 @@ define(function(require) {
   TriangleOutline.prototype.onMouseMove = function(e) {
     if (this.isDrawing) {
       var point = this.canvas.getPointer(e.e);
-      this.outline.x2 = point.x;
+    this.outline.x2 = point.x;
       this.outline.y2 = point.y;
 
       this.updateOutline(point);
@@ -145,7 +164,7 @@ define(function(require) {
 
     this.canvas.clearContext(ctx);
     ctx.save();
-    
+  
     ctx.lineWidth = 1;
     ctx.strokeStyle = this.cfg.strokeColor;
 

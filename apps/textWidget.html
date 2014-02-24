@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<head>
+	<title>Text Editor</title>
+</head>
+<body>
+		
+		<form name="myform" action="" method="POST">
+		<div class="container well" align="center"><br>
+			<h2> Insert Text </h2>
+			<h3> Text :<br/> <textarea rows="4" cols="35" id="pattern" name="pattern">Hello World !</textarea><br><br>
+			Size : <select id="font-size" >
+				<option value="8"> 8 </option>
+				<option value="9"> 9 </option>
+				<option value="10"> 10 </option>
+				<option value="11"> 11 </option>
+				<option value="12"> 12 </option>
+				<option value="14"> 14 </option>
+				<option value="16"> 16 </option>
+				<option value="18"> 18 </option>
+				<option value="20"> 20 </option>
+				<option value="22"> 22 </option>
+				<option value="24"> 24 </option>
+				<option value="26"> 26 </option>
+				<option value="28"> 28 </option>
+				<option value="36" selected="selected"> 36 </option>
+				<option value="48"> 48 </option>
+				<option value="72"> 72 </option>
+			</select><br><br>
+			Font :<select id="font-fam">
+				<option value="Impact">Impact</option>
+				<option value="Lucida Console">Lucida Console</option>
+				<option value="Verdana">Verdana</option>
+				<option value="Algerian">Algerian</option>
+				<option value="Tempus Sans Itc">Tempus sans itc</option>
+				<option value="Trebuchet ms">Trebuchet ms</option>
+				<option value="Wide Latin">Wide latin</option>
+				<option value="Brush script mt">Brush script mt</option>
+				<option value="Book antiqua">Book antiqua</option>
+				<option value="Jokerman let" selected="selected">Jokerman let</option>
+				<option value="Times New Roman"> Times New Roman </option>
+				<option value="Arial"> Arial </option>
+				<option value="Tahoma"> Tahoma </option>
+				<option value="Helvetica"> Helvetica </option>
+				<option value="Verdana"> Verdana </option>
+				<option value="Gill Sans"> Gill Sans </option>
+			</select><br><br>
+			<input type="checkbox" id="isBold" value="bold"> Bold
+			<input type="checkbox" id="isItalic" value="italic" checked> Italic
+			<input type="checkbox" id="isUnderlined" value="underlined">Underlined
+			<br><br>
+			<a class="btn btn-primary btn-large">
+			<input type="submit" value="Submit" onclick="SendToParent();">
+    		</a>
+		
+		</div>
+		</form>
+<h3/>
+	<script type="text/javascript">
+		function SendToParent() {
+			addText(document.getElementById("pattern").value, document.getElementById("font-fam").value, document.getElementById("font-size").value, document.getElementById("isBold").checked, document.getElementById("isItalic").checked,document.getElementById("isUnderlined").checked);
+			window.close();
+		}
+	
+	</script>
+
+</body>

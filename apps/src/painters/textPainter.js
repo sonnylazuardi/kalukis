@@ -14,12 +14,14 @@ define(function(require) {
        * @type {Object}
        */
       canvas: undefined,
-      _socket: undefined
+      _socket: undefined,
+      context: undefined
     });
 
     this.after('initialize', function() {
       this.attachEventListeners();
       self = this;
+      this.attr.context = this;
       this.attr._socket.on('createText', function(data) {
         console.log('create text');
         self.addText(data);
@@ -46,20 +48,40 @@ define(function(require) {
 
       // mapping paintWidget-clicked event to activeOutlineShape-changed
       this.on('textWidget-clicked', function(e, data) {
-        var text = prompt("Please Write a Text : ","Hello World");
-        this.addText(text);
-        this.attr._socket.emit('createText', text);
-        this.attr.canvas.forEachObject(function(o) {
-          console.log(o);
-        });
+
+        var newWindow = window.open('textWidget.html',"_blank","width=450,height=350");
+        newWindow.addText = function(text, font, size, bold, italic, underlined){
+
+          self.addText(text,font,size,bold,italic,underlined);
+            self.attr._socket.emit('createText', text);
+            self.attr.canvas.forEachObject(function(o) {
+            });
+        }
+
+
+        //var text = newWindow.document.getElementById('option1').value;
+        // var text = newWindow.document.SendToParent();
+        //alert(document.getElementById);
+        
       }.bind(this));  
 
     };
 
-    this.addText = function(text) {
+    this.addText = function(text,font,size,bold,italic,underlined) {
       if (text!=null)
       {
-          var textCanvas = new fabric.Text(text, { left: 100, top: 100 });
+          var _bold, _italic, _underlined;
+
+          if (bold == true) {_bold = "bold";}
+          else {_bold = "normal";}
+          if (italic) {_italic = "italic";}
+          else {_italic = "normal"}
+          if (underlined) {_underlined = "underline";}
+          else {_underlined = "normal"}
+              
+          var textCanvas = new fabric.Text(text, { 
+            left: 100, top: 100 , fontFamily: font, fontSize:size, textDecoration: _underlined, fontStyle: _italic, fontWeight: _bold
+          });
           this.attr.canvas.add(textCanvas);  
       }
       // console.log(fabric);
